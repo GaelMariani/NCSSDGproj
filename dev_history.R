@@ -1,0 +1,28 @@
+# Create a research compendium
+rrtools::use_compendium("../NCSSDGproj", open = FALSE)
+
+
+# Create folders
+dir.create("rawdata")
+dir.create("R")
+dir.create("dataR")
+dir.create("results")
+dir.create("reports")
+
+
+# Library to be used put in the DESCRIPTION file
+usethis::use_package("dplyr")
+usethis::use_package("here")
+usethis::use_package("ggplot2")
+usethis::use_pipe()
+
+
+# Create R script 
+usethis::use_r("read_data")
+usethis::use_r("format_data")
+usethis::use_r("plot_data")
+usethis::use_r("utils-pipe")
+
+
+# Updating NCSSDGproj documentation - NAMESPACE file (to run for each new function)
+devtools::document()
