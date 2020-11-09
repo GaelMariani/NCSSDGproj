@@ -19,6 +19,7 @@ usethis::use_package("grid")
 usethis::use_package("tidyr")
 usethis::use_package("magrittr")
 usethis::use_package("forcats")
+usethis::use_package("reshape2")
 usethis::use_pipe()
 
 

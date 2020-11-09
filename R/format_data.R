@@ -24,8 +24,32 @@ matrix_to_longDF <- function(matrix01) {
   
   return(data_long)
 
+}
+
+
+
+#' Weighted Matrix of SDG
+#'
+#' @param data_long A dataframe with 0 and 1 value for each NCS and SDG's targets
+#'
+#' @return a weighted matrix with SDG in columns and NCS in rows
+#' @export
+#'
+#' @examples
+matrix_SDG <- function(data_long) {
+  
+  mat_SDG <- data_long %>%
+    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
+    magrittr::set_rownames(c("Peatland", "Urban forest", "Forest", "Grassland", "Tidal marsh", "Mangrove",
+                             "Seagrasse", "Kelp forest", "Pelagic", "Polar area", "Mesopelagic")) 
+  
+  SDG_matrix <- mat_SDG[, c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
+                            "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
+  
+  return(SDG_matrix)
   
 }
+
 
 
 
