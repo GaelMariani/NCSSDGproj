@@ -11,3 +11,40 @@ read_matrix <- function(){
   
 }
 
+
+
+#' Load SDG icons path 
+#'
+#' @return list of path to read and transform SDG icon 
+#' @export
+#'
+#' @examples
+load_SDG_icon <- function() {
+  
+  # Extract path of the 17 SDG
+  paste0("rawdata/SDG_icon/", list.files(path=here::here("rawdata", "SDG_icon"), pattern = ".png"))
+  
+}
+
+
+
+#' Load NCS icons path 
+#'
+#' @return list of path to read and transform NCS icon 
+#' @export 
+#'
+#' @examples
+load_NCS_icon <- function() {
+  
+  # Extract path of the 17 SDG
+  path <- paste0("rawdata/Ecosystem_icon/", list.files(path=here::here("rawdata", "Ecosystem_icon"), pattern = ".PNG"))
+  path <- c(path, paste0("rawdata/Ecosystem_icon/", list.files(path=here::here("rawdata", "Ecosystem_icon"), pattern = ".png")))
+  
+  return(path)
+}
+
+
+
+
+
+

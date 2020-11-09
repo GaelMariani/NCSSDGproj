@@ -14,6 +14,8 @@ dir.create("reports")
 usethis::use_package("dplyr")
 usethis::use_package("here")
 usethis::use_package("ggplot2")
+usethis::use_package("png")
+usethis::use_package("grid")
 usethis::use_pipe()
 
 

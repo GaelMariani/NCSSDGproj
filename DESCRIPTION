@@ -17,4 +17,6 @@ Imports:
     dplyr,
     here,
     ggplot2,
-    magrittr
+    magrittr,
+    png,
+    grid
