@@ -7,7 +7,7 @@
 #' @examples
 read_matrix <- function(){
   
-  readr::read_csv2(here::here("rawdata", "matrix01_NCS_SDG.csv"))
+  read.csv(here::here("rawdata", "matrix01_NCS_SDG.csv"), sep = ";", check.names = FALSE)
   
 }
 

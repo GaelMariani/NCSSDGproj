@@ -16,6 +16,9 @@ usethis::use_package("here")
 usethis::use_package("ggplot2")
 usethis::use_package("png")
 usethis::use_package("grid")
+usethis::use_package("tidyr")
+usethis::use_package("magrittr")
+usethis::use_package("forcats")
 usethis::use_pipe()
 
 

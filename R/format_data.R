@@ -1,5 +1,31 @@
 
+#' Matrix Long Format
+#'
+#' @param matrix01 the raw matrix with targets in columns and NCS in rows
+#'
+#' @return a dataframe to the long format with value 0 or 1 for each SDG's target and each ecosystem
+#' @export
+#'
+#' @examples
+matrix_to_longDF <- function(matrix01) {
+  
+  data_long <- matrix01 %>%
+    tidyr::gather(., goal.target, value, -1) %>% # long format
+    magrittr::set_names(c("ecosystem", "goal.target", "value")) %>%
+    tidyr::separate(goal.target, c("goal", "target"), sep = "[.]", remove = FALSE) %>%
+    dplyr::mutate(goal = paste("SDG", goal)) %>%
+    dplyr::filter(goal != 17) %>%
+    dplyr::select(-"target") %>%
+    dplyr::arrange(match(x = ecosystem, c("Peatland ", "Urban forests", "Forest", "Grassland ",
+                                          "Saltmarshes", "Mangroves", "Seagrasses", "Macroalgae",
+                                          "Pelagic areas", "Polar marine ecosystem", "Mesopelagic areas"))) %>%
+    dplyr::mutate(ecosystem = forcats::as_factor(ecosystem),
+                  goal.target = factor(goal.target))
+  
+  return(data_long)
 
+  
+}
 
 
 

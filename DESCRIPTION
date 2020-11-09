@@ -19,4 +19,6 @@ Imports:
     ggplot2,
     magrittr,
     png,
-    grid
+    grid,
+    tidyr,
+    forcats
