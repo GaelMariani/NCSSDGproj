@@ -2,13 +2,13 @@
 % Please edit documentation in R/read_data.R
 \name{load_SDG_icon}
 \alias{load_SDG_icon}
-\title{Read SDG icons}
+\title{Load SDG icons path}
 \usage{
 load_SDG_icon()
 }
 \value{
-a list of raster object to be plotted in ggnet or ggplot
+list of path to read and transform SDG icon
 }
 \description{
-Read SDG icons
+Load SDG icons path
 }
