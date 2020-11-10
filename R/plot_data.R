@@ -59,10 +59,10 @@ edge_col <- function(matrix) {
   
   nodes_col <- c(rep("#66c2a5", 4), rep("#e5c494", 4), rep("#8da0cb", 3))
   
-  edge.cols<-vector(mode="character", length = 0)
+  edge.cols <- vector(mode="character", length = 0)
   
   for(i in 1:dim(matrix)[1]) {
-    edge.cols<-c(edge.cols, rep(nodes_col[i], sum(matrix[i,]>0)))
+    edge.cols <- c(edge.cols, rep(nodes_col[i], sum(matrix[i,]>0)))
   }
   
   return(edge.cols)
@@ -82,7 +82,6 @@ edge_col <- function(matrix) {
 #' @return
 #' @export
 #' 
-#' @import ggplot2 
 #'
 #' @examples
 plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS) {
