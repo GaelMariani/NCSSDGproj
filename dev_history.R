@@ -22,7 +22,6 @@ usethis::use_package("forcats")
 usethis::use_package("reshape2")
 usethis::use_package("ggnet")
 usethis::use_package("network")
-usethis::use_package("GGally")
 usethis::use_package("ggimage")
 usethis::use_pipe()
 
