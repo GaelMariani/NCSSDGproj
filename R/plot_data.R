@@ -12,11 +12,11 @@
 coords <- function (mymat, maxX, maxY) {
   
   ## Coords for mode "P"
-  coordP<- cbind(rep(-1*maxX, dim(mymat)[1]), seq(from=0, to=maxY, by= maxY/(dim(mymat)[1]-1)))
+  coordP <- cbind(rep(-1*maxX, dim(mymat)[1]), seq(from=0, to=maxY, by= maxY/(dim(mymat)[1]-1)))
   ## Coords for mode "A"
   
-  coordA<- cbind(rep(maxX, dim(mymat)[2]), seq(from=0, to=maxY, by = maxY/(dim(mymat)[2]-1)))
-  mylayout<- as.matrix(rbind(coordP, coordA))
+  coordA <- cbind(rep(maxX, dim(mymat)[2]), seq(from=0, to=maxY, by = maxY/(dim(mymat)[2]-1)))
+  mylayout <- as.matrix(rbind(coordP, coordA))
   
   return(mylayout) 
 }

@@ -20,6 +20,8 @@ usethis::use_package("tidyr")
 usethis::use_package("magrittr")
 usethis::use_package("forcats")
 usethis::use_package("reshape2")
+usethis::use_package("ggnet")
+usethis::use_package("network")
 usethis::use_pipe()
 
 

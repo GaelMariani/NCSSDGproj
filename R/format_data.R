@@ -52,6 +52,33 @@ matrix_SDG <- function(data_long) {
 
 
 
+#' Title
+#'
+#' @param matrix a weighted or binary matrix with SDG in column and NCS in row
+#' @param mode1 
+#' @param mode2 
+#'
+#' @return a network object 
+#' @export
+#'
+#' @examples
+bip_init_network <- function (matrix, mode1="P", mode2="A") {
+
+  if(!is.matrix(mymat)) mymat <- as.matrix(mymat)
+  
+  p <- dim(mymat)[1]    
+  a <- dim(mymat)[2]    
+  net <- network::network(mymat,
+                         matrix.type = "bipartite",
+                         ignore.eval = FALSE,
+                         names.eval = "weights")
+  net
+  network::set.vertex.attribute(net, "mode", c(rep(mode1, p), rep(mode2, a)))
+}
+
+
+
+
 
 #' Icon In Raster Format
 #'
