@@ -60,18 +60,20 @@ matrix_SDG <- function(data_long) {
 #'
 #' @return a network object 
 #' @export
+#' 
+#' @importFrom network `%v%<-` `%v%`
 #'
 #' @examples
 matrix_to_network <- function (matrix, mode1="P", mode2="A") {
 
-  if(!is.matrix(mymat)) mymat <- as.matrix(mymat)
+  if(!is.matrix(matrix)) matrix <- as.matrix(matrix)
   
-  p <- dim(mymat)[1]    
-  a <- dim(mymat)[2]    
-  net <- network::network(mymat,
-                         matrix.type = "bipartite",
-                         ignore.eval = FALSE,
-                         names.eval = "weights")
+  p <- dim(matrix)[1]    
+  a <- dim(matrix)[2]    
+  net <- network::network(matrix,
+                          matrix.type = "bipartite",
+                          ignore.eval = FALSE,
+                          names.eval = "weights")
   net
   network::set.vertex.attribute(net, "mode", c(rep(mode1, p), rep(mode2, a)))
   
@@ -79,8 +81,10 @@ matrix_to_network <- function (matrix, mode1="P", mode2="A") {
   network::network.vertex.names(net) <- c(rep("Ecosystem", 11), rep("SDG", 16))
   
   # Create "phono" to assign a shape 
-  network::SDG_network %v% "phono" = ifelse(network.vertex.names(net) == "Ecosystem", "Ecosystem", "SDG")
-  network::SDG_network %v% "shape" = ifelse(net %v% "phono" == "Ecosystem", 19, 15)
+  net %v% "phono" = ifelse(network::network.vertex.names(net) == "Ecosystem", "Ecosystem", "SDG")
+  net %v% "shape" = ifelse(net %v% "phono" == "Ecosystem", 19, 15)
+  
+  return(net)
   
 }
 
@@ -97,7 +101,7 @@ matrix_to_network <- function (matrix, mode1="P", mode2="A") {
 format_icons <- function(path, icon_SDG = TRUE) {
   
   # Read .png objects 
-  icon_png <- lapply(path, png::readPNG)
+  icon_png <- lapply(here::here(path), png::readPNG)
   
   # Transform icon_png into a list of raster object
   icon_rast <- lapply(icon_png, grid::rasterGrob, interpolate = TRUE)
