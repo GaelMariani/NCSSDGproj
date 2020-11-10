@@ -71,17 +71,18 @@ edge_col <- function(matrix) {
 
 
 
-#' Title
+#' Plot Network
 #'
 #' @param network_obj 
 #' @param matrix 
 #' @param icon_SDG 
 #' @param icon_NCS 
 #' 
-#' @import ggplot2 
 #'
 #' @return
 #' @export
+#' 
+#' @import ggplot2 
 #'
 #' @examples
 plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS) {
@@ -145,7 +146,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS) {
           legend.position="none") 
   
   ## Save plot
-  ggsave(here::here("results", "network_SDG_NCS.png"), width = 5, height = 6.8, device = "png")
+  ggplot2::ggsave(here::here("results", "network_SDG_NCS.png"), width = 5, height = 6.8, device = "png")
     
 }
 
