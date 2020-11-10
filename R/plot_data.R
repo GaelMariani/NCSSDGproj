@@ -83,7 +83,6 @@ edge_col <- function(matrix) {
 #' @export
 #' 
 #' @import ggplot2 
-#' @importFrom GGally ggnet2 
 #'
 #' @examples
 plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS) {
