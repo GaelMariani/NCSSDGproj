@@ -28,7 +28,7 @@ matrix_to_longDF <- function(matrix01) {
 
 
 
-#' Weighted Matrix of SDG
+#' Weighted Contingency Matrix of SDG
 #'
 #' @param data_long A dataframe with 0 and 1 value for each NCS and SDG's targets
 #'

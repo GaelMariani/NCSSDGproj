@@ -2,7 +2,7 @@
 % Please edit documentation in R/format_data.R
 \name{matrix_SDG}
 \alias{matrix_SDG}
-\title{Weighted Matrix of SDG}
+\title{Weighted Contingency Matrix of SDG}
 \usage{
 matrix_SDG(data_long)
 }
@@ -13,5 +13,5 @@ matrix_SDG(data_long)
 a weighted matrix with SDG in columns and NCS in rows
 }
 \description{
-Weighted Matrix of SDG
+Weighted Contingency Matrix of SDG
 }
