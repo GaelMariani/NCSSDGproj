@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_data.R
 \name{plot_network}
 \alias{plot_network}
-\title{Title}
+\title{Plot Network}
 \usage{
 plot_network(network_obj, matrix, icon_SDG, icon_NCS)
 }
@@ -19,5 +19,5 @@ plot_network(network_obj, matrix, icon_SDG, icon_NCS)
 
 }
 \description{
-Title
+Plot Network
 }
