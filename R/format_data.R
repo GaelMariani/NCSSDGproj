@@ -52,7 +52,7 @@ matrix_SDG <- function(data_long) {
 
 
 
-#' Title
+#' From Matrix to Network object
 #'
 #' @param matrix a weighted or binary matrix with SDG in column and NCS in row
 #' @param mode1 
@@ -62,7 +62,7 @@ matrix_SDG <- function(data_long) {
 #' @export
 #'
 #' @examples
-bip_init_network <- function (matrix, mode1="P", mode2="A") {
+matrix_to_network <- function (matrix, mode1="P", mode2="A") {
 
   if(!is.matrix(mymat)) mymat <- as.matrix(mymat)
   
@@ -74,10 +74,15 @@ bip_init_network <- function (matrix, mode1="P", mode2="A") {
                          names.eval = "weights")
   net
   network::set.vertex.attribute(net, "mode", c(rep(mode1, p), rep(mode2, a)))
+  
+  # Rename vertex (or nodes) names
+  network::network.vertex.names(net) <- c(rep("Ecosystem", 11), rep("SDG", 16))
+  
+  # Create "phono" to assign a shape 
+  network::SDG_network %v% "phono" = ifelse(network.vertex.names(net) == "Ecosystem", "Ecosystem", "SDG")
+  network::SDG_network %v% "shape" = ifelse(net %v% "phono" == "Ecosystem", 19, 15)
+  
 }
-
-
-
 
 
 #' Icon In Raster Format

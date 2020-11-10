@@ -24,4 +24,6 @@ Imports:
     forcats,
     reshape2,
     ggnet,
-    network
+    network,
+    GGally,
+    ggimage
