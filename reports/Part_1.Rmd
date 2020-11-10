@@ -14,7 +14,7 @@ devtools::load_all()
 
 ## Relationships between NCS implementation and SDG achievement
 
-```{r}
+```{r message = FALSE}
 raw_dat <- NCSSDGproj::read_matrix()
 
 pathSDG <- NCSSDGproj::load_SDG_icon()
