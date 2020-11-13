@@ -160,7 +160,8 @@ perc_SDG <- function(data_long) {
     dplyr::left_join(., perc_group, by = "goal") %>%
     dplyr::left_join(., sums, by = "goal") %>%
     dplyr::mutate(perc_global = (value_grp/value_tot)*100,
-                  relative_pourcent = (perc_global*perc_goal)/100)  
+                  relative_pourcent = (perc_global*perc_goal)/100) %>%
+    dplyr::mutate(SDG_number = stringr::str_sub(goal, 5))
       
     
   return(perc_plot)

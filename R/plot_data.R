@@ -156,4 +156,62 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 }
 
 
+#' Plot Percentage Of Target Achieved
+#'
+#' @param data_plot a data frame with percentage of target achieve totally + by group of NCS
+#' @param save 
+#'
+#' @return a ggplot object, barplot, of the % of SDG' target achieved
+#' @export
+#'
+#' @examples
+barplot_percSDG <- function(data_plot, save = FALSE) {
+  
+  color <- c("#8da0cb", "#e5c494","#66c2a5")
+  color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
+                  "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
+                  "#CF8D2A", "#E11484", "#D3A029", "#007DBC")
+  
+  order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
+  order_group <- rev(c("Terrestrial", "Coastal", "Marine"))
+  
+  text_plot <-  data_pour[seq(1,46,3),]
+  
+  
+  plot <- ggplot() +
+    
+    geom_col(data_pour, mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), y = relative_pourcent,
+                                      fill = factor(group, levels = unique(order_group))), width = 0.65, show.legend = FALSE) +
+    geom_text(aes(x = SDG_number, y = relative_pourcent+5, label = text), nudge_y = 2, data = text_plot, size = 5) +
+    scale_fill_manual(values = color , name = NULL) +
+    scale_y_continuous(position = "right", breaks = seq(0, max(data_pour$perc_global), 10), expand = c(0.03,0,0.1,0)) +
+    scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), expand = c(0.03,0.03))  +
+    coord_flip() +
+    labs(x = "", y = "") +
+    theme_bw() +
+    theme(axis.text = element_text(size=12),
+          axis.text.y = element_text(color=rev(color_text),face="bold"),
+          axis.title = element_text(size=18),
+          ## Legend modifications
+          legend.position = c(0.90, 0.90),
+          legend.text = element_text(size = 16),
+          legend.background = element_rect(fill = "transparent", color = "transparent"),
+          ## Remove grid on the background
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          plot.background = element_rect(fill = "transparent",colour = NA)) +
+    guides(fill = guide_legend(reverse = TRUE))
+  
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(plot, file = here::here("results", "barplot_pourc.RData"))
+    ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    
+  } else {return(plot)}
+  
+  
+}
+
 
