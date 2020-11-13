@@ -4,7 +4,7 @@
 \alias{plot_network}
 \title{Plot Network}
 \usage{
-plot_network(network_obj, matrix, icon_SDG, icon_NCS)
+plot_network(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE)
 }
 \arguments{
 \item{network_obj}{}

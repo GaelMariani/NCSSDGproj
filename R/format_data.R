@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-matrix_to_longDF <- function(matrix01) {
+matrix_to_longDF <- function(data_long) {
   
   data_long <- matrix01 %>%
     tidyr::gather(., goal.target, value, -1) %>% # long format
@@ -119,3 +119,41 @@ format_icons <- function(path, icon_SDG = TRUE) {
 }
 
 
+#' Percentage Of Target Achieved
+#'
+#' @param data_long a dataframe to the long format with value 0 or 1 for each SDG's target and each ecosystem
+#'
+#' @return a data frame with percentage of target achieve totally + by group of NCS, values to be plotted 
+#' @export
+#'
+#' @examples
+perc_SDG <- function(data_long) {
+  
+  # % of SDG' targets achieved by group of NCS, terrestrial vs coastal vs marine
+  perc_group <- data_long %>%
+    dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland " | ecosystem == "Urban forests" | ecosystem == "Forest" | ecosystem == "Grassland ") ~ "Terrestrial",
+                                           (ecosystem == "Saltmarshes" | ecosystem == "Mangroves" | ecosystem == "Seagrasses" | ecosystem == "Macroalgae") ~ "Coastal",
+                                           TRUE ~ "Marine")) %>%
+    dplyr::group_by(goal.target, group, goal) %>%
+    dplyr::summarise(value_grp = dplyr::if_else(sum(value) >= 1, 1, 0),
+                     n_target = length(unique(goal.target))) %>%
+    dplyr::group_by(goal, group) %>%
+    dplyr::summarise_if(is.numeric, sum) %>%
+    dplyr::mutate(perc_group = round((value_grp*100)/n_target, digits = 0)) %>%
+    dplyr::select(-n_target)
+  
+  # % of SDG' target achieved + merge with perc_group
+  perc_plot <- data_long %>%
+    dplyr::group_by(goal.target, goal) %>%
+    dplyr::summarise(value = dplyr::if_else(sum(value) >= 1, 1, 0)) %>%
+    dplyr::group_by(goal) %>%
+    dplyr::summarise(value_goal = sum(value),
+                     n_target = length(unique(goal.target))) %>%
+    dplyr::mutate(perc_goal = round((value_goal*100)/n_target, digits = 0),
+                  text = paste0(value_goal, "/", n_target)) %>%
+    dplyr::left_join(., perc_group, by = "goal")
+    
+    
+  return(perc_plot)
+  
+}

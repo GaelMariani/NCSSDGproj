@@ -4,7 +4,7 @@
 \alias{matrix_to_longDF}
 \title{Matrix Long Format}
 \usage{
-matrix_to_longDF(matrix01)
+matrix_to_longDF(data_long)
 }
 \arguments{
 \item{matrix01}{the raw matrix with targets in columns and NCS in rows}
