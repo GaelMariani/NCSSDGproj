@@ -142,17 +142,26 @@ perc_SDG <- function(data_long) {
     dplyr::mutate(perc_group = round((value_grp*100)/n_target, digits = 0)) %>%
     dplyr::select(-n_target)
   
+  # sum of targets achieved in each SDG 
+  sums <- perc_group %>% 
+    dplyr::group_by(goal) %>% 
+    dplyr::summarise(value_tot = sum(value_grp))
+  
+  
   # % of SDG' target achieved + merge with perc_group
   perc_plot <- data_long %>%
     dplyr::group_by(goal.target, goal) %>%
     dplyr::summarise(value = dplyr::if_else(sum(value) >= 1, 1, 0)) %>%
     dplyr::group_by(goal) %>%
     dplyr::summarise(value_goal = sum(value),
-                     n_target = length(unique(goal.target))) %>%
+                     n_target   = length(unique(goal.target))) %>%
     dplyr::mutate(perc_goal = round((value_goal*100)/n_target, digits = 0),
-                  text = paste0(value_goal, "/", n_target)) %>%
-    dplyr::left_join(., perc_group, by = "goal")
-    
+                  text      = paste0(value_goal, "/", n_target)) %>%
+    dplyr::left_join(., perc_group, by = "goal") %>%
+    dplyr::left_join(., sums, by = "goal") %>%
+    dplyr::mutate(perc_global = (value_grp/value_tot)*100,
+                  relative_pourcent = (perc_global*perc_goal)/100)  
+      
     
   return(perc_plot)
   
