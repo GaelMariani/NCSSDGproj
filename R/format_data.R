@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-matrix_to_longDF <- function(data_long) {
+matrix_to_longDF <- function(matrix01) {
   
   data_long <- matrix01 %>%
     tidyr::gather(., goal.target, value, -1) %>% # long format
