@@ -26,4 +26,5 @@ Imports:
     ggnet,
     network,
     GGally,
-    ggimage
+    ggimage,
+    bipartite

@@ -167,3 +167,45 @@ perc_SDG <- function(data_long) {
   return(perc_plot)
   
 }
+
+
+#' Format Matrix For Network Indice
+#'
+#' @param raw_dat a dataframe with targets of the SDGs in columns and NCSs in rows
+#'
+#' @return a matrix of 0 and 1 
+#' @export
+#'
+#' @examples
+data_netw_indice <- function(raw_dat) {
+  
+  raw_dat %>%
+    replace(., . < 0, 0) %>%
+    magrittr::set_rownames(.[,1]) %>%
+    dplyr::select(-1) %>%
+    bipartite::empty() %>% # delete rows and columns full of 0
+    as.matrix
+  
+}
+
+
+#' Format Data For TI Estimate
+#'
+#' @param matrix a matrix with targets in rows and NCS in columns
+#'
+#' @return a dataframe with the number of time each target is achieved
+#' @export
+#'
+#' @examples
+data_TI <- function(matrix) {
+  
+  as.data.frame(matrix) %>% 
+    dplyr::bind_cols(rownames(.), .) %>%
+    tidyr::gather(., target, value, -1) %>%
+    stats::setNames(c("ecosystem", "target", "value")) %>%
+    replace(., . < 0, 0) %>%
+    dplyr::group_by(target) %>%
+    dplyr::summarise(value = sum(value)) %>%
+    dplyr::filter(value != 0)
+  
+}
