@@ -211,6 +211,44 @@ barplot_percSDG <- function(data_plot, save = FALSE) {
     
   } else {return(plot)}
   
+}
+
+
+
+#' Plot Modularity
+#'
+#' @param matrix01 formatted matrix to calculate network indices, nestedness and modularity. Use data_netw_indice to format
+#'
+#' @return
+#' @export
+#'
+#' @examples
+modularity_plot <- function(matrix01) {
+  
+  
+  
+  
+  
+  
+}
+
+
+
+
+
+#' Insurance Plot
+#'
+#' @param data A data frame with n° of times a target is achieved with a column identifying observed data vs. null data
+#'
+#' @return
+#' @export
+#'
+#' @examples
+Insurance_plot <- function(data) {
+  
+  
+  
+  
   
 }
 
