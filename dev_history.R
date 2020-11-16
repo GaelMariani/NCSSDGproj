@@ -25,6 +25,7 @@ usethis::use_package("network")
 #usethis::use_package("GGally")
 usethis::use_package("ggimage")
 usethis::use_package("bipartite")
+usethis::use_package("stats")
 usethis::use_pipe()
 
 

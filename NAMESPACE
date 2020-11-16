@@ -2,6 +2,7 @@
 
 export("%>%")
 export(NullModels)
+export(SES_pval)
 export(TUI_TOI)
 export(barplot_percSDG)
 export(coords)

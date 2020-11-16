@@ -8,26 +8,29 @@ NullModels(
   matrix01,
   rawdata,
   NMalgo,
-  NESTmethod = c("NODF", "weighted NODF"),
+  NESTmethod,
   Nrun,
+  Nsim,
   TargetInsurance = FALSE
 )
 }
 \arguments{
-\item{matrix01}{formatted matrix to calculate network indices, nestedness and modularity}
+\item{matrix01}{formatted matrix to calculate network indices, nestedness and modularity. Use data_netw_indice to format}
 
 \item{rawdata}{a dataframe with targets of the SDGs in columns and NCSs in rows}
 
-\item{NMalgo}{name of null model algorithm}
+\item{NMalgo}{name of null model algorithm => r00 for Insurance and quasiswap for modularity and nestedness}
 
 \item{NESTmethod}{"NODF" or "weighted NODF"}
 
-\item{Nrun}{Number of replicate runs}
+\item{Nrun}{Number of replicate runs for metaComputesModules}
 
-\item{TargetInsurance}{if TRUE, compute Insurance indices, not network indices}
+\item{Nsim}{Number of null matrices}
+
+\item{TargetInsurance}{if TRUE, compute Insurance indices, if FALSE calculate  network indices}
 }
 \value{
-
+a 3 column dataframe with null model results for nestedness and modularity OR TOi and TUI
 }
 \description{
 Null Model Analysis

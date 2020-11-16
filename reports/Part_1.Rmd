@@ -37,6 +37,20 @@ data_pour <- NCSSDGproj::perc_SDG(data_long = data_long)
 NCSSDGproj::barplot_percSDG(data_plot = data_pour, save = FALSE)
 ```
 
+## Target Insurance and null models
+
+```{r warning = FALSE, message = TRUE}
+
+matrix01 <- NCSSDGproj::data_netw_indice(raw_dat)
+
+mod_nest_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "quasiswap", NESTmethod = "NODF",
+                                       Nrun = 5, Nsim = 5, TargetInsurance = FALSE)
+
+TUI_TOI_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "r00", NESTmethod = "NODF",
+                                      Nrun = 5, Nsim = 5, TargetInsurance = TRUE)
+
+```
+
 
 ```{r cars}
 summary(cars)

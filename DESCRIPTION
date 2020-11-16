@@ -27,4 +27,5 @@ Imports:
     network,
     GGally,
     ggimage,
-    bipartite
+    bipartite,
+    stats
