@@ -209,3 +209,42 @@ data_TI <- function(matrix) {
     dplyr::filter(value != 0)
   
 }
+
+
+
+#' Insurance Data To Plot
+#'
+#' @param matrix01 a matrix with targets in rows and NCS in columns
+#' @param Ntarget the total number of targets
+#'
+#' @return A data frame with number of times a target is achieved with a column identifying observed data vs. null data
+#'
+#' @export
+#'
+#' @examples
+Insurance_data2plot <- function(matrix01, Ntarget) {
+  
+  ## Observed data
+  data_obs <- NCSSDGproj::data_TI(matrix01) %>%
+    dplyr::arrange(-value) %>%
+    dplyr::mutate(group = "Observed distribution",
+                  xval = rownames(.))
+  
+
+  target_insurance <- sum(data_obs$value)/Ntarget
+  
+  ## Null data
+  null_matrix <- asplit(stats::simulate(vegan::nullmodel(matrix01, "r00"), nsim = 1), 3)
+  data_null <- NCSSDGproj::data_TI(null_matrix[[1]]) %>%
+    dplyr::arrange(-value) %>%
+    dplyr::mutate(group = "Observed distribution",
+                  xval = rownames(.))
+  
+  
+  ## Bind data
+  data_plot <- rbind(data_obs, data_null)
+  
+  return(data_plot)
+  
+  
+}

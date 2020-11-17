@@ -238,7 +238,7 @@ modularity_plot <- function(matrix01) {
 
 #' Insurance Plot
 #'
-#' @param data A data frame with n° of times a target is achieved with a column identifying observed data vs. null data
+#' @param data A data frame with number of times a target is achieved with a column identifying observed data vs. null data
 #'
 #' @return
 #' @export

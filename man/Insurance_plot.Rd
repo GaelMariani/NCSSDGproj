@@ -7,7 +7,7 @@
 Insurance_plot(data)
 }
 \arguments{
-\item{data}{A data frame with n° of times a target is achieved with a column identifying observed data vs. null data}
+\item{data}{A data frame with number of times a target is achieved with a column identifying observed data vs. null data}
 }
 \value{
 

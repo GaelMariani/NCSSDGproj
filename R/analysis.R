@@ -19,7 +19,7 @@ TUI_TOI <- function(data_TI, Necosystem, Ntarget)  {
   
   target_under_insurance <- (Ntarget - sum(data_TI$min))/Ntarget
   
-  # TOI, percentage of NCS in excess in target having more NCS than expected from target redundancy
+  # TOI, percentage of NCS in excess in target having more NCS than expected from target insurance
   Target_insurance <- sum(data_TI$value)/Ntarget  # Target Insurance the mean number of ecosystem that help in achieving a target
   
   for(nrow in 1:nrow(data_TI)){
