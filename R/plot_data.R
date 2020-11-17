@@ -244,9 +244,38 @@ modularity_plot <- function(matrix01) {
 #' @export
 #'
 #' @examples
-Insurance_plot <- function(data) {
+Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col) {
   
-  
+  ggplot(data, mapping = aes(x = as.numeric(xval), y = value, color = group)) + 
+    
+    geom_ribbon(data[1:(nrow(data)/2), ], mapping = aes(ymin = 0, ymax = data_obs$value), color = "transparent", fill = "#ACACF7") +
+    
+    geom_hline(yintercept = target_insurance, color = "grey20", linetype = "dashed") +
+    
+    scale_color_manual(values = c(null_col, obs_col), name = NULL)+
+    scale_x_continuous(breaks = seq(0, 83, 5), expand = c(0, 1, 0.1, 0))+
+    scale_y_continuous(breaks = seq(0, 11, 1), expand = c(0, 0, 0.1, 0)) +
+    
+    geom_line() +
+    
+    geom_segment(aes(x = 74, y = 6, xend = 83, yend = 6),
+                 arrow = arrow, color = obs_col, show.legend = NA) +
+    geom_segment(aes(x = 83, y = 6, xend = 74, yend = 6),
+                 arrow = arrow, color = obs_col, show.legend = NA) +
+    geom_segment(aes(x = 74, y = 0, xend = 74, yend = 6), color =  obs_col, linetype = "dashed") +
+    geom_segment(aes(x = 83, y = 0, xend = 83, yend = 6), color =  obs_col, linetype = "dashed") +
+    
+    annotate(geom = "text", x = 78.5, y = 7.5, label = "Targets underinsured", color = "black",
+             fontface = "bold", size = 5) +
+    annotate(geom = "text", x = 75, y = 6.7, label = as.character(TUI_obs), color = "#0000EB", size = 5) +
+    annotate(geom = "text", x = 82, y = 6.7, label = as.character(TUI_null), color = "black", size = 5) +
+    
+    labs(x = "Rank of SDGs targets", y = "Number of NCS linked") +
+    theme_classic() +
+    theme(legend.position = c(0.75, 0.85),
+          legend.text = element_text(size = 16, face="bold"),
+          axis.text = element_text(size = 14),
+          axis.title = element_text(size = 16)) 
   
   
   

@@ -49,6 +49,8 @@ mod_nest_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, N
 TUI_TOI_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "r00", NESTmethod = "NODF",
                                       Nrun = 5, Nsim = 5, TargetInsurance = TRUE)
 
+
+data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget = ncol(matrix01)) 
 ```
 
 

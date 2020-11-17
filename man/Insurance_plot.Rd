@@ -4,7 +4,7 @@
 \alias{Insurance_plot}
 \title{Insurance Plot}
 \usage{
-Insurance_plot(data)
+Insurance_plot(data, TI, TUI_obs, TUI_null, obs_col, null_col)
 }
 \arguments{
 \item{data}{A data frame with number of times a target is achieved with a column identifying observed data vs. null data}
