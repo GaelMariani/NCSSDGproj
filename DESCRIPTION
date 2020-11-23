@@ -28,4 +28,5 @@ Imports:
     GGally,
     ggimage,
     bipartite,
-    stats
+    stats,
+    ggnetwork

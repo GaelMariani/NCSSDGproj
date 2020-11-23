@@ -248,3 +248,42 @@ Insurance_data2plot <- function(matrix01, Ntarget) {
   
   
 }
+
+
+
+#' Network Format For Unipartite Plot
+#'
+#' @param contin_mat_target a matrix with targets in rows and NCS in columns
+#' @param method 
+#' @param colNCS_ter color for terrestrial nodes
+#' @param colNCS_coast color for coastal nodes 
+#' @param colNCS_mar color for marine nodes
+#' @param colTARG color for targets nodes
+#'
+#' @return A data.frame object with coordinates and color columns for each node
+#' 
+#' @export
+#'
+#' @examples
+network_uniP <- function(contin_mat_target, method, colNCS_ter, colNCS_coast, colNCS_mar, colTARG) {
+  
+  # NB: transpose the matrix so that I can format edge' colors according to their starting point (NCS) and not 
+  # according to their ending point (SDG's target)
+  netw <- ggnetwork::ggnetwork(t(matrix01), layout = method, cell.jitter = 0.5)
+  
+  # Format the network objec to plot with ggplot2
+  labs <- data.frame(type = c("Terrestrial", "Coastal", "Marine"))
+  terrestrial <- c("Peatland ", "Urban forests", "Forest", "Grassland ")
+  coastal <- c("Mangroves", "Saltmarshes", "Seagrasses", "Macroalgae")
+  marine <- c("Mesopelagic areas", "Polar marine ecosystem", "Pelagic areas")
+  
+  # Gives a color to each type of nodes
+  netw <- netw %>%
+    mutate(color = case_when(vertex.names %in% terrestrial ~ colNCS_ter,
+                             vertex.names %in% coastal ~ colNCS_coast,
+                             vertex.names %in% marine ~ colNCS_mar,
+                             vertex.names %in% colnames(contin_mat_target) ~ colTARG))
+  
+  return(netw)
+  
+}

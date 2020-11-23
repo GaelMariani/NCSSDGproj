@@ -10,7 +10,7 @@ dir.create("results")
 dir.create("reports")
 
 
-# Library to be used put in the DESCRIPTION file
+# Library to be used and put in the DESCRIPTION file
 usethis::use_package("dplyr")
 usethis::use_package("here")
 usethis::use_package("ggplot2")
@@ -20,12 +20,13 @@ usethis::use_package("tidyr")
 usethis::use_package("magrittr")
 usethis::use_package("forcats")
 usethis::use_package("reshape2")
-#usethis::use_package("ggnet")
+usethis::use_package("ggnet")
 usethis::use_package("network")
-#usethis::use_package("GGally")
+usethis::use_package("GGally")
 usethis::use_package("ggimage")
 usethis::use_package("bipartite")
 usethis::use_package("stats")
+usethis::use_package("ggnetwork")
 usethis::use_pipe()
 
 
