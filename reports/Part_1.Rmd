@@ -41,7 +41,7 @@ NCSSDGproj::barplot_percSDG(data_plot = data_pour, save = FALSE)
 
 ```{r warning = FALSE, message = TRUE}
 
-matrix01 <- NCSSDGproj::data_netw_indice(raw_dat)
+matrix01 <- NCSSDGproj::contingency_mat_targets(raw_dat)
 
 mod_nest_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "quasiswap", NESTmethod = "NODF",
                                        Nrun = 5, Nsim = 5, TargetInsurance = FALSE)

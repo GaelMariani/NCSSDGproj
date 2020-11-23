@@ -169,7 +169,7 @@ perc_SDG <- function(data_long) {
 }
 
 
-#' Format Matrix For Network Indice
+#' Contingency Matrix Of SDG's Targets For Network Indices And Unipartit Plot
 #'
 #' @param raw_dat a dataframe with targets of the SDGs in columns and NCSs in rows
 #'
@@ -177,7 +177,7 @@ perc_SDG <- function(data_long) {
 #' @export
 #'
 #' @examples
-data_netw_indice <- function(raw_dat) {
+contingency_mat_targets <- function(raw_dat) {
   
   raw_dat %>%
     replace(., . < 0, 0) %>%
