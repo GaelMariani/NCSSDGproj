@@ -77,7 +77,7 @@ edge_col <- function(matrix) {
 #' @param matrix 
 #' @param icon_SDG 
 #' @param icon_NCS 
-#' @save default = FALSE
+#' @save if TRUE the plot is saved in the results folder
 #' 
 #'
 #' @return
@@ -159,7 +159,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #' Plot Percentage Of Target Achieved
 #'
 #' @param data_plot a data frame with percentage of target achieve totally + by group of NCS
-#' @param save 
+#' @param save if TRUE the plot is saved in the results folder
 #'
 #' @return a ggplot object, barplot, of the % of SDG' target achieved
 #' @export
@@ -239,18 +239,24 @@ modularity_plot <- function(matrix01) {
 #' Insurance Plot
 #'
 #' @param data A data frame with number of times a target is achieved with a column identifying observed data vs. null data
+#' @param TI Target Insurance
+#' @param TUI_obs Target Under Insurance observed
+#' @param TUI_null Target Under Insurance from null matrix
+#' @param obs_col color for observed data
+#' @param null_col color for null data
+#' @param save if TRUE the plot is saved in the results folder
 #'
 #' @return
 #' @export
 #'
 #' @examples
-Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col) {
+Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save) {
   
   ggplot(data, mapping = aes(x = as.numeric(xval), y = value, color = group)) + 
     
     geom_ribbon(data[1:(nrow(data)/2), ], mapping = aes(ymin = 0, ymax = data_obs$value), color = "transparent", fill = "#ACACF7") +
     
-    geom_hline(yintercept = target_insurance, color = "grey20", linetype = "dashed") +
+    geom_hline(yintercept = TI, color = "grey20", linetype = "dashed") +
     
     scale_color_manual(values = c(null_col, obs_col), name = NULL)+
     scale_x_continuous(breaks = seq(0, 83, 5), expand = c(0, 1, 0.1, 0))+
@@ -277,8 +283,69 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col) {
           axis.text = element_text(size = 14),
           axis.title = element_text(size = 16)) 
   
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(plot, file = here::here("results", "barplot_pourc.RData"))
+    ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    
+  } else {return(plot)}
+  
   
   
 }
 
 
+#' Unipartite Plot Of Targets 
+#'
+#' @param netw a dataframe network object from the network_uniP function
+#' @param colNCS_ter color for terrestrial nodes
+#' @param colNCS_coast color for coastal nodes
+#' @param colNCS_mar color for marine nodes
+#' @param save if TRUE the plot is saved in the results folder
+#'
+#' @return
+#' @export
+#'
+#' @examples
+unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
+  
+  plot <- ggplot() +
+    
+    # Plot edges
+    geom_edges(data = netw,
+               aes(x = x, y = y, xend = xend, yend = yend, color = color),
+               curvature = 0, size = 1, alpha = 0.25) +
+    
+    # Format edges
+    scale_color_manual(values = c(colNCS_ter, colNCS_mar, colNCS_coast),
+                       labels = c("Terrestrial", "Marine", "Coastal"),
+                       name = NULL) +
+    
+    # Plot nodes 
+    geom_nodes(data = netw, aes(x=x, y=y), size = 5) +
+    
+    # Format nodes
+    geom_node_point(data = netw,
+                    size = 6,
+                    color = netw_target$color,
+                    fill = netw_target$color) +
+    
+    theme_void() +
+    theme(legend.position=c(0.1, 0.7),
+          legend.text = element_text(size = 15)) 
+  
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(plot, file = here::here("results", "barplot_pourc.RData"))
+    ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    
+  } else {return(plot)}
+  
+}
+
+
+  
+  

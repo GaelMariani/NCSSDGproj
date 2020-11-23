@@ -9,7 +9,7 @@ barplot_percSDG(data_plot, save = FALSE)
 \arguments{
 \item{data_plot}{a data frame with percentage of target achieve totally + by group of NCS}
 
-\item{save}{}
+\item{save}{if TRUE the plot is saved in the results folder}
 }
 \value{
 a ggplot object, barplot, of the \% of SDG' target achieved

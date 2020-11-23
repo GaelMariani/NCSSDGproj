@@ -272,7 +272,6 @@ network_uniP <- function(contin_mat_target, method, colNCS_ter, colNCS_coast, co
   netw <- ggnetwork::ggnetwork(t(matrix01), layout = method, cell.jitter = 0.5)
   
   # Format the network objec to plot with ggplot2
-  labs <- data.frame(type = c("Terrestrial", "Coastal", "Marine"))
   terrestrial <- c("Peatland ", "Urban forests", "Forest", "Grassland ")
   coastal <- c("Mangroves", "Saltmarshes", "Seagrasses", "Macroalgae")
   marine <- c("Mesopelagic areas", "Polar marine ecosystem", "Pelagic areas")
