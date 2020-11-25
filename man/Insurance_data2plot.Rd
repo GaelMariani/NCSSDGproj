@@ -7,7 +7,7 @@
 Insurance_data2plot(matrix01, Ntarget)
 }
 \arguments{
-\item{matrix01}{a matrix with targets in rows and NCS in columns}
+\item{matrix01}{a matrix with targets in columns and NCS in rows}
 
 \item{Ntarget}{the total number of targets}
 }

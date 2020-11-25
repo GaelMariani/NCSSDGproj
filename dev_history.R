@@ -27,6 +27,8 @@ usethis::use_package("ggimage")
 usethis::use_package("bipartite")
 usethis::use_package("stats")
 usethis::use_package("ggnetwork")
+usethis::use_package("ade4")
+usethis::use_package("ggord")
 usethis::use_pipe()
 
 

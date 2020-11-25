@@ -214,7 +214,7 @@ data_TI <- function(matrix) {
 
 #' Insurance Data To Plot
 #'
-#' @param matrix01 a matrix with targets in rows and NCS in columns
+#' @param matrix01 a matrix with targets in columns and NCS in rows
 #' @param Ntarget the total number of targets
 #'
 #' @return A data frame with number of times a target is achieved with a column identifying observed data vs. null data
@@ -284,5 +284,67 @@ network_uniP <- function(contin_mat_target, method, colNCS_ter, colNCS_coast, co
                              vertex.names %in% colnames(contin_mat_target) ~ colTARG))
   
   return(netw)
+  
+}
+
+
+#' Sustainable Development Goals Infos
+#'
+#' @param matrix01 a matrix with targets in columns and NCS in rows
+#'
+#' @return a dataframe with with the category, the color and the name of each SDG and target
+#' @export
+#'
+#' @examples
+SDG_infos <- function(matrix01){
+  
+  ## Build a data frame with the name, category and color of each SDG and targets
+  data <- data.frame(name = colnames(matrix01)) %>%
+    tidyr::separate(name, c("SDG", "target"), sep = "[.]", remove = FALSE) %>%
+    
+    # Add a colomn category (environment vs Economy vs Governance vs Society)
+    dplyr::mutate(category = dplyr::case_when((SDG == "6" | SDG == "12" | SDG == "14" | SDG == "15" | SDG == "13") ~ "Environment",
+                                              (SDG == "7" | SDG == "8" | SDG == "9" | SDG == "11") ~ "Economy",
+                                              (SDG == "16") ~ "Governance",
+                                              TRUE ~ as.character("Society")),
+                  
+                  # Add a column with SDG names
+                  SDG_name = dplyr::case_when((SDG == 1) ~ "No Poverty",
+                                              (SDG == 2) ~ "Zero Hunger",
+                                              (SDG == 3) ~ "Good Health",
+                                              (SDG == 4) ~ "Quality Education",
+                                              (SDG == 5) ~ "Gender Equality",
+                                              (SDG == 6) ~ "Clean Water",
+                                              (SDG == 7) ~ "Affordable + Clean Energy", 
+                                              (SDG == 8) ~ "Decent Work", 
+                                              (SDG == 9) ~ "Industry + Innovation",
+                                              (SDG == 10) ~ "Reduced Inequalities",
+                                              (SDG == 11) ~ "Sustainable Cities",
+                                              (SDG == 12) ~ "Responsible Consumption",
+                                              (SDG == 13) ~"Climate Action",
+                                              (SDG == 14) ~ "Life Bellow Water",
+                                              (SDG == 15) ~ "Life on Land",
+                                              (SDG == 16) ~ "Peace, Justice"), 
+                                
+                  # Add a column with the official color of each SDG
+                  color = dplyr::case_when((SDG == 1) ~ "#F41528",
+                                           (SDG == 2) ~ "#D3A029",
+                                           (SDG == 3) ~ "#279B48",
+                                           (SDG == 4) ~ "#C5192D",
+                                           (SDG == 5) ~ "#FF3A21",
+                                           (SDG == 6) ~ "#00AED9",
+                                           (SDG == 7) ~ "#FDB713", 
+                                           (SDG == 8) ~ "#8F1838", 
+                                           (SDG == 9) ~ "#F36D25",
+                                           (SDG == 10) ~ "#E11484",
+                                           (SDG == 11) ~ "#F99D26",
+                                           (SDG == 12) ~ "#CF8D2A",
+                                           (SDG == 13) ~ "#3F7E44",
+                                           (SDG == 14) ~ "#007DBC",
+                                           (SDG == 15) ~ "#3EB049",
+                                           (SDG == 16) ~ "#02558B")) %>%
+    dplyr::arrange(SDG_name)
+  
+  return(data)
   
 }

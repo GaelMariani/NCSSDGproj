@@ -29,4 +29,6 @@ Imports:
     ggimage,
     bipartite,
     stats,
-    ggnetwork
+    ggnetwork,
+    ade4,
+    ggord
