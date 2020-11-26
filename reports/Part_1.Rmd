@@ -34,10 +34,9 @@ NCSSDGproj::plot_network(SDG_net, SDG_matrix,
 
 data_pour <- NCSSDGproj::perc_SDG(data_long = data_long)
 
-NCSSDGproj::barplot_percSDG(data_plot = data_pour, save = TRUE)
+NCSSDGproj::barplot_percSDG(data_plot = data_pour, save = TRUE, legend = TRUE)
 
-NCSSDGproj::load_Fig1A()
-NCSSDGproj::load_Fig1B()
+
 
 ```
 

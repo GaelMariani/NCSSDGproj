@@ -151,7 +151,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
     save(netw, file = here::here("results", "network_SDG_NCS.RData"))
     ggplot2::ggsave(here::here("results", "network_SDG_NCS.png"), width = 5, height = 6.8, device = "png")
     
-  } else {return(plot)}
+  } else {return(netw)}
   
 }
 
@@ -166,7 +166,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #' @export
 #'
 #' @examples
-barplot_percSDG <- function(data_plot, save = FALSE) {
+barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
   
   color <- c("#8da0cb", "#e5c494","#66c2a5")
   color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
@@ -208,6 +208,23 @@ barplot_percSDG <- function(data_plot, save = FALSE) {
                    plot.background = element_rect(fill = "transparent",colour = NA)) +
     ggplot2::guides(fill = guide_legend(reverse = TRUE))
   
+  if(legend == TRUE){
+    
+    plot_leg <- ggplot2::ggplot() +
+      geom_col(data_pour, mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), y = relative_pourcent,
+                                                         fill = factor(group, levels = unique(order_group))), width = 0.65) +
+      ggplot2::scale_fill_manual(values = color , name=NULL) +
+      ggplot2::theme(legend.position = "bottom",
+                     legend.text = element_text(size = 16),
+                     legend.background = element_rect(fill = "transparent", color = "transparent")) +
+      ggplot2::guides(fill = guide_legend(reverse = TRUE))
+    
+    legend <- ggpubr::get_legend(plot_leg)
+    save(legend, file = here::here("results", "legend.RData"))
+      
+    
+  }
+  
   
   ## Save plot
   if(save == TRUE) {
@@ -215,10 +232,27 @@ barplot_percSDG <- function(data_plot, save = FALSE) {
     save(barplot, file = here::here("results", "barplot_pourc.RData"))
     ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
     
-  } else {return(plot)}
+  } else {return(barplot)}
   
 }
 
+
+Figure1 <- function(){
+  
+  # Load panels
+  fig1a <- NCSSDGproj::load_Fig1A()
+  fig1b <- NCSSDGproj::load_Fig1B()
+  legend <- ggpubr::get_legend(fig1B)
+  
+  # Assemble panels
+  cowplot::ggdraw() +
+    
+    cowplot::draw_plot(fig1a, x=0, y=0.02, width=0.61, height=0.98) +
+    cowplot::draw_plot(fig1b, x=0.50, y=0.04, width= 0.5, height=1) +
+    cowplot::draw_plot(legend, x=0.3, y=0, width = 0.5, height = 0.05)
+  
+  
+}
 
 
 #' Plot Modularity

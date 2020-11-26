@@ -53,6 +53,7 @@ load_NCS_icon <- function() {
 load_Fig1A <- function(){
   
   load(here::here("results", "network_SDG_NCS.RData"))
+  return(netw)
   
 }
 
@@ -66,8 +67,22 @@ load_Fig1A <- function(){
 load_Fig1B <- function(){
   
   load(here::here("results", "barplot_pourc.RData"))
+  return(barplot)
   
 }
 
+
+#' Load Legend Of NCS
+#'
+#' @return A RData to plot Figure 1B
+#' @export
+#'
+#' @examples
+load_Fig1B <- function(){
+  
+  load(here::here("results", "legend.RData"))
+  return(legend)
+  
+}
 
 
