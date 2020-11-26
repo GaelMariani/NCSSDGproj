@@ -4,7 +4,7 @@
 \alias{barplot_percSDG}
 \title{Plot Percentage Of Target Achieved}
 \usage{
-barplot_percSDG(data_plot, save = FALSE)
+barplot_percSDG(data_plot, save = FALSE, legend = FALSE)
 }
 \arguments{
 \item{data_plot}{a data frame with percentage of target achieve totally + by group of NCS}

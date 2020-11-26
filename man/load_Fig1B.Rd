@@ -5,10 +5,16 @@
 \title{Load First Figure Panel B}
 \usage{
 load_Fig1B()
+
+load_Fig1B()
 }
 \value{
+A RData to plot Figure 1B
+
 A RData to plot Figure 1B
 }
 \description{
 Load First Figure Panel B
+
+Load Legend Of NCS
 }
