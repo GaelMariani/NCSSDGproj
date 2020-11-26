@@ -88,18 +88,18 @@ edge_col <- function(matrix) {
 plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
   
   ## Plot the network
-  netw <- GGally::ggnet2(network_obj, 
-                        mode = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
-                        label = FALSE,
-                        shape = "shape",
-                        size = c(rowSums(matrix), rep(15, 16)),
-                        max_size = 18, 
-                        label.size = 2,
-                        edge.size = NCSSDGproj::edge_size(matrix, 5)/1.3, 
-                        edge.alpha= 0.40,
-                        color = rep("white", 27),
-                        edge.color = NCSSDGproj::edge_col(matrix),
-                        layout.exp = 0.5) +
+  netw <- GGally::ggnet2(data = network_obj, 
+                         mode = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
+                         label = FALSE,
+                         shape = "shape",
+                         size = c(rowSums(matrix), rep(15, 16)),
+                         max_size = 18, 
+                         label.size = 2,
+                         edge.size = NCSSDGproj::edge_size(matrix, 5)/1.3, 
+                         edge.alpha= 0.40,
+                         color = rep("white", 27),
+                         edge.color = NCSSDGproj::edge_col(matrix),
+                         layout.exp = 0.5) +
     
     # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
     ggplot2::annotation_custom(icon_SDG[[1]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = 1.05) + 
@@ -136,8 +136,13 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
     ggplot2::scale_y_reverse() + 
     
     # add text to ecosystem
-    ggplot2::annotate(geom = "text", x = c(rep(-0.2,11)), y = seq(0,1,0.1), label = rownames(matrix),
-             color = nodes_col, size = 3.3, fontface = "bold") +
+    ggplot2::annotate(geom = "text", 
+                      x = c(rep(-0.2,11)), 
+                      y = seq(0,1,0.1), 
+                      label = rownames(matrix),
+                      color = nodes_col, 
+                      size = 3.3, 
+                      fontface = "bold") +
     
   
     ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
@@ -184,26 +189,30 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
   barplot <- ggplot2::ggplot() +
     
     ## Plot bars
-    ggplot2::geom_col(data_pour, mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), 
-                                               y = relative_pourcent,
-                                               fill = factor(group, levels = unique(order_group))), 
-                      width = 0.65, show.legend = FALSE) +
+    ggplot2::geom_col(data = data_pour, 
+                      mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), 
+                                    y = relative_pourcent,
+                                    fill = factor(group, levels = unique(order_group))), 
+                      width = 0.65, 
+                      show.legend = FALSE) +
    
     ## Add text (number of targets achieved in each SDG)
-    ggplot2::geom_text(aes(x = SDG_number, 
-                           y = perc_goal + 5, 
-                           label = text),
+    ggplot2::geom_text(mapping = aes(x = SDG_number, 
+                                     y = perc_goal + 5, 
+                                     label = text),
                        nudge_y = 2, 
                        data = text_plot, 
                        size = 5) +
     
     ## scale modif
-    ggplot2::scale_fill_manual(values = color , name = NULL) +
+    ggplot2::scale_fill_manual(values = color , 
+                               name = NULL) +
+    
     ggplot2::scale_y_continuous(position = "right", 
                                 breaks = seq(0, max(data_pour$perc_global), 10), 
                                 expand = c(0.03,0,0.1,0)) +
-    ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), 
-                                             rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), 
+    
+    ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), 
                               expand = c(0.03,0.03))  +
     
     ggplot2::coord_flip() +
@@ -222,6 +231,7 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
                    panel.grid.major = element_blank(),
                    panel.grid.minor = element_blank(),
                    plot.background = element_rect(fill = "transparent", colour = NA)) +
+    
     ggplot2::guides(fill = guide_legend(reverse = TRUE))
   
   ## Save plot
@@ -236,13 +246,14 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
   if(legend == TRUE){
     
     plot_leg <- ggplot2::ggplot() +
-      geom_col(data_pour, 
+      geom_col(data = data_pour, 
                mapping = aes(x = factor(SDG_number, levels = rev(unique(order))),
                              y = relative_pourcent,
                              fill = factor(group, levels = unique(order_group))), 
                width = 0.65) +
       
-      ggplot2::scale_fill_manual(values = color , name=NULL) +
+      ggplot2::scale_fill_manual(values = color , 
+                                 name = NULL) +
       
       ggplot2::theme(legend.position = "bottom",
                      legend.text = element_text(size = 16),
@@ -326,12 +337,12 @@ modularity_plot <- function(matrix01) {
 #' @examples
 Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save) {
   
-  ggplot(data, 
+  ggplot(data = data, 
          mapping = aes(x = as.numeric(xval), 
                        y = value, 
                        color = group)) + 
     
-    geom_ribbon(data[1:(nrow(data)/2), ], 
+    geom_ribbon(data = data[1:(nrow(data)/2), ], 
                 mapping = aes(ymin = 0, 
                               ymax = data_obs$value), 
                 color = "transparent", 
@@ -341,27 +352,32 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
                color = "grey20", 
                linetype = "dashed") +
     
-    scale_color_manual(values = c(null_col, obs_col), name = NULL)+
-    scale_x_continuous(breaks = seq(0, 83, 5), expand = c(0, 1, 0.1, 0))+
-    scale_y_continuous(breaks = seq(0, 11, 1), expand = c(0, 0, 0.1, 0)) +
+    scale_color_manual(values = c(null_col, obs_col), 
+                       name = NULL)+
+    
+    scale_x_continuous(breaks = seq(0, 83, 5), 
+                       expand = c(0, 1, 0.1, 0))+
+    
+    scale_y_continuous(breaks = seq(0, 11, 1), 
+                       expand = c(0, 0, 0.1, 0)) +
     
     geom_line() +
     
-    geom_segment(aes(x = 74, y = 6, xend = 83, yend = 6),
+    geom_segment(mapping = aes(x = 74, y = 6, xend = 83, yend = 6),
                  arrow = arrow, 
                  color = obs_col, 
                  show.legend = NA) +
     
-    geom_segment(aes(x = 83, y = 6, xend = 74, yend = 6),
+    geom_segment(mapping = aes(x = 83, y = 6, xend = 74, yend = 6),
                  arrow = arrow, 
                  color = obs_col, 
                  show.legend = NA) +
     
-    geom_segment(aes(x = 74, y = 0, xend = 74, yend = 6), 
+    geom_segment(mapping = aes(x = 74, y = 0, xend = 74, yend = 6), 
                  color =  obs_col, 
                  linetype = "dashed") +
     
-    geom_segment(aes(x = 83, y = 0, xend = 83, yend = 6), 
+    geom_segment(mapping = aes(x = 83, y = 0, xend = 83, yend = 6), 
                  color =  obs_col, 
                  linetype = "dashed") +
     
@@ -427,7 +443,7 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
     
     # Plot edges
     geom_edges(data = netw,
-               aes(x = x, y = y, xend = xend, yend = yend, color = color),
+               mapping = aes(x = x, y = y, xend = xend, yend = yend, color = color),
                curvature = 0, 
                size = 1, 
                alpha = 0.25) +
