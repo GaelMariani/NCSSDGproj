@@ -455,7 +455,7 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
     
     # Plot nodes 
     geom_nodes(data = netw, 
-               aes(x=x, y=y), 
+               mapping = aes(x=x, y=y), 
                size = 5) +
     
     # Format nodes
