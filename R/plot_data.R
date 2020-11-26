@@ -88,7 +88,7 @@ edge_col <- function(matrix) {
 plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
   
   ## Plot the network
-  plot <- GGally::ggnet2(network_obj, 
+  netw <- GGally::ggnet2(network_obj, 
                         mode = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
                         label = FALSE,
                         shape = "shape",
@@ -148,7 +148,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
   ## Save plot
   if(save == TRUE) {
     
-    save(plot, file = here::here("results", "network_SDG_NCS.RData"))
+    save(netw, file = here::here("results", "network_SDG_NCS.RData"))
     ggplot2::ggsave(here::here("results", "network_SDG_NCS.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(plot)}
@@ -179,7 +179,7 @@ barplot_percSDG <- function(data_plot, save = FALSE) {
   text_plot <-  data_pour[seq(1,46,3),]
   
   
-  plot <- ggplot2::ggplot() +
+  barplot <- ggplot2::ggplot() +
     
     ggplot2::geom_col(data_pour, mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), y = relative_pourcent,
                                                fill = factor(group, levels = unique(order_group))), width = 0.65, show.legend = FALSE) +
@@ -212,7 +212,7 @@ barplot_percSDG <- function(data_plot, save = FALSE) {
   ## Save plot
   if(save == TRUE) {
     
-    save(plot, file = here::here("results", "barplot_pourc.RData"))
+    save(barplot, file = here::here("results", "barplot_pourc.RData"))
     ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(plot)}
