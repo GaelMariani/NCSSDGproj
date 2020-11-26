@@ -160,6 +160,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #'
 #' @param data_plot a data frame with percentage of target achieve totally + by group of NCS
 #' @param save if TRUE the plot is saved in the results folder
+#' 
 #'
 #' @return a ggplot object, barplot, of the % of SDG' target achieved
 #' @export
@@ -178,29 +179,34 @@ barplot_percSDG <- function(data_plot, save = FALSE) {
   text_plot <-  data_pour[seq(1,46,3),]
   
   
-  plot <- ggplot() +
+  plot <- ggplot2::ggplot() +
     
-    geom_col(data_pour, mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), y = relative_pourcent,
-                                      fill = factor(group, levels = unique(order_group))), width = 0.65, show.legend = FALSE) +
-    geom_text(aes(x = SDG_number, y = relative_pourcent+5, label = text), nudge_y = 2, data = text_plot, size = 5) +
-    scale_fill_manual(values = color , name = NULL) +
-    scale_y_continuous(position = "right", breaks = seq(0, max(data_pour$perc_global), 10), expand = c(0.03,0,0.1,0)) +
-    scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), expand = c(0.03,0.03))  +
-    coord_flip() +
-    labs(x = "", y = "") +
-    theme_bw() +
-    theme(axis.text = element_text(size=12),
-          axis.text.y = element_text(color=rev(color_text),face="bold"),
-          axis.title = element_text(size=18),
-          ## Legend modifications
-          legend.position = c(0.90, 0.90),
-          legend.text = element_text(size = 16),
-          legend.background = element_rect(fill = "transparent", color = "transparent"),
-          ## Remove grid on the background
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          plot.background = element_rect(fill = "transparent",colour = NA)) +
-    guides(fill = guide_legend(reverse = TRUE))
+    ggplot2::geom_col(data_pour, mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), y = relative_pourcent,
+                                               fill = factor(group, levels = unique(order_group))), width = 0.65, show.legend = FALSE) +
+    ggplot2::geom_text(aes(x = SDG_number, y = relative_pourcent+5, label = text), nudge_y = 2, data = text_plot, size = 5) +
+    
+    ## scale modif
+    ggplot2::scale_fill_manual(values = color , name = NULL) +
+    ggplot2::scale_y_continuous(position = "right", breaks = seq(0, max(data_pour$perc_global), 10), expand = c(0.03,0,0.1,0)) +
+    ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), expand = c(0.03,0.03))  +
+    
+    ggplot2::coord_flip() +
+    ggplot2::labs(x = "", y = "") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text = element_text(size=12),
+                   axis.text.y = element_text(color=rev(color_text),face="bold"),
+                   axis.title = element_text(size=18),
+                   
+                   # Legend modifications
+                   legend.position = c(0.90, 0.90),
+                   legend.text = element_text(size = 16),
+                   legend.background = element_rect(fill = "transparent", color = "transparent"),
+                   
+                   # Remove grid on the background
+                   panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   plot.background = element_rect(fill = "transparent",colour = NA)) +
+    ggplot2::guides(fill = guide_legend(reverse = TRUE))
   
   
   ## Save plot

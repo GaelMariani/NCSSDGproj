@@ -44,7 +44,30 @@ load_NCS_icon <- function() {
 }
 
 
+#' Load First Figure Panel A
+#'
+#' @return A RData to plot Figure 1A
+#' @export
+#'
+#' @examples
+load_Fig1A <- function(){
+  
+  load(here::here("results", "network_SDG_NCS.RData"))
+  
+}
 
+
+#' Load First Figure Panel B
+#'
+#' @return A RData to plot Figure 1B
+#' @export
+#'
+#' @examples
+load_Fig1B <- function(){
+  
+  load(here::here("results", "barplot_pourc.RData"))
+  
+}
 
 
 
