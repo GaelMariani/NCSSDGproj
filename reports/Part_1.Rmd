@@ -34,7 +34,7 @@ NCSSDGproj::plot_network(SDG_net, SDG_matrix,
 
 data_pour <- NCSSDGproj::perc_SDG(data_long = data_long)
 
-NCSSDGproj::barplot_percSDG(data_plot = data_pour, save = FALSE)
+NCSSDGproj::barplot_percSDG(data_plot = data_pour, save = TRUE)
 ```
 
 ## Target Insurance and null models
