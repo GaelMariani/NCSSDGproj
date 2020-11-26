@@ -78,7 +78,7 @@ load_Fig1B <- function(){
 #' @export
 #'
 #' @examples
-load_Fig1B <- function(){
+load_legend <- function(){
   
   load(here::here("results", "legend.RData"))
   return(legend)

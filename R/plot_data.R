@@ -242,7 +242,7 @@ Figure1 <- function(){
   # Load panels
   fig1a <- NCSSDGproj::load_Fig1A()
   fig1b <- NCSSDGproj::load_Fig1B()
-  legend <- ggpubr::get_legend(fig1B)
+  legend <- NCSSDGproj::load_legend()
   
   # Assemble panels
   cowplot::ggdraw() +
