@@ -78,7 +78,7 @@ SES_pval <- function(val_obs, mean_null, sd_null, rowname) {
 #' @export
 #'
 #' @examples
-NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, TargetInsurance = FALSE) {
+NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, TargetInsurance = FALSE, save = FALSE) {
   
   ## Compute NESTEDNESS and MODULARITY
   if(TargetInsurance == FALSE){
@@ -149,6 +149,13 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
     return(TUI_TOI_res)
       
   } # end ELSE
+  
+  
+  if(save == TRUE) {
+    
+    save(TUI_TOI_res, file = here::here("results", "TUI_TOI_res.RData"))
+    
+  }
   
 }
 

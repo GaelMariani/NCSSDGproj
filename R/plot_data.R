@@ -88,7 +88,7 @@ edge_col <- function(matrix) {
 plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
   
   ## Plot the network
-  netw <- GGally::ggnet2(data = network_obj, 
+  netw <- GGally::ggnet2(net = network_obj, 
                          mode = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
                          label = FALSE,
                          shape = "shape",
@@ -238,7 +238,7 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
   if(save == TRUE) {
     
     save(barplot, file = here::here("results", "barplot_pourc.RData"))
-    ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(barplot)}
   
@@ -294,7 +294,7 @@ Figure1 <- function(save = FALSE) {
   # save
   if(save == TRUE) {
     
-    ggplot2::ggsave(here::here("results", "Fig1.png"), width=10, height=9, device="png")   
+    ggplot2::ggsave(here::here("figures", "Fig1.png"), width=10, height=9, device="png")   
     
   } else {return(fig1)}
 }
@@ -416,7 +416,7 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
   if(save == TRUE) {
     
     save(plot, file = here::here("results", "barplot_pourc.RData"))
-    ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(plot)}
   
