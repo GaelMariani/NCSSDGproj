@@ -337,14 +337,16 @@ modularity_plot <- function(matrix01) {
 #' @examples
 Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save) {
   
+  arrow = arrow(angle=15, type = "closed", length = unit(0.1, "inches"))
+  
   ggplot(data = data, 
          mapping = aes(x = as.numeric(xval), 
                        y = value, 
-                       color = group)) + 
+                       color = group)) +
     
     geom_ribbon(data = data[1:(nrow(data)/2), ], 
                 mapping = aes(ymin = 0, 
-                              ymax = data_obs$value), 
+                              ymax = data$value[1:(nrow(data)/2)]), 
                 color = "transparent", 
                 fill = "#ACACF7") +
     
@@ -353,15 +355,17 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
                linetype = "dashed") +
     
     scale_color_manual(values = c(null_col, obs_col), 
-                       name = NULL)+
+                       name = NULL) +
     
     scale_x_continuous(breaks = seq(0, 83, 5), 
-                       expand = c(0, 1, 0.1, 0))+
+                       expand = c(0, 1, 0.1, 0)) +
     
     scale_y_continuous(breaks = seq(0, 11, 1), 
                        expand = c(0, 0, 0.1, 0)) +
     
-    geom_line() +
+    geom_line(data = data[((nrow(data)/2) + 1):nrow(data), ],
+              mapping = aes(x = as.numeric(xval),
+                            y = data$value[((nrow(data)/2)+1):nrow(data)])) +
     
     geom_segment(mapping = aes(x = 74, y = 6, xend = 83, yend = 6),
                  arrow = arrow, 
