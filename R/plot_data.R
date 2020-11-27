@@ -154,7 +154,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
   if(save == TRUE) {
     
     save(netw, file = here::here("results", "network_SDG_NCS.RData"))
-    ggplot2::ggsave(here::here("results", "network_SDG_NCS.png"), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", "network_SDG_NCS.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(netw)}
   
