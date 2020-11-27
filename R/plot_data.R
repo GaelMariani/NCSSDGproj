@@ -419,8 +419,8 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
   ## Save plot
   if(save == TRUE) {
     
-    save(plot, file = here::here("results", "barplot_pourc.RData"))
-    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    save(plot, file = here::here("results", "Insurance_plot.RData"))
+    ggplot2::ggsave(here::here("figures", "Insurance_plot.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(plot)}
   
