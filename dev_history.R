@@ -8,6 +8,7 @@ dir.create("R")
 dir.create("dataR")
 dir.create("results")
 dir.create("reports")
+dir.create("figures")
 
 
 # Library to be used and put in the DESCRIPTION file
