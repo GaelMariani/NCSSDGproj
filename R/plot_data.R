@@ -475,8 +475,8 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
   ## Save plot
   if(save == TRUE) {
     
-    save(plot, file = here::here("results", "barplot_pourc.RData"))
-    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 11, height = 6, device = "png")
+    save(plot, file = here::here("results", "unipartite_plot.RData"))
+    ggplot2::ggsave(here::here("figures", "unipartite_plot.png"), width = 11, height = 6, device = "png")
     
   } else {return(plot)}
   
