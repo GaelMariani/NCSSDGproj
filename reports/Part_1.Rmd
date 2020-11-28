@@ -42,7 +42,7 @@ Fig1 <- NCSSDGproj::Figure1(save = TRUE)
 
 ## Target Insurance and null models
 
-```{r warning = FALSE, message = TRUE}
+```{r message=FALSE, warning=FALSE}
 
 matrix01 <- NCSSDGproj::contingency_mat_targets(raw_dat)
 
@@ -64,17 +64,26 @@ NCSSDGproj::Insurance_plot(data = data_Insurance,
                            save = TRUE) 
 ```
 
+## Unipartite network
 
-```{r cars}
-summary(cars)
+```{r}
+
+conting_mat <- NCSSDGproj::contingency_mat_targets(raw_dat = raw_dat)
+
+netw_Unip <- NCSSDGproj::network_uniP(contin_mat_target = conting_mat, 
+                                      method = "fruchtermanreingold", 
+                                      colNCS_ter = "#66c2a5", 
+                                      colNCS_coast = "#e5c494",
+                                      colNCS_mar = "#8da0cb", 
+                                      colTARG = "grey70")
+
+NCSSDGproj::unipart_plot(netw = netw_Unip, 
+                         colNCS_ter = "#66c2a5", 
+                         colNCS_coast = "#e5c494", 
+                         colNCS_mar = "#8da0cb", 
+                         save = TRUE)
+
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

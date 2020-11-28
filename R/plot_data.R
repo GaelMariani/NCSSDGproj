@@ -363,9 +363,11 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
     scale_y_continuous(breaks = seq(0, 11, 1), 
                        expand = c(0, 0, 0.1, 0)) +
     
-    geom_line(data = data[((nrow(data)/2) + 0.5):nrow(data), ],
-              mapping = aes(x = as.numeric(xval),
-                            y = data$value[((nrow(data)/2)+0.5):nrow(data)])) +
+    # geom_line(data = data[((nrow(data)/2) + 1):nrow(data), ],
+    #          mapping = aes(x = as.numeric(xval),
+    #                        y = data$value[((nrow(data)/2)+1):nrow(data)])) +
+    
+    geom_line() +
     
     geom_segment(mapping = aes(x = 74, y = 6, xend = 83, yend = 6),
                  arrow = arrow, 
@@ -420,7 +422,7 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
   if(save == TRUE) {
     
     save(plot, file = here::here("results", "Insurance_plot.RData"))
-    ggplot2::ggsave(here::here("figures", "Insurance_plot.png"), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", "Insurance_plot.png"), width = 10.5, height = 5.5, device = "png")
     
   } else {return(plot)}
   
@@ -477,7 +479,7 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
   if(save == TRUE) {
     
     save(plot, file = here::here("results", "barplot_pourc.RData"))
-    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 11, height = 6, device = "png")
     
   } else {return(plot)}
   

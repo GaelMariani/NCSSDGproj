@@ -237,7 +237,7 @@ Insurance_data2plot <- function(matrix01, Ntarget) {
   null_matrix <- asplit(stats::simulate(vegan::nullmodel(matrix01, "r00"), nsim = 1), 3)
   data_null <- NCSSDGproj::data_TI(null_matrix[[1]]) %>%
     dplyr::arrange(-value) %>%
-    dplyr::mutate(group = "Observed distribution",
+    dplyr::mutate(group = "Expected distribution",
                   xval = rownames(.))
   
   
