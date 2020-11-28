@@ -32,6 +32,7 @@ usethis::use_package("ade4")
 usethis::use_package("ggord")
 usethis::use_package("cowplots")
 usethis::use_package("ggpubr")
+usethis::use_package("ggraph")
 usethis::use_pipe()
 
 

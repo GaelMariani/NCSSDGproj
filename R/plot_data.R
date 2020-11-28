@@ -443,41 +443,41 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
 #' @examples
 unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
   
-  plot <- ggplot() +
+  plot <- ggplot2::ggplot() +
     
     # Plot edges
-    geom_edges(data = netw,
-               mapping = aes(x = x, y = y, xend = xend, yend = yend, color = color),
-               curvature = 0, 
-               size = 1, 
-               alpha = 0.25) +
+    ggnetwork::geom_edges(data = netw,
+                          mapping = aes(x = x, y = y, xend = xend, yend = yend, color = color),
+                          curvature = 0, 
+                          size = 1, 
+                          alpha = 0.25) +
     
     # Format edges
-    scale_color_manual(values = c(colNCS_ter, colNCS_mar, colNCS_coast),
-                       labels = c("Terrestrial", "Marine", "Coastal"),
-                       name = NULL) +
+    ggplot2::scale_color_manual(values = c(colNCS_ter, colNCS_mar, colNCS_coast),
+                                labels = c("Terrestrial", "Marine", "Coastal"),
+                                name = NULL) +
     
     # Plot nodes 
-    geom_nodes(data = netw, 
-               mapping = aes(x=x, y=y), 
-               size = 5) +
-    
+    ggnetwork::geom_nodes(data = netw, 
+                          mapping = aes(x=x, y=y), 
+                          size = 5) +
+              
     # Format nodes
-    geom_node_point(data = netw,
-                    size = 6,
-                    color = netw_target$color,
-                    fill = netw_target$color) +
+    ggraph::geom_node_point(data = netw,
+                            size = 6,
+                            color = netw$color,
+                            fill = netw$color) +
     
-    theme_void() +
-    theme(legend.position=c(0.1, 0.7),
-          legend.text = element_text(size = 15)) 
+    ggplot2::theme_void() +
+    ggplot2::theme(legend.position=c(0.1, 0.7),
+                  legend.text = element_text(size = 15)) 
   
   
   ## Save plot
   if(save == TRUE) {
     
     save(plot, file = here::here("results", "barplot_pourc.RData"))
-    ggplot2::ggsave(here::here("results", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(plot)}
   
