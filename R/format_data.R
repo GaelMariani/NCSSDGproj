@@ -350,6 +350,23 @@ SDG_infos <- function(matrix01){
 }
 
 
+#' Natural Climate Solutions Infos
+#'
+#' @param matrix01 a matrix with targets in columns and NCS in rows
+#'
+#' @return a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine
+#' @export
+#'
+#' @examples
+NCS_info <- function(matrix01){
+
+  data.frame(Ecosystem = rownames(matrix01)) %>%
+    dplyr::mutate(group = dplyr::case_when((Ecosystem == "Peatland " | Ecosystem == "Urban forests" | Ecosystem == "Forest" | Ecosystem == "Grassland ") ~ "Terrestrial",
+                                           (Ecosystem == "Saltmarshes" | Ecosystem == "Mangroves" | Ecosystem == "Seagrasses" | Ecosystem == "Macroalgae") ~ "Coastal",
+                                            TRUE ~ "Marine"))
+
+}
+
 
 #' Correspondance Analysis On Targets
 #'
@@ -363,8 +380,8 @@ Correspondance_Analysis <- function(matrix01) {
   
   ca <- ade4::dudi.coa(matrix01, scannf = FALSE, nf = 3)
   
-  contrib <- inertia_dudi(ca, col=TRUE, row =TRUE)
-  contrib <- ca_ecosym[["co"]]
+  contrib <- ade4::inertia.dudi(ca, col=TRUE, row =TRUE)
+  contrib <- ca[["co"]]
   
   var_sub <- rownames(subset(contrib, contrib$Comp1 > 0.4 | contrib$Comp1 < -0.5 | contrib$Comp2 > 0.4))
   

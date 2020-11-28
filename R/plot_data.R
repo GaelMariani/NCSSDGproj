@@ -483,5 +483,67 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
 }
 
 
+#' Correspondance Analysis Plot
+#'
+#' @param ca matrix or data frame of axis scores for each observation obtained with ade4::dudi.coa
+#' @param ca_subset a susbet of variables
+#' @param NCS_info dataframe obtain with NCSSDGproj::NCS_info
+#' @param colors 3 colors vector for terrestrial, coastal and marine NCS
+#' @param ellipse show ellipse default = TRUE
+#' @param hull show convexhull default = FALSE
+#' @param save save plot default = FALSE
+#'
+#' @return a CA plot
+#' @export
+#'
+#' @examples
+plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull = FALSE, save = FALSE){
+  
+  ## Arrow format
+  arrow = arrow(angle=13, type = "closed", length = unit(0.75, "cm"), ends = "last")
+  
+  
+  ## Plot
+  CA_plot <- ggord::ggord(obs = ca, 
+                          vecs = factor(NCS_info$group, levels = unique(NCS_info$group)),
+                          ellipse = ellipse,
+                          hull = hull,
+                          cols = colors,
+                          var_sub = ca_subset,
+                          txt = 5.5,
+                          repel = TRUE,
+                          obslab = FALSE, 
+                          grp_title = NULL) +
+    
+    ggplot2::geom_segment(mapping = aes(x = -2, y = 1.75, xend = 2, yend = 1.75),
+                          arrow = arrow, 
+                          color = "#B2182B", 
+                          linejoin = "mitre",
+                          lwd = 1.0, 
+                          show.legend = NA) +
+    
+    ggplot2::annotate(geom ="text", 
+                      x = 0, 
+                      y = 1.85, 
+                      label = "Land-oceans continuum", 
+                      color = "#B2182B", 
+                      size = 5) +
+    
+    ggplot2::theme(legend.position = "top", 
+                   legend.text = element_text(size = 18),
+                   axis.text = element_text(size = 15),
+                   axis.title = element_text(size = 16))  # legend position)
+  
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(CA_plot, file = here::here("results", "CorrespAnalysis_plot.RData"))
+    ggplot2::ggsave(here::here("figures", "CorrespAnalysis_plot.png"), width = 8.5, height = 8.5, device = "png")
+    
+  } else {return(CA_plot)}
+  
+}
+
   
   

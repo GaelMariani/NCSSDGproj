@@ -64,10 +64,29 @@ NCSSDGproj::Insurance_plot(data = data_Insurance,
                            save = TRUE) 
 ```
 
-## Unipartite network
+
+## Correspondance Analysis (ne marche pas encore)
 
 ```{r}
 
+NCS_info <- NCSSDGproj::NCS_info(matrix01)
+ca <- NCSSDGproj::Correspondance_Analysis(matrix01 = matrix01)
+
+NCSSDGproj::plot_CorresAna(ca =  ,
+                           ca_subset = ,
+                           NCS_info = ,
+                           colors = ,
+                           ellipse = ,
+                           hull = , 
+                           save = FALSE)
+
+```
+
+
+## Unipartite network
+
+```{r message = FALSE, warning = FALSE}
+ 
 conting_mat <- NCSSDGproj::contingency_mat_targets(raw_dat = raw_dat)
 
 netw_Unip <- NCSSDGproj::network_uniP(contin_mat_target = conting_mat, 
