@@ -368,24 +368,5 @@ NCS_info <- function(matrix01){
 }
 
 
-#' Correspondance Analysis On Targets
-#'
-#' @param matrix01 a matrix with NCS in rows and SDG targets in columns
-#'
-#' @return a list of two elements, the all CA and CA with subseted variables
-#' @export
-#'
-#' @examples
-Correspondance_Analysis <- function(matrix01) {
-  
-  ca <- ade4::dudi.coa(matrix01, scannf = FALSE, nf = 3)
-  
-  contrib <- ade4::inertia.dudi(ca, col=TRUE, row =TRUE)
-  contrib <- ca[["co"]]
-  
-  var_sub <- rownames(subset(contrib, contrib$Comp1 > 0.4 | contrib$Comp1 < -0.5 | contrib$Comp2 > 0.4))
-  
-  return(list = c("Correspondance Analysis" = ca, "CA_subset" = var_sub))
-  
-}
+
 
