@@ -11,7 +11,8 @@ NullModels(
   NESTmethod,
   Nrun,
   Nsim,
-  TargetInsurance = FALSE
+  TargetInsurance = FALSE,
+  save = FALSE
 )
 }
 \arguments{

@@ -80,6 +80,8 @@ NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
                            hull = FALSE, 
                            save = TRUE)
 
+contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01)
+
 ```
 
 

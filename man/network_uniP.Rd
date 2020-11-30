@@ -16,7 +16,7 @@ network_uniP(
 \arguments{
 \item{contin_mat_target}{a matrix with targets in rows and NCS in columns}
 
-\item{method}{}
+\item{method}{see layout in ggnetwork}
 
 \item{colNCS_ter}{color for terrestrial nodes}
 
