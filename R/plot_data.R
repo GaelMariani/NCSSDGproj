@@ -79,7 +79,6 @@ edge_col <- function(matrix) {
 #' @param icon_NCS 
 #' @save if TRUE the plot is saved in the results folder
 #' 
-#' @import ggplot2
 #'
 #' @return
 #' @export
@@ -167,7 +166,6 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #' @param data_plot a data frame with percentage of target achieve totally + by group of NCS
 #' @param save if TRUE the plot is saved in the results folder
 #' 
-#' @import ggplot2
 #'
 #' @return a ggplot object, barplot, of the % of SDG' target achieved
 #' @export
@@ -191,16 +189,16 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
     
     ## Plot bars
     ggplot2::geom_col(data = data_pour, 
-                      mapping = aes(x = factor(SDG_number, levels = rev(unique(order))), 
-                                    y = relative_pourcent,
-                                    fill = factor(group, levels = unique(order_group))), 
+                      mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))), 
+                                             y = relative_pourcent,
+                                             fill = factor(group, levels = unique(order_group))), 
                       width = 0.65, 
                       show.legend = FALSE) +
    
     ## Add text (number of targets achieved in each SDG)
-    ggplot2::geom_text(mapping = aes(x = SDG_number, 
-                                     y = perc_goal + 5, 
-                                     label = text),
+    ggplot2::geom_text(mapping = ggplot2::aes(x = SDG_number, 
+                                              y = perc_goal + 5, 
+                                              label = text),
                        nudge_y = 2, 
                        data = text_plot, 
                        size = 5) +
@@ -219,21 +217,21 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
     ggplot2::coord_flip() +
     ggplot2::labs(x = "", y = "") +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text = element_text(size = 12),
-                   axis.text.y = element_text(color = rev(color_text), face = "bold"),
-                   axis.title = element_text(size = 18),
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 12),
+                   axis.text.y = ggplot2::element_text(color = rev(color_text), face = "bold"),
+                   axis.title = ggplot2::element_text(size = 18),
                    
                    # Legend modifications
                    legend.position = c(0.90, 0.90),
-                   legend.text = element_text(size = 16),
-                   legend.background = element_rect(fill = "transparent", color = "transparent"),
+                   legend.text = ggplot2::element_text(size = 16),
+                   legend.background = ggplot2::element_rect(fill = "transparent", color = "transparent"),
                    
                    # Remove grid on the background
-                   panel.grid.major = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   plot.background = element_rect(fill = "transparent", colour = NA)) +
+                   panel.grid.major = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   plot.background = ggplot2::element_rect(fill = "transparent", colour = NA)) +
     
-    ggplot2::guides(fill = guide_legend(reverse = TRUE))
+    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
   
   ## Save plot
   if(save == TRUE) {
@@ -247,21 +245,21 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
   if(legend == TRUE){
     
     plot_leg <- ggplot2::ggplot() +
-      geom_col(data = data_pour, 
-               mapping = aes(x = factor(SDG_number, levels = rev(unique(order))),
-                             y = relative_pourcent,
-                             fill = factor(group, levels = unique(order_group))), 
-               width = 0.65) +
+      ggplot2::geom_col(data = data_pour, 
+                        mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))),
+                                               y = relative_pourcent,
+                                               fill = factor(group, levels = unique(order_group))), 
+                        width = 0.65) +
       
       ggplot2::scale_fill_manual(values = color , 
                                  name = NULL) +
       
       ggplot2::theme(legend.position = "bottom",
-                     legend.text = element_text(size = 16),
-                     legend.background = element_rect(fill = "transparent", 
-                                                      color = "transparent")) +
+                     legend.text = ggplot2::element_text(size = 16),
+                     legend.background = ggplot2::element_rect(fill = "transparent", 
+                                                               color = "transparent")) +
       
-      ggplot2::guides(fill = guide_legend(reverse = TRUE))
+      ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
     
     legend <- ggpubr::get_legend(plot_leg)
     save(legend, file = here::here("results", "legend.RData"))
@@ -277,7 +275,6 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
 #' @return
 #' @export
 #' 
-#' @import ggplot2
 #'
 #' @examples
 Figure1 <- function(save = FALSE) {
@@ -335,7 +332,6 @@ modularity_plot <- function(matrix01) {
 #' @param save if TRUE the plot is saved in the results folder
 #' 
 #' 
-#' @import ggplot2
 #'
 #' @return
 #' @export
@@ -345,81 +341,81 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
   
   arrow = arrow(angle=15, type = "closed", length = unit(0.1, "inches"))
   
-  ggplot(data = data, 
-         mapping = aes(x = as.numeric(xval), 
-                       y = value, 
-                       color = group)) +
+  ggplot2::ggplot(data = data, 
+                  mapping = aes(x = as.numeric(xval), 
+                                y = value, 
+                                color = group)) +
     
-    geom_ribbon(data = data[1:(nrow(data)/2), ], 
-                mapping = aes(ymin = 0, 
-                              ymax = data$value[1:(nrow(data)/2)]), 
-                color = "transparent", 
-                fill = "#ACACF7") +
+    ggplot2::geom_ribbon(data = data[1:(nrow(data)/2), ], 
+                         mapping = aes(ymin = 0, 
+                                       ymax = data$value[1:(nrow(data)/2)]), 
+                         color = "transparent", 
+                         fill = "#ACACF7") +
     
-    geom_hline(yintercept = TI, 
-               color = "grey20", 
-               linetype = "dashed") +
+    ggplot2::geom_hline(yintercept = TI, 
+                        color = "grey20", 
+                        linetype = "dashed") +
     
-    scale_color_manual(values = c(null_col, obs_col), 
-                       name = NULL) +
+    ggplot2::scale_color_manual(values = c(null_col, obs_col), 
+                                name = NULL) +
     
-    scale_x_continuous(breaks = seq(0, 83, 5), 
-                       expand = c(0, 1, 0.1, 0)) +
+    ggplot2::scale_x_continuous(breaks = seq(0, 83, 5), 
+                                expand = c(0, 1, 0.1, 0)) +
     
-    scale_y_continuous(breaks = seq(0, 11, 1), 
-                       expand = c(0, 0, 0.1, 0)) +
+    ggplot2::scale_y_continuous(breaks = seq(0, 11, 1), 
+                                expand = c(0, 0, 0.1, 0)) +
     
     
-    geom_line() +
+    ggplot2::geom_line() +
     
-    geom_segment(mapping = aes(x = 74, y = 6, xend = 83, yend = 6),
-                 arrow = arrow, 
-                 color = obs_col, 
-                 show.legend = NA) +
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = 74, y = 6, xend = 83, yend = 6),
+                          arrow = arrow, 
+                          color = obs_col, 
+                          show.legend = NA) +
+            
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = 83, y = 6, xend = 74, yend = 6),
+                          arrow = arrow, 
+                          color = obs_col, 
+                          show.legend = NA) +
     
-    geom_segment(mapping = aes(x = 83, y = 6, xend = 74, yend = 6),
-                 arrow = arrow, 
-                 color = obs_col, 
-                 show.legend = NA) +
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = 74, y = 0, xend = 74, yend = 6), 
+                          color =  obs_col, 
+                          linetype = "dashed") +
     
-    geom_segment(mapping = aes(x = 74, y = 0, xend = 74, yend = 6), 
-                 color =  obs_col, 
-                 linetype = "dashed") +
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = 83, y = 0, xend = 83, yend = 6), 
+                          color =  obs_col, 
+                          linetype = "dashed") +
     
-    geom_segment(mapping = aes(x = 83, y = 0, xend = 83, yend = 6), 
-                 color =  obs_col, 
-                 linetype = "dashed") +
+    ggplot2::annotate(geom = "text", 
+                      x = 78.5, 
+                      y = 7.5, 
+                      label = "Targets underinsured", 
+                      color = "black",
+                      fontface = "bold", 
+                      size = 5) +
     
-    annotate(geom = "text", 
-             x = 78.5, 
-             y = 7.5, 
-             label = "Targets underinsured", 
-             color = "black",
-             fontface = "bold", 
-             size = 5) +
+    ggplot2::annotate(geom = "text", 
+                      x = 75, 
+                      y = 6.7, 
+                      label = as.character(TUI_obs), 
+                      color = "#0000EB", 
+                      size = 5) +
+            
+    ggplot2::annotate(geom = "text", 
+                      x = 82, 
+                      y = 6.7, 
+                      label = as.character(TUI_null), 
+                      color = "black", 
+                      size = 5) +
     
-    annotate(geom = "text", 
-             x = 75, 
-             y = 6.7, 
-             label = as.character(TUI_obs), 
-             color = "#0000EB", 
-             size = 5) +
+    ggplot2::labs(x = "Rank of SDGs targets", y = "Number of NCS linked") +
     
-    annotate(geom = "text", 
-             x = 82, 
-             y = 6.7, 
-             label = as.character(TUI_null), 
-             color = "black", 
-             size = 5) +
+    ggplot2::theme_classic() +
     
-    labs(x = "Rank of SDGs targets", y = "Number of NCS linked") +
-    
-    theme_classic() +
-    
-    theme(legend.position = c(0.75, 0.85),
-          legend.text = element_text(size = 16, face="bold"),
-          axis.text = element_text(size = 14),
-          axis.title = element_text(size = 16)) 
+    ggplot2::theme(legend.position = c(0.75, 0.85),
+                   legend.text = ggplot2::element_text(size = 16, face="bold"),
+                   axis.text = ggplot2::element_text(size = 14),
+                   axis.title = ggplot2::element_text(size = 16)) 
   
   ## Save plot
   if(save == TRUE) {
@@ -442,7 +438,6 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
 #' @param colNCS_mar color for marine nodes
 #' @param save if TRUE the plot is saved in the results folder
 #' 
-#' @import ggplot2
 #'
 #' @return
 #' @export
@@ -454,7 +449,7 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
     
     # Plot edges
     ggnetwork::geom_edges(data = netw,
-                          mapping = aes(x = x, y = y, xend = xend, yend = yend, color = color),
+                          mapping = ggplot2::aes(x = x, y = y, xend = xend, yend = yend, color = color),
                           curvature = 0, 
                           size = 1, 
                           alpha = 0.25) +
@@ -466,7 +461,7 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
     
     # Plot nodes 
     ggnetwork::geom_nodes(data = netw, 
-                          mapping = aes(x=x, y=y), 
+                          mapping = ggplot2::aes(x=x, y=y), 
                           size = 5) +
               
     # Format nodes
@@ -476,8 +471,8 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
                             fill = netw$color) +
     
     ggplot2::theme_void() +
-    ggplot2::theme(legend.position=c(0.1, 0.7),
-                  legend.text = element_text(size = 15)) 
+    ggplot2::theme(legend.position = c(0.1, 0.7),
+                   legend.text = ggplot2::element_text(size = 15)) 
   
   
   ## Save plot
@@ -501,7 +496,6 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
 #' @param hull show convexhull default = FALSE
 #' @param save save plot default = FALSE
 #' 
-#' @import ggplot2
 #'
 #' @return a CA plot
 #' @export
@@ -525,7 +519,7 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
                           obslab = FALSE, 
                           grp_title = NULL) +
     
-    ggplot2::geom_segment(mapping = aes(x = -2, y = 1.75, xend = 2, yend = 1.75),
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = -2, y = 1.75, xend = 2, yend = 1.75),
                           arrow = arrow, 
                           color = "#B2182B", 
                           linejoin = "mitre",
@@ -540,9 +534,9 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
                       size = 5) +
     
     ggplot2::theme(legend.position = "top", 
-                   legend.text = element_text(size = 18),
-                   axis.text = element_text(size = 15),
-                   axis.title = element_text(size = 16))  # legend position)
+                   legend.text = ggplot2::element_text(size = 18),
+                   axis.text = ggplot2::element_text(size = 15),
+                   axis.title = ggplot2::element_text(size = 16))  # legend position)
   
   
   ## Save plot
