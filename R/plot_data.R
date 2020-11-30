@@ -504,8 +504,8 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
   
   
   ## Plot
-  CA_plot <- ggord::ggord(obs = ca, 
-                          vecs = factor(NCS_info$group, levels = unique(NCS_info$group)),
+  CA_plot <- ggord::ggord(ord_in = ca, 
+                          grp_in = factor(NCS_info$group, levels = unique(NCS_info$group)),
                           ellipse = ellipse,
                           hull = hull,
                           cols = colors,
