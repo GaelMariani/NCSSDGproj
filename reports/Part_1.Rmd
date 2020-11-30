@@ -78,7 +78,7 @@ NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
                            colors = c("#66c2a5", "#e5c494", "#8da0cb"),
                            ellipse = TRUE,
                            hull = FALSE, 
-                           save = FALSE)
+                           save = TRUE)
 
 ```
 
