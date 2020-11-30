@@ -79,6 +79,7 @@ edge_col <- function(matrix) {
 #' @param icon_NCS 
 #' @save if TRUE the plot is saved in the results folder
 #' 
+#' @import ggplot2
 #'
 #' @return
 #' @export
@@ -275,6 +276,8 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
 #'
 #' @return
 #' @export
+#' 
+#' @import ggplot2
 #'
 #' @examples
 Figure1 <- function(save = FALSE) {
@@ -330,6 +333,9 @@ modularity_plot <- function(matrix01) {
 #' @param obs_col color for observed data
 #' @param null_col color for null data
 #' @param save if TRUE the plot is saved in the results folder
+#' 
+#' 
+#' @import ggplot2
 #'
 #' @return
 #' @export
@@ -435,6 +441,8 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
 #' @param colNCS_coast color for coastal nodes
 #' @param colNCS_mar color for marine nodes
 #' @param save if TRUE the plot is saved in the results folder
+#' 
+#' @import ggplot2
 #'
 #' @return
 #' @export
@@ -492,6 +500,8 @@ unipart_plot <- function(netw, colNCS_ter, colNCS_coast, colNCS_mar, save){
 #' @param ellipse show ellipse default = TRUE
 #' @param hull show convexhull default = FALSE
 #' @param save save plot default = FALSE
+#' 
+#' @import ggplot2
 #'
 #' @return a CA plot
 #' @export
@@ -542,6 +552,39 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
     ggplot2::ggsave(here::here("figures", "CorrespAnalysis_plot.png"), width = 8.5, height = 8.5, device = "png")
     
   } else {return(CA_plot)}
+  
+}
+
+
+#' Title
+#'
+#' @param data 
+#' @param colNCS_ter 
+#' @param colNCS_coast 
+#' @param colNCS_mar 
+#' @param save 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+CA_contrib_plot <- function(data, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+  
+  ## Plot the most important targets
+  ca_SDG_12 <- factoextra::fviz_ca_col(X = res.ca, 
+                                       axes = c(1,2),
+                                       col.col = "contrib",
+                                       gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                       select.col = list(name = names12),
+                                       repel = TRUE)
+  
+  ## Plot NCS and targets together
+  ca_tot_12 <- factoextra::fviz_ca_biplot(X = res.ca, 
+                                          axes = c(1,2),
+                                          select.col = list(name = names12),
+                                          repel = TRUE)
+  
+  
   
 }
 
