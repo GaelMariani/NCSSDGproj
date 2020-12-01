@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_data.R
 \name{Figure2}
 \alias{Figure2}
-\title{Build Figure One}
+\title{Build Figure Two}
 \usage{
 Figure2(save = FALSE)
 }
@@ -10,5 +10,5 @@ Figure2(save = FALSE)
 
 }
 \description{
-Build Figure One
+Build Figure Two
 }

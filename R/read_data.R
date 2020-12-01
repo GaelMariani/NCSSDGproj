@@ -67,7 +67,7 @@ load_Fig1A <- function(){
 load_Fig1B <- function(){
   
   load(here::here("results", "barplot_pourc.RData"))
-  return(barplot)
+  return(barplot_pourc)
   
 }
 

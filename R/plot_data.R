@@ -177,7 +177,6 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #' @examples
 barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   
-  color <- color
   color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
                   "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
                   "#CF8D2A", "#E11484", "#D3A029", "#007DBC")
@@ -185,13 +184,13 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
   order_group <- rev(c("Terrestrial", "Coastal", "Marine"))
   
-  text_plot <-  data_pour[seq(1,46,3),]
+  text_plot <-  data_plot[seq(1,46,3),]
   
   
-  barplot <- ggplot2::ggplot() +
+  barplot_pourc <- ggplot2::ggplot() +
     
     ## Plot bars
-    ggplot2::geom_col(data = data_pour, 
+    ggplot2::geom_col(data = data_plot, 
                       mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))), 
                                              y = relative_pourcent,
                                              fill = factor(group, levels = unique(order_group))), 
@@ -212,7 +211,7 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
                                name = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks = seq(0, max(data_pour$perc_global), 10), 
+                                breaks = seq(0, max(data_plot$perc_global), 10), 
                                 expand = c(0.03,0,0.1,0)) +
     
     ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), 
@@ -249,7 +248,7 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   if(legend == TRUE){
     
     plot_leg <- ggplot2::ggplot() +
-      ggplot2::geom_col(data = data_pour, 
+      ggplot2::geom_col(data = data_plot, 
                         mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))),
                                                y = relative_pourcent,
                                                fill = factor(group, levels = unique(order_group))), 
@@ -274,7 +273,7 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
 }
 
 
-#' Build Figure One
+#' Build Figure Two
 #'
 #' @return
 #' @export

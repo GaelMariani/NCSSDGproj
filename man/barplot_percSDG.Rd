@@ -4,12 +4,16 @@
 \alias{barplot_percSDG}
 \title{Plot Percentage Of Target Achieved}
 \usage{
-barplot_percSDG(data_plot, save = FALSE, legend = FALSE)
+barplot_percSDG(data_plot, color, save = FALSE, legend = FALSE)
 }
 \arguments{
 \item{data_plot}{a data frame with percentage of target achieve totally + by group of NCS}
 
+\item{color}{color for each type of NCS}
+
 \item{save}{if TRUE the plot is saved in the results folder}
+
+\item{legend}{save the legend of the plot, default = FALSE}
 }
 \value{
 a ggplot object, barplot, of the \% of SDG' target achieved
