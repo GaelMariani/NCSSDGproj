@@ -64,7 +64,7 @@ NCSSDGproj::Insurance_plot(data = data_Insurance,
                            TUI_null = round(TUI_TOI_res$Val_nulls[1], 4) * 100,
                            obs_col = "#0000EB", 
                            null_col = "#E60000", 
-                           save = FALSE) 
+                           save = TRUE) 
 ```
 
 
@@ -84,6 +84,10 @@ NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
                            save = TRUE)
 
 contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01)
+
+data <- contri_CA[["CorresAna"]]
+targ_contrib12 <- contri_CA[["col_contrib"]][["axe12"]]
+NCS_contrib12 <- contri_CA[["row_contrib"]][["axe12"]]
 
 ```
 

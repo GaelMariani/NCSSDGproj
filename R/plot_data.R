@@ -565,7 +565,7 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
 }
 
 
-#' Title
+#' Separate Correspondance Analysis
 #'
 #' @param data 
 #' @param colNCS_ter 
@@ -577,22 +577,36 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
 #' @export
 #'
 #' @examples
-CA_contrib_plot <- function(data, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
   
   ## Plot the most important targets
-  ca_SDG_12 <- factoextra::fviz_ca_col(X = res.ca, 
+  ca_SDG_12 <- factoextra::fviz_ca_col(X = data, 
                                        axes = c(1,2),
                                        col.col = "contrib",
                                        gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                       select.col = list(name = names12),
-                                       repel = TRUE)
+                                       select.col = list(name = targ_contrib12),
+                                       repel = TRUE) +
+    
+    ggplot2::ggtitle(NULL) +
+    ggplot2::theme_bw() +
+    ggplot2::theme(legend.position = "none")
+  
+  ca_SDG_12
   
   ## Plot NCS and targets together
-  ca_tot_12 <- factoextra::fviz_ca_biplot(X = res.ca, 
-                                          axes = c(1,2),
-                                          select.col = list(name = names12),
-                                          repel = TRUE)
-  
+  ca_NCS_12 <- factoextra::fviz_ca_row(X = data,
+                                       axes = c(1,2),
+                                       title = "",
+                                       pointsize = 3,
+                                       habillage = data[["grp"]]$group,
+                                       palette = c(colNCS_coast, colNCS_mar, colNCS_ter),
+                                       repel = TRUE,
+                                       invisible = "quali") +
+    ggplot2::ggtitle(NULL) +
+    ggplot2::theme_bw() +
+    ggplot2::theme(legend.position = "none") 
+
+  ca_NCS_12
   
   
 }

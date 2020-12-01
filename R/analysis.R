@@ -198,6 +198,7 @@ CA_contri_vars <- function(matrix01){
   
   ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix01, graph = FALSE)
+  res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix01)
   
   ### Contribution of columns (targets) to the first and second axis
   col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]])
@@ -222,11 +223,23 @@ CA_contri_vars <- function(matrix01){
   ### Contribution on rows (NCS)
   row_contrib <- as.data.frame(factoextra::get_ca_row(res.ca)[["contrib"]])
   
+    ## select rownames of the most contributing targets (those with a contribution higher than expected)
+    row_expect_contrib <- 100/nrow(matrix01)
+    
+      # 1st axis 
+      name1_r <- rownames(row_contrib[row_contrib[,1] >= row_expect_contrib,])
+      # 2nd axis
+      name2_r <- rownames(row_contrib[row_contrib[,2] >= row_expect_contrib,])
+      
+      row_names12 <- unique(c(name1_r, name2_r))
+  
   ### Save data
-  CA_contrib <- list("col_contrib" = list("tot" = col_contrib, 
+  CA_contrib <- list("CorresAna" = res.ca,
+                     "col_contrib" = list("tot" = col_contrib, 
                                           "axe12" = col_names12, 
                                           "axe34" = col_names34),
-                     "row_contrib" = row_contrib)
+                     "row_contrib" = list("tot" = row_contrib,
+                                          "axe12" = row_names12))
   
   return(CA_contrib)
 
