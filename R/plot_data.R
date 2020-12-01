@@ -57,7 +57,8 @@ edge_size <- function(matrix, x) {
 #' @examples
 edge_col <- function(matrix) {
   
-  nodes_col <- c(rep("#66c2a5", 4), rep("#e5c494", 4), rep("#8da0cb", 3))
+  nodes_col <- c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3))
+    #c(rep("#66c2a5", 4), rep("#31859C", 4), rep("#1134A6", 3))
   
   edge.cols <- vector(mode="character", length = 0)
   
@@ -96,7 +97,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
                          max_size = 18, 
                          label.size = 2,
                          edge.size = NCSSDGproj::edge_size(matrix, 5)/1.3, 
-                         edge.alpha= 0.40,
+                         edge.alpha= 0.4,
                          color = rep("white", 27),
                          edge.color = NCSSDGproj::edge_col(matrix),
                          layout.exp = 0.5) +
@@ -141,6 +142,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
                       y = seq(0,1,0.1), 
                       label = rownames(matrix),
                       color = nodes_col, 
+                      alpha = 0.8,
                       size = 3.3, 
                       fontface = "bold") +
     
@@ -165,16 +167,17 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #'
 #' @param data_plot a data frame with percentage of target achieve totally + by group of NCS
 #' @param save if TRUE the plot is saved in the results folder
-#' 
+#' @param color color for each type of NCS
+#' @param legend save the legend of the plot, default = FALSE
 #'
 #' @return a ggplot object, barplot, of the % of SDG' target achieved
 #' @export
 #' 
 #'
 #' @examples
-barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
+barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   
-  color <- c("#8da0cb", "#e5c494","#66c2a5")
+  color <- color
   color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
                   "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
                   "#CF8D2A", "#E11484", "#D3A029", "#007DBC")
@@ -193,6 +196,7 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
                                              y = relative_pourcent,
                                              fill = factor(group, levels = unique(order_group))), 
                       width = 0.65, 
+                      alpha = 0.8,
                       show.legend = FALSE) +
    
     ## Add text (number of targets achieved in each SDG)
@@ -277,7 +281,7 @@ barplot_percSDG <- function(data_plot, save = FALSE, legend = FALSE) {
 #' 
 #'
 #' @examples
-Figure1 <- function(save = FALSE) {
+Figure2 <- function(save = FALSE) {
   
   # Load panels
   fig1a <- NCSSDGproj::load_Fig1A()
@@ -294,7 +298,7 @@ Figure1 <- function(save = FALSE) {
   # save
   if(save == TRUE) {
     
-    ggplot2::ggsave(here::here("figures", "Fig1.png"), width=10, height=9, device="png")   
+    ggplot2::ggsave(here::here("figures", "Figure2.png"), width=10, height=9, device="png")   
     
   } else {return(fig1)}
 }
