@@ -239,7 +239,7 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   ## Save plot
   if(save == TRUE) {
     
-    save(barplot, file = here::here("results", "barplot_pourc.RData"))
+    save(barplot_pourc, file = here::here("results", "barplot_pourc.RData"))
     ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
     
   } else {return(barplot)}
