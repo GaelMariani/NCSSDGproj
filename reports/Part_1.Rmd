@@ -64,7 +64,7 @@ NCSSDGproj::Insurance_plot(data = data_Insurance,
                            TUI_null = round(TUI_TOI_res$Val_nulls[1], 4) * 100,
                            obs_col = "#0000EB", 
                            null_col = "#E60000", 
-                           save = TRUE) 
+                           save = FALSE) 
 ```
 
 

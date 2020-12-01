@@ -342,16 +342,16 @@ modularity_plot <- function(matrix01) {
 #' @examples
 Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save) {
   
-  arrow = arrow(angle=15, type = "closed", length = unit(0.1, "inches"))
+  arrow = ggplot2::arrow(angle=15, type = "closed", length = ggplot2::unit(0.1, "inches"))
   
-  ggplot2::ggplot(data = data, 
-                  mapping = aes(x = as.numeric(xval), 
-                                y = value, 
-                                color = group)) +
+  Insurance_plot <- ggplot2::ggplot(data = data, 
+                                    mapping = ggplot2::aes(x = as.numeric(xval), 
+                                                           y = value, 
+                                                           color = group)) +
     
     ggplot2::geom_ribbon(data = data[1:(nrow(data)/2), ], 
-                         mapping = aes(ymin = 0, 
-                                       ymax = data$value[1:(nrow(data)/2)]), 
+                         mapping = ggplot2::aes(ymin = 0, 
+                                                ymax = data$value[1:(nrow(data)/2)]), 
                          color = "transparent", 
                          fill = "#ACACF7") +
     
@@ -371,21 +371,33 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
     
     ggplot2::geom_line() +
     
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = 74, y = 6, xend = 83, yend = 6),
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 y = 6, 
+                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 yend = 6),
                           arrow = arrow, 
                           color = obs_col, 
                           show.legend = NA) +
             
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = 83, y = 6, xend = 74, yend = 6),
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 y = 6, 
+                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 yend = 6),
                           arrow = arrow, 
                           color = obs_col, 
                           show.legend = NA) +
     
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = 74, y = 0, xend = 74, yend = 6), 
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 y = 0, 
+                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
+                                                 yend = 6), 
                           color =  obs_col, 
                           linetype = "dashed") +
     
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = 83, y = 0, xend = 83, yend = 6), 
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
+                                                 y = 0,
+                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
+                                                 yend = 6), 
                           color =  obs_col, 
                           linetype = "dashed") +
     
@@ -423,10 +435,10 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
   ## Save plot
   if(save == TRUE) {
     
-    save(plot, file = here::here("results", "Insurance_plot.RData"))
+    save(Insurance_plot, file = here::here("results", "Insurance_plot.RData"))
     ggplot2::ggsave(here::here("figures", "Insurance_plot.png"), width = 10.5, height = 5.5, device = "png")
     
-  } else {return(plot)}
+  } else {return(Insurance_plot)}
   
   
   
