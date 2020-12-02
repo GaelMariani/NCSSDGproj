@@ -369,4 +369,62 @@ NCS_info <- function(matrix01){
 
 
 
+#' Title
+#'
+#' @param data_Insurance 
+#' @param SDG_info 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+circular_data_Insurance <- function(data_Insurance, SDG_info){
+  
+  ### Bind data
+  data <- data_Insurance[(1:(nrow(data)/2)), -4] %>%
+    dplyr::left_join(., SDG_info[, -3], by = c("target" = "name")) %>%
+    dplyr::mutate(SDG = as.factor(SDG))
+    
+  ### Set a number of empty bars
+  empty_bar <- 16
+  
+  to_add <- data.frame(matrix(NA, empty_bar*nlevels(data$SDG), ncol(data)))
+  colnames(to_add) <- colnames(data)
+  to_add$SDG <- rep(levels(data$SDG), each=empty_bar)
+  data <- rbind(data, to_add)
+  
+  data <- data %>% 
+    dplyr::arrange(SDG)
+    
+  data$id <- seq(1, nrow(data))
+    
+  ### Get the name and the y position of each label
+  label_data <- data
+  number_of_bar <- nrow(label_data)
+  angle <- 90 - 360 * (label_data$id-0.5)/number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+  label_data$hjust <- ifelse(angle < -90, 1, 0)
+  label_data$angle <- ifelse(angle < -90, angle + 180, angle)
+  
+  ### Prepare a data frame for base lines
+  base_data <- data %>% 
+    dplyr::group_by(SDG) %>% 
+    dplyr::summarize(start = min(id), end = max(id) - empty_bar) %>% 
+    dplyr::rowwise() %>% 
+    dplyr::mutate(title=mean(c(start, end)))
+  
+  ### Prepare a data frale for grid
+  grid_data <- base_data
+  grid_data$end <- grid_data$end[ c( nrow(grid_data), 1:nrow(grid_data)-1)] + 1
+  grid_data$start <- grid_data$start - 1
+  grid_data <- grid_data[-1,]
+  
+  data_CircuPlot <- list("data" = data,
+                         "label data" = label_data,
+                         "base_data" = base_data,
+                         "grid data" = grid_data)
+  
+  
+  return(data_CircuPlot)
+  
+}
 

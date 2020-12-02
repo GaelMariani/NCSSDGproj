@@ -693,10 +693,9 @@ CA_contrib_barplot <- function(data, targ_contrib12, NCScontrib12, data_arrow, c
   
   ca_SDG_12
   
-
-  
-  
 }
 
-  
+
+
+
   

@@ -57,6 +57,7 @@ TUI_TOI_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NM
 
 
 data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget = ncol(matrix01)) 
+SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
 
 NCSSDGproj::Insurance_plot(data = data_Insurance, 
                            TI = 5.20, 
@@ -65,6 +66,8 @@ NCSSDGproj::Insurance_plot(data = data_Insurance,
                            obs_col = "#0000EB", 
                            null_col = "#E60000", 
                            save = TRUE) 
+
+
 ```
 
 
