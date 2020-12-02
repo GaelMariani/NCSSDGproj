@@ -83,11 +83,15 @@ NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
                            hull = FALSE, 
                            save = TRUE)
 
-contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01)
+contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01, 
+                                        colNCS_ter = "#66c2a5", 
+                                        colNCS_coast = "#e5c494",
+                                        colNCS_mar = "#8da0cb")
 
 data <- contri_CA[["CorresAna"]]
 targ_contrib12 <- contri_CA[["col_contrib"]][["axe12"]]
 NCS_contrib12 <- contri_CA[["row_contrib"]][["axe12"]]
+data_arrow <- contri_CA[["data_arrow"]]
 
 ```
 

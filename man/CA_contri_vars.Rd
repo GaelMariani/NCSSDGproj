@@ -4,7 +4,7 @@
 \alias{CA_contri_vars}
 \title{Correspondance Analysis Of Variable Contribution}
 \usage{
-CA_contri_vars(matrix01)
+CA_contri_vars(matrix01, colNCS_ter, colNCS_coast, colNCS_mar)
 }
 \arguments{
 \item{matrix01}{a matrix with NCS in rows and SDG targets in columns}

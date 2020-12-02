@@ -565,21 +565,121 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
 }
 
 
-#' Separate Correspondance Analysis
+#' Barplot Of NCS Contribution 
 #'
-#' @param data 
-#' @param colNCS_ter 
-#' @param colNCS_coast 
-#' @param colNCS_mar 
-#' @param save 
+#' @param data obrained with NCSSDGproj::CA_contri_vars
+#' @param axis 1 or 2 whether you want to plot 1st or 2nd axis
 #'
 #' @return
 #' @export
 #'
 #' @examples
-CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
   
-  ## Plot the most important targets
+  ## Format data
+  contrib_NCS <- as.data.frame(data[["row"]][["contrib"]][, c('Dim 1', 'Dim 2')]) %>%
+    dplyr::mutate(group = data[["grp"]][, 'group'],
+                  NCS = rownames(data[["row"]][["contrib"]])) %>%
+    stats::setNames(., c("Dim1", "Dim2", "group", "NCS"))
+  
+  y <- contrib_NCS[, axis]
+  
+  ## Plot
+  ggplot2::ggplot(data = contrib_NCS) +
+    
+    ggplot2::geom_col(mapping = ggplot2::aes(x =  reorder(NCS, y), 
+                                             y =  y,
+                                             fill = group,
+                                             color = group),
+                      width = 0.75,
+                      show.legend = FALSE) +
+    
+    ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 100/11), 
+                        color = "red",
+                        linetype = "dashed") +
+    
+    ggplot2::scale_fill_manual(values = scales::alpha(c(colNCS_coast, colNCS_mar, colNCS_ter), 0.7)) +
+    ggplot2::scale_color_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter)) +
+    
+    
+    ggplot2::labs(title = "CA axis 1", x = NULL, y = "% contribution") +
+    
+    ggplot2::coord_flip() +
+    ggplot2::theme_minimal()
+}
+
+
+#' Separate Correspondance Analysis
+#'
+#' @param data obtained with NCSSDGproj::CA_contri_vars
+#' @param colNCS_ter 
+#' @param colNCS_coast 
+#' @param colNCS_mar 
+#' @param save 
+#' @param targ_contrib12 
+#' @param NCScontrib12 
+#' @param data_arrow 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+CA_contrib_barplot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+  
+  ### Plot NCS from CA analysis
+  
+  arrow = ggplot2::arrow(angle=13, type = "closed", length = ggplot2::unit(0.75, "cm"), ends = "last")
+  
+    ## Plot CA for NCS points
+    ca_NCS_12 <- factoextra::fviz_ca_row(X = data,
+                                         axes = c(1,2),
+                                         title = "",
+                                         pointsize = 3,
+                                         habillage = data[["grp"]]$group,
+                                         palette = c(colNCS_coast, colNCS_mar, colNCS_ter),
+                                         repel = TRUE,
+                                         invisible = "quali") +
+      
+      # Arrows
+      ggplot2::geom_segment(data = data_arrow,
+                            mapping = ggplot2::aes(x = x,
+                                                   xend = xmax,
+                                                   y = y,
+                                                   yend = ymax),
+                            arrow = arrow, 
+                            color = data_arrow$color, 
+                            linejoin = "mitre",
+                            lwd = 1.0, 
+                            show.legend = NA) +
+      
+      # Text above arrows
+      ggplot2::annotate(geom ="text", 
+                        x = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
+                        y = rep(0.85, 3), 
+                        label = data_arrow$text[c(1,3,5)], 
+                        color = data_arrow$color[c(1,3,5)], 
+                        size = 5) +
+      
+      ggplot2::ggtitle(NULL) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.position = "none") 
+    
+    ## Barplot of contribution for axes 1 
+    NCS_axis1 <- NCSSDGproj::CA_barplot_NCS(data = data, 
+                                            axis = 1, 
+                                            colNCS_ter, 
+                                            colNCS_coast,
+                                            colNCS_mar)
+    
+    ## Barplot of contribution for axes 2
+    NCS_axis2 <- NCSSDGproj::CA_barplot_NCS(data = data, 
+                                            axis = 2, 
+                                            colNCS_ter, 
+                                            colNCS_coast,
+                                            colNCS_mar)
+  
+  
+  ### Plot the most important targets
   ca_SDG_12 <- factoextra::fviz_ca_col(X = data, 
                                        axes = c(1,2),
                                        col.col = "contrib",
@@ -593,20 +693,7 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, colNCS_ter, colN
   
   ca_SDG_12
   
-  ## Plot NCS and targets together
-  ca_NCS_12 <- factoextra::fviz_ca_row(X = data,
-                                       axes = c(1,2),
-                                       title = "",
-                                       pointsize = 3,
-                                       habillage = data[["grp"]]$group,
-                                       palette = c(colNCS_coast, colNCS_mar, colNCS_ter),
-                                       repel = TRUE,
-                                       invisible = "quali") +
-    ggplot2::ggtitle(NULL) +
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = "none") 
 
-  ca_NCS_12
   
   
 }

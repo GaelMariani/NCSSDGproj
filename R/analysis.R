@@ -194,7 +194,7 @@ Correspondance_Analysis <- function(matrix01) {
 #' @export
 #'
 #' @examples
-CA_contri_vars <- function(matrix01){
+CA_contri_vars <- function(matrix01, colNCS_ter, colNCS_coast, colNCS_mar){
   
   ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix01, graph = FALSE)
@@ -232,14 +232,34 @@ CA_contri_vars <- function(matrix01){
       name2_r <- rownames(row_contrib[row_contrib[,2] >= row_expect_contrib,])
       
       row_names12 <- unique(c(name1_r, name2_r))
-  
+      
+  ### Format data to draw arrows on plot
+  data_arrow <- data.frame(y = rep(0.8, 6),
+                           ymax = rep(0.8, 6),
+                           x = c(min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                 max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                 min(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
+                                 max(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
+                                 min(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
+                                 max(res.ca[["row"]][["coord"]][1:4, "Dim 1"])),
+                               
+                           xmax = c(max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                    min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                    max(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
+                                    min(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
+                                    max(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
+                                    min(res.ca[["row"]][["coord"]][1:4, "Dim 1"])),
+                           color = c(rep(colNCS_mar, 2), rep(colNCS_coast, 2), rep(colNCS_ter, 2)),
+                           text = c(rep("Marine NCS", 2), rep("Coastal NCS", 2), rep("Terrestrial NCS", 2)))
+      
   ### Save data
   CA_contrib <- list("CorresAna" = res.ca,
                      "col_contrib" = list("tot" = col_contrib, 
                                           "axe12" = col_names12, 
                                           "axe34" = col_names34),
                      "row_contrib" = list("tot" = row_contrib,
-                                          "axe12" = row_names12))
+                                          "axe12" = row_names12),
+                     "data_arrow" = data_arrow)
   
   return(CA_contrib)
 
