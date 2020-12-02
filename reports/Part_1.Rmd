@@ -59,6 +59,15 @@ TUI_TOI_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NM
 data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget = ncol(matrix01)) 
 SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
 
+data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, SDG_info = SDG_info)
+
+data <- data_circu[[1]]
+label_data <- data_circu[[2]] 
+base_data <- data_circu[[3]] 
+grid_data <- data_circu[[4]]
+
+
+
 NCSSDGproj::Insurance_plot(data = data_Insurance, 
                            TI = 5.20, 
                            TUI_obs = round(TUI_TOI_res$Val_Obs[1], 3) * 100, 

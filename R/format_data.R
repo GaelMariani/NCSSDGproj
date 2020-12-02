@@ -381,12 +381,12 @@ NCS_info <- function(matrix01){
 circular_data_Insurance <- function(data_Insurance, SDG_info){
   
   ### Bind data
-  data <- data_Insurance[(1:(nrow(data)/2)), -4] %>%
+  data <- data_Insurance[(1:(nrow(data_Insurance)/2)), -4] %>%
     dplyr::left_join(., SDG_info[, -3], by = c("target" = "name")) %>%
     dplyr::mutate(SDG = as.factor(SDG))
     
   ### Set a number of empty bars
-  empty_bar <- 16
+  empty_bar <- 2
   
   to_add <- data.frame(matrix(NA, empty_bar*nlevels(data$SDG), ncol(data)))
   colnames(to_add) <- colnames(data)
@@ -410,7 +410,9 @@ circular_data_Insurance <- function(data_Insurance, SDG_info){
     dplyr::group_by(SDG) %>% 
     dplyr::summarize(start = min(id), end = max(id) - empty_bar) %>% 
     dplyr::rowwise() %>% 
-    dplyr::mutate(title=mean(c(start, end)))
+    dplyr::mutate(title = mean(c(start, end)))
+  
+  base_data[12, 3:4] <- base_data[12, 3:4] + 0.5
   
   ### Prepare a data frale for grid
   grid_data <- base_data

@@ -697,5 +697,168 @@ CA_contrib_barplot <- function(data, targ_contrib12, NCScontrib12, data_arrow, c
 
 
 
+#' Insurance Circular Plot
+#'
+#' @param data 
+#' @param label_data 
+#' @param base_data 
+#' @param grid_data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info){
+  
+  col <- SDG_info %>%
+    dplyr::group_by(SDG) %>%
+    dplyr::summarise(color = unique(color))
+  
+  col <- col[rep(1:nrow(col), each = 2), ]
+  col[1:nrow(col) %% 2 == 0, ] <- NA
+  
+  
+  
+  p <- ggplot2::ggplot(data = data, 
+                       mapping = ggplot2::aes(x = as.factor(id), 
+                                              y = value, 
+                                              fill = color),
+                       show.legend = FALSE) +
+    
+    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
+                                             y = value, 
+                                             fill = color), 
+                      stat = "identity", 
+                      alpha = 0.5,
+                      show.legend = FALSE) +
+    
+    # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are OVER it.
+    ggplot2::geom_segment(data = grid_data, 
+                          mapping = ggplot2::aes(x = end, 
+                                                 y = 10, 
+                                                 xend = start, 
+                                                 yend = 10), 
+                          colour = "grey", 
+                          alpha = 1, 
+                          size = 0.3 , 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data = grid_data, 
+                          mapping = ggplot2::aes(x = end,
+                                                 y = 8,
+                                                 xend = start,
+                                                 yend = 8),
+                          colour = "grey",
+                          alpha = 1,
+                          size = 0.3,
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data = grid_data, 
+                          mapping = ggplot2::aes(x = end, 
+                                                 y = 6,
+                                                 xend = start,
+                                                 yend = 6), 
+                          colour = "grey", 
+                          alpha = 1, 
+                          size = 0.3, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data = grid_data, 
+                          mapping = ggplot2::aes(x = end, 
+                                                 y = 4, 
+                                                 xend = start, 
+                                                 yend = 4), 
+                          colour = "grey", 
+                          alpha = 1, 
+                          size = 0.3, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data = grid_data, 
+                          mapping = ggplot2::aes(x = end, 
+                                                 y = 2, 
+                                                 xend = start, 
+                                                 yend = 2), 
+                          colour = "grey", 
+                          alpha = 1, 
+                          size = 0.3, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data = grid_data, 
+                          mapping = ggplot2::aes(x = end, 
+                                                 y = 0, 
+                                                 xend = start, 
+                                                 yend = 0), 
+                          colour = "grey", 
+                          alpha = 1, 
+                          size = 0.3, 
+                          inherit.aes = FALSE) +
+    
+    # Add text showing the value of each 100/75/50/25 lines
+    ggplot2::annotate(geom = "text", 
+                      x = rep(max(data$id), 6), 
+                      y = c(10, 8, 6, 4, 2, 0), 
+                      label = c("10", "8", "6", "4", "2", "0"), 
+                      color = "grey", 
+                      size = 3,
+                      angle = 0, 
+                      fontface = "bold", 
+                      hjust = 1) +
+      
+    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
+                                             y = value, 
+                                             fill = color), 
+                      stat = "identity", 
+                      alpha=0.5) +
+    
+    ggplot2::ylim(-20, 12) +
+    
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "none",
+                   axis.text = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_blank(),
+                   panel.grid = ggplot2::element_blank(),
+                   plot.margin = ggplot2::unit(rep(-1,4), "cm")) +
+    
+    ggplot2::coord_polar() +
+    
+    ggplot2::geom_text(data = label_data,
+                       mapping = ggplot2::aes(x = id, 
+                                              y = value + 0.5, 
+                                              label = target, 
+                                              hjust = hjust), 
+                       color = "black", 
+                       fontface = "bold",
+                       alpha = 0.6, 
+                       size = 3.5, 
+                       angle = label_data$angle, 
+                       inherit.aes = FALSE ) +
+    
+    # Add base line information
+    ggplot2::geom_segment(data = base_data, 
+                          mapping = ggplot2::aes(x = start, 
+                                                 y = -1, 
+                                                 xend = end, 
+                                                 yend = -1), 
+                          colour = "black", 
+                          alpha = 0.8, 
+                          size = 0.6 , 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_text(data = base_data, 
+                       mapping = ggplot2::aes(x = title, 
+                                              y = -3.5, 
+                                              label = SDG), 
+                       colour = "black", 
+                       alpha = 0.8, 
+                       size = 4, 
+                       fontface = "bold", 
+                       inherit.aes = FALSE) +
+    
+    ggplot2::scale_fill_manual(values = col$color)
+  
+  p
+
+}
+
 
   
