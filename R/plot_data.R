@@ -713,21 +713,16 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   col <- SDG_info %>%
     dplyr::group_by(SDG) %>%
     dplyr::summarise(color = unique(color))
-  
-  col <- col[rep(1:nrow(col), each = 2), ]
-  col[1:nrow(col) %% 2 == 0, ] <- NA
-  
-  
-  
+
   p <- ggplot2::ggplot(data = data, 
                        mapping = ggplot2::aes(x = as.factor(id), 
                                               y = value, 
-                                              fill = color),
+                                              fill = SDG),
                        show.legend = FALSE) +
     
     ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
                                              y = value, 
-                                             fill = color), 
+                                             fill = SDG), 
                       stat = "identity", 
                       alpha = 0.5,
                       show.legend = FALSE) +
@@ -806,7 +801,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
       
     ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
                                              y = value, 
-                                             fill = color), 
+                                             fill = SDG), 
                       stat = "identity", 
                       alpha=0.5) +
     
