@@ -61,12 +61,12 @@ SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
 
 data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, SDG_info = SDG_info)
 
-data <- 
-label_data <- data_circu[[2]] 
-base_data <- data_circu[[3]] 
-grid_data <- data_circu[[4]]
-
-circular_plot <- NCSSDGproj::circular_plot_Insurance(data = data_circu[[1]], label_data = ,base_data = ,grid_data = ,SDG_info = )
+circular_plot <- NCSSDGproj::circular_plot_Insurance(data = data_circu[[1]], 
+                                                     label_data = data_circu[[2]],
+                                                     base_data = data_circu[[3]],
+                                                     grid_data = data_circu[[4]],
+                                                     SDG_info = SDG_info, 
+                                                     save = TRUE)
 
 NCSSDGproj::Insurance_plot(data = data_Insurance, 
                            TI = 5.20, 
