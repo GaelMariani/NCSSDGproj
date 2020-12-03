@@ -369,7 +369,7 @@ NCS_info <- function(matrix01){
 
 
 
-#' Title
+#' Format Data For Circular Plot
 #'
 #' @param data_Insurance 
 #' @param SDG_info 
@@ -381,38 +381,44 @@ NCS_info <- function(matrix01){
 circular_data_Insurance <- function(data_Insurance, SDG_info){
   
   ### Bind data
+  tmp <- data.frame(SDG = c(1:16), 
+                    SDG_order = as.factor(c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P")))
+  
   data <- data_Insurance[(1:(nrow(data_Insurance)/2)), -4] %>%
     dplyr::left_join(., SDG_info[, -3], by = c("target" = "name")) %>%
-    dplyr::mutate(SDG = as.factor(SDG))
+    dplyr::mutate(SDG = as.numeric(SDG)) %>%
+    dplyr::left_join(., tmp, by = "SDG")
     
   ### Set a number of empty bars
   empty_bar <- 2
   
-  to_add <- data.frame(matrix(NA, empty_bar*nlevels(data$SDG), ncol(data)))
+  to_add <- data.frame(matrix(NA, empty_bar*nlevels(data$SDG_order), ncol(data)))
   colnames(to_add) <- colnames(data)
-  to_add$SDG <- rep(levels(data$SDG), each=empty_bar)
+  to_add$SDG_order <- rep(levels(data$SDG_order), each = empty_bar)
   data <- rbind(data, to_add)
   
   data <- data %>% 
-    dplyr::arrange(SDG)
+    dplyr::arrange(SDG_order)
     
   data$id <- seq(1, nrow(data))
     
   ### Get the name and the y position of each label
   label_data <- data
   number_of_bar <- nrow(label_data)
-  angle <- 90 - 360 * (label_data$id-0.5)/number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+  angle <- 90 - 360 * (label_data$id-0.5)/number_of_bar     
   label_data$hjust <- ifelse(angle < -90, 1, 0)
   label_data$angle <- ifelse(angle < -90, angle + 180, angle)
   
   ### Prepare a data frame for base lines
   base_data <- data %>% 
-    dplyr::group_by(SDG) %>% 
+    dplyr::group_by(SDG_order) %>% 
     dplyr::summarize(start = min(id), end = max(id) - empty_bar) %>% 
     dplyr::rowwise() %>% 
     dplyr::mutate(title = mean(c(start, end)))
   
-  base_data[12, 3:4] <- base_data[12, 3:4] + 0.5
+  base_data$SDG <- 1:16
+  
+  base_data[5, 3:4] <- base_data[5, 3:4] + 0.5
   
   ### Prepare a data frale for grid
   grid_data <- base_data

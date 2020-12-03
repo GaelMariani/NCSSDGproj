@@ -2,7 +2,7 @@
 % Please edit documentation in R/format_data.R
 \name{circular_data_Insurance}
 \alias{circular_data_Insurance}
-\title{Title}
+\title{Format Data For Circular Plot}
 \usage{
 circular_data_Insurance(data_Insurance, SDG_info)
 }
@@ -15,5 +15,5 @@ circular_data_Insurance(data_Insurance, SDG_info)
 
 }
 \description{
-Title
+Format Data For Circular Plot
 }

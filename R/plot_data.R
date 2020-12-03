@@ -604,7 +604,8 @@ CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
     
     ggplot2::labs(title = "CA axis 1", x = NULL, y = "% contribution") +
     
-    ggplot2::coord_flip() +
+    #ggplot2::coord_flip() +
+    ggplot2::coord_polar() +
     ggplot2::theme_minimal()
 }
 
@@ -624,7 +625,7 @@ CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
 #' @export
 #'
 #' @examples
-CA_contrib_barplot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
   
   ### Plot NCS from CA analysis
   
@@ -708,21 +709,23 @@ CA_contrib_barplot <- function(data, targ_contrib12, NCScontrib12, data_arrow, c
 #' @export
 #'
 #' @examples
-circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info){
+circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, save = FALSE){
   
   col <- SDG_info %>%
+    dplyr::mutate(SDG = as.numeric(SDG)) %>%
     dplyr::group_by(SDG) %>%
-    dplyr::summarise(color = unique(color))
+    dplyr::summarise(color = unique(color)) 
+ 
 
-  p <- ggplot2::ggplot(data = data, 
+  circular_plot <- ggplot2::ggplot(data = data, 
                        mapping = ggplot2::aes(x = as.factor(id), 
                                               y = value, 
-                                              fill = SDG),
+                                              fill = SDG_order),
                        show.legend = FALSE) +
     
     ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
                                              y = value, 
-                                             fill = SDG), 
+                                             fill = SDG_order), 
                       stat = "identity", 
                       alpha = 0.5,
                       show.legend = FALSE) +
@@ -801,7 +804,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
       
     ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
                                              y = value, 
-                                             fill = SDG), 
+                                             fill = SDG_order), 
                       stat = "identity", 
                       alpha=0.5) +
     
@@ -851,7 +854,13 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     ggplot2::scale_fill_manual(values = col$color)
   
-  p
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(circular_plot, file = here::here("results", "circular_plot.RData"))
+    ggplot2::ggsave(here::here("figures", "circular_plot.png"), width = 8.5, height = 8.5, device = "png")
+    
+  } else {return(circular_plot)}
 
 }
 
