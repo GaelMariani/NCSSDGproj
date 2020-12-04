@@ -858,7 +858,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   
   
   ## Add SDG icons
-  plot <- cowplot::ggdraw(circular_plot)
+  plot <- cowplot::ggdraw(plot)
   
   circular_plot <- plot +
     cowplot::draw_grob(icon_SDG[[9]], x = 0.504, y = 0.7, width = 0.04, height = 0.04) +
