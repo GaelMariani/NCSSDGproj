@@ -13,6 +13,7 @@ circular_plot_Insurance(
   colNCS_ter,
   colNCS_coast,
   colNCS_mar,
+  iconSDG,
   save = FALSE
 )
 }
@@ -24,6 +25,18 @@ circular_plot_Insurance(
 \item{base_data}{}
 
 \item{grid_data}{}
+
+\item{SDG_info}{}
+
+\item{colNCS_ter}{}
+
+\item{colNCS_coast}{}
+
+\item{colNCS_mar}{}
+
+\item{iconSDG}{}
+
+\item{save}{}
 }
 \value{
 

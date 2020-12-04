@@ -704,12 +704,18 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
 #' @param label_data 
 #' @param base_data 
 #' @param grid_data 
+#' @param SDG_info 
+#' @param colNCS_ter 
+#' @param colNCS_coast 
+#' @param colNCS_mar 
+#' @param iconSDG 
+#' @param save 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, colNCS_ter, colNCS_coast, colNCS_mar, iconSDG, save = FALSE){
   
   col <- SDG_info %>%
     dplyr::mutate(SDG = as.numeric(SDG)) %>%
