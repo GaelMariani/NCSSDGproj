@@ -717,7 +717,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     dplyr::summarise(color = unique(color)) 
  
 
-  circular_plot <- ggplot2::ggplot(data = data, 
+  plot <- ggplot2::ggplot(data = data, 
                        mapping = ggplot2::aes(x = as.factor(id), 
                                               y = as.numeric(value_group), 
                                               fill = factor(group)),
@@ -856,7 +856,28 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
                                name = NULL)
   
-  circular_plot
+  
+  ## Add SDG icons
+  plot <- cowplot::ggdraw(circular_plot)
+  
+  circular_plot <- plot +
+    cowplot::draw_grob(icon_SDG[[9]], x = 0.504, y = 0.7, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[15]], x = 0.543, y = 0.666, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[6]], x = 0.578, y = 0.595, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[10]], x = 0.594, y = 0.522, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[5]], x = 0.593, y = 0.46, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[2]], x = 0.588, y = 0.40, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[1]], x = 0.569, y = 0.345, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[11]], x = 0.535, y = 0.288, width = 0.04, height = 0.04) + 
+    cowplot::draw_grob(icon_SDG[[8]], x = 0.493, y = 0.263, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[14]], x = 0.461, y = 0.265, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[4]], x = 0.422, y = 0.293, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[13]], x = 0.385, y = 0.368, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[7]], x = 0.37, y = 0.43, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[16]], x = 0.367, y = 0.528, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[3]], x = 0.407, y = 0.649, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[12]], x = 0.455, y = 0.696, width = 0.04, height = 0.04) 
+  
   
   ## Save plot
   if(save == TRUE) {
