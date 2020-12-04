@@ -86,3 +86,18 @@ load_legend <- function(){
 }
 
 
+#' Load Vertical Legend Of NCS
+#'
+#' @return A RData to plot circular plot
+#' @export
+#'
+#' @examples
+load_vert_legend <- function(){
+  
+  load(here::here("results", "vert_legend.RData"))
+  return(vert_legend)
+  
+}
+
+
+

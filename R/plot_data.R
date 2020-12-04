@@ -697,6 +697,48 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
 }
 
 
+#' Produce Vertical Legend
+#'
+#' @param data_plot 
+#' @param color 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+legend_verti <- function(data_plot, color){
+  
+  color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
+                  "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
+                  "#CF8D2A", "#E11484", "#D3A029", "#007DBC")
+  
+  order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
+  order_group <- rev(c("Terrestrial", "Coastal", "Marine"))
+  
+  text_plot <-  data_plot[seq(1,46,3),]
+  
+  plot_leg <- ggplot2::ggplot() +
+    ggplot2::geom_col(data = data_plot, 
+                      mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))),
+                                             y = relative_pourcent,
+                                             fill = factor(group, levels = unique(order_group))), 
+                      width = 0.65) +
+    
+    ggplot2::scale_fill_manual(values = color, 
+                               name = NULL) +
+    
+    ggplot2::theme(legend.position = "left",
+                   legend.text = ggplot2::element_text(size = 16),
+                   legend.background = ggplot2::element_rect(fill = "transparent", 
+                                                             color = "transparent")) +
+    
+    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
+  
+  vert_legend <- ggpubr::get_legend(plot_leg)
+  save(vert_legend, file = here::here("results", "vert_legend.RData"))
+  
+}
+
 
 #' Insurance Circular Plot
 #'
@@ -717,12 +759,21 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
 #' @examples
 circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, colNCS_ter, colNCS_coast, colNCS_mar, iconSDG, save = FALSE){
   
+  # Color scale
   col <- SDG_info %>%
     dplyr::mutate(SDG = as.numeric(SDG)) %>%
     dplyr::group_by(SDG) %>%
     dplyr::summarise(color = unique(color)) 
- 
-
+  
+  # Join null data and observed data 
+  null_data$target <- as.factor(null_data$target)
+  data <- data %>%
+    dplyr::left_join(., null_data, by = c("goal.target" = "target")) 
+  
+  # vertical legend
+  vert_legend <- NCSSDGproj::load_vert_legend()
+  
+  # Plot
   plot <- ggplot2::ggplot(data = data, 
                        mapping = ggplot2::aes(x = as.factor(id), 
                                               y = as.numeric(value_group), 
@@ -733,7 +784,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                                              y = as.numeric(value_group), 
                                              group = factor(group)),
                       stat = "identity",
-                      alpha = 0.5,
+                      alpha = 0.7,
                       show.legend = FALSE) +
     
     
@@ -798,7 +849,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                           size = 0.3, 
                           inherit.aes = FALSE) +
     
-    # Add text showing the value of each 100/75/50/25 lines
+    # Add text showing the value of each 0/2/4/6/8/10 lines
     ggplot2::annotate(geom = "text", 
                       x = rep(max(data$id), 6), 
                       y = c(10, 8, 6, 4, 2, 0), 
@@ -813,7 +864,23 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                                              y = value_group, 
                                              fill = as.factor(group)), 
                       stat = "identity", 
-                      alpha=0.5) +
+                      alpha = 0.5,
+                      show.legend = FALSE) +
+    
+    ## Add lines for null values
+    ggplot2::geom_point(data = data,
+                        mapping = ggplot2::aes(x = as.factor(id),
+                                               y = meanrows,
+                                               group = factor(group)),
+                        color = "firebrick3",
+                        size = 1) +
+    
+    ggplot2::geom_line(data = data,
+                       mapping = ggplot2::aes(x = as.factor(id),
+                                              y = meanrows,
+                                              group = factor(group)),
+                       color = "firebrick3") +
+    
     
     ggplot2::ylim(-20, 12) +
     
@@ -867,6 +934,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   plot <- cowplot::ggdraw(plot)
   
   circular_plot <- plot +
+    cowplot::draw_plot(vert_legend, x = 0.135, y = 0.135, width = 0.75, height = 0.75)+
     cowplot::draw_grob(icon_SDG[[9]], x = 0.522, y = 0.692, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[15]], x = 0.598, y = 0.666, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[6]], x = 0.66, y = 0.599, width = 0.045, height = 0.045) +
@@ -882,7 +950,8 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     cowplot::draw_grob(icon_SDG[[7]], x = 0.266, y = 0.428, width = 0.045, height = 0.045) + # 13
     cowplot::draw_grob(icon_SDG[[16]], x = 0.27, y = 0.529, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[3]], x = 0.34, y = 0.649, width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[[12]], x = 0.43, y = 0.69, width = 0.045, height = 0.045) 
+    cowplot::draw_grob(icon_SDG[[12]], x = 0.43, y = 0.69, width = 0.045, height = 0.045) +
+    
   
   
   ## Save plot
