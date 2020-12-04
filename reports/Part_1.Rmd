@@ -35,7 +35,7 @@ NCSSDGproj::plot_network(SDG_net, SDG_matrix,
 data_pour <- NCSSDGproj::perc_SDG(data_long = data_long)
 
 NCSSDGproj::barplot_percSDG(data_plot = data_pour, 
-                            color = c("#1134A6", "#5EA9A2", "#228B22"),
+                            color = c("#1134A6", "#5EA9A2", "#228B22"), #mar, coast, terr
                             save = TRUE, 
                             legend = TRUE)
 
@@ -58,15 +58,25 @@ TUI_TOI_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NM
 
 data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget = ncol(matrix01)) 
 SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
+NCS_info <- NCSSDGproj::NCS_info(matrix01 = matrix01)
 
-data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, SDG_info = SDG_info)
+data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
+                                                  data_long = data_long, 
+                                                  SDG_info = SDG_info, 
+                                                  NCS_info = NCS_info)
 
 circular_plot <- NCSSDGproj::circular_plot_Insurance(data = data_circu[[1]], 
                                                      label_data = data_circu[[2]],
                                                      base_data = data_circu[[3]],
                                                      grid_data = data_circu[[4]],
                                                      SDG_info = SDG_info, 
-                                                     save = TRUE)
+                                                     save = FALSE)
+
+data <- data_circu[[1]]
+label_data <- data_circu[[2]]
+base_data <- data_circu[[3]]
+grid_data <- data_circu[[4]]
+SDG_info <- SDG_info
 
 NCSSDGproj::Insurance_plot(data = data_Insurance, 
                            TI = 5.20, 
@@ -96,9 +106,9 @@ NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
                            save = TRUE)
 
 contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01, 
-                                        colNCS_ter = "#66c2a5", 
-                                        colNCS_coast = "#e5c494",
-                                        colNCS_mar = "#8da0cb")
+                                        colNCS_ter = "#228B22", 
+                                        colNCS_coast = "#5EA9A2",
+                                        colNCS_mar = "#1134A6")
 
 data <- contri_CA[["CorresAna"]]
 targ_contrib12 <- contri_CA[["col_contrib"]][["axe12"]]

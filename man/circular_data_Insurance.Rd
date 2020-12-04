@@ -4,7 +4,7 @@
 \alias{circular_data_Insurance}
 \title{Format Data For Circular Plot}
 \usage{
-circular_data_Insurance(data_Insurance, SDG_info)
+circular_data_Insurance(data_Insurance, data_long, SDG_info, NCS_info)
 }
 \arguments{
 \item{data_Insurance}{}

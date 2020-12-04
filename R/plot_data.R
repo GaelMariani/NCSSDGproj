@@ -709,7 +709,7 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
 #' @export
 #'
 #' @examples
-circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, save = FALSE){
+circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
   
   col <- SDG_info %>%
     dplyr::mutate(SDG = as.numeric(SDG)) %>%
@@ -719,16 +719,17 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
 
   circular_plot <- ggplot2::ggplot(data = data, 
                        mapping = ggplot2::aes(x = as.factor(id), 
-                                              y = value, 
-                                              fill = SDG_order),
+                                              y = as.numeric(value_group), 
+                                              fill = factor(group)),
                        show.legend = FALSE) +
     
     ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
-                                             y = value, 
-                                             fill = SDG_order), 
-                      stat = "identity", 
+                                             y = as.numeric(value_group), 
+                                             group = factor(group)),
+                      stat = "identity",
                       alpha = 0.5,
                       show.legend = FALSE) +
+    
     
     # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are OVER it.
     ggplot2::geom_segment(data = grid_data, 
@@ -803,8 +804,8 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                       hjust = 1) +
       
     ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
-                                             y = value, 
-                                             fill = SDG_order), 
+                                             y = value_group, 
+                                             fill = as.factor(group)), 
                       stat = "identity", 
                       alpha=0.5) +
     
@@ -821,8 +822,8 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     ggplot2::geom_text(data = label_data,
                        mapping = ggplot2::aes(x = id, 
-                                              y = value + 0.5, 
-                                              label = target, 
+                                              y = tot + 0.5, 
+                                              label = goal.target, 
                                               hjust = hjust), 
                        color = "black", 
                        fontface = "bold",
@@ -837,22 +838,25 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                                                  y = -1, 
                                                  xend = end, 
                                                  yend = -1), 
-                          colour = "black", 
+                          colour = col$color, 
                           alpha = 0.8, 
-                          size = 0.6 , 
+                          size = 1, 
                           inherit.aes = FALSE) +
     
     ggplot2::geom_text(data = base_data, 
                        mapping = ggplot2::aes(x = title, 
                                               y = -3.5, 
                                               label = SDG), 
-                       colour = "black", 
+                       colour = col$color, 
                        alpha = 0.8, 
                        size = 4, 
                        fontface = "bold", 
                        inherit.aes = FALSE) +
     
-    ggplot2::scale_fill_manual(values = col$color)
+    ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
+                               name = NULL)
+  
+  circular_plot
   
   ## Save plot
   if(save == TRUE) {

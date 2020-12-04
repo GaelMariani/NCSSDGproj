@@ -4,7 +4,17 @@
 \alias{circular_plot_Insurance}
 \title{Insurance Circular Plot}
 \usage{
-circular_plot_Insurance(data, label_data, base_data, grid_data, SDG_info)
+circular_plot_Insurance(
+  data,
+  label_data,
+  base_data,
+  grid_data,
+  SDG_info,
+  colNCS_ter,
+  colNCS_coast,
+  colNCS_mar,
+  save = FALSE
+)
 }
 \arguments{
 \item{data}{}

@@ -378,32 +378,45 @@ NCS_info <- function(matrix01){
 #' @export
 #'
 #' @examples
-circular_data_Insurance <- function(data_Insurance, SDG_info){
+circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_info){
+  
+  ### Data by group of NCS
+  data_Insurance$target <- as.factor(data_Insurance$target)
+  data <- data_long %>%
+    dplyr::left_join(., NCS_info, by = c("ecosystem" = "Ecosystem")) %>%
+    dplyr::group_by(goal.target, group) %>%
+    dplyr::summarise(value_group = sum(value)) %>%
+    dplyr::left_join(., data_Insurance[1:(nrow(data_Insurance)/2),1:2], by = c("goal.target" = "target")) %>%
+    dplyr::filter(! is.na(value))
   
   ### Bind data
   tmp <- data.frame(SDG = c(1:16), 
                     SDG_order = as.factor(c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P")))
   
-  data <- data_Insurance[(1:(nrow(data_Insurance)/2)), -4] %>%
-    dplyr::left_join(., SDG_info[, -3], by = c("target" = "name")) %>%
+  data <- data %>%
+    dplyr::left_join(., SDG_info[, -3], by = c("goal.target" = "name")) %>%
     dplyr::mutate(SDG = as.numeric(SDG)) %>%
     dplyr::left_join(., tmp, by = "SDG")
-    
-  ### Set a number of empty bars
-  empty_bar <- 2
   
-  to_add <- data.frame(matrix(NA, empty_bar*nlevels(data$SDG_order), ncol(data)))
+  ### Set a number of empty bars
+  empty_bar <- 3
+  nObsType <- 1
+  
+  to_add <- data.frame(matrix(NA, empty_bar*nlevels(data$SDG_order)*nObsType, ncol(data)))
   colnames(to_add) <- colnames(data)
-  to_add$SDG_order <- rep(levels(data$SDG_order), each = empty_bar)
-  data <- rbind(data, to_add)
+  to_add$SDG_order <- rep(levels(data$SDG_order), each = empty_bar*nObsType)
+  data <- rbind(as.data.frame(data), to_add)
   
   data <- data %>% 
-    dplyr::arrange(SDG_order)
+    dplyr::arrange(SDG_order, -value, goal.target)
     
-  data$id <- seq(1, nrow(data))
+  data$id <- rep(seq(1,(nrow(data))/3), each = 3)
     
   ### Get the name and the y position of each label
-  label_data <- data
+  label_data <- data %>%
+    dplyr::group_by(id, goal.target) %>%
+    dplyr::summarise(tot = sum(value_group))
+  
   number_of_bar <- nrow(label_data)
   angle <- 90 - 360 * (label_data$id-0.5)/number_of_bar     
   label_data$hjust <- ifelse(angle < -90, 1, 0)
@@ -412,13 +425,14 @@ circular_data_Insurance <- function(data_Insurance, SDG_info){
   ### Prepare a data frame for base lines
   base_data <- data %>% 
     dplyr::group_by(SDG_order) %>% 
-    dplyr::summarize(start = min(id), end = max(id) - empty_bar) %>% 
+    dplyr::summarize(start = min(id), end = max(id) - 1) %>% 
     dplyr::rowwise() %>% 
     dplyr::mutate(title = mean(c(start, end)))
   
   base_data$SDG <- 1:16
   
-  base_data[5, 3:4] <- base_data[5, 3:4] + 0.5
+  base_data[5, 3] <- base_data[5, 3] + 0.5
+  base_data[5, 4] <- base_data[5, 4] + 0.25
   
   ### Prepare a data frale for grid
   grid_data <- base_data
