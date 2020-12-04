@@ -867,30 +867,30 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   plot <- cowplot::ggdraw(plot)
   
   circular_plot <- plot +
-    cowplot::draw_grob(icon_SDG[[9]], x = 0.504, y = 0.7, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[15]], x = 0.543, y = 0.666, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[6]], x = 0.578, y = 0.595, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[10]], x = 0.594, y = 0.522, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[5]], x = 0.593, y = 0.46, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[2]], x = 0.588, y = 0.40, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[1]], x = 0.569, y = 0.345, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[11]], x = 0.535, y = 0.288, width = 0.04, height = 0.04) + 
-    cowplot::draw_grob(icon_SDG[[8]], x = 0.493, y = 0.263, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[14]], x = 0.461, y = 0.265, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[4]], x = 0.422, y = 0.293, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[13]], x = 0.385, y = 0.368, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[7]], x = 0.37, y = 0.43, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[16]], x = 0.367, y = 0.528, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[3]], x = 0.407, y = 0.649, width = 0.04, height = 0.04) +
-    cowplot::draw_grob(icon_SDG[[12]], x = 0.455, y = 0.696, width = 0.04, height = 0.04) 
+    cowplot::draw_grob(icon_SDG[[9]], x = 0.522, y = 0.7, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[15]], x = 0.6, y = 0.666, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[6]], x = 0.670, y = 0.599, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[10]], x = 0.695, y = 0.522, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[5]], x = 0.698, y = 0.46, width = 0.04, height = 0.04) + # 5
+    cowplot::draw_grob(icon_SDG[[2]], x = 0.68, y = 0.40, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[1]], x = 0.645, y = 0.345, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[11]], x = 0.588, y = 0.288, width = 0.04, height = 0.04) + 
+    cowplot::draw_grob(icon_SDG[[8]], x = 0.506, y = 0.261, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[14]], x = 0.443, y = 0.264, width = 0.04, height = 0.04) + # 10
+    cowplot::draw_grob(icon_SDG[[4]], x = 0.368, y = 0.291, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[13]], x = 0.3, y = 0.366, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[7]], x = 0.266, y = 0.43, width = 0.04, height = 0.04) + # 13
+    cowplot::draw_grob(icon_SDG[[16]], x = 0.27, y = 0.529, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[3]], x = 0.34, y = 0.649, width = 0.04, height = 0.04) +
+    cowplot::draw_grob(icon_SDG[[12]], x = 0.43, y = 0.7, width = 0.04, height = 0.04) 
   
   
   ## Save plot
   if(save == TRUE) {
     
     save(circular_plot, file = here::here("results", "circular_plot.RData"))
-    ggplot2::ggsave(here::here("figures", "circular_plot.png"), width = 8.5, height = 8.5, device = "png")
-    
+    ggplot2::ggsave(here::here("figures", "circular_plot.png"), width = 10.5, height = 10.5, device = "png")
+  
   } else {return(circular_plot)}
 
 }

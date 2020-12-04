@@ -73,6 +73,7 @@ circular_plot <- NCSSDGproj::circular_plot_Insurance(data = data_circu[[1]],
                                                      colNCS_ter = "#228B22", 
                                                      colNCS_coast = "#5EA9A2",
                                                      colNCS_mar = "#1134A6",
+                                                     iconSDG = icon_SDG,
                                                      save = TRUE)
 
 data <- data_circu[[1]]
