@@ -587,7 +587,7 @@ CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
   ## Plot
   ggplot2::ggplot(data = contrib_NCS) +
     
-    ggplot2::geom_col(mapping = ggplot2::aes(x =  reorder(NCS, y), 
+    ggplot2::geom_col(mapping = ggplot2::aes(x =  reorder(NCS, -y), 
                                              y =  y,
                                              fill = group,
                                              color = group),
@@ -603,6 +603,8 @@ CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
     
     
     ggplot2::labs(title = "CA axis 1", x = NULL, y = "% contribution") +
+    
+    ggplot2::ylim(-20, max(y)+5) +
     
     #ggplot2::coord_flip() +
     ggplot2::coord_polar() +
