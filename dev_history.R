@@ -35,6 +35,7 @@ usethis::use_package("ggpubr")
 usethis::use_package("ggraph")
 usethis::use_package("factoextra")
 usethis::use_package("FactoMineR")
+usethis::use_package("readxl")
 usethis::use_pipe()
 
 # Create R script 

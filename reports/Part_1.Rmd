@@ -109,23 +109,33 @@ NCSSDGproj::Insurance_plot(data = data_Insurance,
 info_NCS <- NCSSDGproj::NCS_info(matrix01)
 ca <- NCSSDGproj::Correspondance_Analysis(matrix01 = matrix01)
 
-NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
-                           ca_subset = ca[["CA_subset"]],
-                           NCS_info = info_NCS,
-                           colors = c("#66c2a5", "#e5c494", "#8da0cb"),
-                           ellipse = TRUE,
-                           hull = FALSE, 
-                           save = TRUE)
+#NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
+#                           ca_subset = ca[["CA_subset"]],
+#                           NCS_info = info_NCS,
+#                           colors = c("#66c2a5", "#e5c494", "#8da0cb"),
+#                           ellipse = TRUE,
+#                           hull = FALSE, 
+#                           save = TRUE)
+
+axis2_targ <- NCSSDGproj::SDG_contrib_tbl() 
 
 contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01, 
+                                        axis2_targ = axis2_targ,
                                         colNCS_ter = "#228B22", 
                                         colNCS_coast = "#5EA9A2",
                                         colNCS_mar = "#1134A6")
+
 
 data <- contri_CA[["CorresAna"]]
 targ_contrib12 <- contri_CA[["col_contrib"]][["axe12"]]
 NCS_contrib12 <- contri_CA[["row_contrib"]][["axe12"]]
 data_arrow <- contri_CA[["data_arrow"]]
+top20_axis1 <- contri_CA[["TOP20_axis1_targ"]]
+top20_axis2 <- contri_CA[["TOP20_axis2_targ"]]
+
+col_sust <- "#FACA0F"
+col_unsust <- "#762a83"
+col_oth <- "#e0e0e0"
 
 ```
 

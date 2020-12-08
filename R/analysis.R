@@ -189,18 +189,22 @@ Correspondance_Analysis <- function(matrix01) {
 #' Correspondance Analysis Of Variable Contribution
 #'
 #' @param matrix01 a matrix with NCS in rows and SDG targets in columns
+#' @param axis2_targ 
+#' @param colNCS_ter 
+#' @param colNCS_coast 
+#' @param colNCS_mar 
 #'
 #' @return 
 #' @export
 #'
 #' @examples
-CA_contri_vars <- function(matrix01, colNCS_ter, colNCS_coast, colNCS_mar){
+CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNCS_mar){
   
   ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix01, graph = FALSE)
   res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix01)
   
-  ### Contribution of columns (targets) to the first and second axis
+  ### Contribution of columns (targets) 
   col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]])
   
     ## select rownames of the most contributing targets (those with a contribution significantly higher than expected)
@@ -219,6 +223,25 @@ CA_contri_vars <- function(matrix01, colNCS_ter, colNCS_coast, colNCS_mar){
       col_names12 <- unique(c(name1, name2))
       col_names34 <- unique(c(name3, name4))
       
+    ## TOP 20 on axis 1 and 2
+      
+      # Axis 1
+      TOP20_axis1 <- col_contrib %>%
+        dplyr::arrange(dplyr::desc(col_contrib$`Dim 1`)) %>%
+        dplyr::top_n(20, wt = `Dim 1`) %>%
+        dplyr::select(c("Dim 1")) %>%
+        stats::setNames("Dim") %>%
+        dplyr::mutate(target = rownames(.)) %>%
+        dplyr::right_join(., axis2_targ[1:20,], by = "target")
+      
+      # Axis 2
+      TOP20_axis2 <- col_contrib %>%
+        dplyr::arrange(dplyr::desc(col_contrib$`Dim 2`)) %>%
+        dplyr::top_n(20, wt = `Dim 2`) %>%
+        dplyr::select(c("Dim 2")) %>%
+        stats::setNames("Dim") %>%
+        dplyr::mutate(target = rownames(.)) %>%
+        dplyr::right_join(., axis2_targ[21:40,], by = "target")
       
   ### Contribution on rows (NCS)
   row_contrib <- as.data.frame(factoextra::get_ca_row(res.ca)[["contrib"]])
@@ -254,6 +277,8 @@ CA_contri_vars <- function(matrix01, colNCS_ter, colNCS_coast, colNCS_mar){
       
   ### Save data
   CA_contrib <- list("CorresAna" = res.ca,
+                     "TOP20_axis1_targ" = TOP20_axis1,
+                     "TOP20_axis2_targ" = TOP20_axis2,
                      "col_contrib" = list("tot" = col_contrib, 
                                           "axe12" = col_names12, 
                                           "axe34" = col_names34),

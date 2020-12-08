@@ -602,7 +602,7 @@ CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
     ggplot2::scale_color_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter)) +
     
     
-    ggplot2::labs(title = "CA axis 1", x = NULL, y = "% contribution") +
+    ggplot2::labs(title = paste("CA axis", axis), x = NULL, y = "% contribution") +
     
     ggplot2::ylim(-20, max(y)+5) +
     
@@ -610,6 +610,47 @@ CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
     ggplot2::coord_polar() +
     ggplot2::theme_minimal()
 }
+
+
+#' Barplot Of Targets Contribution
+#'
+#' @param data_contrib 
+#' @param axis 
+#' @param col_sust 
+#' @param col_unsust 
+#' @param col_oth 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+CA_barplot_SDG <- function(data_contrib, axis){
+  
+  
+  ggplot2::ggplot(data = data_contrib) +
+    
+    ggplot2::geom_col(mapping = ggplot2::aes(x = reorder(target, -Dim), 
+                                             y =  Dim,
+                                             fill = type,
+                                             color = type),
+                      color = data_contrib$color,
+                      fill = scales::alpha(data_contrib$color, 0.8),
+                      width = 0.75,
+                      show.legend = TRUE) +
+    
+    ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 100/84), 
+                        color = "red",
+                        linetype = "dashed") +
+    
+    ggplot2::labs(title = paste("CA axis", axis), x = NULL, y = "% contribution") +
+    
+    ggplot2::ylim(-5, max(data_contrib$Dim)) +
+    
+    #ggplot2::coord_flip() +
+    ggplot2::coord_polar() +
+    ggplot2::theme_minimal()
+}
+  
 
 
 #' Separate Correspondance Analysis
@@ -667,6 +708,7 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
       ggplot2::theme_bw() +
       ggplot2::theme(legend.position = "none") 
     
+    
     ## Barplot of contribution for axes 1 
     NCS_axis1 <- NCSSDGproj::CA_barplot_NCS(data = data, 
                                             axis = 1, 
@@ -683,19 +725,44 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
   
   
   ### Plot the most important targets
-  ca_SDG_12 <- factoextra::fviz_ca_col(X = data, 
-                                       axes = c(1,2),
-                                       col.col = "contrib",
-                                       gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                       select.col = list(name = targ_contrib12),
-                                       repel = TRUE) +
     
-    ggplot2::ggtitle(NULL) +
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = "none")
+    ## CA plot
+    ca_SDG_12 <- factoextra::fviz_ca_col(X = data, 
+                                         axes = c(1,2),
+                                         col.col = "contrib",
+                                         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                         select.col = list(name = targ_contrib12),
+                                         repel = TRUE) +
+      ggplot2::labs(color = "Contribution (%)") +
+      ggplot2::ggtitle(NULL) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.position = "right")
   
-  ca_SDG_12
+    ## Circular plot axis 1
+    SDG_axis1 <- NCSSDGproj::CA_barplot_SDG(top20_axis1, 
+                                            axis = 1)
+    
+    ## Circular plot axis 2
+    SDG_axis2 <- NCSSDGproj::CA_barplot_SDG(top20_axis2, 
+                                            axis = 2)
+    
+  ### Arrange plot together
+  fig3 <- ggpubr::ggarrange(ca_NCS_12, ca_SDG_12, # 1st row
+                            ggpubr::ggarrange(NCS_axis1, NCS_axis2, SDG_axis1, SDG_axis2,
+                                              labels = c("c", "d", "e", "f")), # 2nd row
+                            ncol = 4,
+                            nrow = 2,
+                            labels = c("a", "b"))
   
+  fig3 <- cowplot::ggdraw() +
+    cowplot::draw_plot(ca_NCS_12, x = 0, y = 0.5, width = 0.5, height = 0.5) +
+    cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
+    cowplot::draw_plot(NCS_axis1, x = 0, y = 0, width = 0.25, height = 0.5) +
+    cowplot::draw_plot(NCS_axis2, x = 0.25, y = 0, width = 0.25, height = 0.5) +
+    cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0, width = 0.25, height = 0.5) +
+    cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0, width = 0.25, height = 0.5) 
+    
+  fig3
 }
 
 
