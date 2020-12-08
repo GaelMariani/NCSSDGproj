@@ -86,6 +86,9 @@ label_data <- data_circu[[2]]
 base_data <- data_circu[[3]]
 grid_data <- data_circu[[4]]
 SDG_info <- SDG_info
+colNCS_ter = "#228B22"
+colNCS_coast = "#5EA9A2"
+colNCS_mar = "#1134A6"
 
 NCSSDGproj::Insurance_plot(data = data_Insurance, 
                            TI = 5.20, 

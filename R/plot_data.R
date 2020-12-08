@@ -874,14 +874,16 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                         mapping = ggplot2::aes(x = as.factor(id),
                                                y = meanrows,
                                                group = factor(group)),
-                        color = "firebrick3",
-                        size = 1) +
+                        color = "firebrick1",
+                        fill = "firebrick1",
+                        shape = 21,
+                        size = 2) +
     
-    ggplot2::geom_line(data = data,
-                       mapping = ggplot2::aes(x = as.factor(id),
-                                              y = meanrows,
-                                              group = factor(group)),
-                       color = "firebrick3") +
+    #ggplot2::geom_line(data = data,
+    #                   mapping = ggplot2::aes(x = as.factor(id),
+    #                                          y = meanrows,
+    #                                          group = factor(group)),
+    #                   color = "firebrick3") +
     
     
     ggplot2::ylim(-20, 12) +
@@ -897,7 +899,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     ggplot2::geom_text(data = label_data,
                        mapping = ggplot2::aes(x = id, 
-                                              y = tot + 0.5, 
+                                              y = max(tot, na.rm = TRUE) + 0.5, 
                                               label = goal.target, 
                                               hjust = hjust), 
                        color = "black", 
@@ -918,19 +920,18 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                           size = 1, 
                           inherit.aes = FALSE) +
     
-    ggplot2::geom_text(data = base_data, 
-                       mapping = ggplot2::aes(x = title, 
-                                              y = -3.5, 
-                                              label = SDG), 
-                       colour = col$color, 
-                       alpha = 0.8, 
-                       size = 4, 
-                       fontface = "bold", 
-                       inherit.aes = FALSE) +
+    #ggplot2::geom_text(data = base_data, 
+    #                   mapping = ggplot2::aes(x = title, 
+    #                                          y = -3.5, 
+    #                                          label = SDG), 
+    #                   colour = col$color, 
+    #                   alpha = 0.8, 
+    #                   size = 4, 
+    #                   fontface = "bold", 
+    #                   inherit.aes = FALSE) +
     
     ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
-                               name = NULL)
-  
+                               name = NULL) 
   
   ## Add SDG icons
   plot <- cowplot::ggdraw(plot)
@@ -938,24 +939,22 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   circular_plot <- plot +
     cowplot::draw_plot(vert_legend, x = 0.135, y = 0.135, width = 0.75, height = 0.75)+
     cowplot::draw_grob(icon_SDG[[9]], x = 0.522, y = 0.692, width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[[15]], x = 0.598, y = 0.666, width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[15]], x = 0.594, y = 0.662, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[6]], x = 0.66, y = 0.599, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[10]], x = 0.695, y = 0.52, width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[[5]], x = 0.698, y = 0.458, width = 0.045, height = 0.045) + # 5
+    cowplot::draw_grob(icon_SDG[[5]], x = 0.698, y = 0.458, width = 0.045, height = 0.045) + # SDG 5
     cowplot::draw_grob(icon_SDG[[2]], x = 0.68, y = 0.40, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[1]], x = 0.645, y = 0.345, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[11]], x = 0.588, y = 0.288, width = 0.045, height = 0.045) + 
     cowplot::draw_grob(icon_SDG[[8]], x = 0.506, y = 0.261, width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[[14]], x = 0.443, y = 0.264, width = 0.045, height = 0.045) + # 10
+    cowplot::draw_grob(icon_SDG[[14]], x = 0.443, y = 0.264, width = 0.045, height = 0.045) + # SDG 10
     cowplot::draw_grob(icon_SDG[[4]], x = 0.368, y = 0.291, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[13]], x = 0.3, y = 0.366, width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[[7]], x = 0.266, y = 0.428, width = 0.045, height = 0.045) + # 13
+    cowplot::draw_grob(icon_SDG[[7]], x = 0.266, y = 0.428, width = 0.045, height = 0.045) + # SDG 13
     cowplot::draw_grob(icon_SDG[[16]], x = 0.27, y = 0.529, width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[[3]], x = 0.34, y = 0.649, width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[[12]], x = 0.43, y = 0.69, width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[12]], x = 0.43, y = 0.69, width = 0.045, height = 0.045) 
     
-  
-  
   ## Save plot
   if(save == TRUE) {
     
