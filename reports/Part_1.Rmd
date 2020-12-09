@@ -125,13 +125,17 @@ contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01,
                                         colNCS_coast = "#5EA9A2",
                                         colNCS_mar = "#1134A6")
 
+test <- NCSSDGproj::circular_data_Insurance()
+
 
 data <- contri_CA[["CorresAna"]]
 targ_contrib12 <- contri_CA[["col_contrib"]][["axe12"]]
 NCS_contrib12 <- contri_CA[["row_contrib"]][["axe12"]]
 data_arrow <- contri_CA[["data_arrow"]]
-top20_axis1 <- contri_CA[["TOP20_axis1_targ"]]
-top20_axis2 <- contri_CA[["TOP20_axis2_targ"]]
+TOP20_axis1 <- contri_CA[["TOP20_axis1_targ"]]
+TOP20_axis2 <- contri_CA[["TOP20_axis2_targ"]]
+TOP20 <- contri_CA[["TOP20_axis2_targ"]]
+
 
 col_sust <- "#FACA0F"
 col_unsust <- "#762a83"

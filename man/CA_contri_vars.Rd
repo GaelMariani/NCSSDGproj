@@ -4,10 +4,18 @@
 \alias{CA_contri_vars}
 \title{Correspondance Analysis Of Variable Contribution}
 \usage{
-CA_contri_vars(matrix01, colNCS_ter, colNCS_coast, colNCS_mar)
+CA_contri_vars(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNCS_mar)
 }
 \arguments{
 \item{matrix01}{a matrix with NCS in rows and SDG targets in columns}
+
+\item{axis2_targ}{}
+
+\item{colNCS_ter}{}
+
+\item{colNCS_coast}{}
+
+\item{colNCS_mar}{}
 }
 \value{
 

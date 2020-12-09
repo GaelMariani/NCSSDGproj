@@ -476,3 +476,93 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
   
 }
 
+
+#' Data To Plot Circular Contribution
+#'
+#' @param data_contrib obtained with NCSSDGproj::CA_contri_vars
+#' @param variable format contribution of ROW of COLUMN - character row or col
+#' @param axis axis to be plotted
+#' @param TOP20 use if variable = "col"
+#'
+#' @return
+#' @export
+#'
+#' @examples
+circular_data_CA <- function(data_contrib, variable, TOP20, axis){
+  
+  ### Format data
+  if(variables == "row"){
+    
+    ## Select rows contribution
+    tmp <- data.frame(group = c("Terrestrial", "Marine", "Coastal"),
+                      group_order = c("A", "B", "C"))
+    
+    contrib <- as.data.frame(data_contrib[[variable]][["contrib"]][, c('Dim 1', 'Dim 2')]) %>%
+      dplyr::mutate(group = data[["grp"]][, 'group'],
+                    NCS = rownames(data[["row"]][["contrib"]])) %>%
+      stats::setNames(., c("Dim1", "Dim2", "group", "NCS")) %>%
+      dplyr::mutate(NCS = as.factor(NCS)) %>%
+      dplyr::left_join(., tmp, by = "group") %>%
+      dplyr::select(c(paste0("Dim", axis), "group", "NCS", "group_order")) %>%
+      stats::setNames(., c("Dim", "group", "name_var", "group_order")) 
+    
+    contrib_axis <- contrib[, axis]
+  
+  } else {
+    
+    tmp <- data.frame(type = c("Unsust", "Sust", "Other"),
+                      group_order = c("A", "B", "C"))
+    
+    ## Select columns contribution
+    contrib <- as.data.frame(data_contrib[[variable]][["contrib"]][, c('Dim 1', 'Dim 2')]) %>%
+      dplyr::mutate(name_var = rownames(.)) %>%
+      dplyr::right_join(., TOP20[, -4], by = c("name_var" = "target")) %>%
+      dplyr::left_join(., tmp, by = "type") %>%
+      dplyr::select(c("Dim", "type", "name_var", "group_order")) %>% 
+      stats::setNames(., c("Dim", "group", "name_var", "group_order"))
+    
+  }
+  
+  ### Set a number of empty bars
+  empty_bar <- 0
+  
+  to_add <- data.frame(matrix(NA, empty_bar, ncol(contrib)))
+  colnames(to_add) <- colnames(contrib)
+  to_add$NCS <- rep("Human Footprint", each = empty_bar)
+  contrib <- rbind(contrib, to_add)
+  
+  contrib <- contrib %>% 
+    dplyr::arrange(group_order, -Dim, name_var)
+  
+  contrib$id <- seq(1,nrow(contrib))
+  
+  ### Get the name and the y position of each label
+  label_data <- contrib
+  
+  number_of_bar <- nrow(label_data)
+  angle <- 90 - 360 * (label_data$id-0.5)/number_of_bar     
+  label_data$hjust <- ifelse(angle < -90, 1, 0)
+  label_data$angle <- ifelse(angle < -90, angle + 180, angle)
+  
+  ### Prepare a data frame for base lines
+  base_data <- contrib %>% 
+    dplyr::group_by(group_order, group) %>% 
+    dplyr::summarize(start = min(id), end = max(id) - empty_bar) %>% 
+    dplyr::rowwise() %>% 
+    dplyr::mutate(title = mean(c(start, end)))
+  
+  ### Prepare a data frale for grid
+  grid_data <- base_data
+  grid_data$end <- grid_data$end[ c(nrow(grid_data), 1:nrow(grid_data)-1)] + 1
+  grid_data$start <- grid_data$start - 1
+  grid_data <- grid_data[-1,]
+  
+  data_CircuPlot <- list("data" = contrib,
+                         "label data" = label_data,
+                         "base_data" = base_data,
+                         "grid data" = grid_data)
+  
+  return(data_CircuPlot)
+  
+}
+

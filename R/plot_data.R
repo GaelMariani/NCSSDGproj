@@ -739,21 +739,14 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
       ggplot2::theme(legend.position = "right")
   
     ## Circular plot axis 1
-    SDG_axis1 <- NCSSDGproj::CA_barplot_SDG(top20_axis1, 
+    SDG_axis1 <- NCSSDGproj::CA_barplot_SDG(data_contrib = TOP20_axis1, 
                                             axis = 1)
     
     ## Circular plot axis 2
-    SDG_axis2 <- NCSSDGproj::CA_barplot_SDG(top20_axis2, 
+    SDG_axis2 <- NCSSDGproj::CA_barplot_SDG(data_contrib = TOP20_axis2, 
                                             axis = 2)
     
-  ### Arrange plot together
-  fig3 <- ggpubr::ggarrange(ca_NCS_12, ca_SDG_12, # 1st row
-                            ggpubr::ggarrange(NCS_axis1, NCS_axis2, SDG_axis1, SDG_axis2,
-                                              labels = c("c", "d", "e", "f")), # 2nd row
-                            ncol = 4,
-                            nrow = 2,
-                            labels = c("a", "b"))
-  
+  ### Arrange plots together
   fig3 <- cowplot::ggdraw() +
     cowplot::draw_plot(ca_NCS_12, x = 0, y = 0.5, width = 0.5, height = 0.5) +
     cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
