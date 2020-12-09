@@ -35,4 +35,5 @@ Imports:
     ggraph,
     factoextra,
     FactoMineR,
-    readxl
+    readxl,
+    plyr

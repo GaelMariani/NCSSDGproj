@@ -491,20 +491,25 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
 circular_data_CA <- function(data_contrib, variable, TOP20, axis){
   
   ### Format data
-  if(variables == "row"){
+  if(variable == "row"){
     
     ## Select rows contribution
     tmp <- data.frame(group = c("Terrestrial", "Marine", "Coastal"),
                       group_order = c("A", "B", "C"))
     
     contrib <- as.data.frame(data_contrib[[variable]][["contrib"]][, c('Dim 1', 'Dim 2')]) %>%
-      dplyr::mutate(group = data[["grp"]][, 'group'],
-                    NCS = rownames(data[["row"]][["contrib"]])) %>%
+      dplyr::mutate(group = data_contrib[["grp"]][, 'group'],
+                    NCS = rownames(data_contrib[["row"]][["contrib"]])) %>%
       stats::setNames(., c("Dim1", "Dim2", "group", "NCS")) %>%
       dplyr::mutate(NCS = as.factor(NCS)) %>%
       dplyr::left_join(., tmp, by = "group") %>%
       dplyr::select(c(paste0("Dim", axis), "group", "NCS", "group_order")) %>%
-      stats::setNames(., c("Dim", "group", "name_var", "group_order")) 
+      stats::setNames(., c("Dim", "group", "name_var2", "group_order")) %>%
+      dplyr::mutate(color = dplyr::case_when(group == "Terrestrial" ~ "#228B22",
+                                             group == "Coastal" ~ "#5EA9A2",
+                                             group == "Marine" ~ "#1134A6"),
+                    name_var = c("PL", "UFo", "Fo", "GL", "MG", "TD", "SG", "MA", "PME", "Pel", "MP"))
+
     
     contrib_axis <- contrib[, axis]
   
@@ -516,10 +521,10 @@ circular_data_CA <- function(data_contrib, variable, TOP20, axis){
     ## Select columns contribution
     contrib <- as.data.frame(data_contrib[[variable]][["contrib"]][, c('Dim 1', 'Dim 2')]) %>%
       dplyr::mutate(name_var = rownames(.)) %>%
-      dplyr::right_join(., TOP20[, -4], by = c("name_var" = "target")) %>%
+      dplyr::right_join(., TOP20, by = c("name_var" = "target")) %>%
       dplyr::left_join(., tmp, by = "type") %>%
-      dplyr::select(c("Dim", "type", "name_var", "group_order")) %>% 
-      stats::setNames(., c("Dim", "group", "name_var", "group_order"))
+      dplyr::select(c("Dim", "type", "name_var", "group_order", "color")) %>% 
+      stats::setNames(., c("Dim", "group", "name_var", "group_order", "color"))
     
   }
   
@@ -540,7 +545,7 @@ circular_data_CA <- function(data_contrib, variable, TOP20, axis){
   label_data <- contrib
   
   number_of_bar <- nrow(label_data)
-  angle <- 90 - 360 * (label_data$id-0.5)/number_of_bar     
+  angle <- 90 - 360 * (label_data$id - 0.5)/number_of_bar     
   label_data$hjust <- ifelse(angle < -90, 1, 0)
   label_data$angle <- ifelse(angle < -90, angle + 180, angle)
   
@@ -557,10 +562,28 @@ circular_data_CA <- function(data_contrib, variable, TOP20, axis){
   grid_data$start <- grid_data$start - 1
   grid_data <- grid_data[-1,]
   
+  ### Segment data
+  segment_data <- matrix(NA, nrow(contrib) + 7, 4)
+  segment_data  = as.data.frame(segment_data)
+  colnames(segment_data) = c("xstart","ystart","xend","yend")
+  segment_data[,1] <- c(rep(0.5, 6), seq(0.5, nrow(contrib)+0.5, 1))
+  
+  segment_data[,2] <- c(seq(round(min(contrib$Dim), -1), 
+                            plyr::round_any(max(contrib$Dim), 10, f = ceiling) - 5, 
+                            (plyr::round_any(max(contrib$Dim), 10, f = ceiling) - 5)/5),
+                        rep(0, nrow(contrib) + 1))
+  
+  segment_data[,3] <- c(rep(nrow(contrib) + 0.5, 6), seq(0.5, nrow(contrib)+0.5, 1))
+  segment_data[,4] <- c(seq(round(min(contrib$Dim), -1), 
+                            plyr::round_any(max(contrib$Dim), 10, f = ceiling) - 5, 
+                            (plyr::round_any(max(contrib$Dim), 10, f = ceiling) - 5)/5),
+                        rep(plyr::round_any(max(contrib$Dim), 10, f = ceiling) - 5, nrow(contrib) + 1))
+  
   data_CircuPlot <- list("data" = contrib,
                          "label data" = label_data,
                          "base_data" = base_data,
-                         "grid data" = grid_data)
+                         "grid data" = grid_data,
+                         "segment data" = segment_data)
   
   return(data_CircuPlot)
   

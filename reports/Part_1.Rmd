@@ -48,7 +48,6 @@ Fig2 <- NCSSDGproj::Figure2(save = TRUE)
 ## Target Insurance and null models
 
 ```{r message=FALSE, warning=FALSE}
-
 matrix01 <- NCSSDGproj::contingency_mat_targets(raw_dat)
 
 mod_nest_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "quasiswap", NESTmethod ="NODF",
@@ -105,7 +104,6 @@ NCSSDGproj::Insurance_plot(data = data_Insurance,
 ## Correspondance Analysis (ne marche pas encore)
 
 ```{r}
-
 info_NCS <- NCSSDGproj::NCS_info(matrix01)
 ca <- NCSSDGproj::Correspondance_Analysis(matrix01 = matrix01)
 
@@ -125,7 +123,31 @@ contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01,
                                         colNCS_coast = "#5EA9A2",
                                         colNCS_mar = "#1134A6")
 
+
+NCSSDGproj::Figure3(data = contri_CA[["CorresAna"]],
+                    targ_contrib12 = contri_CA[["col_contrib"]][["axe12"]],
+                    data_arrow = contri_CA[["data_arrow"]],
+                    TOP20_1 = contri_CA[["TOP20_axis1_targ"]],
+                    TOP20_2 = contri_CA[["TOP20_axis2_targ"]],
+                    colNCS_ter = "#228B22", 
+                    colNCS_coast = "#5EA9A2",
+                    colNCS_mar = "#1134A6",
+                    save = TRUE)
+
+
+
 test <- NCSSDGproj::circular_data_Insurance()
+
+
+data_contrib = contri_CA[["CorresAna"]]
+contri_CA[["col_contrib"]][["axe12"]]targ_contrib12 
+data_arrow = contri_CA[["data_arrow"]]
+TOP20_1 = contri_CA[["TOP20_axis1_targ"]]
+TOP20_2 = contri_CA[["TOP20_axis2_targ"]]
+colNCS_ter = "#228B22"
+colNCS_coast = "#5EA9A2"
+colNCS_mar = "#1134A6"
+
 
 
 data <- contri_CA[["CorresAna"]]

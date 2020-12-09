@@ -565,56 +565,9 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
 }
 
 
-#' Barplot Of NCS Contribution 
+#' Barplot Of Contribution
 #'
-#' @param data obrained with NCSSDGproj::CA_contri_vars
-#' @param axis 1 or 2 whether you want to plot 1st or 2nd axis
-#'
-#' @return
-#' @export
-#'
-#' @examples
-CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
-  
-  ## Format data
-  contrib_NCS <- as.data.frame(data[["row"]][["contrib"]][, c('Dim 1', 'Dim 2')]) %>%
-    dplyr::mutate(group = data[["grp"]][, 'group'],
-                  NCS = rownames(data[["row"]][["contrib"]])) %>%
-    stats::setNames(., c("Dim1", "Dim2", "group", "NCS"))
-  
-  y <- contrib_NCS[, axis]
-  
-  ## Plot
-  ggplot2::ggplot(data = contrib_NCS) +
-    
-    ggplot2::geom_col(mapping = ggplot2::aes(x =  reorder(NCS, -y), 
-                                             y =  y,
-                                             fill = group,
-                                             color = group),
-                      width = 0.75,
-                      show.legend = FALSE) +
-    
-    ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 100/11), 
-                        color = "red",
-                        linetype = "dashed") +
-    
-    ggplot2::scale_fill_manual(values = scales::alpha(c(colNCS_coast, colNCS_mar, colNCS_ter), 0.7)) +
-    ggplot2::scale_color_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter)) +
-    
-    
-    ggplot2::labs(title = paste("CA axis", axis), x = NULL, y = "% contribution") +
-    
-    ggplot2::ylim(-20, max(y)+5) +
-    
-    #ggplot2::coord_flip() +
-    ggplot2::coord_polar() +
-    ggplot2::theme_minimal()
-}
-
-
-#' Barplot Of Targets Contribution
-#'
-#' @param data_contrib 
+#' @param data obtained with NCSSDGproj::CA_contri_vars 1st element of the list
 #' @param axis 
 #' @param col_sust 
 #' @param col_unsust 
@@ -624,36 +577,135 @@ CA_barplot_NCS <- function(data, axis, colNCS_ter, colNCS_coast, colNCS_mar){
 #' @export
 #'
 #' @examples
-CA_barplot_SDG <- function(data_contrib, axis){
+CA_barplot <- function(data, axis, variable, TOP20, ymin, ymax, ytitle){
   
-  
-  ggplot2::ggplot(data = data_contrib) +
+  if(variable == "row"){
+    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = axis, variable = variable)
     
-    ggplot2::geom_col(mapping = ggplot2::aes(x = reorder(target, -Dim), 
+  } else {    
+    
+    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data, TOP20 = TOP20,  axis = axis, variable = variable)
+    
+    }
+  
+  segment_data <- data_cont[["segment data"]]
+  label_data <- data_cont[["label data"]]
+  base_data <- data_cont[["base_data"]]
+  grid_data <- data_cont[["grid data"]]
+  data_contrib <- data_cont[["data"]]
+  
+  
+  ### Plot
+  ggplot2::ggplot(data = data_contrib,
+                  mapping = ggplot2::aes(x = as.factor(id), 
+                                         y =  Dim,
+                                         fill = group,
+                                         color = group)) +
+    
+    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
                                              y =  Dim,
-                                             fill = type,
-                                             color = type),
+                                             fill = group,
+                                             color = group),
                       color = data_contrib$color,
-                      fill = scales::alpha(data_contrib$color, 0.8),
-                      width = 0.75,
-                      show.legend = TRUE) +
+                      fill = scales::alpha(data_contrib$color, 0.7),
+                      stat = "identity",
+                      width = 0.75) +
     
-    ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 100/84), 
+    ggplot2::geom_segment(data = segment_data, 
+                          mapping = ggplot2::aes(x = xstart, 
+                                                 y = ystart, 
+                                                 xend = xend, 
+                                                 yend = yend), 
+                          colour = "grey", 
+                          alpha = 1, 
+                          size = 0.09, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id),
+                                             y = Dim,
+                                             fill = group,
+                                             color = group), 
+                      color = data_contrib$color,
+                      fill = scales::alpha(data_contrib$color, 0.7),
+                      stat = "identity",
+                      show.legend = FALSE, 
+                      width = 0.75) +
+    
+    ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 100/nrow(data[[variable]][["contrib"]])), 
                         color = "red",
                         linetype = "dashed") +
+  
+    ggplot2::annotate(geom = "text", 
+                      x = rep(0.2, 6), 
+                      y = seq(round(min(data_contrib$Dim), -1), 
+                              plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5, 
+                              (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/5), 
+                      
+                      label = c(as.character(seq(round(min(data_contrib$Dim), -1), 
+                                                 plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) -5, 
+                                                 (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) -5)/5))), 
+                      color = "black", 
+                      size = 3, 
+                      angle = 0, 
+                      fontface = "bold", 
+                      hjust = 1) +
+
+    ggplot2::ylim(ymin, ymax) +
     
-    ggplot2::labs(title = paste("CA axis", axis), x = NULL, y = "% contribution") +
+    ggplot2::theme_minimal() +
+
+    ggplot2::theme(legend.position = "none",
+                   axis.text = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_blank(),
+                   panel.grid = ggplot2::element_blank(),
+                   plot.margin = ggplot2::unit(rep(-1,4), "cm")) +
+
+    ggplot2::coord_polar()  +
     
-    ggplot2::ylim(-5, max(data_contrib$Dim)) +
+    ggplot2::geom_text(data = label_data, 
+                       mapping = ggplot2::aes(x = id, 
+                                              y = Dim + 1, 
+                                              label = name_var, 
+                                              hjust = hjust), 
+                       color = "black",
+                       fontface="bold",
+                       alpha = 1, 
+                       size = 3.5, 
+                       angle = label_data$angle, 
+                       inherit.aes = FALSE) +
     
-    #ggplot2::coord_flip() +
-    ggplot2::coord_polar() +
-    ggplot2::theme_minimal()
+    ggplot2::geom_segment(data = base_data, 
+                          mapping = ggplot2::aes(x = start, 
+                                                 y = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6, 
+                                                 xend = end, 
+                                                 yend = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6), 
+                          color = unique(data_contrib$color), 
+                          alpha = 1, 
+                          size = 1.2, 
+                          inherit.aes = FALSE ) +
+    
+    ggplot2::theme(plot.title = ggplot2::element_text(vjust = -40))+
+    
+    ggplot2::theme(legend.text = ggplot2::element_text(colour = "grey", 
+                                                       size = 10,
+                                                       face = "bold"),
+                   legend.position = "none") +
+    
+    ggplot2::annotate(geom = "text", 
+                      x = 0, 
+                      y = ytitle, 
+                      label = paste("CA\naxis", axis), 
+                      color = "gray47", 
+                      size = 4, 
+                      angle = 0, 
+                      fontface = "bold") 
+  
+
 }
   
 
 
-#' Separate Correspondance Analysis
+#' Figure 3
 #'
 #' @param data obtained with NCSSDGproj::CA_contri_vars
 #' @param colNCS_ter 
@@ -668,11 +720,12 @@ CA_barplot_SDG <- function(data_contrib, axis){
 #' @export
 #'
 #' @examples
-CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2, 
+                    colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
   
   ### Plot NCS from CA analysis
   
-  arrow = ggplot2::arrow(angle=13, type = "closed", length = ggplot2::unit(0.75, "cm"), ends = "last")
+  arrow <- ggplot2::arrow(angle = 10, type = "closed", length = ggplot2::unit(0.5, "cm"), ends = "last")
   
     ## Plot CA for NCS points
     ca_NCS_12 <- factoextra::fviz_ca_row(X = data,
@@ -699,7 +752,7 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
       # Text above arrows
       ggplot2::annotate(geom ="text", 
                         x = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
-                        y = rep(0.85, 3), 
+                        y = rep(0.90, 3), 
                         label = data_arrow$text[c(1,3,5)], 
                         color = data_arrow$color[c(1,3,5)], 
                         size = 5) +
@@ -710,18 +763,20 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
     
     
     ## Barplot of contribution for axes 1 
-    NCS_axis1 <- NCSSDGproj::CA_barplot_NCS(data = data, 
-                                            axis = 1, 
-                                            colNCS_ter, 
-                                            colNCS_coast,
-                                            colNCS_mar)
+    NCS_axis1 <- NCSSDGproj::CA_barplot(data = data, 
+                                        axis = 1, 
+                                        variable = "row",
+                                        ymin = -28,
+                                        ymax = 30,
+                                        ytitle = -28)
     
     ## Barplot of contribution for axes 2
-    NCS_axis2 <- NCSSDGproj::CA_barplot_NCS(data = data, 
-                                            axis = 2, 
-                                            colNCS_ter, 
-                                            colNCS_coast,
-                                            colNCS_mar)
+    NCS_axis2 <- NCSSDGproj::CA_barplot(data = data, 
+                                        axis = 2, 
+                                        variable = "row",
+                                        ymin = -30,
+                                        ymax = 35,
+                                        ytitle = -30)
   
   
   ### Plot the most important targets
@@ -729,33 +784,57 @@ CA_contrib_plot <- function(data, targ_contrib12, NCScontrib12, data_arrow, colN
     ## CA plot
     ca_SDG_12 <- factoextra::fviz_ca_col(X = data, 
                                          axes = c(1,2),
-                                         col.col = "contrib",
-                                         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                                         col.col = "black",
+                                         #col.col = "contrib",
+                                         #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                                          select.col = list(name = targ_contrib12),
                                          repel = TRUE) +
       ggplot2::labs(color = "Contribution (%)") +
       ggplot2::ggtitle(NULL) +
       ggplot2::theme_bw() +
-      ggplot2::theme(legend.position = "right")
+      ggplot2::theme(legend.position = "")
   
     ## Circular plot axis 1
-    SDG_axis1 <- NCSSDGproj::CA_barplot_SDG(data_contrib = TOP20_axis1, 
-                                            axis = 1)
+    SDG_axis1 <- NCSSDGproj::CA_barplot(data = data, 
+                                        axis = 1,
+                                        variable = "col",
+                                        TOP20 = TOP20_1,
+                                        ymin = -5,
+                                        ymax = 6.5,
+                                        ytitle = -5)
     
     ## Circular plot axis 2
-    SDG_axis2 <- NCSSDGproj::CA_barplot_SDG(data_contrib = TOP20_axis2, 
-                                            axis = 2)
+    SDG_axis2 <- NCSSDGproj::CA_barplot(data = data, 
+                                        axis = 2,
+                                        variable = "col",
+                                        TOP20 = TOP20_2,
+                                        ymin = -5,
+                                        ymax = 6.5,
+                                        ytitle = -5)
     
   ### Arrange plots together
-  fig3 <- cowplot::ggdraw() +
+  legend <- NCSSDGproj::load_legend()
+    
+  Figure3 <- cowplot::ggdraw() +
     cowplot::draw_plot(ca_NCS_12, x = 0, y = 0.5, width = 0.5, height = 0.5) +
     cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
-    cowplot::draw_plot(NCS_axis1, x = 0, y = 0, width = 0.25, height = 0.5) +
-    cowplot::draw_plot(NCS_axis2, x = 0.25, y = 0, width = 0.25, height = 0.5) +
-    cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0, width = 0.25, height = 0.5) +
-    cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0, width = 0.25, height = 0.5) 
+    cowplot::draw_plot(NCS_axis1, x = 0.0, y = 0.05, width = 0.22, height = 0.45) +
+    cowplot::draw_plot(NCS_axis2, x = 0.25, y = 0.05, width = 0.22, height = 0.45) +
+    cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.025, width = 0.22, height = 0.5) +
+    cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.025, width = 0.22, height = 0.5) +
+    cowplot::draw_plot(legend, x = 0.12, y = 0, width = 0.25, height = 0.04)
+  
     
-  fig3
+  Figure3
+  
+  ### Save plot
+  if(save == TRUE) {
+    
+    save(Figure3, file = here::here("results", "Figure3.RData"))
+    ggplot2::ggsave(here::here("figures", "Figure3.png"), width = 15, height = 8.5, device = "png")
+    
+  } else {return(Figure3)}
+  
 }
 
 
