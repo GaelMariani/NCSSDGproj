@@ -205,22 +205,27 @@ CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNC
   res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix01)
   
   ### Contribution of columns (targets) 
-  col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]])
+  col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]]) %>%
+    dplyr::mutate(target = as.factor(rownames(.)))
   
     ## select rownames of the most contributing targets (those with a contribution significantly higher than expected)
     col_expect_contrib <- 100/ncol(matrix01)
   
       # 1st axis
-      name1 <- rownames(col_contrib[col_contrib[,1] >= col_expect_contrib,])
+      name1 <- as.character(col_contrib$target[col_contrib[,1] >= col_expect_contrib])
       # 2nd axis
-      name2 <- rownames(col_contrib[col_contrib[,2] >= col_expect_contrib,])
+      name2 <- as.character(col_contrib$target[col_contrib[,2] >= col_expect_contrib])
       # 3rd axis
-      name3 <- rownames(col_contrib[col_contrib[,3] >= col_expect_contrib,])
+      name3 <- as.character(col_contrib$target[col_contrib[,3] >= col_expect_contrib])
       # 4th axis
-      name4 <- rownames(col_contrib[col_contrib[,4] >= col_expect_contrib,])
+      name4 <- as.character(col_contrib$target[col_contrib[,4] >= col_expect_contrib])
       
       # 1st and 2nd axis together
-      col_names12 <- unique(c(name1, name2))
+      col_names12 <- data.frame(target = unique(c(name1, name2))) %>%
+        dplyr::left_join(., col_contrib[, c(1:2, 6)], by = "target")
+      
+      writexl::write_xlsx(col_names12, here::here("rawdata", "colnames12.xlsx"))
+        
       col_names34 <- unique(c(name3, name4))
       
     ## TOP 20 on axis 1 and 2

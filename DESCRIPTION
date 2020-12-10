@@ -36,4 +36,5 @@ Imports:
     factoextra,
     FactoMineR,
     readxl,
-    plyr
+    plyr,
+    writexl

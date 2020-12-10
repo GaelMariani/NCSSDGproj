@@ -577,14 +577,14 @@ plot_CorresAna <- function(ca, ca_subset, NCS_info, colors, ellipse = TRUE, hull
 #' @export
 #'
 #' @examples
-CA_barplot <- function(data, axis, variable, TOP20, ymin, ymax, ytitle){
+CA_barplot <- function(data, axis, variable, ymin, ymax, ytitle){
   
   if(variable == "row"){
     data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = axis, variable = variable)
     
   } else {    
     
-    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data, TOP20 = TOP20,  axis = axis, variable = variable)
+    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data,  axis = axis, variable = variable)
     
     }
   
@@ -789,7 +789,7 @@ Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2,
                                          #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                                          select.col = list(name = targ_contrib12),
                                          repel = TRUE) +
-      ggplot2::labs(color = "Contribution (%)") +
+      #ggplot2::labs(color = "Contribution (%)") +
       ggplot2::ggtitle(NULL) +
       ggplot2::theme_bw() +
       ggplot2::theme(legend.position = "")
@@ -798,7 +798,6 @@ Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2,
     SDG_axis1 <- NCSSDGproj::CA_barplot(data = data, 
                                         axis = 1,
                                         variable = "col",
-                                        TOP20 = TOP20_1,
                                         ymin = -5,
                                         ymax = 6.5,
                                         ytitle = -5)
@@ -807,7 +806,6 @@ Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2,
     SDG_axis2 <- NCSSDGproj::CA_barplot(data = data, 
                                         axis = 2,
                                         variable = "col",
-                                        TOP20 = TOP20_2,
                                         ymin = -5,
                                         ymax = 6.5,
                                         ytitle = -5)

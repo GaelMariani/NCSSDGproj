@@ -108,7 +108,7 @@ load_vert_legend <- function(){
 #' @examples
 SDG_contrib_tbl <- function(){
   
-  readxl::read_excel(here::here("rawdata", "CA_contrib_targets.xlsx"))
+  readxl::read_excel(here::here("rawdata", "colnames12_v2.xlsx"))
   
 }
 

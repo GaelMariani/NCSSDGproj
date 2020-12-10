@@ -488,7 +488,7 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
 #' @export
 #'
 #' @examples
-circular_data_CA <- function(data_contrib, variable, TOP20, axis){
+circular_data_CA <- function(data_contrib, variable, axis){
   
   ### Format data
   if(variable == "row"){
@@ -510,22 +510,21 @@ circular_data_CA <- function(data_contrib, variable, TOP20, axis){
                                              group == "Marine" ~ "#1134A6"),
                     name_var = c("PL", "UFo", "Fo", "GL", "MG", "TD", "SG", "MA", "PME", "Pel", "MP"))
 
-    
-    contrib_axis <- contrib[, axis]
   
   } else {
     
-    tmp <- data.frame(type = c("Unsust", "Sust", "Other"),
-                      group_order = c("A", "B", "C"))
     
-    ## Select columns contribution
-    contrib <- as.data.frame(data_contrib[[variable]][["contrib"]][, c('Dim 1', 'Dim 2')]) %>%
-      dplyr::mutate(name_var = rownames(.)) %>%
-      dplyr::right_join(., TOP20, by = c("name_var" = "target")) %>%
-      dplyr::left_join(., tmp, by = "type") %>%
-      dplyr::select(c("Dim", "type", "name_var", "group_order", "color")) %>% 
+    tmp <- data.frame(type = c("Terrestrial", "TerreCoast", "CoastMar", "Marine", "Unsustainability", "Sustainability", "Other"),
+                      group_order = c("A", "B", "C", "D", "A", "B", "C"))
+    
+    contrib <- NCSSDGproj::SDG_contrib_tbl() %>%
+      dplyr::select(c("target", paste("Dim", axis), paste0("Type_bar", axis), paste0("Color_bar", axis))) %>%
+      stats::setNames(., c("target", "Dim", "Type_bar", "Color_bar")) %>%
+      dplyr::filter(! is.na(.[,3])) %>%
+      dplyr::left_join(., tmp, by = c("Type_bar" = "type")) %>%
+      dplyr::select("Dim", "Type_bar", "target", "group_order", "Color_bar") %>%
       stats::setNames(., c("Dim", "group", "name_var", "group_order", "color"))
-    
+
   }
   
   ### Set a number of empty bars
