@@ -787,7 +787,7 @@ Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2,
                                          col.col = "black",
                                          #col.col = "contrib",
                                          #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                         select.col = list(name = targ_contrib12),
+                                         select.col = list(name = targ_contrib12$target),
                                          repel = TRUE) +
       #ggplot2::labs(color = "Contribution (%)") +
       ggplot2::ggtitle(NULL) +
