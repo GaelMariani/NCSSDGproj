@@ -4,16 +4,16 @@
 \alias{circular_data_CA}
 \title{Data To Plot Circular Contribution}
 \usage{
-circular_data_CA(data_contrib, variable, TOP20, axis)
+circular_data_CA(data_contrib, variable, axis)
 }
 \arguments{
 \item{data_contrib}{obtained with NCSSDGproj::CA_contri_vars}
 
 \item{variable}{format contribution of ROW of COLUMN - character row or col}
 
-\item{TOP20}{use if variable = "col"}
-
 \item{axis}{axis to be plotted}
+
+\item{TOP20}{use if variable = "col"}
 }
 \value{
 

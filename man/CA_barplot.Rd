@@ -4,7 +4,7 @@
 \alias{CA_barplot}
 \title{Barplot Of Contribution}
 \usage{
-CA_barplot(data, axis, variable, TOP20, ymin, ymax, ytitle)
+CA_barplot(data, axis, variable, ymin, ymax, ytitle)
 }
 \arguments{
 \item{data}{obtained with NCSSDGproj::CA_contri_vars 1st element of the list}

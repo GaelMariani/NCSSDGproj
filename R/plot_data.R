@@ -702,7 +702,57 @@ CA_barplot <- function(data, axis, variable, ymin, ymax, ytitle){
   
 
 }
+
   
+
+#' Get Legend Correspondance Analysis
+#'
+#' @param data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+legend_CA <- function(data){
+  
+  all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
+    dplyr::mutate(target = rownames(.)) %>%
+    dplyr::select(c(1:2, 6)) %>%
+    stats::setNames(c("Coord1", "Coord2", "target"))
+  
+  contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
+    dplyr::right_join(., all_targ, by = "target") 
+  
+  contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
+  contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
+  
+  data[["grp_targ"]] <- contrib_target
+  
+  ## CA plot
+  ca_SDG_12 <- ggplot2::ggplot(data = contrib_target,
+                               mapping = ggplot2::aes(x = Coord1,
+                                                      y = Coord2,
+                                                      fill = Type_CA)) + 
+    
+    ggplot2::geom_col(data = contrib_target,
+                      mapping = ggplot2::aes(x = Coord1,
+                                             y = Coord2,
+                                             fill = Type_CA)) +
+    
+    ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""))) +
+    
+    ggplot2::labs(x = "Dim 1 (28.8%)", y = "", fill = NULL) +
+    
+    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#1134A6", "#e0e0e0",
+                                           "#808000", "#abdda4", "#228B22", "#680020")) +
+    
+    ggplot2::theme_bw() +
+    ggplot2::theme(legend.position = "top")
+  
+  CA_legend <- ggpubr::get_legend(ca_SDG_12)
+  save(CA_legend, file = here::here("results", "CA_legend.RData"))
+
+}
 
 
 #' Figure 3
@@ -720,11 +770,13 @@ CA_barplot <- function(data, axis, variable, ymin, ymax, ytitle){
 #' @export
 #'
 #' @examples
-Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2, 
+Figure3 <- function(data, targ_contrib12, data_arrow, 
                     colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
   
-  ### Plot NCS from CA analysis
+  ### Legend
+  CA_legend <- NCSSDGproj::load_CA_legend()
   
+  ### Plot NCS from CA analysis
   arrow <- ggplot2::arrow(angle = 10, type = "closed", length = ggplot2::unit(0.5, "cm"), ends = "last")
   
     ## Plot CA for NCS points
@@ -780,20 +832,36 @@ Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2,
   
   
   ### Plot the most important targets
+  all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
+    dplyr::mutate(target = rownames(.)) %>%
+    dplyr::select(c(1:2, 6)) %>%
+    stats::setNames(c("Coord1", "Coord2", "target"))
+    
+  contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
+    dplyr::right_join(., all_targ, by = "target") 
+  
+  contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
+  contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
+    
+  data[["grp_targ"]] <- contrib_target
     
     ## CA plot
-    ca_SDG_12 <- factoextra::fviz_ca_col(X = data, 
-                                         axes = c(1,2),
-                                         col.col = "black",
-                                         #col.col = "contrib",
-                                         #gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                         select.col = list(name = targ_contrib12$target),
-                                         repel = TRUE) +
-      #ggplot2::labs(color = "Contribution (%)") +
-      ggplot2::ggtitle(NULL) +
-      ggplot2::theme_bw() +
-      ggplot2::theme(legend.position = "")
+    ca_SDG_12 <- ggplot2::ggplot(data = contrib_target,
+                    mapping = ggplot2::aes(x = Coord1,
+                                           y = Coord2,
+                                           group = Type_CA)) + 
+      
+      ggplot2::geom_point(shape = 17, color = contrib_target$Color_CA) +
+      
+      ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""),
+                                                      group = Type_CA),
+                               color = contrib_target$Color_CA) +
+      
+      ggplot2::labs(x = "Dim 1 (28.8%)", y = "") +
+      
+      ggplot2::theme_bw()
   
+    
     ## Circular plot axis 1
     SDG_axis1 <- NCSSDGproj::CA_barplot(data = data, 
                                         axis = 1,
@@ -811,16 +879,14 @@ Figure3 <- function(data, targ_contrib12, data_arrow, TOP20_1, TOP20_2,
                                         ytitle = -5)
     
   ### Arrange plots together
-  legend <- NCSSDGproj::load_legend()
-    
   Figure3 <- cowplot::ggdraw() +
     cowplot::draw_plot(ca_NCS_12, x = 0, y = 0.5, width = 0.5, height = 0.5) +
     cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
-    cowplot::draw_plot(NCS_axis1, x = 0.0, y = 0.05, width = 0.22, height = 0.45) +
-    cowplot::draw_plot(NCS_axis2, x = 0.25, y = 0.05, width = 0.22, height = 0.45) +
-    cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.025, width = 0.22, height = 0.5) +
-    cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.025, width = 0.22, height = 0.5) +
-    cowplot::draw_plot(legend, x = 0.12, y = 0, width = 0.25, height = 0.04)
+    cowplot::draw_plot(NCS_axis1, x = 0.0, y = 0.06, width = 0.22, height = 0.47) +
+    cowplot::draw_plot(NCS_axis2, x = 0.25, y = 0.06, width = 0.22, height = 0.47) +
+    cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.029, width = 0.22, height = 0.53) +
+    cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.029, width = 0.22, height = 0.53) +
+    cowplot::draw_plot(CA_legend, x = 0.25, y = 0, width = 0.5, height = 0.1)
   
     
   Figure3

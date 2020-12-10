@@ -37,4 +37,5 @@ Imports:
     FactoMineR,
     readxl,
     plyr,
-    writexl
+    writexl,
+    ggrepel

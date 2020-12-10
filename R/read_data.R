@@ -100,6 +100,20 @@ load_vert_legend <- function(){
 }
 
 
+#' Load Correspondance Analysis Legend
+#'
+#' @return A RData to plot circular plot
+#' @export
+#'
+#' @examples
+load_CA_legend <- function(){
+  
+  load(here::here("results", "CA_legend.RData"))
+  return(CA_legend)
+  
+}
+
+
 #' Read the binary matrix
 #'
 #' @return a dataframe with target's contribution and type to the second axis variance

@@ -8,8 +8,6 @@ Figure3(
   data,
   targ_contrib12,
   data_arrow,
-  TOP20_1,
-  TOP20_2,
   colNCS_ter,
   colNCS_coast,
   colNCS_mar,
