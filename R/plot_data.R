@@ -747,7 +747,7 @@ legend_CA <- function(data){
     
     ggplot2::labs(x = "Dim 1 (28.8%)", y = "", fill = NULL) +
     
-    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#808000", "#680020", "#1134A6", "#E1BC84", "#abdda4", "#228B22")) +
+    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#808000", "#1134A6", "#680020", "#E1BC84", "#abdda4", "#228B22")) +
     
     ggplot2::theme_bw() +
     ggplot2::theme(legend.position = "top")
