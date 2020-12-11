@@ -292,7 +292,11 @@ Figure2 <- function(save = FALSE) {
     
     cowplot::draw_plot(fig1a, x=0, y=0.02, width=0.61, height=0.98) +
     cowplot::draw_plot(fig1b, x=0.50, y=0.04, width= 0.5, height=1) +
-    cowplot::draw_plot(legend, x=0.3, y=0, width = 0.5, height = 0.05)
+    cowplot::draw_plot(legend, x=0.3, y=0, width = 0.5, height = 0.05) +
+    cowplot::draw_plot_label(label = c("a", "b"),
+                             size = 15,
+                             x = c(0, 0.55),
+                             y = c(1, 1)) 
   
   # save
   if(save == TRUE) {
@@ -892,7 +896,11 @@ Figure3 <- function(data, targ_contrib12, data_arrow,
     cowplot::draw_plot(NCS_axis2, x = 0.25, y = 0.06, width = 0.22, height = 0.47) +
     cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.029, width = 0.22, height = 0.53) +
     cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.029, width = 0.22, height = 0.53) +
-    cowplot::draw_plot(CA_legend, x = 0.25, y = 0, width = 0.5, height = 0.1)
+    cowplot::draw_plot(CA_legend, x = 0.25, y = 0, width = 0.5, height = 0.1) +
+    cowplot::draw_plot_label(label = c("a", "b", "c", "d", "e", "f"),
+                             size = 15,
+                             x = c(0, 0.5, 0, 0.25, 0.5, 0.75),
+                             y = c(1, 1, 0.45, 0.45, 0.45, 0.45)) 
   
     
   Figure3
