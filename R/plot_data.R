@@ -660,7 +660,7 @@ CA_barplot <- function(data, axis, variable, ymin, ymax, ytitle){
                    panel.grid = ggplot2::element_blank(),
                    plot.margin = ggplot2::unit(rep(-1,4), "cm")) +
 
-    ggplot2::coord_polar()  +
+    ggplot2::coord_polar() +
     
     ggplot2::geom_text(data = label_data, 
                        mapping = ggplot2::aes(x = id, 
@@ -682,7 +682,7 @@ CA_barplot <- function(data, axis, variable, ymin, ymax, ytitle){
                           color = unique(data_contrib$color), 
                           alpha = 1, 
                           size = 1.2, 
-                          inherit.aes = FALSE ) +
+                          inherit.aes = FALSE ) 
     
     ggplot2::theme(plot.title = ggplot2::element_text(vjust = -40))+
     
@@ -743,8 +743,7 @@ legend_CA <- function(data){
     
     ggplot2::labs(x = "Dim 1 (28.8%)", y = "", fill = NULL) +
     
-    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#1134A6", "#e0e0e0",
-                                           "#808000", "#abdda4", "#228B22", "#680020")) +
+    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#808000", "#680020", "#1134A6", "#E1BC84", "#abdda4", "#228B22")) +
     
     ggplot2::theme_bw() +
     ggplot2::theme(legend.position = "top")
@@ -774,6 +773,7 @@ Figure3 <- function(data, targ_contrib12, data_arrow,
                     colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
   
   ### Legend
+  CA_legend <- NCSSDGproj::legend_CA(data = data)
   CA_legend <- NCSSDGproj::load_CA_legend()
   
   ### Plot NCS from CA analysis

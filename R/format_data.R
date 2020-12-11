@@ -514,8 +514,8 @@ circular_data_CA <- function(data_contrib, variable, axis){
   } else {
     
     
-    tmp <- data.frame(type = c("Terrestrial", "TerreCoast", "CoastMar", "Marine", "Unsustainability", "Sustainability", "Other"),
-                      group_order = c("A", "B", "C", "D", "A", "B", "C"))
+    tmp <- data.frame(type = c("Terrestrial", "TerreCoast", "TerrCoastMar", "CoastMar", "Marine", "Human", "Ecosystem"),
+                      group_order = c("A", "B", "C", "D", "E", "A", "B"))
     
     contrib <- NCSSDGproj::SDG_contrib_tbl() %>%
       dplyr::select(c("target", paste("Dim", axis), paste0("Type_bar", axis), paste0("Color_bar", axis))) %>%

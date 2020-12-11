@@ -123,7 +123,6 @@ contri_CA <- NCSSDGproj::CA_contri_vars(matrix01 = matrix01,
                                         colNCS_coast = "#5EA9A2",
                                         colNCS_mar = "#1134A6")
 
-
 NCSSDGproj::Figure3(data = contri_CA[["CorresAna"]],
                     targ_contrib12 = contri_CA[["col_contrib"]][["axe12"]],
                     data_arrow = contri_CA[["data_arrow"]],
