@@ -53,7 +53,42 @@ this
 [tutorial](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
 to clone the R project. <br>
 
-Once the compendium is cloned, follow these steps: 1. open the `.Rproj`
-file in RStudio
+Once the compendium is cloned, follow these steps:
 
+1.  open the `.Rproj` file in RStudio.
 2.  open [make.R](make.R) and run it to produce all the analyses.
+
+### Licenses
+
+**Text and figures :**
+[CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
+
+**Code :** See the [DESCRIPTION](DESCRIPTION) file
+
+**Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/)
+attribution requested in reuse
+
+### Session Info
+
+``` r
+utils::sessionInfo()
+#> R version 3.6.2 (2019-12-12)
+#> Platform: x86_64-w64-mingw32/x64 (64-bit)
+#> Running under: Windows 10 x64 (build 19041)
+#> 
+#> Matrix products: default
+#> 
+#> locale:
+#> [1] LC_COLLATE=French_France.1252  LC_CTYPE=French_France.1252   
+#> [3] LC_MONETARY=French_France.1252 LC_NUMERIC=C                  
+#> [5] LC_TIME=French_France.1252    
+#> 
+#> attached base packages:
+#> [1] stats     graphics  grDevices utils     datasets  methods   base     
+#> 
+#> loaded via a namespace (and not attached):
+#>  [1] compiler_3.6.2  magrittr_1.5    tools_3.6.2     htmltools_0.4.0
+#>  [5] yaml_2.2.1      Rcpp_1.0.4.6    stringi_1.4.6   rmarkdown_2.5  
+#>  [9] knitr_1.30      stringr_1.4.0   xfun_0.19       digest_0.6.25  
+#> [13] rlang_0.4.6     evaluate_0.14
+```
