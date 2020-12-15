@@ -44,7 +44,20 @@ This research compendium has been developed using the statistical programminglan
 You can download the compendium by cloning this [repository](https://github.com/GaelMariani/NCSSDGproj). You can follow this [tutorial](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository) to clone the R project. <br>
 
 Once the compendium is cloned, follow these steps:
-  1. open the `.Rproj` file in RStudio
 
+  1. open the `.Rproj` file in RStudio.
   2. open [make.R](make.R) and run it to produce all the analyses.
+  
+  
+### Licenses
+**Text and figures :**  [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
+
+**Code :** See the [DESCRIPTION](DESCRIPTION) file
+
+**Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse
+
+### Session Info
+```{r}
+utils::sessionInfo()
+```
 
