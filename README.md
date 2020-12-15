@@ -11,14 +11,14 @@ Natural Climate Solutions.
 
 [:file\_folder: **rawdata**](rawdata/) directory contains the 0/1 matrix
 used to perform all analysis. See Material & Methods section of the
-paper for more details. This directory also contains SDG and NCS icons
-use in figure of the paper.
+paper for more details. This directory also contains SDG’s and NCS’s
+icons use in the figures of the paper.
 
-[:file\_folder: **results**](results/) directory contains all .RData
+[:file\_folder: **results**](results/) directory contains all `.RData`
 files generated during the analyses.
 
 [:file\_folder: **R**](R/) directory contains the functions used to
-perform all the analyses. It contains 4 .R files:
+perform all the analyses. It contains 4 `.R` files:
 
 1.  [:open\_book: read\_data.R](R/read_data.R) contains functions to
     read data.
@@ -34,7 +34,7 @@ perform all the analyses. It contains 4 .R files:
 the paper.
 
 The [:hammer: dev\_history.R](dev_history.R) file allow to rebuild our
-research compendium from scratch for maximum reproducibility.
+research compendium from scratch.
 
 The [:briefcase: make.R](make.R) file allow to produce all the analyses
 and render the corresponding plots.
@@ -42,7 +42,7 @@ and render the corresponding plots.
 ## How to run it ?
 
 This research compendium has been developed using the statistical
-programminglanguage R. To work with the compendium, you will need
+programming language R. To work with the compendium, you will need
 installed on your computer the [R
 software](https://cloud.r-project.org/) itself and optionally [RStudio
 Desktop](https://rstudio.com/products/rstudio/download/).
@@ -57,16 +57,6 @@ Once the compendium is cloned, follow these steps:
 
 1.  open the `.Rproj` file in RStudio.
 2.  open [make.R](make.R) and run it to produce all the analyses.
-
-### Licenses
-
-**Text and figures :**
-[CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
-
-**Code :** See the [DESCRIPTION](DESCRIPTION) file
-
-**Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/)
-attribution requested in reuse
 
 ### Session Info
 
@@ -92,3 +82,13 @@ utils::sessionInfo()
 #>  [9] knitr_1.30      stringr_1.4.0   xfun_0.19       digest_0.6.25  
 #> [13] rlang_0.4.6     evaluate_0.14
 ```
+
+### Licenses
+
+**Text and figures:**
+[CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
+
+**Code:** See the [DESCRIPTION](DESCRIPTION) file
+
+**Data:** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/)
+attribution requested in reuse
