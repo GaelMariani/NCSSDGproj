@@ -51,7 +51,7 @@ You can download the compendium by cloning this
 [repository](https://github.com/GaelMariani/NCSSDGproj). You can follow
 this
 [tutorial](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
-to clone the R project. <br>
+to clone the repository. <br>
 
 Once the compendium is cloned, follow these steps:
 
