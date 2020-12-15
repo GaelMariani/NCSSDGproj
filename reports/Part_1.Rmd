@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 devtools::load_all()
 ```
 
-## Relationships between NCS implementation and SDG achievement
+## 1. Relationships between NCS implementation and SDG achievement
 
 ```{r message = FALSE}
 raw_dat <- NCSSDGproj::read_matrix()
@@ -45,75 +45,17 @@ Fig2 <- NCSSDGproj::Figure2(save = TRUE)
 
 ```
 
-## Target Insurance and null models
 
-```{r message=FALSE, warning=FALSE}
-matrix01 <- NCSSDGproj::contingency_mat_targets(raw_dat)
-
-mod_nest_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "quasiswap", NESTmethod ="NODF",
-                                       Nrun = 5, Nsim = 5, TargetInsurance = FALSE)
-
-TUI_TOI_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "r00", NESTmethod = "NODF",
-                                      Nrun = 100, Nsim = 100, TargetInsurance = TRUE)
-
-
-null_data <- NCSSDGproj::null_data_CircPlot(matrix01 = matrix01, nsim = 10)
-
-data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget = ncol(matrix01)) 
-SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
-NCS_info <- NCSSDGproj::NCS_info(matrix01 = matrix01)
-
-data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
-                                                  data_long = data_long, 
-                                                  SDG_info = SDG_info, 
-                                                  NCS_info = NCS_info)
-
-
-circular_plot <- NCSSDGproj::circular_plot_Insurance(data = data_circu[[1]], 
-                                                     label_data = data_circu[[2]],
-                                                     base_data = data_circu[[3]],
-                                                     grid_data = data_circu[[4]],
-                                                     SDG_info = SDG_info,
-                                                     colNCS_ter = "#228B22", 
-                                                     colNCS_coast = "#5EA9A2",
-                                                     colNCS_mar = "#1134A6",
-                                                     iconSDG = icon_SDG,
-                                                     save = TRUE)
-
-data <- data_circu[[1]]
-label_data <- data_circu[[2]]
-base_data <- data_circu[[3]]
-grid_data <- data_circu[[4]]
-SDG_info <- SDG_info
-colNCS_ter = "#228B22"
-colNCS_coast = "#5EA9A2"
-colNCS_mar = "#1134A6"
-
-NCSSDGproj::Insurance_plot(data = data_Insurance, 
-                           TI = 5.20, 
-                           TUI_obs = round(TUI_TOI_res$Val_Obs[1], 3) * 100, 
-                           TUI_null = round(TUI_TOI_res$Val_nulls[1], 4) * 100,
-                           obs_col = "#0000EB", 
-                           null_col = "#E60000", 
-                           save = TRUE) 
-
-
-```
-
-
-## Correspondance Analysis (ne marche pas encore)
+## 2. Complementarity of NCS in target's achievement
 
 ```{r}
-info_NCS <- NCSSDGproj::NCS_info(matrix01)
-ca <- NCSSDGproj::Correspondance_Analysis(matrix01 = matrix01)
+matrix01 <- NCSSDGproj::contingency_mat_targets(raw_dat)
 
-#NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
-#                           ca_subset = ca[["CA_subset"]],
-#                           NCS_info = info_NCS,
-#                           colors = c("#66c2a5", "#e5c494", "#8da0cb"),
-#                           ellipse = TRUE,
-#                           hull = FALSE, 
-#                           save = TRUE)
+info_NCS <- NCSSDGproj::NCS_info(matrix01)
+
+# ca <- NCSSDGproj::Correspondance_Analysis(matrix01 = matrix01)
+
+
 
 axis2_targ <- NCSSDGproj::SDG_contrib_tbl() 
 
@@ -129,9 +71,18 @@ NCSSDGproj::Figure3(data = contri_CA[["CorresAna"]],
                     colNCS_ter = "#228B22", 
                     colNCS_coast = "#5EA9A2",
                     colNCS_mar = "#1134A6",
-                    save = TRUE)
+                    save = FALSE)
 
+################################# PAS LA PEINE DE FAIRE TOURNER
+#################################
 
+#NCSSDGproj::plot_CorresAna(ca = ca[["Correspondance Analysis"]],
+#                           ca_subset = ca[["CA_subset"]],
+#                           NCS_info = info_NCS,
+#                           colors = c("#66c2a5", "#e5c494", "#8da0cb"),
+#                           ellipse = TRUE,
+#                           hull = FALSE, 
+#                           save = TRUE)
 
 test <- NCSSDGproj::circular_data_Insurance()
 
@@ -161,9 +112,59 @@ TOP20 <- contri_CA[["TOP20_axis2_targ"]]
 
 col_sust <- "#FACA0F"
 col_unsust <- "#762a83"
-col_oth <- "#e0e0e0"
+col_oth <- "#e0e0e0" 
+################################# 
 
 ```
+
+
+## 3. Target Insurance and null models
+
+```{r message=FALSE, warning=FALSE}
+mod_nest_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "quasiswap", NESTmethod ="NODF",
+                                       Nrun = 5, Nsim = 5, TargetInsurance = FALSE)
+
+TUI_TOI_res <- NCSSDGproj::NullModels(matrix01 = matrix01, rawdata = raw_dat, NMalgo = "r00", NESTmethod = "NODF",
+                                      Nrun = 100, Nsim = 100, TargetInsurance = TRUE)
+
+
+null_data <- NCSSDGproj::null_data_CircPlot(matrix01 = matrix01, nsim = 10)
+
+data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget = ncol(matrix01)) 
+SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
+NCS_info <- NCSSDGproj::NCS_info(matrix01 = matrix01)
+
+data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
+                                                  data_long = data_long, 
+                                                  SDG_info = SDG_info, 
+                                                  NCS_info = NCS_info)
+
+
+NCSSDGproj::circular_plot_Insurance(data = data_circu[[1]], 
+                                    label_data = data_circu[[2]],
+                                    base_data = data_circu[[3]],
+                                    grid_data = data_circu[[4]],
+                                    SDG_info = SDG_info,
+                                    colNCS_ter = "#228B22", 
+                                    colNCS_coast = "#5EA9A2",
+                                    colNCS_mar = "#1134A6",
+                                    iconSDG = icon_SDG,
+                                    save = FALSE)
+
+################################# PAS LA PEINE DE FAIRE TOURNER
+################################
+NCSSDGproj::Insurance_plot(data = data_Insurance, 
+                           TI = 5.20, 
+                           TUI_obs = round(TUI_TOI_res$Val_Obs[1], 3) * 100, 
+                           TUI_null = round(TUI_TOI_res$Val_nulls[1], 4) * 100,
+                           obs_col = "#0000EB", 
+                           null_col = "#E60000", 
+                           save = TRUE) 
+
+################################
+```
+
+
 
 
 ## Unipartite network
