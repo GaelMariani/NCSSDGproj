@@ -9,9 +9,9 @@ Natural Climate Solutions.
 
 ## Contents
 
-[:file\_folder: **rawdata**](rawdata/) directory contains the 0/1 matrix
-used to perform all analysis. See Material & Methods section of the
-paper for more details. This directory also contains SDG and NCS icons
-use in figure of the paper.
+  - [:file\_folder: **rawdata**](rawdata/) directory contains the 0/1
+    matrix used to perform all analysis. See Material & Methods section
+    of the paper for more details. This directory also contains SDG and
+    NCS icons use in figure of the paper.
 
 [:file\_folder: **rawdata**](rawdata/)
