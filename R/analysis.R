@@ -224,7 +224,7 @@ CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNC
       col_names12 <- data.frame(target = unique(c(name1, name2))) %>%
         dplyr::left_join(., col_contrib[, c(1:2, 6)], by = "target")
       
-      writexl::write_xlsx(col_names12, here::here("rawdata", "colnames12.xlsx"))
+      save(col_names12, file = here::here("rawdata", "col_names12.RData"))
         
       col_names34 <- unique(c(name3, name4))
       
