@@ -51,8 +51,6 @@ NCSSDGproj::barplot_percSDG(data_plot = data_pour,
                             save = TRUE, 
                             legend = TRUE)
 
-NCSSDGproj::legend_verti(data_plot = data_pour, color = c("#1134A6", "#5EA9A2", "#228B22"))
-
 Fig2 <- NCSSDGproj::Figure2(save = TRUE)
 
 ```
@@ -146,11 +144,14 @@ data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget =
 SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
 NCS_info <- NCSSDGproj::NCS_info(matrix01 = matrix01)
 
+
+
 data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
                                                   data_long = data_long, 
                                                   SDG_info = SDG_info, 
                                                   NCS_info = NCS_info)
 
+NCSSDGproj::legend_verti(data_plot = data_pour, color = c("#1134A6", "#5EA9A2", "#228B22"))
 
 NCSSDGproj::circular_plot_Insurance(data = data_circu[[1]], 
                                     label_data = data_circu[[2]],
