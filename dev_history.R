@@ -42,6 +42,7 @@ usethis::use_r("read_data")
 usethis::use_r("format_data")
 usethis::use_r("analysis")
 usethis::use_r("plot_data")
+usethis::use_r("make")
 usethis::use_r("utils-pipe")
 
 
