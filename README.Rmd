@@ -31,9 +31,9 @@ This repository contains the data and codes used to obtain results of the paper 
 3. [:microscope: analysis_data.R](R/format_data.R) contains functions to perform analysis, mainly null models and correspondance analysis. 
 4. [:bar_chart: plot_data.R](R/plot_data.R) contains all functions to obtained plots in the paper.
 
+[:file_folder: **figures**](figures/) directory contains all figures in the paper.
 
+The [:hammer: dev_history.R](dev_history.R) file allow to rebuild our research compendium from scratch for maximum reproducibility.
 
-
-
-
+The [:briefcase: make.R](make.R) file allow to produce all the analyses and render the corresponding plots.
 

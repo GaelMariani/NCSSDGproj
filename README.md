@@ -29,3 +29,12 @@ perform all the analyses. It contains 4 .R files:
     to perform analysis, mainly null models and correspondance analysis.
 4.  [:bar\_chart: plot\_data.R](R/plot_data.R) contains all functions to
     obtained plots in the paper.
+
+[:file\_folder: **figures**](figures/) directory contains all figures in
+the paper.
+
+The [:hammer: dev\_history.R](dev_history.R) file allow to rebuild our
+research compendium from scratch for maximum reproducibility.
+
+The [:briefcase: make.R](make.R) file allow to produce all the analyses
+and render the corresponding plots.
