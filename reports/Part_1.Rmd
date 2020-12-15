@@ -51,6 +51,8 @@ NCSSDGproj::barplot_percSDG(data_plot = data_pour,
                             save = TRUE, 
                             legend = TRUE)
 
+
+
 Fig2 <- NCSSDGproj::Figure2(save = TRUE)
 
 ```
@@ -143,8 +145,6 @@ null_data <- NCSSDGproj::null_data_CircPlot(matrix01 = matrix01, nsim = 10)
 data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix01, Ntarget = ncol(matrix01)) 
 SDG_info <- NCSSDGproj::SDG_infos(matrix01 = matrix01)
 NCS_info <- NCSSDGproj::NCS_info(matrix01 = matrix01)
-
-
 
 data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
                                                   data_long = data_long, 
