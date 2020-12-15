@@ -38,3 +38,22 @@ research compendium from scratch for maximum reproducibility.
 
 The [:briefcase: make.R](make.R) file allow to produce all the analyses
 and render the corresponding plots.
+
+## How to run it ?
+
+This research compendium has been developed using the statistical
+programminglanguage R. To work with the compendium, you will need
+installed on your computer the [R
+software](https://cloud.r-project.org/) itself and optionally [RStudio
+Desktop](https://rstudio.com/products/rstudio/download/).
+
+You can download the compendium by cloning this
+[repository](https://github.com/GaelMariani/NCSSDGproj). You can follow
+this
+[tutorial](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
+to clone the R project. <br>
+
+Once the compendium is cloned, follow these steps: 1. open the `.Rproj`
+file in RStudio
+
+2.  open [make.R](make.R) and run it to produce all the analyses.
