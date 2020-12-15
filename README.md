@@ -25,8 +25,8 @@ perform all the analyses. It contains 4 `.R` files:
 2.  [:package: format\_data.R](R/format_data.R) contains functions to
     format the data in the desired format to make the analyses and
     figures.
-3.  [:microscope: analysis\_data.R](R/format_data.R) contains functions
-    to perform analysis, mainly null models and correspondance analysis.
+3.  [:microscope: analysis.R](R/analysis.R) contains functions to
+    perform analysis, mainly null models and correspondance analysis.
 4.  [:bar\_chart: plot\_data.R](R/plot_data.R) contains all functions to
     obtained plots in the paper.
 
@@ -39,7 +39,7 @@ research compendium from scratch.
 The [:briefcase: make.R](make.R) file allow to produce all the analyses
 and render the corresponding plots.
 
-## How to run it ?
+## How to run it?
 
 This research compendium has been developed using the statistical
 programming language R. To work with the compendium, you will need
