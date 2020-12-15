@@ -20,7 +20,20 @@ This repository contains the data and codes used to obtain results of the paper 
 
 ## Contents
 
-* [:file_folder: **rawdata**](rawdata/) directory contains the 0/1 matrix used to perform all analysis. See Material & Methods section of the paper for more details. This directory also contains SDG and NCS icons use in figure of the paper. 
+[:file_folder: **rawdata**](rawdata/) directory contains the 0/1 matrix used to perform all analysis. See Material & Methods section of the paper for more details. This directory also contains SDG and NCS icons use in figure of the paper. 
 
-[:file_folder: **rawdata**](rawdata/)
+[:file_folder: **results**](results/) directory contains all .RData files generated during the analyses.
+
+[:file_folder: **R**](R/) directory contains the functions used to perform all the analyses. It contains 4 .R files:
+
+1. [:open_book: read_data.R](R/read_data.R) contains functions to read data. 
+2. [:package: format_data.R](R/format_data.R) contains functions to format the data in the desired format to make the analyses and figures.
+3. [:microscope: analysis_data.R](R/format_data.R) contains functions to perform analysis, mainly null models and correspondance analysis. 
+4. [:bar_chart: plot_data.R](R/plot_data.R) contains all functions to obtained plots in the paper.
+
+
+
+
+
+
 
