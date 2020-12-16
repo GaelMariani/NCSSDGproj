@@ -53,8 +53,8 @@ installed on your computer the following softwares:
 You can download the compendium by cloning this
 [repository](https://github.com/GaelMariani/NCSSDGproj). You can follow
 this
-[tutorial](https://resources.github.com/whitepapers/github-and-rstudio/#:~:text=Clone%20the%20repository%20with%20RStudio&text=Click%20the%20Copy%20to%20clipboard,the%20Project%20directory%20name%20field.)
-- section **Clone the repository with RStudio** to clone the repository.
+[tutorial](https://resources.github.com/whitepapers/github-and-rstudio/#:~:text=Clone%20the%20repository%20with%20RStudio&text=Click%20the%20Copy%20to%20clipboard,the%20Project%20directory%20name%20field.),
+section **“Clone the repository with RStudio”** to clone the repository.
 <br>
 
 Once the compendium is cloned, follow these steps:
