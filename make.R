@@ -7,6 +7,9 @@
 ### ----- clean workspace
 rm(list = ls())
 
+### ----- install devtools
+install.packages("devtools")
+
 ### ----- install/update packages
 devtools::install_deps()
 

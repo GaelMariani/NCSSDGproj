@@ -46,6 +46,8 @@ This research compendium has been developed using the statistical programming la
 * Git: [https://git-scm.com/](https://git-scm.com/)
 * Create a GitHub account: [https://github.com/](https://github.com/)
 
+Note that R version 3.6.2 or later is required. Run this command `utils::sessionInfo()` to check your R version. <br> You can uptade your R version [here](https://cran.r-project.org).
+
 You can download the compendium by cloning this [repository](https://github.com/GaelMariani/NCSSDGproj). You can follow this [tutorial](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository) to clone the repository. <br>
 
 Once the compendium is cloned, follow these steps:

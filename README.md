@@ -50,6 +50,10 @@ installed on your computer the following softwares:
   - Git: <https://git-scm.com/>
   - Create a GitHub account: <https://github.com/>
 
+Note that R version 3.6.2 or later is required. Run this command
+`utils::sessionInfo()` to check your R version. <br> You can uptade your
+R version [here](https://cran.r-project.org).
+
 You can download the compendium by cloning this
 [repository](https://github.com/GaelMariani/NCSSDGproj). You can follow
 this
