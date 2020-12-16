@@ -43,9 +43,12 @@ and render the corresponding plots.
 
 This research compendium has been developed using the statistical
 programming language R. To work with the compendium, you will need
-installed on your computer the [R
-software](https://cloud.r-project.org/) itself and optionally [RStudio
-Desktop](https://rstudio.com/products/rstudio/download/).
+installed on your computer the following softwares:
+
+  - R: <https://cloud.r-project.org/>
+  - RStudio: <https://rstudio.com/products/rstudio/download/>
+  - Git: <https://git-scm.com/>
+  - Create a GitHub account: <https://github.com/>
 
 You can download the compendium by cloning this
 [repository](https://github.com/GaelMariani/NCSSDGproj). You can follow
