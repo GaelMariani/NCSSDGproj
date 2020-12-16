@@ -26,9 +26,9 @@ perform all the analyses. It contains 4 `.R` files:
     format the data in the desired format to make the analyses and
     figures.
 3.  [:microscope: analysis.R](R/analysis.R) contains functions to
-    perform analysis, mainly null models and correspondance analysis.
+    perform analysis, mainly null models and correspondance. analysis.
 4.  [:bar\_chart: plot\_data.R](R/plot_data.R) contains all functions to
-    obtained plots in the paper.
+    obtain plots in the paper.
 
 [:file\_folder: **figures**](figures/) directory contains all figures in
 the paper.
