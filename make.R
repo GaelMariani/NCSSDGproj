@@ -10,7 +10,7 @@ rm(list = ls())
 ### ----- install devtools
 install.packages("devtools")
 
-### ----- install/update packages
+### ----- install/update packages (1 if you want to install all packages)
 devtools::install_deps()
 
 ### ----- load functions in the compendium
@@ -47,16 +47,16 @@ pathNCS <- NCSSDGproj::load_NCS_icon()
   NCSSDGproj::plot_network(SDG_net, SDG_matrix,
                            icon_SDG = icon_SDG,icon_NCS = icon_NCS,
                            nodes_col = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
-                           save = TRUE)
+                           save = FALSE)
   
   ## ---- plot panel B - the barplot
   NCSSDGproj::barplot_percSDG(data_plot = data_pour, 
                               color = c("#1134A6", "#5EA9A2", "#228B22"), #mar, coast, terr
-                              save = TRUE, 
+                              save = FALSE, 
                               legend = TRUE)
   
   ## ---- bind fig 1A with fig 1B
-  NCSSDGproj::Figure2(save = TRUE)
+  NCSSDGproj::Figure2(save = FALSE)
   
   
   
@@ -85,7 +85,7 @@ pathNCS <- NCSSDGproj::load_NCS_icon()
                       colNCS_ter = "#228B22", 
                       colNCS_coast = "#5EA9A2",
                       colNCS_mar = "#1134A6",
-                      save = TRUE)
+                      save = FALSE)
   
   
   
@@ -147,7 +147,7 @@ pathNCS <- NCSSDGproj::load_NCS_icon()
                                       colNCS_coast = "#5EA9A2",
                                       colNCS_mar = "#1134A6",
                                       iconSDG = icon_SDG,
-                                      save = TRUE)
+                                      save = FALSE)
   
   
   
