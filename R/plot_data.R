@@ -875,10 +875,10 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   
   # Plot
   plot <- ggplot2::ggplot(data = data, 
-                       mapping = ggplot2::aes(x = as.factor(id), 
-                                              y = as.numeric(value_group), 
-                                              fill = factor(group)),
-                       show.legend = FALSE) +
+                          mapping = ggplot2::aes(x = as.factor(id), 
+                                                 y = as.numeric(value_group), 
+                                                 fill = factor(group)),
+                          show.legend = FALSE) +
     
     ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
                                              y = as.numeric(value_group), 
