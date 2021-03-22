@@ -27,6 +27,55 @@ matrix_to_longDF <- function(matrix01) {
 }
 
 
+#' Transform Sheets From Each Ecosystem Into Combined Matrix
+#'
+#' @param sheets_list a list of dataframes obtained 
+#'
+#' @return a list of two elements with positive and negative scores matrix
+#' @export
+#'
+#' @examples
+sheets_to_matrix <- function(sheets_list){
+  
+  ### Function to clean and format
+  clean_and_format <- function(df, pos_or_neg) {
+    
+    clean <- df %>%
+      dplyr::filter(nchar(X1) <= 5) %>%
+      dplyr::rename(., targets = X1, score = paste0("New.scoring.system.", pos_or_neg)) %>%
+      dplyr::select("targets", "score") %>%
+      dplyr::mutate(score = as.numeric(score)) %>%
+      tidyr::pivot_wider(names_from = "targets", values_from = "score")
+  }
+  
+    ## Format df with positive scores
+    clean_list_positive <- lapply(sheets_list, clean_and_format, pos_or_neg = "(+)")
+    matrix_positive <- do.call(rbind, clean_list_positive) %>%
+      dplyr::mutate(ecosystem = rownames(.))
+    
+      # put ecosystem column as 1st for clarity
+      matrix_positive <- matrix_positive[, c(151, 1:150)]
+    
+    ## Format df with negative scores
+    clean_list_negative <- lapply(sheets_list, clean_and_format, pos_or_neg = "(-)")
+    matrix_negative <- do.call(rbind, clean_list_negative) %>%
+      dplyr::mutate(ecosystem = rownames(.))
+    
+      # put ecosystem column as 1st for clarity
+      matrix_negative <- matrix_negative[, c(151, 1:150)]
+    
+    
+    ## Create a df with the net score (positive - negative score)
+    matrix_net <- (matrix_positive[, -1] + matrix_negative[, -1]) %>%
+      dplyr::mutate(ecossytem = matrix_negative$ecosystem)
+    
+      # put ecosystem column as 1st for clarity
+      matrix_net <- matrix_net[, c(151, 1:150)]
+  
+  return(list(score_pos = matrix_positive, score_neg = matrix_negative, score_net = matrix_net))  
+    
+}
+
 
 #' Weighted Contingency Matrix of SDG
 #'

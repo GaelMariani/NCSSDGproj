@@ -46,6 +46,7 @@ usethis::use_r("plot_data")
 usethis::use_r("utils-pipe")
 
 file.create("make.R")
+file.create("make_new_scoring.R")
 
 
 # Updating NCSSDGproj documentation - NAMESPACE file (to run for each new function)
