@@ -43,10 +43,10 @@ SDG_network <- lapply(1:length(matrix_all),
                       function(i){
                         
                         # -- matrix in long format
-                        data <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[[i]])
+                        data_long <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[[i]])
                         
                         # -- weighted contingency matrix of SDG
-                        SDG_matrix <- NCSSDGproj::matrix_SDG(data_long = data)
+                        SDG_matrix <- NCSSDGproj::matrix_SDG(data_long = data_long)
                         
                         # -- create a network object
                         SDG_network <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix,
@@ -54,9 +54,9 @@ SDG_network <- lapply(1:length(matrix_all),
                                                                      mode2  = "A")
                         
                         # -- percentage of target achieved
-                        data_pourc <- NCSSDGproj::perc_SDG(data_long = data)
+                        data_pourc <- NCSSDGproj::perc_SDG(data_long = data_long)
                         
-                        return(list(matrix = SDG_matrix, network = SDG_network, data_pourc = data_pourc))
+                        return(list(data_long = data_long, matrix = SDG_matrix, network = SDG_network, data_pourc = data_pourc))
                         
                       })
 
@@ -64,11 +64,11 @@ names(SDG_network) <- names(matrix_all)
 
 ### ---- Plot data
 
-  ## --- cumulated data
+  ## --- Positive data
 
     # -- plot panel A - the bipartite network
-    NCSSDGproj::plot_network(network_obj = SDG_network[["score_cumulate"]][["network"]],
-                             matrix      = SDG_network[["score_cumulate"]][["matrix"]],
+    NCSSDGproj::plot_network(network_obj = SDG_network[["score_pos"]][["network"]],
+                             matrix      = SDG_network[["score_pos"]][["matrix"]],
                              icon_SDG    = icon_SDG,
                              icon_NCS    = icon_NCS,
                              nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),

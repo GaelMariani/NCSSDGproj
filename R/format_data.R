@@ -16,9 +16,9 @@ matrix_to_longDF <- function(matrix01) {
     dplyr::mutate(goal = paste("SDG", goal)) %>%
     dplyr::filter(goal != 17) %>%
     dplyr::select(-"target") %>%
-    dplyr::arrange(match(x = ecosystem, c("Peatland ", "Urban forests", "Forest", "Grassland ",
-                                          "Saltmarshes", "Mangroves", "Seagrasses", "Macroalgae",
-                                          "Pelagic areas", "Polar marine ecosystem", "Mesopelagic areas"))) %>%
+    dplyr::arrange(match(x = ecosystem, c("Peatland", "Urban forest", "Forest", "Grassland",
+                                          "Tidalmarsh", "Mangroves", "Seagrass", "Macroalgae",
+                                          "Pelagic area", "Antarctic", "Mesopelagic area"))) %>%
     dplyr::mutate(ecosystem = forcats::as_factor(ecosystem),
                   goal.target = factor(goal.target))
   
@@ -95,10 +95,10 @@ sheets_to_matrix <- function(sheets_list){
 matrix_SDG <- function(data_long) {
   
   mat_SDG <- data_long %>%
-    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
-    magrittr::set_rownames(c("Peatland", "Urban forest", "Forest", "Grassland", "Tidal marsh", "Mangrove",
-                             "Seagrasse", "Kelp forest", "Pelagic", "Polar area", "Mesopelagic")) 
-  
+    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum)
+    # magrittr::set_rownames(c("Peatland", "Urban forest", "Forest", "Grassland", "Tidal marsh", "Mangrove",
+    #                         "Seagrass", "Kelp forest", "Pelagic", "Polar area", "Mesopelagic"))
+
   SDG_matrix <- mat_SDG[, c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
                             "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
   
@@ -187,15 +187,15 @@ perc_SDG <- function(data_long) {
 
   # % of SDG' targets achieved by group of NCS, terrestrial vs coastal vs marine
   perc_group <- data_long %>%
-    dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland " | ecosystem == "Urban forests" | ecosystem == "Forest" | ecosystem == "Grassland ") ~ "Terrestrial",
-                                           (ecosystem == "Saltmarshes" | ecosystem == "Mangroves" | ecosystem == "Seagrasses" | ecosystem == "Macroalgae") ~ "Coastal",
+    dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "Terrestrial",
+                                           (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "Coastal",
                                            TRUE ~ "Marine")) %>%
     dplyr::group_by(goal.target, group, goal) %>%
     dplyr::summarise(value_grp = dplyr::if_else(sum(value) >= 1, 1, 0),
-                     n_target = length(unique(goal.target))) %>%
+                     n_target  = length(unique(goal.target))) %>%
     dplyr::group_by(goal, group) %>%
     dplyr::summarise_if(is.numeric, sum) %>%
-    dplyr::mutate(perc_group = round((value_grp*100)/n_target, digits = 0)) %>%
+    dplyr::mutate(perc_group = round((value_grp*100)/n_target, digits = 0)) %>% # percentage of contribution of each group
     dplyr::select(-n_target)
   
   # sum of targets achieved in each SDG 
@@ -210,9 +210,9 @@ perc_SDG <- function(data_long) {
     dplyr::summarise(value = dplyr::if_else(sum(value) >= 1, 1, 0)) %>%
     dplyr::group_by(goal) %>%
     dplyr::summarise(value_goal = sum(value),
-                     n_target   = length(unique(goal.target))) %>%
+                     n_target   = length(unique(goal.target))) %>% # number of targets achieved in each SDG
     dplyr::mutate(perc_goal = round((value_goal*100)/n_target, digits = 0),
-                  text      = paste0(value_goal, "/", n_target)) %>%
+                  text      = paste0(value_goal, "/", n_target)) %>% # percentage of targets achieved
     dplyr::left_join(., perc_group, by = "goal") %>%
     dplyr::left_join(., sums, by = "goal") %>%
     dplyr::mutate(perc_global = (value_grp/value_tot)*100,

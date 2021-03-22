@@ -190,29 +190,29 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   barplot_pourc <- ggplot2::ggplot() +
     
     ## Plot bars
-    ggplot2::geom_col(data = data_plot, 
-                      mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))), 
-                                             y = relative_pourcent,
-                                             fill = factor(group, levels = unique(order_group))), 
-                      width = 0.65, 
-                      alpha = 0.8,
+    ggplot2::geom_col(data        = data_plot, 
+                      mapping     = ggplot2::aes(x    = factor(SDG_number, levels = rev(unique(order))), 
+                                                 y    = relative_pourcent,
+                                                 fill = factor(group, levels = unique(order_group))), 
+                      width       = 0.65, 
+                      alpha       = 0.8,
                       show.legend = FALSE) +
    
     ## Add text (number of targets achieved in each SDG)
-    ggplot2::geom_text(mapping = ggplot2::aes(x = SDG_number, 
-                                              y = perc_goal + 5, 
+    ggplot2::geom_text(mapping = ggplot2::aes(x     = SDG_number, 
+                                              y     = perc_goal + 5, 
                                               label = text),
                        nudge_y = 2, 
-                       data = text_plot, 
-                       size = 5) +
+                       data    = text_plot, 
+                       size    = 5) +
     
     ## scale modif
     ggplot2::scale_fill_manual(values = color , 
-                               name = NULL) +
+                               name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks = seq(0, max(data_plot$perc_global), 10), 
-                                expand = c(0.03,0,0.1,0)) +
+                                breaks   = seq(0, max(data_plot$perc_goal), 10), 
+                                expand   = c(0.03,0,0.1,0)) +
     
     ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), 
                               expand = c(0.03,0.03))  +
@@ -220,19 +220,19 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     ggplot2::coord_flip() +
     ggplot2::labs(x = "", y = "") +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text = ggplot2::element_text(size = 12),
+    ggplot2::theme(axis.text   = ggplot2::element_text(size = 12),
                    axis.text.y = ggplot2::element_text(color = rev(color_text), face = "bold"),
-                   axis.title = ggplot2::element_text(size = 18),
+                   axis.title  = ggplot2::element_text(size = 18),
                    
                    # Legend modifications
-                   legend.position = c(0.90, 0.90),
-                   legend.text = ggplot2::element_text(size = 16),
+                   legend.position   = c(0.90, 0.90),
+                   legend.text       = ggplot2::element_text(size = 16),
                    legend.background = ggplot2::element_rect(fill = "transparent", color = "transparent"),
                    
                    # Remove grid on the background
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
-                   plot.background = ggplot2::element_rect(fill = "transparent", colour = NA)) +
+                   plot.background  = ggplot2::element_rect(fill = "transparent", colour = NA)) +
     
     ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
   
@@ -242,7 +242,7 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     save(barplot_pourc, file = here::here("results", "barplot_pourc.RData"))
     ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
     
-  } else {return(barplot)}
+  } 
   
   
   if(legend == TRUE){
@@ -268,7 +268,7 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     save(legend, file = here::here("results", "legend.RData"))
       
     
-  } else {return(barplot)}
+  } else {return(barplot_pourc)}
 
 }
 
