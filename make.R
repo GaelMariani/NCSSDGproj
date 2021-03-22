@@ -25,6 +25,8 @@ raw_dat <- NCSSDGproj::read_matrix()
 pathSDG <- NCSSDGproj::load_SDG_icon()
 pathNCS <- NCSSDGproj::load_NCS_icon()
 
+sheets <- NCSSDGproj::read_all_sheets()
+
 
 
 ##################################################

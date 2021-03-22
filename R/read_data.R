@@ -12,6 +12,22 @@ read_matrix <- function(){
 }
 
 
+#' Read All Sheets Of The Supplementary Material
+#'
+#' @return a list of dataframe for each ecosystem
+#' @export
+#'
+#' @examples
+read_all_sheets <- function(){
+  
+  sheets <- openxlsx::getSheetNames(here::here("rawdata", "supplementary_material.xlsx"))[-c(1,13)] 
+  sheets_list <- lapply(sheets, openxlsx::read.xlsx, xlsxFile = here::here("rawdata", "supplementary_material.xlsx"))
+  
+  names(sheets_list) <- sheets
+  
+  return(sheets_list)
+}
+
 
 #' Load SDG icons path 
 #'
