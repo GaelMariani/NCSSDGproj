@@ -268,7 +268,7 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     save(legend, file = here::here("results", "legend.RData"))
       
     
-  }
+  } else {return(barplot)}
 
 }
 

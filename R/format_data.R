@@ -71,8 +71,15 @@ sheets_to_matrix <- function(sheets_list){
     
       # put ecosystem column as 1st for clarity
       matrix_net <- matrix_net[, c(151, 1:150)]
+      
+    ## Create a df with the net score (positive - negative score)
+    matrix_cum <- (matrix_positive[, -1] - matrix_negative[, -1]) %>%
+      dplyr::mutate(ecossytem = matrix_negative$ecosystem)
+      
+      # put ecosystem column as 1st for clarity
+      matrix_cum <- matrix_cum[, c(151, 1:150)]
   
-  return(list(score_pos = matrix_positive, score_neg = matrix_negative, score_net = matrix_net))  
+  return(list(score_pos = matrix_positive, score_neg = matrix_negative, score_net = matrix_net, score_cumulate = matrix_cum))  
     
 }
 
@@ -177,7 +184,7 @@ format_icons <- function(path, icon_SDG = TRUE) {
 #'
 #' @examples
 perc_SDG <- function(data_long) {
-  
+
   # % of SDG' targets achieved by group of NCS, terrestrial vs coastal vs marine
   perc_group <- data_long %>%
     dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland " | ecosystem == "Urban forests" | ecosystem == "Forest" | ecosystem == "Grassland ") ~ "Terrestrial",
