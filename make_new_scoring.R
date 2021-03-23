@@ -81,11 +81,16 @@ names(SDG_network) <- names(matrix_all)
                                 legend    = FALSE)
     
   
-  ## --- negative matrix 
-    data_neg <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_neg"]])
-  
-    # --- net matrix
-    data_net <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_net"]])
-  
-  ## ---- format negative data
+    
 
+  ## ---- both positive and negative data
+    
+    SDG_network[["score_pos"]][["data_pourc"]]$pos_neg <- "+"
+    SDG_network[["score_neg"]][["data_pourc"]]$pos_neg <- "-"
+    
+    data_plot <- rbind(SDG_network[["score_pos"]][["data_pourc"]], SDG_network[["score_neg"]][["data_pourc"]])
+    
+    data_plot <- data_plot %>% 
+      dplyr::mutate(fill = dplyr::case_when(group == "Coastal" ~ "#5EA9A2", 
+                                            group == "Marine" ~ "#1134A6",
+                                            group == "Terrestrial" ~ "#228B22"))

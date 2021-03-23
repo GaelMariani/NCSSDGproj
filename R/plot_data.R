@@ -184,34 +184,48 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
   order_group <- rev(c("Terrestrial", "Coastal", "Marine"))
   
-  text_plot <-  data_plot[seq(1,46,3),]
+  text_plot <-  data_plot[seq(1,96,3),]
   
   
   barplot_pourc <- ggplot2::ggplot() +
     
     ## Plot bars
     ggplot2::geom_col(data        = data_plot, 
-                      mapping     = ggplot2::aes(x    = factor(SDG_number, levels = rev(unique(order))), 
-                                                 y    = relative_pourcent,
-                                                 fill = factor(group, levels = unique(order_group))), 
+                      mapping     = ggplot2::aes(x     = factor(SDG_number, levels = rev(unique(order))), 
+                                                 y     = relative_pourcent,
+                                                 fill  = factor(group, levels = unique(order_group)),
+                                                 # color = pos_neg,
+                                                 group = pos_neg),  
+                      # position    = ggplot2::position_dodge(width = 0.9),
+                      stat        = "identity",
                       width       = 0.65, 
                       alpha       = 0.8,
                       show.legend = FALSE) +
    
     ## Add text (number of targets achieved in each SDG)
-    ggplot2::geom_text(mapping = ggplot2::aes(x     = SDG_number, 
-                                              y     = perc_goal + 5, 
-                                              label = text),
-                       nudge_y = 2, 
-                       data    = text_plot, 
-                       size    = 5) +
+    ggplot2::geom_text(mapping     = ggplot2::aes(x     = SDG_number, 
+                                                  y     = perc_goal + 5, 
+                                                  # group = pos_neg,
+                                                  # color = pos_neg,
+                                                  label = text),
+                       # nudge_y = 2, 
+                       # position    = ggplot2::position_dodge(width = 0.9),
+                       stat        = "identity",
+                       data        = text_plot, 
+                       size        = 3.5,
+                       show.legend = FALSE) +
+    
+    
     
     ## scale modif
-    ggplot2::scale_fill_manual(values = color , 
-                               name   = NULL) +
+    ggplot2::scale_fill_manual(values = color, 
+                               name   = NULL) 
+    
+    ggplot2::scale_color_manual(values = c("red", "darkgreen"),
+                                name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks   = seq(0, max(data_plot$perc_goal), 10), 
+                                breaks   = seq(0, max(data_plot$perc_global), 10), 
                                 expand   = c(0.03,0,0.1,0)) +
     
     ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), 
@@ -227,14 +241,18 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
                    # Legend modifications
                    legend.position   = c(0.90, 0.90),
                    legend.text       = ggplot2::element_text(size = 16),
-                   legend.background = ggplot2::element_rect(fill = "transparent", color = "transparent"),
+                   legend.background = ggplot2::element_rect(fill  = "transparent", 
+                                                             color = "transparent"),
                    
                    # Remove grid on the background
                    panel.grid.major = ggplot2::element_blank(),
                    panel.grid.minor = ggplot2::element_blank(),
-                   plot.background  = ggplot2::element_rect(fill = "transparent", colour = NA)) +
+                   plot.background  = ggplot2::element_rect(fill   = "transparent", 
+                                                            colour = NA)) +
     
-    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
+    
+    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE)) 
+
   
   ## Save plot
   if(save == TRUE) {

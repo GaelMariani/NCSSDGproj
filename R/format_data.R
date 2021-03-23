@@ -61,19 +61,22 @@ sheets_to_matrix <- function(sheets_list){
     matrix_negative <- do.call(rbind, clean_list_negative) %>%
       dplyr::mutate(ecosystem = rownames(.))
     
+      # multiply by -1 to have positive values
+      matrix_negative[, 1:150] <- matrix_negative[, 1:150] *(-1)
+    
       # put ecosystem column as 1st for clarity
       matrix_negative <- matrix_negative[, c(151, 1:150)]
     
     
     ## Create a df with the net score (positive - negative score)
-    matrix_net <- (matrix_positive[, -1] + matrix_negative[, -1]) %>%
+    matrix_net <- (matrix_positive[, -1] - matrix_negative[, -1]) %>%
       dplyr::mutate(ecossytem = matrix_negative$ecosystem)
     
       # put ecosystem column as 1st for clarity
       matrix_net <- matrix_net[, c(151, 1:150)]
       
-    ## Create a df with the net score (positive - negative score)
-    matrix_cum <- (matrix_positive[, -1] - matrix_negative[, -1]) %>%
+    ## Create a df with the cumulated score (positive + negative score)
+    matrix_cum <- (matrix_positive[, -1] + matrix_negative[, -1]) %>%
       dplyr::mutate(ecossytem = matrix_negative$ecosystem)
       
       # put ecosystem column as 1st for clarity
@@ -216,9 +219,12 @@ perc_SDG <- function(data_long) {
     dplyr::left_join(., perc_group, by = "goal") %>%
     dplyr::left_join(., sums, by = "goal") %>%
     dplyr::mutate(perc_global = (value_grp/value_tot)*100,
-                  relative_pourcent = (perc_global*perc_goal)/100) %>%
-    dplyr::mutate(SDG_number = stringr::str_sub(goal, 5))
-      
+                  relative_pourcent = (perc_global*perc_goal)/100,
+                  SDG_number = stringr::str_sub(goal, 5)) 
+
+  perc_plot$perc_global[is.nan(perc_plot$perc_global)] <- 0
+  perc_plot$relative_pourcent[is.nan(perc_plot$relative_pourcent)] <- 0
+  
     
   return(perc_plot)
   

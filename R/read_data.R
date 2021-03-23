@@ -20,7 +20,7 @@ read_matrix <- function(){
 #' @examples
 read_all_sheets <- function(){
   
-  sheets <- openxlsx::getSheetNames(here::here("rawdata", "supplementary_material.xlsx"))[-c(1,13)] 
+  sheets <- openxlsx::getSheetNames(here::here("rawdata", "supplementary_material.xlsx"))[-c(1,13)] # remove scoring system and Polar sheets
   sheets_list <- lapply(sheets, openxlsx::read.xlsx, xlsxFile = here::here("rawdata", "supplementary_material.xlsx"))
   
   names(sheets_list) <- sheets
