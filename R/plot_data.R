@@ -192,11 +192,11 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     ## Plot bars
     ggplot2::geom_col(data        = data_plot, 
                       mapping     = ggplot2::aes(x     = factor(SDG_number, levels = rev(unique(order))), 
-                                                 y     = relative_pourcent,
+                                                 y     = perc_goal,
                                                  fill  = factor(group, levels = unique(order_group)),
-                                                 # color = pos_neg,
+                                                 #color = pos_neg,
                                                  group = pos_neg),  
-                      # position    = ggplot2::position_dodge(width = 0.9),
+                      position    = ggplot2::position_dodge(width = 0.9),
                       stat        = "identity",
                       width       = 0.65, 
                       alpha       = 0.8,
@@ -205,11 +205,11 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     ## Add text (number of targets achieved in each SDG)
     ggplot2::geom_text(mapping     = ggplot2::aes(x     = SDG_number, 
                                                   y     = perc_goal + 5, 
-                                                  # group = pos_neg,
-                                                  # color = pos_neg,
+                                                  group = pos_neg,
+                                                  color = pos_neg,
                                                   label = text),
                        # nudge_y = 2, 
-                       # position    = ggplot2::position_dodge(width = 0.9),
+                       position    = ggplot2::position_dodge(width = 0.9),
                        stat        = "identity",
                        data        = text_plot, 
                        size        = 3.5,
@@ -218,8 +218,8 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     
     
     ## scale modif
-    ggplot2::scale_fill_manual(values = color, 
-                               name   = NULL) 
+    # ggplot2::scale_fill_manual(values = color, 
+    #                            name   = NULL) +
     
     ggplot2::scale_color_manual(values = c("red", "darkgreen"),
                                 name   = NULL) +
@@ -308,9 +308,9 @@ Figure2 <- function(save = FALSE) {
   # Assemble panels
   fig1 <- cowplot::ggdraw() +
     
-    cowplot::draw_plot(fig1a, x=0, y=0.02, width=0.61, height=0.98) +
-    cowplot::draw_plot(fig1b, x=0.50, y=0.04, width= 0.5, height=1) +
-    cowplot::draw_plot(legend, x=0.3, y=0, width = 0.5, height = 0.05) +
+    cowplot::draw_plot(fig1a, x = 0, y = 0.02, width = 0.61, height = 0.98) +
+    cowplot::draw_plot(fig1b, x = 0.5, y = 0.04, width = 0.5, height = 1) +
+    cowplot::draw_plot(legend, x = 0.3, y = 0, width = 0.5, height = 0.05) +
     cowplot::draw_plot_label(label = c("a", "b"),
                              size = 15,
                              x = c(0, 0.55),
@@ -324,6 +324,39 @@ Figure2 <- function(save = FALSE) {
   } else {return(fig1)}
 }
 
+
+#' Build Figure Two
+#'
+#' @return
+#' @export
+#' 
+#'
+#' @examples
+Figure2_test <- function(save = FALSE) {
+  
+  # Load panels
+  fig1a <- NCSSDGproj::load_Fig1A()
+  fig1b <- NCSSDGproj::load_Fig1B_test()
+  legend <- NCSSDGproj::load_legend()
+  
+  # Assemble panels
+  fig1 <- cowplot::ggdraw() +
+    
+    cowplot::draw_plot(fig1a, x = 0, y = 0.02, width = 0.61, height = 0.98) +
+    cowplot::draw_plot(fig1b, x = 0.5, y = 0.04, width = 0.5, height = 1) +
+    cowplot::draw_plot(legend, x = 0.3, y = 0, width = 0.5, height = 0.05) +
+    cowplot::draw_plot_label(label = c("a", "b"),
+                             size = 15,
+                             x = c(0, 0.55),
+                             y = c(1, 1)) 
+  
+  # save
+  if(save == TRUE) {
+    
+    ggplot2::ggsave(here::here("figures", "Figure2_test.png"), width=10, height=9, device="png")   
+    
+  } else {return(fig1)}
+}
 
 #' Plot Modularity
 #'

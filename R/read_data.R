@@ -88,6 +88,19 @@ load_Fig1B <- function(){
 }
 
 
+#' Load First Figure Panel B test
+#'
+#' @return A RData to plot Figure 1B
+#' @export
+#'
+#' @examples
+load_Fig1B_test <- function(){
+  
+  load(here::here("results", "test_barplot.RData"))
+  return(test_barplot_pourc)
+  
+}
+
 #' Load Legend Of NCS
 #'
 #' @return A RData to plot Figure 1B

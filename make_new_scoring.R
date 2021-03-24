@@ -80,6 +80,9 @@ names(SDG_network) <- names(matrix_all)
                                 save      = FALSE, 
                                 legend    = FALSE)
     
+    # -- bind fig 1A with fig 1B
+    NCSSDGproj::Figure2_test(save = FALSE)
+    
   
     
 
@@ -94,3 +97,8 @@ names(SDG_network) <- names(matrix_all)
       dplyr::mutate(fill = dplyr::case_when(group == "Coastal" ~ "#5EA9A2", 
                                             group == "Marine" ~ "#1134A6",
                                             group == "Terrestrial" ~ "#228B22"))
+    
+    text_pos <- text_plot[text_plot$pos_neg == "+",]
+    text_neg <- text_plot[text_plot$pos_neg == "-",]
+    
+    
