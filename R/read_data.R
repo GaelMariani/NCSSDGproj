@@ -73,6 +73,18 @@ load_Fig1A <- function(){
   
 }
 
+#' Load First Figure Panel A Version Two
+#'
+#' @return A RData to plot Figure 1A
+#' @export
+#'
+#' @examples
+load_Fig1A_V2 <- function(){
+  
+  load(here::here("results", "network_SDG_NCS_V2.RData"))
+  return(netw)
+  
+}
 
 #' Load First Figure Panel B
 #'
@@ -94,7 +106,7 @@ load_Fig1B <- function(){
 #' @export
 #'
 #' @examples
-load_Fig1B_test <- function(){
+load_Fig1B_V2 <- function(){
   
   load(here::here("results", "barplot_perc_achieve.RData"))
   return(barplot_perc_achieve)

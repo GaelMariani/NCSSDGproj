@@ -98,12 +98,14 @@ sheets_to_matrix <- function(sheets_list){
 matrix_SDG <- function(data_long) {
   
   mat_SDG <- data_long %>%
-    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum)
-    # magrittr::set_rownames(c("Peatland", "Urban forest", "Forest", "Grassland", "Tidal marsh", "Mangrove",
-    #                         "Seagrass", "Kelp forest", "Pelagic", "Polar area", "Mesopelagic"))
+    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
+    magrittr::set_rownames(c("Urban forest", "Forest", "Tidalmarsh", "Seagrass", "Macroalgae",
+                             "Pelagic", "Mesopelagic", "Peatland", "Grassland", "Mangrove","Antarctic"))
 
-  SDG_matrix <- mat_SDG[, c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
-                            "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
+  SDG_matrix <- mat_SDG[c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Mangrove",
+                          "Seagrass", "Macroalgae", "Pelagic", "Antarctic", "Mesopelagic"), 
+                        c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
+                          "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
   
   return(SDG_matrix)
   

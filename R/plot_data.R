@@ -162,6 +162,96 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
   
 }
 
+#' Plot Network Version Two
+#'
+#' @param network_obj 
+#' @param matrix 
+#' @param icon_SDG 
+#' @param icon_NCS 
+#' @save if TRUE the plot is saved in the results folder
+#' 
+#'
+#' @return
+#' @export
+#' 
+#'
+#' @examples
+plot_network_V2 <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
+  
+  ## Plot the network
+  netw <- GGally::ggnet2(net        = network_obj, 
+                         mode       = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
+                         label      = FALSE,
+                         shape      = "shape",
+                         size       = c(rowSums(matrix), rep(15, 16)),
+                         max_size   = 18, 
+                         label.size = 2,
+                         edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
+                         edge.alpha = 0.4,
+                         color      = rep("white", 27),
+                         edge.color = NCSSDGproj::edge_col(matrix),
+                         layout.exp = 0.5) +
+    
+    # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
+    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = 1.05) + 
+    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .917) +
+    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .784) +
+    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .651) +
+    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .518) +
+    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .385) +
+    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .252) +
+    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .119) +
+    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.0178) +   
+    ggplot2::annotation_custom(icon_SDG[[10]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.15) + 
+    ggplot2::annotation_custom(icon_SDG[[11]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.283) +
+    ggplot2::annotation_custom(icon_SDG[[12]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.416) + 
+    ggplot2::annotation_custom(icon_SDG[[13]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.549) +
+    ggplot2::annotation_custom(icon_SDG[[14]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.682) +
+    ggplot2::annotation_custom(icon_SDG[[15]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.815) +
+    ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.948) +
+    
+    # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.075, xmax = 0.075, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.120, xmax = 0.120, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.083, xmax = 0.083, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.089, xmax = 0.089, ymin = -Inf, ymax = 0.25) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.098, xmax = 0.098, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.087, xmax = 0.087, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.099, xmax = 0.099, ymin = -Inf, ymax = -.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.073, xmax = 0.073, ymin = -Inf, ymax = -.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.069, xmax = 0.069, ymin = -Inf, ymax = -.95) + 
+    
+    # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
+    ggplot2::scale_y_reverse() + 
+    
+    # add text to ecosystem
+    ggplot2::annotate(geom = "text", 
+                      x = c(rep(-0.2,11)), 
+                      y = seq(0,1,0.1), 
+                      label = rownames(matrix),
+                      color = nodes_col, 
+                      alpha = 0.8,
+                      size = 3.3, 
+                      fontface = "bold") +
+    
+    
+    ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
+                   axis.text.x = ggplot2::element_blank(),
+                   axis.ticks  = ggplot2::element_blank(), 
+                   legend.position = "none") 
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(netw, file = here::here("results", "network_SDG_NCS_V2.RData"))
+    ggplot2::ggsave(here::here("figures", "network_SDG_NCS_V2.png"), width = 5, height = 6.8, device = "png")
+    
+  } else {return(netw)}
+  
+}
+
 
 #' Plot Percentage Legend
 #'
@@ -387,18 +477,18 @@ Figure2 <- function(save = FALSE) {
 }
 
 
-#' Build Figure Two
+#' Build Figure Two Version Two
 #'
 #' @return
 #' @export
 #' 
 #'
 #' @examples
-Figure2_test <- function(save = FALSE) {
+Figure2_V2 <- function(save = FALSE) {
   
   # Load panels
-  fig1a <- NCSSDGproj::load_Fig1A()
-  fig1b <- NCSSDGproj::load_Fig1B_test()
+  fig1a <- NCSSDGproj::load_Fig1A_V2()
+  fig1b <- NCSSDGproj::load_Fig1B_V2()
   legend <- NCSSDGproj::load_legend()
   
   # Assemble panels

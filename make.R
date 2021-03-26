@@ -46,7 +46,7 @@ pathNCS <- NCSSDGproj::load_NCS_icon()
   NCSSDGproj::plot_network(SDG_net, SDG_matrix,
                            icon_SDG = icon_SDG,icon_NCS = icon_NCS,
                            nodes_col = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
-                           save = FALSE)
+                           save = TRUE)
   
   ## ---- plot panel B - the barplot
   NCSSDGproj::barplot_percSDG(data_plot = data_pour, 
