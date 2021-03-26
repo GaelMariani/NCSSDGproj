@@ -182,7 +182,7 @@ barplot_legend <- function(data_plot, color) {
   order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
   order_group <- rev(c("Terrestrial", "Coastal", "Marine"))
   
-  text_plot <-  data_plot[seq(1,96,3),]
+  text_plot <-  data_plot[seq(1,48,3),]
   
     plot_leg <- ggplot2::ggplot() +
       ggplot2::geom_col(data = data_plot, 

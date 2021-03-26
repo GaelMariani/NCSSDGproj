@@ -80,7 +80,8 @@ names(SDG_network) <- names(matrix_all)
                                      save        = TRUE)
     
     # -- plot legend of the two plots
-    NCSSD
+    NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
+                               color = c("#1134A6", "#5EA9A2", "#228B22"))
     
     # -- bind fig 1A with fig 1B
     NCSSDGproj::Figure2_test(save = TRUE)
