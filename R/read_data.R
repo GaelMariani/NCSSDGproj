@@ -96,8 +96,8 @@ load_Fig1B <- function(){
 #' @examples
 load_Fig1B_test <- function(){
   
-  load(here::here("results", "test_barplot.RData"))
-  return(test_barplot_pourc)
+  load(here::here("results", "barplot_perc_achieve.RData"))
+  return(barplot_perc_achieve)
   
 }
 

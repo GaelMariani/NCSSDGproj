@@ -163,19 +163,17 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 }
 
 
-#' Plot Percentage Of Target Achieved
+#' Plot Percentage Legend
 #'
-#' @param data_plot a data frame with percentage of target achieve totally + by group of NCS
-#' @param save if TRUE the plot is saved in the results folder
+#' @param data_plot get it from SDG_network and use positive matrix - SDG_network--"score_pos"-- --"data_pourc"--
 #' @param color color for each type of NCS
-#' @param legend save the legend of the plot, default = FALSE
 #'
-#' @return a ggplot object, barplot, of the % of SDG' target achieved
+#' @return a the legend of the barplot
 #' @export
 #' 
 #'
 #' @examples
-barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
+barplot_legend <- function(data_plot, color) {
   
   color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
                   "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
@@ -186,85 +184,6 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
   
   text_plot <-  data_plot[seq(1,96,3),]
   
-  
-  barplot_pourc <- ggplot2::ggplot() +
-    
-    ## Plot bars
-    ggplot2::geom_col(data        = data_plot, 
-                      mapping     = ggplot2::aes(x     = factor(SDG_number, levels = rev(unique(order))), 
-                                                 y     = perc_goal,
-                                                 fill  = factor(group, levels = unique(order_group)),
-                                                 #color = pos_neg,
-                                                 group = pos_neg),  
-                      position    = ggplot2::position_dodge(width = 0.9),
-                      stat        = "identity",
-                      width       = 0.65, 
-                      alpha       = 0.8,
-                      show.legend = FALSE) +
-   
-    ## Add text (number of targets achieved in each SDG)
-    ggplot2::geom_text(mapping     = ggplot2::aes(x     = SDG_number, 
-                                                  y     = perc_goal + 5, 
-                                                  group = pos_neg,
-                                                  color = pos_neg,
-                                                  label = text),
-                       # nudge_y = 2, 
-                       position    = ggplot2::position_dodge(width = 0.9),
-                       stat        = "identity",
-                       data        = text_plot, 
-                       size        = 3.5,
-                       show.legend = FALSE) +
-    
-    
-    
-    ## scale modif
-    # ggplot2::scale_fill_manual(values = color, 
-    #                            name   = NULL) +
-    
-    ggplot2::scale_color_manual(values = c("red", "darkgreen"),
-                                name   = NULL) +
-    
-    ggplot2::scale_y_continuous(position = "right", 
-                                breaks   = seq(0, max(data_plot$perc_global), 10), 
-                                expand   = c(0.03,0,0.1,0)) +
-    
-    ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))), 
-                              expand = c(0.03,0.03))  +
-    
-    ggplot2::coord_flip() +
-    ggplot2::labs(x = "", y = "") +
-    ggplot2::theme_bw() +
-    ggplot2::theme(axis.text   = ggplot2::element_text(size = 12),
-                   axis.text.y = ggplot2::element_text(color = rev(color_text), face = "bold"),
-                   axis.title  = ggplot2::element_text(size = 18),
-                   
-                   # Legend modifications
-                   legend.position   = c(0.90, 0.90),
-                   legend.text       = ggplot2::element_text(size = 16),
-                   legend.background = ggplot2::element_rect(fill  = "transparent", 
-                                                             color = "transparent"),
-                   
-                   # Remove grid on the background
-                   panel.grid.major = ggplot2::element_blank(),
-                   panel.grid.minor = ggplot2::element_blank(),
-                   plot.background  = ggplot2::element_rect(fill   = "transparent", 
-                                                            colour = NA)) +
-    
-    
-    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE)) 
-
-  
-  ## Save plot
-  if(save == TRUE) {
-    
-    save(barplot_pourc, file = here::here("results", "barplot_pourc.RData"))
-    ggplot2::ggsave(here::here("figures", "barplot_pourc.png"), width = 5, height = 6.8, device = "png")
-    
-  } 
-  
-  
-  if(legend == TRUE){
-    
     plot_leg <- ggplot2::ggplot() +
       ggplot2::geom_col(data = data_plot, 
                         mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))),
@@ -284,10 +203,153 @@ barplot_percSDG <- function(data_plot, color, save = FALSE, legend = FALSE) {
     
     legend <- ggpubr::get_legend(plot_leg)
     save(legend, file = here::here("results", "legend.RData"))
-      
-    
-  } else {return(barplot_pourc)}
 
+}
+
+
+#' Barplot Percentage Of Target Achieved 
+#'
+#' @param SDG_network Matrices with positive and negative relationship - use outputs SDG_network
+#' @param color color for each type of NCS
+#' @param save if statement to save the plot
+#'
+#' @return a barplot with positive and negative values from targets achievement 
+#' @export
+#'
+#' @examples
+barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
+  
+  ### Colors of SDGs
+  color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
+                  "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
+                  "#CF8D2A", "#E11484", "#D3A029", "#007DBC")
+  
+  ### Order SDG to match with order of SDG in panel A
+  order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
+  order_group <- rev(c("Terrestrial","Terrestrial_neg","Coastal", "Coastal_neg", "Marine", "Marine_neg"))
+  
+  
+  ### Format data
+  SDG_network[["score_pos"]][["data_pourc"]]$pos_neg <- "+"
+  SDG_network[["score_neg"]][["data_pourc"]]$pos_neg <- "-"
+  
+  data_plot <- rbind(SDG_network[["score_pos"]][["data_pourc"]], SDG_network[["score_neg"]][["data_pourc"]]) %>%
+    
+    ## column with negative percentage
+    dplyr::mutate(rel_pourc_neg = ifelse(test = pos_neg == "-",
+                                         yes  = -1*relative_pourcent, 
+                                         no   = relative_pourcent),
+                  
+                  ## New group to differenciate positive and negative impacts of ecosystems
+                  group_neg     = ifelse(test = pos_neg == "-",
+                                         yes  = paste0(group, "_neg"), 
+                                         no   = group),
+                  
+                  ## Position of labels for text
+                  text_labs_pos = ifelse(test = pos_neg == "-",
+                                         yes  = (-1*perc_goal) - 8, 
+                                         no   = perc_goal + 8),
+                  
+                  ## Group order
+                  group_order   = forcats::fct_relevel(group_neg, "Marine", "Coastal", "Terrestrial", "Marine_neg", "Coastal_neg", "Terrestrial_neg"))
+          
+   
+  ## Extract text 
+  text_plot <-  data_plot[seq(1,96,3),]
+  
+  ### Plot
+  barplot_perc_achieve <- ggplot2::ggplot() +
+    
+    ## Color area for values below  0 in red
+    ggplot2::geom_rect(mapping = ggplot2::aes(xmin = Inf , 
+                                              xmax = -Inf, 
+                                              ymin = 0, 
+                                              ymax = -Inf),
+                       fill    = "red",
+                       alpha   = 0.10) +
+    
+    ## Color area for values below  0 in green
+    ggplot2::geom_rect(mapping = ggplot2::aes(xmin = Inf , 
+                                              xmax = -Inf, 
+                                              ymin = 0, 
+                                              ymax = Inf),
+                       fill    = "darkgreen",
+                       alpha   = 0.10) +
+    
+    ## Plot bars
+    ggplot2::geom_col(data        = data_plot, 
+                      mapping     = ggplot2::aes(x     = factor(SDG_number, levels = rev(unique(order))), 
+                                                 y     = rel_pourc_neg,
+                                                 fill  = group_order),
+                      position    = "stack",
+                      stat        = "identity",
+                      width       = 0.65, 
+                      alpha       = 0.8,
+                      show.legend = FALSE) +
+    
+    ## Add a vertical bar at 0
+    ggplot2::geom_hline(yintercept = 0) +
+    
+    ## Add text (number of targets achieved in each SDG)
+    ggplot2::geom_text(mapping     = ggplot2::aes(x     = SDG_number, 
+                                                  y     = text_labs_pos, 
+                                                  group = pos_neg,
+                                                  color = pos_neg,
+                                                  label = text),
+                       stat        = "identity",
+                       data        = text_plot, 
+                       size        = 3.5,
+                       show.legend = FALSE) +
+    
+    
+    ## scale modif
+    ggplot2::scale_fill_manual(values = color,
+                               name   = NULL) +
+    
+    ggplot2::scale_color_manual(values = c("red", "darkgreen"),
+                                name   = NULL) +
+    
+    ggplot2::scale_y_continuous(position = "right", 
+                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos)+2, 10), 
+                                               max(data_plot$text_labs_pos) -2, 20)) +
+    
+    ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))),
+                              expand = c(0.03,0.03)) +
+
+    ggplot2::coord_flip() +
+    
+    ggplot2::labs(x = "", y = "") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text   = ggplot2::element_text(size = 12),
+                   axis.text.y = ggplot2::element_text(color = rev(color_text), face = "bold"),
+                   axis.title  = ggplot2::element_text(size = 18),
+                   
+                   # Legend modifications
+                   legend.position   = c(0.90, 0.90),
+                   legend.text       = ggplot2::element_text(size = 16),
+                   legend.background = ggplot2::element_rect(fill  = "transparent", 
+                                                             color = "transparent"),
+                   
+                   # Widen the left margin
+                   #plot.margin = ggplot2::unit(c(2, 2, 4, 2), "lines"),
+                   
+                   # Remove grid on the background
+                   panel.grid.major = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   plot.background  = ggplot2::element_rect(fill   = "transparent", 
+                                                            colour = NA)) +
+    
+    
+    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE)) 
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(barplot_perc_achieve, file = here::here("results", "barplot_perc_achieve.RData"))
+    ggplot2::ggsave(here::here("figures", "barplot_perc_achieve.png"), width = 5, height = 6.8, device = "png")
+    
+  } 
+  
 }
 
 
@@ -353,7 +415,7 @@ Figure2_test <- function(save = FALSE) {
   # save
   if(save == TRUE) {
     
-    ggplot2::ggsave(here::here("figures", "Figure2_test.png"), width=10, height=9, device="png")   
+    ggplot2::ggsave(here::here("figures", "Figure2_V2.png"), width=10, height=9, device="png")   
     
   } else {return(fig1)}
 }
