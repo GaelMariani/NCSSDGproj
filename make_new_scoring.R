@@ -80,9 +80,10 @@ names(SDG_network) <- names(matrix_all)
                                      save        = TRUE)
     
     # -- plot legend of the two plots
+    NCSSD
     
     # -- bind fig 1A with fig 1B
-    NCSSDGproj::Figure2_test(save = FALSE)
+    NCSSDGproj::Figure2_test(save = TRUE)
     
   
     
