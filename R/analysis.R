@@ -1,4 +1,3 @@
-
 #' Target Under Insurance And Over Insurance
 #'
 #' @param data_TI a dataframe with the number of time each target is achieved
@@ -30,7 +29,7 @@ TUI_TOI <- function(data_TI, Necosystem, Ntarget)  {
   
    
   TUI_TOI_TI <- data.frame(TUI = target_under_insurance,
-                           TI = Target_insurance,
+                           TI  = Target_insurance,
                            TOI = target_over_insurance)
   
   
@@ -184,8 +183,6 @@ Correspondance_Analysis <- function(matrix01) {
 }
 
 
-
-
 #' Correspondance Analysis Of Variable Contribution
 #'
 #' @param matrix01 a matrix with NCS in rows and SDG targets in columns
@@ -296,5 +293,58 @@ CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNC
 }      
 
       
-
+#' Randomly Turn Values In A Matrix
+#'
+#' @param data_links a dataframe with links bewteen targets -in columns- and NCS -in rows-
+#' @param percentage percentage of values that match to be replaced
+#'
+#' @return a dataframe with modified values
+#' @export
+#'
+#' @examples
+turn_values_randomly <- function(data_links, percentage){
+  
+  ### Function to replace randomly wanted values
+  turn_values <- function(data, value_to_match, new_value, perc){
+  
+    ## Turn df into a matrix
+    matrix <- as.matrix(data[, -1])
+    
+    ## Select a percentage of values == value_to_match and replace it by new_value 
+    
+      # Cell numbers for which value == value_to_match
+      cell_number <- which(matrix == value_to_match)
+      
+      # Select randomly a percentage of matching values
+      vals_to_be_modified <- round(runif(n   = round(x      = perc*length(cell_number),
+                                                     digits = 0),
+                                         min = 1, 
+                                         max = length(cell_number)))
+      
+      # Replace original values by the new one
+      matrix[cell_number[vals_to_be_modified]] <- new_value
+      
+    ## Format data
+    data <- as.data.frame(matrix) %>%
+      cbind(data[,1], .)
+  
+  }
+  
+  ### Apply the function
+    
+    ## Turn x% of 1 into 2: mimicking that we missed references at the global scale in 10% of cases
+    data_1st_modif <- turn_values(data           = data_links, 
+                                  value_to_match = 1, 
+                                  new_value      = 2, 
+                                  perc           = percentage)
+    
+    ## Turn x% of 1 into 0: mimicking a disagreement between expert on 10% of targets scored with a one
+    data_2nd_modif <- turn_values(data           = data_1st_modif, 
+                                  value_to_match = 1, 
+                                  new_value      = 0, 
+                                  perc           = percentage)
+    
+  return(data_2nd_modif)
+  
+}
 
