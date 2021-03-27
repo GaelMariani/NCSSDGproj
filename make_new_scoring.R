@@ -48,7 +48,7 @@ SDG_network <- lapply(1:length(matrix_all),
                         data_long <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[[i]])
                         
                         # -- weighted contingency matrix of SDG
-                        SDG_matrix <- NCSSDGproj::matrix_SDG(data_long = data_long)
+                        SDG_matrix <- NCSSDGproj::matrix_SDG_V2(data_long = data_long)
                         
                         # -- create a network object
                         SDG_network <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix,
