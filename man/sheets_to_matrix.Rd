@@ -7,10 +7,10 @@
 sheets_to_matrix(sheets_list)
 }
 \arguments{
-\item{sheets_list}{a list of dataframes obtained}
+\item{sheets_list}{a list of dataframes obtained with read_all_sheets}
 }
 \value{
-a list of two elements with positive and negative scores matrix
+a list of four elements -df- with positive, negative, net and cumulate scores matrix
 }
 \description{
 Transform Sheets From Each Ecosystem Into Combined Matrix

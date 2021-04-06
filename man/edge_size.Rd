@@ -7,7 +7,7 @@
 edge_size(matrix, x)
 }
 \arguments{
-\item{matrix}{a weighted or binary matrix}
+\item{matrix}{a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG}
 
 \item{x}{a number}
 }

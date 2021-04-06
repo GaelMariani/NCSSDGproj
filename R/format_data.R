@@ -1,184 +1,9 @@
-
-#' Matrix Long Format
-#'
-#' @param matrix01 the raw matrix with targets in columns and NCS in rows
-#'
-#' @return a dataframe to the long format with value 0 or 1 for each SDG's target and each ecosystem
-#' @export
-#'
-#' @examples
-matrix_to_longDF <- function(matrix01) {
-  
-  data_long <- matrix01 %>%
-    tidyr::gather(., goal.target, value, -1) %>% # long format
-    magrittr::set_names(c("ecosystem", "goal.target", "value")) %>%
-    tidyr::separate(goal.target, c("goal", "target"), sep = "[.]", remove = FALSE) %>%
-    dplyr::mutate(goal = paste("SDG", goal)) %>%
-    dplyr::filter(goal != 17) %>%
-    dplyr::select(-"target") %>%
-    dplyr::arrange(match(x = ecosystem, c("Peatland", "Urban forest", "Forest", "Grassland",
-                                          "Tidalmarsh", "Mangroves", "Seagrass", "Macroalgae",
-                                          "Pelagic area", "Antarctic", "Mesopelagic area"))) %>%
-    dplyr::mutate(ecosystem = forcats::as_factor(ecosystem),
-                  goal.target = factor(goal.target))
-  
-  return(data_long)
-
-}
-
-
-#' Transform Sheets From Each Ecosystem Into Combined Matrix
-#'
-#' @param sheets_list a list of dataframes obtained 
-#'
-#' @return a list of two elements with positive and negative scores matrix
-#' @export
-#'
-#' @examples
-sheets_to_matrix <- function(sheets_list){
-  
-  ### Function to clean and format
-  clean_and_format <- function(df, pos_or_neg) {
-    
-    clean <- df %>%
-      dplyr::filter(nchar(X1) <= 5) %>%
-      dplyr::rename(., targets = X1, score = paste0("New.scoring.system.", pos_or_neg)) %>%
-      dplyr::select("targets", "score") %>%
-      dplyr::mutate(score = as.numeric(score)) %>%
-      tidyr::pivot_wider(names_from = "targets", values_from = "score")
-  }
-  
-    ## Format df with positive scores
-    clean_list_positive <- lapply(sheets_list, clean_and_format, pos_or_neg = "(+)")
-    matrix_positive <- do.call(rbind, clean_list_positive) %>%
-      dplyr::mutate(ecosystem = rownames(.))
-    
-      # put ecosystem column as 1st for clarity
-      matrix_positive <- matrix_positive[, c(151, 1:150)]
-    
-    ## Format df with negative scores
-    clean_list_negative <- lapply(sheets_list, clean_and_format, pos_or_neg = "(-)")
-    matrix_negative <- do.call(rbind, clean_list_negative) %>%
-      dplyr::mutate(ecosystem = rownames(.))
-    
-      # multiply by -1 to have positive values
-      matrix_negative[, 1:150] <- matrix_negative[, 1:150] *(-1)
-    
-      # put ecosystem column as 1st for clarity
-      matrix_negative <- matrix_negative[, c(151, 1:150)]
-    
-    
-    ## Create a df with the net score (positive - negative score)
-    matrix_net <- (matrix_positive[, -1] - matrix_negative[, -1]) %>%
-      dplyr::mutate(ecossytem = matrix_negative$ecosystem)
-    
-      # put ecosystem column as 1st for clarity
-      matrix_net <- matrix_net[, c(151, 1:150)]
-      
-    ## Create a df with the cumulated score (positive + negative score)
-    matrix_cum <- (matrix_positive[, -1] + matrix_negative[, -1]) %>%
-      dplyr::mutate(ecossytem = matrix_negative$ecosystem)
-      
-      # put ecosystem column as 1st for clarity
-      matrix_cum <- matrix_cum[, c(151, 1:150)]
-  
-  return(list(score_pos = matrix_positive, score_neg = matrix_negative, score_net = matrix_net, score_cumulate = matrix_cum))  
-    
-}
-
-
-#' Weighted Contingency Matrix of SDG
-#'
-#' @param data_long A dataframe with 0 and 1 value for each NCS and SDG's targets
-#'
-#' @return a weighted matrix with SDG in columns and NCS in rows
-#' @export
-#'
-#' @examples
-matrix_SDG <- function(data_long) {
-  
-  mat_SDG <- data_long %>%
-    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
-    magrittr::set_rownames(c("Urban forest", "Forest", "Tidalmarsh", "Seagrass", "Macroalgae",
-                             "Pelagic", "Mesopelagic", "Peatland", "Grassland", "Mangrove","Antarctic"))
-
-  SDG_matrix <- mat_SDG[c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Mangrove",
-                          "Seagrass", "Macroalgae", "Pelagic", "Antarctic", "Mesopelagic"), 
-                        c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
-                          "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
-  
-  return(SDG_matrix)
-  
-}
-
-
-#' Weighted Contingency Matrix of SDG Version Two
-#'
-#' @param data_long A dataframe with 0 and 1 value for each NCS and SDG's targets
-#'
-#' @return a weighted matrix with SDG in columns and NCS in rows
-#' @export
-#'
-#' @examples
-matrix_SDG_V2 <- function(data_long) {
-  
-  mat_SDG <- data_long %>%
-    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
-    magrittr::set_rownames(c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Seagrass", "Macroalgae",
-                             "Pelagic","Antarctic", "Mesopelagic", "Mangrove"))
-  
-  SDG_matrix <- mat_SDG[c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Mangrove",
-                          "Seagrass", "Macroalgae", "Pelagic", "Antarctic", "Mesopelagic"), 
-                        c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
-                          "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
-  
-  return(SDG_matrix)
-  
-}
-
-#' From Matrix to Network object
-#'
-#' @param matrix a weighted or binary matrix with SDG in column and NCS in row
-#' @param mode1 
-#' @param mode2 
-#'
-#' @return a network object 
-#' @export
-#' 
-#' @importFrom network `%v%<-` `%v%`
-#'
-#' @examples
-matrix_to_network <- function (matrix, mode1="P", mode2="A") {
-
-  if(!is.matrix(matrix)) matrix <- as.matrix(matrix)
-  
-  p <- dim(matrix)[1]    
-  a <- dim(matrix)[2]    
-  net <- network::network(matrix,
-                          matrix.type = "bipartite",
-                          ignore.eval = FALSE,
-                          names.eval = "weights")
-  net
-  network::set.vertex.attribute(net, "mode", c(rep(mode1, p), rep(mode2, a)))
-  
-  # Rename vertex (or nodes) names
-  network::network.vertex.names(net) <- c(rep("Ecosystem", 11), rep("SDG", 16))
-  
-  # Create "phono" to assign a shape 
-  net %v% "phono" = ifelse(network::network.vertex.names(net) == "Ecosystem", "Ecosystem", "SDG")
-  net %v% "shape" = ifelse(net %v% "phono" == "Ecosystem", 19, 15)
-  
-  return(net)
-  
-}
-
-
 #' Icon In Raster Format
 #'
-#' @param path path to load icons
+#' @param path path to load icons - use load_SDG_icon or load_NCS_icon
 #' @param icon_SDG if TRUE, format SDG icons, else, format NCS icons
 #'
-#' @return A list of raster object with icons ready to plot with ggplot2
+#' @return A list of rastergrob objects with icons ready to plot with ggplot2
 #' @export
 #'
 #' @examples
@@ -203,11 +28,161 @@ format_icons <- function(path, icon_SDG = TRUE) {
 }
 
 
+#' Transform Sheets From Each Ecosystem Into Combined Matrix
+#'
+#' @param sheets_list a list of dataframes obtained with read_all_sheets
+#'
+#' @return a list of four elements -df- with positive, negative, net and cumulate scores matrix
+#' @export
+#'
+#' @examples
+sheets_to_matrix <- function(sheets_list){
+  
+  ### Function to clean and format
+  clean_and_format <- function(df, pos_or_neg) {
+    
+    clean <- df %>%
+      dplyr::filter(nchar(X1) <= 5) %>%
+      dplyr::rename(., targets = X1, score = paste0("New.scoring.system.", pos_or_neg)) %>%
+      dplyr::select("targets", "score") %>%
+      dplyr::mutate(score = as.numeric(score)) %>%
+      tidyr::pivot_wider(names_from = "targets", values_from = "score")
+  }
+  
+  ## Format df with positive scores
+  clean_list_positive <- lapply(sheets_list, clean_and_format, pos_or_neg = "(+)")
+  matrix_positive <- do.call(rbind, clean_list_positive) %>%
+    dplyr::mutate(ecosystem = rownames(.))
+  
+  # put ecosystem column as 1st for clarity
+  matrix_positive <- matrix_positive[, c(151, 1:150)]
+  
+  ## Format df with negative scores
+  clean_list_negative <- lapply(sheets_list, clean_and_format, pos_or_neg = "(-)")
+  matrix_negative <- do.call(rbind, clean_list_negative) %>%
+    dplyr::mutate(ecosystem = rownames(.))
+  
+  # multiply by -1 to have positive values
+  matrix_negative[, 1:150] <- matrix_negative[, 1:150] *(-1)
+  
+  # put ecosystem column as 1st for clarity
+  matrix_negative <- matrix_negative[, c(151, 1:150)]
+  
+  
+  ## Create a df with the net score (positive - negative score)
+  matrix_net <- (matrix_positive[, -1] - matrix_negative[, -1]) %>%
+    dplyr::mutate(ecossytem = matrix_negative$ecosystem)
+  
+  # put ecosystem column as 1st for clarity
+  matrix_net <- matrix_net[, c(151, 1:150)]
+  
+  ## Create a df with the cumulated score (positive + negative score)
+  matrix_cum <- (matrix_positive[, -1] + matrix_negative[, -1]) %>%
+    dplyr::mutate(ecossytem = matrix_negative$ecosystem)
+  
+  # put ecosystem column as 1st for clarity
+  matrix_cum <- matrix_cum[, c(151, 1:150)]
+  
+  return(list(score_pos = matrix_positive, score_neg = matrix_negative, score_net = matrix_net, score_cumulate = matrix_cum))  
+  
+}
+
+
+#' Matrix Long Format
+#'
+#' @param matrix01 the raw matrix with targets in columns and NCS in rows - use sheets_to_matrix
+#'
+#' @return a df to the long format with score for each SDG's target and each ecosystem
+#' @export
+#'
+#' @examples
+matrix_to_longDF <- function(matrix01) {
+  
+  data_long <- matrix01 %>%
+    tidyr::gather(., goal.target, value, -1) %>% # long format
+    magrittr::set_names(c("ecosystem", "goal.target", "value")) %>%
+    tidyr::separate(goal.target, c("goal", "target"), sep = "[.]", remove = FALSE) %>%
+    dplyr::mutate(goal = paste("SDG", goal)) %>%
+    dplyr::filter(goal != 17) %>%
+    dplyr::select(-"target") %>%
+    dplyr::arrange(match(x = ecosystem, c("Peatland", "Urban forest", "Forest", "Grassland",
+                                          "Tidalmarsh", "Mangroves", "Seagrass", "Macroalgae",
+                                          "Pelagic area", "Antarctic", "Mesopelagic area"))) %>%
+    dplyr::mutate(ecosystem = forcats::as_factor(ecosystem),
+                  goal.target = factor(goal.target))
+  
+  return(data_long)
+
+}
+
+
+#' Weighted Contingency Matrix of SDG 
+#'
+#' @param data_long A dataframe with score for each NCS and SDG's targets
+#'
+#' @return a weighted matrix with SDG in columns and NCS in rows
+#' @export
+#'
+#' @examples
+matrix_SDG <- function(data_long) {
+  
+  mat_SDG <- data_long %>%
+    reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
+    magrittr::set_rownames(c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Seagrass", "Macroalgae",
+                             "Pelagic","Antarctic", "Mesopelagic", "Mangrove"))
+  
+  SDG_matrix <- mat_SDG[c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Mangrove",
+                          "Seagrass", "Macroalgae", "Pelagic", "Antarctic", "Mesopelagic"), 
+                        c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
+                          "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
+  
+  return(SDG_matrix)
+  
+}
+
+
+#' From Matrix to Network object
+#'
+#' @param matrix a weighted or binary matrix with SDG in column and NCS in row - use matrix_SDG
+#' @param mode1 
+#' @param mode2 
+#'
+#' @return a network object 
+#' @export
+#' 
+#' @importFrom network `%v%<-` `%v%`
+#'
+#' @examples
+matrix_to_network <- function (matrix, mode1= "P", mode2 = "A") {
+
+  if(!is.matrix(matrix)) matrix <- as.matrix(matrix)
+  
+  p <- dim(matrix)[1]    
+  a <- dim(matrix)[2]    
+  net <- network::network(matrix,
+                          matrix.type = "bipartite",
+                          ignore.eval = FALSE,
+                          names.eval = "weights")
+  net
+  network::set.vertex.attribute(net, "mode", c(rep(mode1, p), rep(mode2, a)))
+  
+  # Rename vertex (or nodes) names
+  network::network.vertex.names(net) <- c(rep("Ecosystem", 11), rep("SDG", 16))
+  
+  # Create "phono" to assign a shape 
+  net %v% "phono" = ifelse(network::network.vertex.names(net) == "Ecosystem", "Ecosystem", "SDG")
+  net %v% "shape" = ifelse(net %v% "phono" == "Ecosystem", 19, 15)
+  
+  return(net)
+  
+}
+
+
 #' Percentage Of Target Achieved
 #'
-#' @param data_long a dataframe to the long format with value 0 or 1 for each SDG's target and each ecosystem
+#' @param data_long a df to the long format with score for each SDG's target and each ecosystem - use matrix_to_longDF
 #'
-#' @return a data frame with percentage of target achieve totally + by group of NCS, values to be plotted 
+#' @return a df with percentage of target achieve totally + by group of NCS, values to be plotted 
 #' @export
 #'
 #' @examples

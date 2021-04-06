@@ -7,12 +7,12 @@
 format_icons(path, icon_SDG = TRUE)
 }
 \arguments{
-\item{path}{path to load icons}
+\item{path}{path to load icons - use load_SDG_icon or load_NCS_icon}
 
 \item{icon_SDG}{if TRUE, format SDG icons, else, format NCS icons}
 }
 \value{
-A list of raster object with icons ready to plot with ggplot2
+A list of rastergrob objects with icons ready to plot with ggplot2
 }
 \description{
 Icon In Raster Format

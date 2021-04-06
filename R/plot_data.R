@@ -1,11 +1,10 @@
-
 #' Railway Coordinates Spread Nodes Equally
 #'
-#' @param mymat a weighted or binary matrix with SDG in column and NCS in row
-#' @param maxX 
-#' @param maxY 
+#' @param mymat a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
+#' @param maxX a number
+#' @param maxY a number
 #'
-#' @return a 2 columns matrix with coordinates of the nodes
+#' @return a 2 columns matrix with coordinates of each nodes
 #' @export
 #'
 #' @examples
@@ -24,7 +23,7 @@ coords <- function (mymat, maxX, maxY) {
 
 #' Scale Edges Size
 #'
-#' @param matrix a weighted or binary matrix 
+#' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
 #' @param x a number 
 #'
 #' @return  a numeric vector of each edge size scaled as a linear function of the number of link
@@ -49,7 +48,7 @@ edge_size <- function(matrix, x) {
 
 #' Set Edges Color
 #'
-#' @param matrix a weighted or binary matrix with SDG in column and NCS in row
+#' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
 #'
 #' @return edge color for each type of NCS
 #' @export
@@ -71,113 +70,21 @@ edge_col <- function(matrix) {
 }
 
 
-
-#' Plot Network
+#' Plot Network As Flux Diagramm
 #'
-#' @param network_obj 
-#' @param matrix 
-#' @param icon_SDG 
-#' @param icon_NCS 
+#' @param network_obj a network object - use matrix_to_network
+#' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
+#' @param icon_SDG a list of 16 rastergrob objects for each SDG - use format_icons
+#' @param icon_NCS a list of 11 rastergrob objects for each NCS - use format_icons
 #' @save if TRUE the plot is saved in the results folder
 #' 
 #'
-#' @return
+#' @return a flux diagramm of the links between SDG and NCS
 #' @export
 #' 
 #'
 #' @examples
 plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
-  
-  ## Plot the network
-  netw <- GGally::ggnet2(net = network_obj, 
-                         mode = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
-                         label = FALSE,
-                         shape = "shape",
-                         size = c(rowSums(matrix), rep(15, 16)),
-                         max_size = 18, 
-                         label.size = 2,
-                         edge.size = NCSSDGproj::edge_size(matrix, 5)/1.3, 
-                         edge.alpha= 0.4,
-                         color = rep("white", 27),
-                         edge.color = NCSSDGproj::edge_col(matrix),
-                         layout.exp = 0.5) +
-    
-    # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
-    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = 1.05) + 
-    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .917) +
-    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .784) +
-    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .651) +
-    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .518) +
-    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .385) +
-    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .252) +
-    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .119) +
-    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.0178) +   
-    ggplot2::annotation_custom(icon_SDG[[10]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.15) + 
-    ggplot2::annotation_custom(icon_SDG[[11]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.283) +
-    ggplot2::annotation_custom(icon_SDG[[12]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.416) + 
-    ggplot2::annotation_custom(icon_SDG[[13]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.549) +
-    ggplot2::annotation_custom(icon_SDG[[14]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.682) +
-    ggplot2::annotation_custom(icon_SDG[[15]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.815) +
-    ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.948) +
-    
-    # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.075, xmax = 0.075, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.120, xmax = 0.120, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.083, xmax = 0.083, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.089, xmax = 0.089, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.098, xmax = 0.098, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.087, xmax = 0.087, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.099, xmax = 0.099, ymin = -Inf, ymax = -.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.073, xmax = 0.073, ymin = -Inf, ymax = -.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.069, xmax = 0.069, ymin = -Inf, ymax = -.95) + 
-    
-    # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
-    ggplot2::scale_y_reverse() + 
-    
-    # add text to ecosystem
-    ggplot2::annotate(geom = "text", 
-                      x = c(rep(-0.2,11)), 
-                      y = seq(0,1,0.1), 
-                      label = rownames(matrix),
-                      color = nodes_col, 
-                      alpha = 0.8,
-                      size = 3.3, 
-                      fontface = "bold") +
-    
-  
-    ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
-                   axis.text.x = ggplot2::element_blank(),
-                   axis.ticks  = ggplot2::element_blank(), 
-                   legend.position = "none") 
-  
-  ## Save plot
-  if(save == TRUE) {
-    
-    save(netw, file = here::here("results", "network_SDG_NCS.RData"))
-    ggplot2::ggsave(here::here("figures", "network_SDG_NCS.png"), width = 5, height = 6.8, device = "png")
-    
-  } else {return(netw)}
-  
-}
-
-
-#' Plot Network Version Two
-#'
-#' @param network_obj 
-#' @param matrix 
-#' @param icon_SDG 
-#' @param icon_NCS 
-#' @save if TRUE the plot is saved in the results folder
-#' 
-#'
-#' @return
-#' @export
-#' 
-#'
-#' @examples
-plot_network_V2 <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
   
   ## Plot the network
   netw <- GGally::ggnet2(net        = network_obj, 
@@ -254,55 +161,11 @@ plot_network_V2 <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, 
 }
 
 
-#' Plot Percentage Legend
-#'
-#' @param data_plot get it from SDG_network and use positive matrix - SDG_network--"score_pos"-- --"data_pourc"--
-#' @param color color for each type of NCS
-#'
-#' @return a the legend of the barplot
-#' @export
-#' 
-#'
-#' @examples
-barplot_legend <- function(data_plot, color) {
-  
-  color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
-                  "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
-                  "#CF8D2A", "#E11484", "#D3A029", "#007DBC")
-  
-  order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
-  order_group <- rev(c("Terrestrial", "Coastal", "Marine"))
-  
-  text_plot <-  data_plot[seq(1,48,3),]
-  
-    plot_leg <- ggplot2::ggplot() +
-      ggplot2::geom_col(data = data_plot, 
-                        mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))),
-                                               y = relative_pourcent,
-                                               fill = factor(group, levels = unique(order_group))), 
-                        width = 0.65) +
-      
-      ggplot2::scale_fill_manual(values = color , 
-                                 name = NULL) +
-      
-      ggplot2::theme(legend.position = "bottom",
-                     legend.text = ggplot2::element_text(size = 16),
-                     legend.background = ggplot2::element_rect(fill = "transparent", 
-                                                               color = "transparent")) +
-      
-      ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
-    
-    legend <- ggpubr::get_legend(plot_leg)
-    save(legend, file = here::here("results", "legend.RData"))
-
-}
-
-
 #' Barplot Percentage Of Target Achieved 
 #'
-#' @param SDG_network Matrices with positive and negative relationship - use outputs SDG_network
+#' @param SDG_network Matrices with positive and negative relationship - use outputs in SDG_network object
 #' @param color color for each type of NCS
-#' @param save if statement to save the plot
+#' @param save if TRUE the plot is saved in the results folder
 #'
 #' @return a barplot with positive and negative values from targets achievement 
 #' @export
@@ -343,8 +206,8 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
                   
                   ## Group order
                   group_order   = forcats::fct_relevel(group_neg, "Marine", "Coastal", "Terrestrial", "Marine_neg", "Coastal_neg", "Terrestrial_neg"))
-          
-   
+  
+  
   ## Extract text 
   text_plot <-  data_plot[seq(1,96,3),]
   
@@ -406,7 +269,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
     
     ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))),
                               expand = c(0.03,0.03)) +
-
+    
     ggplot2::coord_flip() +
     
     ggplot2::labs(x = "", y = "") +
@@ -444,7 +307,51 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
 }
 
 
-#' Build Figure Two
+#' Plot Legend Figure Two
+#'
+#' @param data_plot get it from SDG_network and use positive matrix - SDG_network--"score_pos"-- --"data_pourc"--
+#' @param color color for each type of NCS
+#'
+#' @return a the legend of the barplot
+#' @export
+#' 
+#'
+#' @examples
+barplot_legend <- function(data_plot, color) {
+  
+  color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
+                  "#48773E", "#F36D25", "#EB1C2D", "#C31F33", "#8F1838", "#02558B",
+                  "#CF8D2A", "#E11484", "#D3A029", "#007DBC")
+  
+  order <- c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)
+  order_group <- rev(c("Terrestrial", "Coastal", "Marine"))
+  
+  text_plot <-  data_plot[seq(1,48,3),]
+  
+    plot_leg <- ggplot2::ggplot() +
+      ggplot2::geom_col(data = data_plot, 
+                        mapping = ggplot2::aes(x = factor(SDG_number, levels = rev(unique(order))),
+                                               y = relative_pourcent,
+                                               fill = factor(group, levels = unique(order_group))), 
+                        width = 0.65) +
+      
+      ggplot2::scale_fill_manual(values = color , 
+                                 name = NULL) +
+      
+      ggplot2::theme(legend.position = "bottom",
+                     legend.text = ggplot2::element_text(size = 16),
+                     legend.background = ggplot2::element_rect(fill = "transparent", 
+                                                               color = "transparent")) +
+      
+      ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
+    
+    legend <- ggpubr::get_legend(plot_leg)
+    save(legend, file = here::here("results", "legend.RData"))
+
+}
+
+
+#' Build Figure Two 
 #'
 #' @return
 #' @export
@@ -452,40 +359,6 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
 #'
 #' @examples
 Figure2 <- function(save = FALSE) {
-  
-  # Load panels
-  fig1a <- NCSSDGproj::load_Fig1A()
-  fig1b <- NCSSDGproj::load_Fig1B()
-  legend <- NCSSDGproj::load_legend()
-  
-  # Assemble panels
-  fig1 <- cowplot::ggdraw() +
-    
-    cowplot::draw_plot(fig1a, x = 0, y = 0.02, width = 0.61, height = 0.98) +
-    cowplot::draw_plot(fig1b, x = 0.5, y = 0.04, width = 0.5, height = 1) +
-    cowplot::draw_plot(legend, x = 0.3, y = 0, width = 0.5, height = 0.05) +
-    cowplot::draw_plot_label(label = c("a", "b"),
-                             size = 15,
-                             x = c(0, 0.55),
-                             y = c(1, 1)) 
-  
-  # save
-  if(save == TRUE) {
-    
-    ggplot2::ggsave(here::here("figures", "Figure2.png"), width=10, height=9, device="png")   
-    
-  } else {return(fig1)}
-}
-
-
-#' Build Figure Two Version Two
-#'
-#' @return
-#' @export
-#' 
-#'
-#' @examples
-Figure2_V2 <- function(save = FALSE) {
   
   # Load panels
   fig1a <- NCSSDGproj::load_Fig1A_V2()
@@ -510,6 +383,7 @@ Figure2_V2 <- function(save = FALSE) {
     
   } else {return(fig1)}
 }
+
 
 #' Plot Modularity
 #'

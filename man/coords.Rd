@@ -7,14 +7,14 @@
 coords(mymat, maxX, maxY)
 }
 \arguments{
-\item{mymat}{a weighted or binary matrix with SDG in column and NCS in row}
+\item{mymat}{a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG}
 
-\item{maxX}{}
+\item{maxX}{a number}
 
-\item{maxY}{}
+\item{maxY}{a number}
 }
 \value{
-a 2 columns matrix with coordinates of the nodes
+a 2 columns matrix with coordinates of each nodes
 }
 \description{
 Railway Coordinates Spread Nodes Equally

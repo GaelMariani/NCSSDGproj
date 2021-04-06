@@ -2,22 +2,22 @@
 % Please edit documentation in R/plot_data.R
 \name{plot_network}
 \alias{plot_network}
-\title{Plot Network}
+\title{Plot Network As Flux Diagramm}
 \usage{
 plot_network(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE)
 }
 \arguments{
-\item{network_obj}{}
+\item{network_obj}{a network object - use matrix_to_network}
 
-\item{matrix}{}
+\item{matrix}{a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG}
 
-\item{icon_SDG}{}
+\item{icon_SDG}{a list of 16 rastergrob objects for each SDG - use format_icons}
 
-\item{icon_NCS}{}
+\item{icon_NCS}{a list of 11 rastergrob objects for each NCS - use format_icons}
 }
 \value{
-
+a flux diagramm of the links between SDG and NCS
 }
 \description{
-Plot Network
+Plot Network As Flux Diagramm
 }

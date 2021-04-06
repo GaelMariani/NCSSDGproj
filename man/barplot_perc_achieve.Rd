@@ -7,11 +7,11 @@
 barplot_perc_achieve(SDG_network, color, save = FALSE)
 }
 \arguments{
-\item{SDG_network}{Matrices with positive and negative relationship - use outputs SDG_network}
+\item{SDG_network}{Matrices with positive and negative relationship - use outputs in SDG_network object}
 
 \item{color}{color for each type of NCS}
 
-\item{save}{if statement to save the plot}
+\item{save}{if TRUE the plot is saved in the results folder}
 }
 \value{
 a barplot with positive and negative values from targets achievement

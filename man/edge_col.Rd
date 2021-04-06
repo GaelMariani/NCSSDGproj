@@ -7,7 +7,7 @@
 edge_col(matrix)
 }
 \arguments{
-\item{matrix}{a weighted or binary matrix with SDG in column and NCS in row}
+\item{matrix}{a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG}
 }
 \value{
 edge color for each type of NCS

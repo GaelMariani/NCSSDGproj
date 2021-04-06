@@ -7,10 +7,10 @@
 matrix_to_longDF(matrix01)
 }
 \arguments{
-\item{matrix01}{the raw matrix with targets in columns and NCS in rows}
+\item{matrix01}{the raw matrix with targets in columns and NCS in rows - use sheets_to_matrix}
 }
 \value{
-a dataframe to the long format with value 0 or 1 for each SDG's target and each ecosystem
+a df to the long format with score for each SDG's target and each ecosystem
 }
 \description{
 Matrix Long Format

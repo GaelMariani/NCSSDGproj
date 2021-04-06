@@ -7,7 +7,7 @@
 matrix_SDG(data_long)
 }
 \arguments{
-\item{data_long}{A dataframe with 0 and 1 value for each NCS and SDG's targets}
+\item{data_long}{A dataframe with score for each NCS and SDG's targets}
 }
 \value{
 a weighted matrix with SDG in columns and NCS in rows

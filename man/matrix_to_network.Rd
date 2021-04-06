@@ -7,7 +7,7 @@
 matrix_to_network(matrix, mode1 = "P", mode2 = "A")
 }
 \arguments{
-\item{matrix}{a weighted or binary matrix with SDG in column and NCS in row}
+\item{matrix}{a weighted or binary matrix with SDG in column and NCS in row - use matrix_SDG}
 
 \item{mode1}{}
 

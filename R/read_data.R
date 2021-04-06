@@ -1,17 +1,3 @@
-
-#' Read the binary matrix
-#'
-#' @return a dataframe with targets of the SDGs in columns and NCSs in rows
-#' @export
-#'
-#' @examples
-read_matrix <- function(){
-  
-  read.csv(here::here("rawdata", "matrix01_NCS_SDG.csv"), sep = ";", check.names = FALSE)
-  
-}
-
-
 #' Read All Sheets Of The Supplementary Material
 #'
 #' @return a list of dataframe for each ecosystem
@@ -43,7 +29,6 @@ load_SDG_icon <- function() {
 }
 
 
-
 #' Load NCS icons path 
 #'
 #' @return list of path to read and transform NCS icon 
@@ -73,6 +58,7 @@ load_Fig1A <- function(){
   
 }
 
+
 #' Load First Figure Panel A Version Two
 #'
 #' @return A RData to plot Figure 1A
@@ -85,6 +71,7 @@ load_Fig1A_V2 <- function(){
   return(netw)
   
 }
+
 
 #' Load First Figure Panel B
 #'
