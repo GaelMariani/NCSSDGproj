@@ -99,7 +99,29 @@ sheets  <- NCSSDGproj::read_all_sheets()
 
 ### ----- Format data 
 
-  ## ---- From sheets to matrices
+  ## ---- From sheets to df
   matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets)
+  
+  ## ---- From dataframe to contingency matrixces
+  test <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets)
 
-    
+complementarity_net <- bipartite::networklevel(web   = test[[1]], 
+                                               index = c("niche overlap", "functional complementarity"),
+                                               level = "lower")
+  
+complementarity_grp <- bipartite::grouplevel(web   = test[[1]], 
+                                             index = c("niche overlap", "functional complementarity"),
+                                             level = "lower")
+
+bipartite::grouplevel(web   = test[[1]][1:2,], 
+                      index = c("niche overlap", "functional complementarity"),
+                      level = "lower")
+
+overlap_pos <- spaa::niche.overlap(mat    = t(test[[1]]),
+                                   method = "levins")
+mean(overlap_pos)
+
+overlap_neg <- spaa::niche.overlap(mat    = t(test[[2]]),
+                                   method = "levins")
+mean(overlap_neg)
+

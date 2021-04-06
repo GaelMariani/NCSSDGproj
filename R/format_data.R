@@ -233,15 +233,16 @@ perc_SDG <- function(data_long) {
 
 #' Contingency Matrix Of SDG's Targets For Network Indices And Unipartit Plot
 #'
-#' @param raw_dat a dataframe with targets of the SDGs in columns and NCSs in rows
+#' @param raw_data a dataframe with targets of the SDGs in columns and NCSs in rows
 #'
 #' @return a matrix of 0 and 1 
 #' @export
 #'
 #' @examples
-contingency_mat_targets <- function(raw_dat) {
+contingency_mat_targets <- function(raw_data) {
   
-  raw_dat %>%
+  raw_data %>%
+    as.data.frame() %>%
     replace(., . < 0, 0) %>%
     magrittr::set_rownames(.[,1]) %>%
     dplyr::select(-1) %>%

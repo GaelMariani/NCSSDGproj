@@ -385,27 +385,6 @@ Figure2 <- function(save = FALSE) {
 }
 
 
-#' Plot Modularity
-#'
-#' @param matrix01 formatted matrix to calculate network indices, nestedness and modularity. Use data_netw_indice to format
-#'
-#' @return
-#' @export
-#'
-#' @examples
-modularity_plot <- function(matrix01) {
-  
-  
-  
-  
-  
-  
-}
-
-
-
-
-
 #' Insurance Plot
 #'
 #' @param data A data frame with number of times a target is achieved with a column identifying observed data vs. null data
@@ -528,7 +507,7 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
 
 
 
-#' Barplot Of Contribution
+#' Circular Barplot Of Contribution
 #'
 #' @param data obtained with NCSSDGproj::CA_contri_vars 1st element of the list
 #' @param axis 
@@ -732,45 +711,47 @@ legend_CA <- function(data){
 #' @export
 #'
 #' @examples
-Figure3 <- function(data, targ_contrib12, data_arrow, 
-                    colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
   
   ### Legend
   CA_legend <- NCSSDGproj::legend_CA(data = data)
   CA_legend <- NCSSDGproj::load_CA_legend()
   
   ### Plot NCS from CA analysis
-  arrow <- ggplot2::arrow(angle = 10, type = "closed", length = ggplot2::unit(0.5, "cm"), ends = "last")
+  arrow <- ggplot2::arrow(angle  = 10, 
+                          type   = "closed", 
+                          length = ggplot2::unit(0.5, "cm"), 
+                          ends   = "last")
   
     ## Plot CA for NCS points
-    ca_NCS_12 <- factoextra::fviz_ca_row(X = data,
-                                         axes = c(1,2),
-                                         title = "",
+    ca_NCS_12 <- factoextra::fviz_ca_row(X         = data,
+                                         axes      = c(1,2),
+                                         title     = "",
                                          pointsize = 3,
                                          habillage = data[["grp"]]$group,
-                                         palette = c(colNCS_coast, colNCS_mar, colNCS_ter),
-                                         repel = TRUE,
+                                         palette   = c(colNCS_coast, colNCS_mar, colNCS_ter),
+                                         repel     = TRUE,
                                          invisible = "quali") +
       
       # Arrows
-      ggplot2::geom_segment(data = data_arrow,
-                            mapping = ggplot2::aes(x = x,
-                                                   xend = xmax,
-                                                   y = y,
-                                                   yend = ymax),
-                            arrow = arrow, 
-                            color = data_arrow$color, 
-                            linejoin = "mitre",
-                            lwd = 1.0, 
+      ggplot2::geom_segment(data        = data_arrow,
+                            mapping     = ggplot2::aes(x    = x,
+                                                       xend = xmax,
+                                                       y    = y,
+                                                       yend = ymax),
+                            arrow       = arrow, 
+                            color       = data_arrow$color, 
+                            linejoin    = "mitre",
+                            lwd         = 1.0, 
                             show.legend = NA) +
       
       # Text above arrows
-      ggplot2::annotate(geom ="text", 
-                        x = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
-                        y = rep(0.90, 3), 
+      ggplot2::annotate(geom  ="text", 
+                        x     = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
+                        y     = rep(0.90, 3), 
                         label = data_arrow$text[c(1,3,5)], 
                         color = data_arrow$color[c(1,3,5)], 
-                        size = 5) +
+                        size  = 5) +
       
       ggplot2::ggtitle(NULL) +
       ggplot2::theme_bw() +
@@ -778,20 +759,20 @@ Figure3 <- function(data, targ_contrib12, data_arrow,
     
     
     ## Barplot of contribution for axes 1 
-    NCS_axis1 <- NCSSDGproj::CA_barplot(data = data, 
-                                        axis = 1, 
+    NCS_axis1 <- NCSSDGproj::CA_barplot(data     = data, 
+                                        axis     = 1, 
                                         variable = "row",
-                                        ymin = -28,
-                                        ymax = 30,
-                                        ytitle = -28)
+                                        ymin     = -28,
+                                        ymax     = 30,
+                                        ytitle   = -28)
     
     ## Barplot of contribution for axes 2
-    NCS_axis2 <- NCSSDGproj::CA_barplot(data = data, 
-                                        axis = 2, 
+    NCS_axis2 <- NCSSDGproj::CA_barplot(data     = data, 
+                                        axis     = 2, 
                                         variable = "row",
-                                        ymin = -30,
-                                        ymax = 35,
-                                        ytitle = -30)
+                                        ymin     = -30,
+                                        ymax     = 35,
+                                        ytitle   = -30)
   
   
   ### Plot the most important targets
@@ -809,24 +790,26 @@ Figure3 <- function(data, targ_contrib12, data_arrow,
   data[["grp_targ"]] <- contrib_target
     
     ## CA plot
-    ca_SDG_12 <- ggplot2::ggplot(data = contrib_target,
-                    mapping = ggplot2::aes(x = Coord1,
-                                           y = Coord2,
-                                           group = Type_CA)) + 
+    ca_SDG_12 <- ggplot2::ggplot(data    = contrib_target,
+                                 mapping = ggplot2::aes(x     = Coord1,
+                                                        y     = Coord2,
+                                                        group = Type_CA)) + 
       
-      ggplot2::geom_point(shape = 17, color = contrib_target$Color_CA) +
+      ggplot2::geom_point(shape = 17, 
+                          color = contrib_target$Color_CA) +
       
       ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""),
                                                       group = Type_CA),
-                               color = contrib_target$Color_CA) +
+                               color   = contrib_target$Color_CA) +
       
       ggplot2::geom_hline(yintercept = 0, 
-                          linetype = "dashed") +
+                          linetype   = "dashed") +
       
       ggplot2::geom_vline(xintercept = 0, 
-                          linetype = "dashed") +
+                          linetype   = "dashed") +
       
-      ggplot2::labs(x = "Dim 1 (28.8%)", y = "") +
+      ggplot2::labs(x = "Dim 1 (28.8%)", 
+                    y = "") +
       
       ggplot2::theme_bw()
   
