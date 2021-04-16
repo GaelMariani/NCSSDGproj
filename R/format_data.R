@@ -132,7 +132,7 @@ matrix_SDG <- function(data_long) {
                              "Pelagic","Antarctic", "Mesopelagic", "Mangrove"))
   
   SDG_matrix <- mat_SDG[c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Mangrove",
-                          "Seagrass", "Macroalgae", "Pelagic", "Antarctic", "Mesopelagic"), 
+                          "Seagrass", "Macroalgae", "Pelagic", "Antarctic", "Mesopelagic"),
                         c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
                           "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
   

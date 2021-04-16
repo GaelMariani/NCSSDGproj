@@ -19,7 +19,7 @@ read_matrix <- function(){
 #' @export
 #'
 #' @examples
-matrix_SDG <- function(data_long) {
+matrix_SDG_not_use <- function(data_long) {
   
   mat_SDG <- data_long %>%
     reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
@@ -50,7 +50,7 @@ matrix_SDG <- function(data_long) {
 #' 
 #'
 #' @examples
-plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
+plot_network_unused <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
   
   ## Plot the network
   netw <- GGally::ggnet2(net = network_obj, 
@@ -134,7 +134,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #' 
 #'
 #' @examples
-Figure2 <- function(save = FALSE) {
+Figure2_unused <- function(save = FALSE) {
   
   # Load panels
   fig1a <- NCSSDGproj::load_Fig1A()
