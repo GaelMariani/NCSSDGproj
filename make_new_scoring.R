@@ -32,7 +32,7 @@ pathSDG <- NCSSDGproj::load_SDG_icon()
 pathNCS <- NCSSDGproj::load_NCS_icon()
 
 
-### ----- Format icons
+### ----- Format icons (NCS and SDG icons)
 icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
 icon_NCS <- NCSSDGproj::format_icons(pathNCS, icon_SDG = FALSE)
   
@@ -47,7 +47,7 @@ SDG_network <- lapply(1:length(matrix_all),
                         data_long   <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[[i]])
                         
                         # -- weighted contingency matrix of SDG
-                        SDG_matrix  <- NCSSDGproj::matrix_SDG(data_long = data_long)
+                        test  <- NCSSDGproj::matrix_SDG(data_long = data_long)
                         
                         # -- create a network object
                         SDG_network <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix,
@@ -71,7 +71,7 @@ names(SDG_network) <- names(matrix_all)
                            icon_SDG    = icon_SDG,
                            icon_NCS    = icon_NCS,
                            nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
-                           save        = FALSE)
+                           save        = TRUE)
     
   ## ---- Plot panel B - the barplot
   NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
