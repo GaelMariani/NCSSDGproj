@@ -184,8 +184,8 @@ Correspondance_Analysis <- function(matrix01) {
 
 
 #' Correspondance Analysis Of Variable Contribution
-#'
-#' @param matrix01 a matrix with NCS in rows and SDG targets in columns
+#' 
+#' @param matrix_cont a matrix with NCS in rows and SDG targets in columns
 #' @param axis2_targ 
 #' @param colNCS_ter 
 #' @param colNCS_coast 
@@ -195,18 +195,18 @@ Correspondance_Analysis <- function(matrix01) {
 #' @export
 #'
 #' @examples
-CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNCS_mar){
+CA_contri_vars <- function(matrix_cont, axis2_targ, colNCS_ter, colNCS_coast, colNCS_mar){
   
   ### Correspondance Analysis on the matrix
-  res.ca <- FactoMineR::CA(matrix01, graph = FALSE)
-  res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix01)
+  res.ca <- FactoMineR::CA(matrix_cont, graph = FALSE)
+  res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix_cont)
   
-  ### Contribution of columns (targets) 
+  ### Contribution of columns (targets) to the variance of the different axis
   col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]]) %>%
     dplyr::mutate(target = as.factor(rownames(.)))
   
     ## select rownames of the most contributing targets (those with a contribution significantly higher than expected)
-    col_expect_contrib <- 100/ncol(matrix01)
+    col_expect_contrib <- 100/ncol(matrix_cont)
   
       # 1st axis
       name1 <- as.character(col_contrib$target[col_contrib[,1] >= col_expect_contrib])
@@ -225,7 +225,7 @@ CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNC
         
       col_names34 <- unique(c(name3, name4))
       
-    ## TOP 20 on axis 1 and 2
+    ## TOP 20 most contributing targets on axis 1 and 2
       
       # Axis 1
       TOP20_axis1 <- col_contrib %>%
@@ -245,11 +245,11 @@ CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNC
         dplyr::mutate(target = rownames(.)) %>%
         dplyr::right_join(., axis2_targ[21:40,], by = "target")
       
-  ### Contribution on rows (NCS)
+  ### Contribution of rows (NCS) to the variance of each axis
   row_contrib <- as.data.frame(factoextra::get_ca_row(res.ca)[["contrib"]])
   
     ## select rownames of the most contributing targets (those with a contribution higher than expected)
-    row_expect_contrib <- 100/nrow(matrix01)
+    row_expect_contrib <- 100/nrow(matrix_cont)
     
       # 1st axis 
       name1_r <- rownames(row_contrib[row_contrib[,1] >= row_expect_contrib,])
@@ -257,36 +257,53 @@ CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNC
       name2_r <- rownames(row_contrib[row_contrib[,2] >= row_expect_contrib,])
       
       row_names12 <- unique(c(name1_r, name2_r))
+   
+  ### Add a row because seagrass do not have negative interactions.    
+  if(nrow(res.ca[["row"]][["coord"]]) == 10){
+    
+    tmp <- res.ca[["row"]][["coord"]]
+    
+    new_mat <- matrix(NA, nrow = 11, ncol = ncol(tmp), dimnames = list(c("Urban forest", "Forest", "Peatland", "Grassland", "Seagrass", "Mangrove", "Tidalmarsh", "Macroalgae", "Pelagic area", "Antarctic", "Mesopelagic area"),
+                                                                       dimnames(tmp)[[2]]))
+    new_mat[-5,] <- tmp
+    
+    res.ca[["row"]][["coord"]] <- new_mat
+  }
       
   ### Format data to draw arrows on plot
-  data_arrow <- data.frame(y = rep(0.8, 6),
-                           ymax = rep(0.8, 6),
-                           x = c(min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
-                                 max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
-                                 min(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
-                                 max(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
-                                 min(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
-                                 max(res.ca[["row"]][["coord"]][1:4, "Dim 1"])),
+  data_arrow <- data.frame(y     = rep(0.9, 6),
+                           ymax  = rep(0.9, 6),
+                           x     = c(min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                     max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                     min(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
+                                     max(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
+                                     min(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
+                                     max(res.ca[["row"]][["coord"]][1:4, "Dim 1"])),
                                
-                           xmax = c(max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
-                                    min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
-                                    max(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
-                                    min(res.ca[["row"]][["coord"]][5:8, "Dim 1"]),
-                                    max(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
-                                    min(res.ca[["row"]][["coord"]][1:4, "Dim 1"])),
+                           xmax  = c(max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                     min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                                     max(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
+                                     min(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
+                                     max(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
+                                     min(res.ca[["row"]][["coord"]][1:4, "Dim 1"])),
                            color = c(rep(colNCS_mar, 2), rep(colNCS_coast, 2), rep(colNCS_ter, 2)),
-                           text = c(rep("Marine NCS", 2), rep("Coastal NCS", 2), rep("Terrestrial NCS", 2)))
+                           text  = c(rep("Marine NCS", 2), rep("Coastal NCS", 2), rep("Terrestrial NCS", 2)))
+  
+  ### Remove the sup row added above 
+  if(sum(is.na(res.ca[["row"]][["coord"]])) > 0){
+    res.ca[["row"]][["coord"]] <-  res.ca[["row"]][["coord"]][-5,]
+  }
       
   ### Save data
-  CA_contrib <- list("CorresAna" = res.ca,
+  CA_contrib <- list("CorresAna"        = res.ca,
                      "TOP20_axis1_targ" = TOP20_axis1,
                      "TOP20_axis2_targ" = TOP20_axis2,
-                     "col_contrib" = list("tot" = col_contrib, 
-                                          "axe12" = col_names12, 
-                                          "axe34" = col_names34),
-                     "row_contrib" = list("tot" = row_contrib,
-                                          "axe12" = row_names12),
-                     "data_arrow" = data_arrow)
+                     "col_contrib"      = list("tot"   = col_contrib, 
+                                               "axe12" = col_names12, 
+                                               "axe34" = col_names34),
+                     "row_contrib"      = list("tot"   = row_contrib,
+                                               "axe12" = row_names12),
+                     "data_arrow"       = data_arrow)
   
   return(CA_contrib)
 
@@ -297,12 +314,13 @@ CA_contri_vars <- function(matrix01, axis2_targ, colNCS_ter, colNCS_coast, colNC
 #'
 #' @param data_links a dataframe with links bewteen targets -in columns- and NCS -in rows-
 #' @param percentage percentage of values that match to be replaced
+#' @param binary if statement to turn all values 2 into values 1 for binary analysis
 #'
 #' @return a dataframe with modified values
 #' @export
 #'
 #' @examples
-turn_values_randomly <- function(data_links, percentage){
+turn_values_randomly <- function(data_links, percentage, binary = TRUE){
   
   ### Function to replace randomly wanted values
   turn_values <- function(data, value_to_match, new_value, perc){
@@ -343,6 +361,11 @@ turn_values_randomly <- function(data_links, percentage){
                                   value_to_match = 1, 
                                   new_value      = 0, 
                                   perc           = percentage)
+    
+  ### Choose if return binary data (all 2 transformed into 1) or data from 0 to 2
+  if(binary == TRUE){
+    data_2nd_modif[data_2nd_modif == 2] <- 1
+  }
     
   return(data_2nd_modif)
   

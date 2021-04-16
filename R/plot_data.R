@@ -704,14 +704,14 @@ legend_CA <- function(data){
 #' @param colNCS_mar 
 #' @param save 
 #' @param targ_contrib12 
-#' @param NCScontrib12 
 #' @param data_arrow 
+#' @param name the name to save the plot
 #'
 #' @return
 #' @export
 #'
 #' @examples
-Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE){
+Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE, name){
   
   ### Legend
   CA_legend <- NCSSDGproj::legend_CA(data = data)
@@ -748,7 +748,7 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
       # Text above arrows
       ggplot2::annotate(geom  ="text", 
                         x     = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
-                        y     = rep(0.90, 3), 
+                        y     = rep(1, 3), 
                         label = data_arrow$text[c(1,3,5)], 
                         color = data_arrow$color[c(1,3,5)], 
                         size  = 5) +
@@ -850,8 +850,8 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
   ### Save plot
   if(save == TRUE) {
     
-    save(Figure3, file = here::here("results", "Figure3.RData"))
-    ggplot2::ggsave(here::here("figures", "Figure3.png"), width = 15, height = 8.5, device = "png")
+    save(Figure3, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".RData")), width = 15, height = 8.5, device = "png")
     
   } else {return(Figure3)}
   

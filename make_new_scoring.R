@@ -95,15 +95,67 @@ rm(list = ls(), envir = .GlobalEnv)
   
   
 ### ----- Load data 
-sheets  <- NCSSDGproj::read_all_sheets()
+  
+  ## ---- Data of links between NCS and SDG
+  sheets  <- NCSSDGproj::read_all_sheets()
+
 
 ### ----- Format data 
 
   ## ---- From sheets to df
   matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets)
   
-  ## ---- From dataframe to contingency matrixces
-  test <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets)
+  ## ---- From dataframes to contingency matrices (binary data)
+  matrix_conting <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  
+  ## ---- Informations on the NCS
+  info_NCS <- NCSSDGproj::NCS_info(matrix_cont = matrix_conting[[1]])
+  
+  ## ---- Table of the most contributing targets
+  axis2_targ <- NCSSDGproj::SDG_contrib_tbl() 
+  
+  ## ---- Correspondance analysis for POSITIVE links with the contribution of each target and NCS to the variance of each axis
+  contri_CA_pos <- NCSSDGproj::CA_contri_vars(matrix_cont  = matrix_conting[["score_pos"]],
+                                              axis2_targ   = axis2_targ,
+                                              colNCS_ter   = "#228B22",
+                                              colNCS_coast = "#5EA9A2",
+                                              colNCS_mar   = "#1134A6")
+  
+  ## ---- Correspondance analysis for NEGATIVE links with the contribution of each target and NCS to the variance of each axis
+  contri_CA_neg <- NCSSDGproj::CA_contri_vars(matrix_cont  = matrix_conting[["score_neg"]],
+                                              axis2_targ   = axis2_targ,
+                                              colNCS_ter   = "#228B22",
+                                              colNCS_coast = "#5EA9A2",
+                                              colNCS_mar   = "#1134A6")
+### Plot data 
+  
+  ## ---- Figure with all panels for POSITIVE links
+  NCSSDGproj::Figure3(data           = contri_CA_pos[["CorresAna"]],
+                      targ_contrib12 = contri_CA_pos[["col_contrib"]][["axe12"]],
+                      data_arrow     = contri_CA_pos[["data_arrow"]],
+                      colNCS_ter     = "#228B22", 
+                      colNCS_coast   = "#5EA9A2",
+                      colNCS_mar     = "#1134A6",
+                      save           = TRUE,
+                      name           = "Figure3_pos")
+  
+  ## ---- Figure with all panels for NEGATIVE links
+  NCSSDGproj::Figure3(data           = contri_CA_neg[["CorresAna"]],
+                      targ_contrib12 = contri_CA_neg[["col_contrib"]][["axe12"]],
+                      data_arrow     = contri_CA_neg[["data_arrow"]],
+                      colNCS_ter     = "#228B22", 
+                      colNCS_coast   = "#5EA9A2",
+                      colNCS_mar     = "#1134A6",
+                      save           = TRUE,
+                      name           = "Figure3_neg")
+  
+  
+  
+  
+  
+  
+  
+  
 
 complementarity_net <- bipartite::networklevel(web   = test[[1]], 
                                                index = c("niche overlap", "functional complementarity"),

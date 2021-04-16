@@ -234,20 +234,45 @@ perc_SDG <- function(data_long) {
 #' Contingency Matrix Of SDG's Targets For Network Indices And Unipartit Plot
 #'
 #' @param raw_data a dataframe with targets of the SDGs in columns and NCSs in rows
+#' @param binary if statement to turn all values 2 into values 1 for binary analysis
 #'
 #' @return a matrix of 0 and 1 
 #' @export
 #'
 #' @examples
-contingency_mat_targets <- function(raw_data) {
+contingency_mat_targets <- function(raw_data, binary = TRUE) {
   
-  raw_data %>%
+  data <- raw_data %>%
     as.data.frame() %>%
     replace(., . < 0, 0) %>%
     magrittr::set_rownames(.[,1]) %>%
     dplyr::select(-1) %>%
     bipartite::empty() %>% # delete rows and columns full of 0
     as.matrix
+  
+  ### Choose if return binary data (all 2 transformed into 1) or data from 0 to 2
+  if(binary == TRUE){
+    data[data == 2] <- 1
+  }
+  
+  return(data)
+}
+
+
+#' Natural Climate Solutions Infos
+#'
+#' @param matrix_cont a matrix with targets in columns and NCS in rows
+#'
+#' @return a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine
+#' @export
+#'
+#' @examples
+NCS_info <- function(matrix_cont){
+  
+  data.frame(Ecosystem = rownames(matrix_cont)) %>%
+    dplyr::mutate(group = dplyr::case_when((Ecosystem == "Peatland" | Ecosystem == "Urban forest" | Ecosystem == "Forest" | Ecosystem == "Grassland") ~ "Terrestrial",
+                                           (Ecosystem == "Tidalmarsh" | Ecosystem == "Mangrove" | Ecosystem == "Seagrass" | Ecosystem == "Macroalgae") ~ "Coastal",
+                                           TRUE ~ "Marine"))
   
 }
 
@@ -373,24 +398,6 @@ SDG_infos <- function(matrix01){
   
   return(data)
   
-}
-
-
-#' Natural Climate Solutions Infos
-#'
-#' @param matrix01 a matrix with targets in columns and NCS in rows
-#'
-#' @return a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine
-#' @export
-#'
-#' @examples
-NCS_info <- function(matrix01){
-
-  data.frame(Ecosystem = rownames(matrix01)) %>%
-    dplyr::mutate(group = dplyr::case_when((Ecosystem == "Peatland " | Ecosystem == "Urban forests" | Ecosystem == "Forest" | Ecosystem == "Grassland ") ~ "Terrestrial",
-                                           (Ecosystem == "Saltmarshes" | Ecosystem == "Mangroves" | Ecosystem == "Seagrasses" | Ecosystem == "Macroalgae") ~ "Coastal",
-                                            TRUE ~ "Marine"))
-
 }
 
 
