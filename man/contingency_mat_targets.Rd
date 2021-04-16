@@ -4,10 +4,10 @@
 \alias{contingency_mat_targets}
 \title{Contingency Matrix Of SDG's Targets For Network Indices And Unipartit Plot}
 \usage{
-contingency_mat_targets(raw_dat)
+contingency_mat_targets(raw_data)
 }
 \arguments{
-\item{raw_dat}{a dataframe with targets of the SDGs in columns and NCSs in rows}
+\item{raw_data}{a dataframe with targets of the SDGs in columns and NCSs in rows}
 }
 \value{
 a matrix of 0 and 1

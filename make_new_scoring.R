@@ -119,6 +119,12 @@ bipartite::grouplevel(web   = test[[1]][1:2,],
 
 overlap_pos <- spaa::niche.overlap(mat    = t(test[[1]]),
                                    method = "levins")
+overlap_pos <- spaa::niche.overlap(mat    = t(test[[1]][1:4]),
+                                   method = "levins")
+
+spaa::niche.overlap()
+
+
 mean(overlap_pos)
 
 overlap_neg <- spaa::niche.overlap(mat    = t(test[[2]]),
