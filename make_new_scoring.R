@@ -180,7 +180,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- FORMAT DATA
   
   ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets)
+  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
   
   ## ---- From dataframes to contingency matrices 
   matrix_conting_bin <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = TRUE)
@@ -191,32 +191,65 @@ rm(list = ls(), envir = .GlobalEnv)
   ## ---- Modularity and Nestedness - NMalgo = "quasiswap" to conserve marginal sums
   
     # --- POSITIVE scores
-    mod_nest_res_pos <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_pos"]], 
+    Nest_mod_res_pos <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_pos"]], 
                                                rawdata         = matrix_all[["score_pos"]], 
                                                NMalgo          = "quasiswap", 
                                                NESTmethod      = "NODF",
                                                Nrun            = 1, 
                                                Nsim            = 99, # Nsim = 1000 in the paper - TAKES TIME TO RUN
                                                TargetInsurance = FALSE,
-                                               save = TRUE,
-                                               name = "Nest_Modu_res_pos")
+                                               save            = TRUE,
+                                               name            = "Nest_Modu_res_pos")
     
     # --- NEGATIVE scores
-    mod_nest_res_neg <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_neg"]], 
+    Nest_mod_res_neg <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_neg"]], 
                                                rawdata         = matrix_all[["score_neg"]], 
                                                NMalgo          = "quasiswap", 
                                                NESTmethod      = "NODF",
                                                Nrun            = 1, 
                                                Nsim            = 99, # Nsim = 1000 in the paper - TAKES TIME TO RUN
                                                TargetInsurance = FALSE,
-                                               save = TRUE,
-                                               name = "Nest_Modu_res_neg")
+                                               save            = TRUE,
+                                               name            = "Nest_Modu_res_neg")
+    
+  ## ---- Insurance - NMalgo = "r00" to not conserve marginal sums
+    
+    # --- POSITIVE scores
+    TUI_TOI_res_pos <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_pos"]], 
+                                              rawdata         = matrix_all[["score_pos"]], 
+                                              NMalgo          = "r00",
+                                              Nsim            = 999, # Nsim = 1000 in the paper - TAKES TIME TO RUN
+                                              TargetInsurance = TRUE,
+                                              save            = TRUE,
+                                              name            = "TUI_TOI_res_pos")
+    
+    
+    # --- NEGATIVE scores
+    TUI_TOI_res_neg <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_neg"]], 
+                                              rawdata         = matrix_all[["score_neg"]], 
+                                              NMalgo          = "r00", 
+                                              Nsim            = 999, # Nsim = 1000 in the paper - TAKES TIME TO RUN
+                                              TargetInsurance = TRUE,
+                                              save            = TRUE,
+                                              name            = "TUI_TOI_res_neg")
+    
+    
+    
+#####################################################################
+#                                                                   #
+#               produce FIGURE 4 - Target's insurance               #
+#                                                                   #
+#####################################################################      
+rm(list = ls(), envir = .GlobalEnv)    
+ 
     
     
     
     
     
-  
+    
+    
+     
 
 complementarity_net <- bipartite::networklevel(web   = test[[1]], 
                                                index = c("niche overlap", "functional complementarity"),

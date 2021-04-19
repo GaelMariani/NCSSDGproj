@@ -31,12 +31,13 @@ format_icons <- function(path, icon_SDG = TRUE) {
 #' Transform Sheets From Each Ecosystem Into Combined Matrix
 #'
 #' @param sheets_list a list of dataframes obtained with read_all_sheets
+#' @param binary if statement to turn all values 2 into values 1 for binary analysis
 #'
 #' @return a list of four elements -df- with positive, negative, net and cumulate scores matrix
 #' @export
 #'
 #' @examples
-sheets_to_matrix <- function(sheets_list){
+sheets_to_matrix <- function(sheets_list, binary){
   
   ### Function to clean and format
   clean_and_format <- function(df, pos_or_neg) {
@@ -49,41 +50,51 @@ sheets_to_matrix <- function(sheets_list){
       tidyr::pivot_wider(names_from = "targets", values_from = "score")
   }
   
-  ## Format df with positive scores
-  clean_list_positive <- lapply(sheets_list, clean_and_format, pos_or_neg = "(+)")
-  matrix_positive <- do.call(rbind, clean_list_positive) %>%
-    dplyr::mutate(ecosystem = rownames(.))
+    ## Format df with positive scores
+    clean_list_positive <- lapply(sheets_list, clean_and_format, pos_or_neg = "(+)")
+    matrix_positive <- do.call(rbind, clean_list_positive) %>%
+      dplyr::mutate(ecosystem = rownames(.))
   
-  # put ecosystem column as 1st for clarity
-  matrix_positive <- matrix_positive[, c(151, 1:150)]
+      # put ecosystem column as 1st for clarity
+      matrix_positive <- matrix_positive[, c(151, 1:150)]
   
-  ## Format df with negative scores
-  clean_list_negative <- lapply(sheets_list, clean_and_format, pos_or_neg = "(-)")
-  matrix_negative <- do.call(rbind, clean_list_negative) %>%
-    dplyr::mutate(ecosystem = rownames(.))
+    ## Format df with negative scores
+    clean_list_negative <- lapply(sheets_list, clean_and_format, pos_or_neg = "(-)")
+    matrix_negative <- do.call(rbind, clean_list_negative) %>%
+      dplyr::mutate(ecosystem = rownames(.))
   
-  # multiply by -1 to have positive values
-  matrix_negative[, 1:150] <- matrix_negative[, 1:150] *(-1)
+      # multiply by -1 to have positive values
+      matrix_negative[, 1:150] <- matrix_negative[, 1:150] *(-1)
+      
+      # put ecosystem column as 1st for clarity
+      matrix_negative <- matrix_negative[, c(151, 1:150)]
   
-  # put ecosystem column as 1st for clarity
-  matrix_negative <- matrix_negative[, c(151, 1:150)]
   
+    ## Create a df with the net score (positive - negative score)
+    matrix_net <- (matrix_positive[, -1] - matrix_negative[, -1]) %>%
+      dplyr::mutate(ecossytem = matrix_negative$ecosystem)
   
-  ## Create a df with the net score (positive - negative score)
-  matrix_net <- (matrix_positive[, -1] - matrix_negative[, -1]) %>%
-    dplyr::mutate(ecossytem = matrix_negative$ecosystem)
+      # put ecosystem column as 1st for clarity
+      matrix_net <- matrix_net[, c(151, 1:150)]
   
-  # put ecosystem column as 1st for clarity
-  matrix_net <- matrix_net[, c(151, 1:150)]
+    ## Create a df with the cumulated score (positive + negative score)
+    matrix_cum <- (matrix_positive[, -1] + matrix_negative[, -1]) %>%
+      dplyr::mutate(ecossytem = matrix_negative$ecosystem)
+    
+      # put ecosystem column as 1st for clarity
+      matrix_cum <- matrix_cum[, c(151, 1:150)]
   
-  ## Create a df with the cumulated score (positive + negative score)
-  matrix_cum <- (matrix_positive[, -1] + matrix_negative[, -1]) %>%
-    dplyr::mutate(ecossytem = matrix_negative$ecosystem)
+  ### Choose if return binary data (all 2 transformed into 1) or data from 0 to 2
+  if(binary == TRUE){
+    
+   res <- list(matrix_positive, matrix_negative, matrix_net, matrix_cum)
+    
+    for(i in 1:length(res)){
+      res[[i]][res[[i]] == 2] <- 1
+    }
+  } else {res <- list(matrix_positive, matrix_negative, matrix_net, matrix_cum)}
   
-  # put ecosystem column as 1st for clarity
-  matrix_cum <- matrix_cum[, c(151, 1:150)]
-  
-  return(list(score_pos = matrix_positive, score_neg = matrix_negative, score_net = matrix_net, score_cumulate = matrix_cum))  
+  return(list(score_pos = res[[1]], score_neg = res[[2]], score_net = res[[3]], score_cumulate = res[[4]]))  
   
 }
 
@@ -288,13 +299,11 @@ NCS_info <- function(matrix_cont){
 data_TI <- function(matrix) {
   
   as.data.frame(matrix) %>% 
-    dplyr::bind_cols(rownames(.), .) %>%
-    tidyr::gather(., target, value, -1) %>%
-    stats::setNames(c("ecosystem", "target", "value")) %>%
-    replace(., . < 0, 0) %>%
+    tibble::rownames_to_column(., "ecosystem") %>%
+    tidyr::pivot_longer(!ecosystem, names_to = "target", values_to = "value") %>%
     dplyr::group_by(target) %>%
-    dplyr::summarise(value = sum(value)) %>%
-    dplyr::filter(value != 0)
+    dplyr::summarise(value = sum(value)) 
+    # dplyr::filter(value != 0)
   
 }
 

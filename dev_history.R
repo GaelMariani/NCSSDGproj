@@ -37,6 +37,7 @@ usethis::use_package("plyr")
 usethis::use_package("ggrepel")
 usethis::use_package("openxlsx")
 usethis::use_package("forcats")
+usethis::use_package("tibble")
 usethis::use_pipe()
 
 # Create R script 

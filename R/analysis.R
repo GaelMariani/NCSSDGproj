@@ -18,9 +18,11 @@ TUI_TOI <- function(data_TI, Necosystem, Ntarget)  {
   
   target_under_insurance <- (Ntarget - sum(data_TI$min))/Ntarget
   
-  # TOI, percentage of NCS in excess in target having more NCS than expected from target insurance
-  Target_insurance <- sum(data_TI$value)/Ntarget  # Target Insurance the mean number of ecosystem that help in achieving a target
+  # Target Insurance the mean number of ecosystem that help in achieving a target
+  Target_insurance <- sum(data_TI$value)/Ntarget  
   
+  
+  # TOI, percentage of NCS in excess in target having more NCS than expected from target insurance
   for(nrow in 1:nrow(data_TI)){
     data_TI$max[nrow] <- max(data_TI$value[nrow], Target_insurance)
   }
@@ -125,7 +127,7 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
         dplyr::filter(value != 0)
       
       # Calculate TOI and TUI on observed data
-      indices_obs <- NCSSDGproj::TUI_TOI(TI_data_obs, Necosystem = 11, Ntarget = 84)
+      indices_obs <- NCSSDGproj::TUI_TOI(TI_data_obs, Necosystem = 11, Ntarget = nrow(TI_data_obs))
     
     ## Null matrices 
     nm_r00 <- stats::simulate(vegan::nullmodel(matrix01, NMalgo), nsim = Nsim) # Returns a list of matrices
@@ -135,7 +137,7 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
       data_TI <- lapply(nm_r00, NCSSDGproj::data_TI)
       
       # Calculate TOI and TUI on null matrices
-      indices_NM <- lapply(data_TI, NCSSDGproj::TUI_TOI, Necosystem = 11, Ntarget = 84)
+      indices_NM <- lapply(data_TI, NCSSDGproj::TUI_TOI, Necosystem = 11, Ntarget = nrow(TI_data_obs))
       indices_nullmod_df <- do.call(rbind, indices_NM)
       
     ## Statistic tests

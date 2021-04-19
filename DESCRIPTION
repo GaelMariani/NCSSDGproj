@@ -35,4 +35,5 @@ Imports:
     readxl,
     plyr,
     ggrepel,
-    openxlsx
+    openxlsx,
+    tibble
