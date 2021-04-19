@@ -4,18 +4,20 @@
 \alias{CA_barplot}
 \title{Circular Barplot Of Contribution}
 \usage{
-CA_barplot(data, axis, variable, ymin, ymax, ytitle)
+CA_barplot(data, axis, variable, ymin, ytitle)
 }
 \arguments{
 \item{data}{obtained with NCSSDGproj::CA_contri_vars 1st element of the list}
 
 \item{axis}{}
 
-\item{col_sust}{}
+\item{variable}{}
 
-\item{col_unsust}{}
+\item{ymin}{}
 
-\item{col_oth}{}
+\item{ytitle}{}
+
+\item{ymax}{}
 }
 \value{
 

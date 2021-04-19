@@ -4,10 +4,10 @@
 \alias{NCS_info}
 \title{Natural Climate Solutions Infos}
 \usage{
-NCS_info(matrix01)
+NCS_info(matrix_cont)
 }
 \arguments{
-\item{matrix01}{a matrix with targets in columns and NCS in rows}
+\item{matrix_cont}{a matrix with targets in columns and NCS in rows}
 }
 \value{
 a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine

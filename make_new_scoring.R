@@ -234,6 +234,50 @@ rm(list = ls(), envir = .GlobalEnv)
                                               name            = "TUI_TOI_res_neg")
     
     
+#####################################################################
+#                                                                   #
+#                       Sensitivity analysis                        #
+#                                                                   #
+#####################################################################    
+rm(list = ls(), envir = .GlobalEnv)
+    
+### ----- LOAD DATA
+    
+  ## ---- Data of links between NCS and SDG
+  sheets  <- NCSSDGproj::read_all_sheets()
+  
+  ## Observed modularity and nestedness values
+  obs_metric <- NCSSDGproj::load_metric_obs()
+    
+### ----- FORMAT DATA
+    
+  ## ---- From sheets to df
+  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = FALSE) 
+  
+  ## ---- Randomly turn x% of values and do it 999 times for positive and negative scores
+  matrices_modif <- list(# Positive scores
+                         "score_pos" = replicate(n        = 99,
+                                                 expr     =  NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_pos"]],
+                                                                                              percentage = 0.05, 
+                                                                                              binary     = TRUE),
+                                                 simplify = FALSE),
+                         
+                         # Negative scores
+                         "score_neg" = replicate(n        = 99, 
+                                                 expr     = NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_neg"]],
+                                                                                             percentage = 0.05, 
+                                                                                             binary     = TRUE),
+                                                 simplify = FALSE))
+  
+  ## ---- From dataframes to contingency matrices
+  matrix_conting_bin_pos <- lapply(matrices_modif[["score_pos"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  
+### ----- ANALYSIS
+sensitivity_analysis <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos,
+                                                         obs_values = obs_metric,
+                                                         Nrun       = 5)
+
+        
     
 #####################################################################
 #                                                                   #
@@ -241,9 +285,11 @@ rm(list = ls(), envir = .GlobalEnv)
 #                                                                   #
 #####################################################################      
 rm(list = ls(), envir = .GlobalEnv)    
- 
     
+
     
+
+
     
     
     

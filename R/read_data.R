@@ -154,3 +154,27 @@ SDG_contrib_tbl <- function(){
   
 }
 
+
+#' Load Observed Metrics
+#'
+#' @return
+#' @export
+#'
+#' @examples
+load_metric_obs <- function(){
+  
+  load(here::here("results", "Nest_Modu_res_pos.RData"))
+  nest_mod_obs <- res
+  
+  load(here::here("results", "TUI_TOI_res_pos.RData"))
+  insurance_obs <- res
+  
+  ### Bind data
+  metric_obs <- rbind(nest_mod_obs, insurance_obs)
+  
+  
+  return(metric_obs)
+}
+
+
+

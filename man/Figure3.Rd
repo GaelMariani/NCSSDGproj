@@ -11,7 +11,8 @@ Figure3(
   colNCS_ter,
   colNCS_coast,
   colNCS_mar,
-  save = FALSE
+  save = FALSE,
+  name
 )
 }
 \arguments{
@@ -29,7 +30,7 @@ Figure3(
 
 \item{save}{}
 
-\item{NCScontrib12}{}
+\item{name}{the name of the plot to be saved}
 }
 \value{
 

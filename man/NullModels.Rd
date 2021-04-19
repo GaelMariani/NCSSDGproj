@@ -12,7 +12,8 @@ NullModels(
   Nrun,
   Nsim,
   TargetInsurance = FALSE,
-  save = FALSE
+  save,
+  name
 )
 }
 \arguments{
@@ -29,6 +30,10 @@ NullModels(
 \item{Nsim}{Number of null matrices}
 
 \item{TargetInsurance}{if TRUE, compute Insurance indices, if FALSE calculate  network indices}
+
+\item{save}{if statement to save the results}
+
+\item{name}{the name of the plot to be saved}
 }
 \value{
 a 3 column dataframe with null model results for nestedness and modularity OR TOi and TUI

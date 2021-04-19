@@ -4,10 +4,12 @@
 \alias{contingency_mat_targets}
 \title{Contingency Matrix Of SDG's Targets For Network Indices And Unipartit Plot}
 \usage{
-contingency_mat_targets(raw_data)
+contingency_mat_targets(raw_data, binary = TRUE)
 }
 \arguments{
 \item{raw_data}{a dataframe with targets of the SDGs in columns and NCSs in rows}
+
+\item{binary}{if statement to turn all values 2 into values 1 for binary analysis}
 }
 \value{
 a matrix of 0 and 1

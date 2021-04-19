@@ -4,10 +4,12 @@
 \alias{sheets_to_matrix}
 \title{Transform Sheets From Each Ecosystem Into Combined Matrix}
 \usage{
-sheets_to_matrix(sheets_list)
+sheets_to_matrix(sheets_list, binary)
 }
 \arguments{
 \item{sheets_list}{a list of dataframes obtained with read_all_sheets}
+
+\item{binary}{if statement to turn all values 2 into values 1 for binary analysis}
 }
 \value{
 a list of four elements -df- with positive, negative, net and cumulate scores matrix

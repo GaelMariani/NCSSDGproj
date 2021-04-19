@@ -318,7 +318,7 @@ CA_contri_vars <- function(matrix_cont, axis2_targ, colNCS_ter, colNCS_coast, co
 #' Randomly Turn Values In A Matrix
 #'
 #' @param data_links a dataframe with links bewteen targets -in columns- and NCS -in rows-
-#' @param percentage percentage of values that match to be replaced
+#' @param percentage percentage -from 0 to 1- of values that match to be replaced
 #' @param binary if statement to turn all values 2 into values 1 for binary analysis
 #'
 #' @return a dataframe with modified values
@@ -350,6 +350,10 @@ turn_values_randomly <- function(data_links, percentage, binary = TRUE){
     ## Format data
     data <- as.data.frame(matrix) %>%
       cbind(data[,1], .)
+    
+    colnames(data)[1] <- "ecosystem"
+    
+    return(data)
   
   }
   
@@ -373,6 +377,76 @@ turn_values_randomly <- function(data_links, percentage, binary = TRUE){
   }
     
   return(data_2nd_modif)
+  
+}
+
+
+#' Run Sensitivity Analysis
+#'
+#' @param matrix_rep a list of matrix 
+#' @param obs_values observed metric 
+#' @param Nrun Number of replicate runs for metaComputesModules 
+#'
+#' @return a dataframe with observed and modify metrics and SES and pvalue
+#' @export
+#'
+#' @examples
+sensitivity_analysis <- function(matrix_rep, obs_values, Nrun){
+  
+  ### Modularity
+  modularity <- sapply(matrix_rep, bipartite::metaComputeModules, Nrun)
+  modularity_vals <- sapply(modularity, function(x) x@likelihood)
+  
+  
+  ### Nestedness
+  nestedness <- sapply(matrix_rep, bipartite::nested, method = "NODF")
+  
+  
+  ### Insurance
+    
+    ## Format data
+    data_TI <- lapply(matrix_rep, NCSSDGproj::data_TI)
+    
+    ## Calculations
+    insurance <- lapply(1:length(data_TI), 
+                        function(i){
+                          res <- NCSSDGproj::TUI_TOI(data_TI    = data_TI[[i]],
+                                                     Necosystem = 11, 
+                                                     Ntarget    = nrow(data_TI[[i]]))
+                        })
+    
+    insurance_vals <- do.call(rbind, insurance)
+    
+  ### Statistic tests
+    
+    ## Modularity
+    mod_res <- NCSSDGproj::SES_pval(val_obs   = obs_values["Modularity", "Val_Obs"],
+                                    mean_null = mean(modularity_vals),
+                                    sd_null   = sd(modularity_vals),
+                                    rowname   = "Modularity")
+    
+    ## Nestedness
+    nest_res <- NCSSDGproj::SES_pval(val_obs   = obs_values["Nestedness", "Val_Obs"],
+                                     mean_null = mean(nestedness),
+                                     sd_null   = sd(nestedness),
+                                     rowname   = "Nestedness")
+    
+    ## TUI
+    TUI_res <- NCSSDGproj::SES_pval(val_obs   = obs_values["TUI", "Val_Obs"],
+                                    mean_null = mean(insurance_vals$TUI),
+                                    sd_null   = sd(insurance_vals$TUI),
+                                    rowname   = "TUI")
+    
+    ## TOI
+    TOI_res <- NCSSDGproj::SES_pval(val_obs   = obs_values["TOI", "Val_Obs"],
+                                    mean_null = mean(insurance_vals$TOI),
+                                    sd_null   = sd(insurance_vals$TOI),
+                                    rowname   = "TOI")
+    
+    ## Bind data
+    sensit_ana_res <- rbind(mod_res, nest_res, TUI_res, TOI_res)
+    
+  return(sensit_ana_res)
   
 }
 

@@ -4,12 +4,14 @@
 \alias{turn_values_randomly}
 \title{Randomly Turn Values In A Matrix}
 \usage{
-turn_values_randomly(data_links, percentage)
+turn_values_randomly(data_links, percentage, binary = TRUE)
 }
 \arguments{
 \item{data_links}{a dataframe with links bewteen targets -in columns- and NCS -in rows-}
 
-\item{percentage}{percentage of values that match to be replaced}
+\item{percentage}{percentage -from 0 to 1- of values that match to be replaced}
+
+\item{binary}{if statement to turn all values 2 into values 1 for binary analysis}
 }
 \value{
 a dataframe with modified values
