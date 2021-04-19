@@ -541,7 +541,17 @@ circular_data_CA <- function(data_contrib, variable, axis){
       dplyr::mutate(color = dplyr::case_when(group == "Terrestrial" ~ "#228B22",
                                              group == "Coastal" ~ "#5EA9A2",
                                              group == "Marine" ~ "#1134A6"),
-                    name_var = c("PL", "UFo", "Fo", "GL", "MG", "TD", "SG", "MA", "PME", "Pel", "MP"))
+                    name_var = dplyr::case_when(name_var2 == "Urban forest"     ~ "UFo",
+                                                name_var2 == "Forest"           ~ "FO",
+                                                name_var2 == "Peatland"         ~ "PL",
+                                                name_var2 == "Grassland"        ~ "GL",
+                                                name_var2 == "Mangrove"         ~ "MG",
+                                                name_var2 == "Tidalmarsh"       ~ "TD",
+                                                name_var2 == "Macroalgae"       ~ "MA",
+                                                name_var2 == "Seagrass"         ~ "SG",
+                                                name_var2 == "Pelagic area"     ~ "Pel",
+                                                name_var2 == "Antarctic"        ~ "Ant",
+                                                name_var2 == "Mesopelagic area" ~ "MP"))
 
   
   } else {

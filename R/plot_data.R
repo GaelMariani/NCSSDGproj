@@ -510,16 +510,17 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
 #' Circular Barplot Of Contribution
 #'
 #' @param data obtained with NCSSDGproj::CA_contri_vars 1st element of the list
+#' @param variable 
+#' @param ymin 
+#' @param ymax 
+#' @param ytitle 
 #' @param axis 
-#' @param col_sust 
-#' @param col_unsust 
-#' @param col_oth 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-CA_barplot <- function(data, axis, variable, ymin, ymax, ytitle){
+CA_barplot <- function(data, axis, variable, ymin, ytitle){
   
   if(variable == "row"){
     data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = axis, variable = variable)
@@ -592,7 +593,7 @@ CA_barplot <- function(data, axis, variable, ymin, ymax, ytitle){
                       fontface = "bold", 
                       hjust = 1) +
 
-    ggplot2::ylim(ymin, ymax) +
+    ggplot2::ylim(ymin, max(data_contrib$Dim)*1.3) +
     
     ggplot2::theme_minimal() +
 
@@ -705,7 +706,7 @@ legend_CA <- function(data){
 #' @param save 
 #' @param targ_contrib12 
 #' @param data_arrow 
-#' @param name the name to save the plot
+#' @param name the name of the plot to be saved
 #'
 #' @return
 #' @export
@@ -758,21 +759,21 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
       ggplot2::theme(legend.position = "none") 
     
     
-    ## Barplot of contribution for axes 1 
+    ## Barplot of contribution for axis 1 
     NCS_axis1 <- NCSSDGproj::CA_barplot(data     = data, 
                                         axis     = 1, 
                                         variable = "row",
-                                        ymin     = -28,
-                                        ymax     = 30,
-                                        ytitle   = -28)
+                                        ymin     = -50,
+                                        # ymax     = 58,
+                                        ytitle   = -50)
     
-    ## Barplot of contribution for axes 2
+    ## Barplot of contribution for axis 2
     NCS_axis2 <- NCSSDGproj::CA_barplot(data     = data, 
                                         axis     = 2, 
                                         variable = "row",
-                                        ymin     = -30,
-                                        ymax     = 35,
-                                        ytitle   = -30)
+                                        ymin     = -50,
+                                        # ymax     = 59,
+                                        ytitle   = -50)
   
   
   ### Plot the most important targets
@@ -780,56 +781,56 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
     dplyr::mutate(target = rownames(.)) %>%
     dplyr::select(c(1:2, 6)) %>%
     stats::setNames(c("Coord1", "Coord2", "target"))
-    
+
   contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
-    dplyr::right_join(., all_targ, by = "target") 
-  
+    dplyr::right_join(., all_targ, by = "target")
+
   contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
   contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
-    
+
   data[["grp_targ"]] <- contrib_target
-    
+
     ## CA plot
     ca_SDG_12 <- ggplot2::ggplot(data    = contrib_target,
                                  mapping = ggplot2::aes(x     = Coord1,
                                                         y     = Coord2,
-                                                        group = Type_CA)) + 
-      
-      ggplot2::geom_point(shape = 17, 
+                                                        group = Type_CA)) +
+
+      ggplot2::geom_point(shape = 17,
                           color = contrib_target$Color_CA) +
-      
+
       ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""),
                                                       group = Type_CA),
                                color   = contrib_target$Color_CA) +
-      
-      ggplot2::geom_hline(yintercept = 0, 
+
+      ggplot2::geom_hline(yintercept = 0,
                           linetype   = "dashed") +
-      
-      ggplot2::geom_vline(xintercept = 0, 
+
+      ggplot2::geom_vline(xintercept = 0,
                           linetype   = "dashed") +
-      
-      ggplot2::labs(x = "Dim 1 (28.8%)", 
+
+      ggplot2::labs(x = "Dim 1 (28.8%)",
                     y = "") +
-      
+
       ggplot2::theme_bw()
-  
-    
+
+
     ## Circular plot axis 1
-    SDG_axis1 <- NCSSDGproj::CA_barplot(data = data, 
+    SDG_axis1 <- NCSSDGproj::CA_barplot(data = data,
                                         axis = 1,
                                         variable = "col",
                                         ymin = -5,
-                                        ymax = 6.5,
+                                        # ymax = 6.5,
                                         ytitle = -5)
-    
+
     ## Circular plot axis 2
-    SDG_axis2 <- NCSSDGproj::CA_barplot(data = data, 
+    SDG_axis2 <- NCSSDGproj::CA_barplot(data = data,
                                         axis = 2,
                                         variable = "col",
                                         ymin = -5,
-                                        ymax = 6.5,
+                                        # ymax = 6.5,
                                         ytitle = -5)
-    
+
   ### Arrange plots together
   Figure3 <- cowplot::ggdraw() +
     cowplot::draw_plot(ca_NCS_12, x = 0, y = 0.5, width = 0.5, height = 0.5) +
@@ -842,8 +843,8 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
     cowplot::draw_plot_label(label = c("a", "b", "c", "d", "e", "f"),
                              size = 15,
                              x = c(0, 0.5, 0, 0.25, 0.5, 0.75),
-                             y = c(1, 1, 0.45, 0.45, 0.45, 0.45)) 
-  
+                             y = c(1, 1, 0.45, 0.45, 0.45, 0.45))
+
     
   Figure3
   
@@ -851,7 +852,7 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
   if(save == TRUE) {
     
     save(Figure3, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".RData")), width = 15, height = 8.5, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 15, height = 8.5, device = "png")
     
   } else {return(Figure3)}
   
