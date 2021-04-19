@@ -72,12 +72,14 @@ SES_pval <- function(val_obs, mean_null, sd_null, rowname) {
 #' @param rawdata a dataframe with targets of the SDGs in columns and NCSs in rows
 #' @param Nrun 	Number of replicate runs for metaComputesModules 
 #' @param Nsim Number of null matrices
+#' @param save if statement to save the results
+#' @param name the name of the plot to be saved
 #'
 #' @return a 3 column dataframe with null model results for nestedness and modularity OR TOi and TUI
 #' @export
 #'
 #' @examples
-NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, TargetInsurance = FALSE, save = FALSE) {
+NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, TargetInsurance = FALSE, save, name) {
   
   ## Compute NESTEDNESS and MODULARITY
   if(TargetInsurance == FALSE){
@@ -103,10 +105,10 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
      
     # Bind data
     mod_nest_res <- rbind(mod_res, nest_res)
+    res <- mod_nest_res
+
     
-  return(mod_nest_res)
-    
-  }
+  } # end IF
   
   ### Compute Target Insurance values     
   else{
@@ -144,17 +146,18 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
       
       # Bind results
       TUI_TOI_res <- rbind(TUI_res, TOI_res)
-      
-    return(TUI_TOI_res)
+      res <- TUI_TOI_res
       
   } # end ELSE
   
   
   if(save == TRUE) {
     
-    save(TUI_TOI_res, file = here::here("results", "TUI_TOI_res.RData"))
+    save(res, file = here::here("results", paste0(name, ".RData")))
     
   }
+  
+  return(res)
   
 }
 
