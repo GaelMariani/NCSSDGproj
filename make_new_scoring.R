@@ -294,27 +294,27 @@ rm(list = ls(), envir = .GlobalEnv)
   
 ### ----- ANALYSIS
 sensitivity_analysis_pos0.05 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.05,
-                                                                 obs_values = obs_metric,
+                                                                 obs_values = obs_metric[["score_pos"]],
                                                                  Nrun       = 1,
                                                                  save       = TRUE,
                                                                  name       = "sensitivity_analysis_res_pos0.05")
 
 sensitivity_analysis_pos0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.1,
-                                                                obs_values = obs_metric,
+                                                                obs_values = obs_metric[["score_pos"]],
                                                                 Nrun       = 1,
                                                                 save       = TRUE,
                                                                 name       = "sensitivity_analysis_res_pos0.1")
 
 
-sensitivity_analysis_neg0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_neg0.1,
-                                                                obs_values = obs_metric,
+sensitivity_analysis_neg0.05 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_neg0.05,
+                                                                obs_values = obs_metric[["score_neg"]],
                                                                 Nrun       = 1,
                                                                 save       = TRUE,
-                                                                name       = "sensitivity_analysis_res_neg0.1")
+                                                                name       = "sensitivity_analysis_res_neg0.05")
 
 
 sensitivity_analysis_neg0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_neg0.1,
-                                                                obs_values = obs_metric,
+                                                                obs_values = obs_metric[["score_neg"]],
                                                                 Nrun       = 1,
                                                                 save       = TRUE,
                                                                 name       = "sensitivity_analysis_res_neg0.1")
@@ -349,40 +349,72 @@ rm(list = ls(), envir = .GlobalEnv)
   
   ## ---- Informations on NCSs
   NCS_info <- NCSSDGproj::NCS_info(matrix_cont = matrix_conting_bin[["score_pos"]])
-  
+
   ## ---- Informations on SDGs
   SDG_info <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_pos"]])
+  SDG_info_neg <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_neg"]]) %>%
+    dplyr::mutate(SDG2 = paste("SDG", SDG, sep = " "))
   
   ## ---- SDG icons
   icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
   
   
   
+  
 ### ----- ANALYSIS
   
   ## ---- Compute target's insurance
-  data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix_conting_bin[["score_pos"]], 
-                                                    Ntarget  = ncol(matrix_conting_bin[["score_pos"]])) 
+    
+    # --- POSITIVE results
+    data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix_conting_bin[["score_pos"]], 
+                                                      Ntarget  = ncol(matrix_conting_bin[["score_pos"]])) 
+    
+    # --- NEGATIVE results
+    data_Insurance_neg <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix_conting_bin[["score_neg"]], 
+                                                          Ntarget  = ncol(matrix_conting_bin[["score_neg"]])) 
   
   ## ---- Format data to plot
-  data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
-                                                    data_long = data_long[["score_pos"]], 
-                                                    SDG_info = SDG_info, 
-                                                    NCS_info = NCS_info) # format data with polar coordinates
-  
-### ----- PLOT DATA
-NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]], 
-                                    label_data   = data_circu[[2]],
-                                    base_data    = data_circu[[3]],
-                                    grid_data    = data_circu[[4]],
-                                    SDG_info     = SDG_info,
-                                    colNCS_ter   = "#228B22", 
-                                    colNCS_coast = "#5EA9A2",
-                                    colNCS_mar   = "#1134A6",
-                                    iconSDG      = icon_SDG,
-                                    save         = TRUE,
-                                    name         = "Figure4_pos")   
+    
+    # --- POSITIVE results
+    data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
+                                                      data_long = data_long[["score_pos"]], 
+                                                      SDG_info = SDG_info, 
+                                                      NCS_info = NCS_info) # format data with polar coordinates
 
+    # --- NEGATIVE results
+    data_circu_neg <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance_neg, 
+                                                          data_long = data_long[["score_neg"]], 
+                                                          SDG_info = SDG_info_neg, 
+                                                          NCS_info = NCS_info) # format data with polar coordinates
+        
+        
+### ----- PLOT DATA
+    
+  ## ---- POSITIVE data
+  NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]], 
+                                      label_data   = data_circu[[2]],
+                                      base_data    = data_circu[[3]],
+                                      grid_data    = data_circu[[4]],
+                                      SDG_info     = SDG_info,
+                                      colNCS_ter   = "#228B22", 
+                                      colNCS_coast = "#5EA9A2",
+                                      colNCS_mar   = "#1134A6",
+                                      iconSDG      = icon_SDG,
+                                      save         = TRUE,
+                                      name         = "Figure4_pos")   
+
+  ## ---- NEGATIVE data
+  NCSSDGproj::circular_plot_Insurance(data         = data_circu_neg[[1]], 
+                                      label_data   = data_circu_neg[[2]],
+                                      base_data    = data_circu_neg[[3]],
+                                      grid_data    = data_circu_neg[[4]],
+                                      SDG_info     = SDG_info,
+                                      colNCS_ter   = "#228B22", 
+                                      colNCS_coast = "#5EA9A2",
+                                      colNCS_mar   = "#1134A6",
+                                      iconSDG      = icon_SDG,
+                                      save         = TRUE,
+                                      name         = "Figure4_neg")   
 
     
     

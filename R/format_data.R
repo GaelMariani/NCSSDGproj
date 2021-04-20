@@ -441,12 +441,15 @@ null_data_CircPlot <- function(matrix01, nsim){
 #'
 #' @param data_Insurance 
 #' @param SDG_info 
+#' @param data_long 
+#' @param NCS_info 
+#' @param negative 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_info){
+circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_info, negative = FALSE){
   
   ### Data by group of NCS
   data_Insurance$target <- as.factor(data_Insurance$target)
@@ -472,7 +475,8 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
   
   to_add <- data.frame(matrix(NA, empty_bar*nlevels(data$SDG_order)*nObsType, ncol(data)))
   colnames(to_add) <- colnames(data)
-  to_add$SDG_order <- rep(levels(data$SDG_order), each = empty_bar*nObsType)
+  to_add$SDG_order <- rep(levels(data$SDG_order), each = empty_bar*nObsType) 
+  to_add <- to_add[to_add$SDG_order %in% unique(data$SDG_order),]
   data <- rbind(as.data.frame(data), to_add)
   
   data <- data %>% 
@@ -489,15 +493,17 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
   angle <- 90 - 360 * (label_data$id-0.5)/number_of_bar     
   label_data$hjust <- ifelse(angle < -90, 1, 0)
   label_data$angle <- ifelse(angle < -90, angle + 180, angle)
+
   
   ### Prepare a data frame for base lines
   base_data <- data %>% 
     dplyr::group_by(SDG_order) %>% 
     dplyr::summarize(start = min(id), end = max(id) - 1) %>% 
     dplyr::rowwise() %>% 
-    dplyr::mutate(title = mean(c(start, end)))
+    dplyr::mutate(title = mean(c(start, end))) 
   
-  base_data$SDG <- 1:16
+  # base_data$SDG <- 1:16
+  base_data$SDG <- unique(data$SDG[!is.na(data$SDG)])
   
   base_data[5, 3] <- base_data[5, 3] + 0.5
   base_data[5, 4] <- base_data[5, 4] + 0.25
