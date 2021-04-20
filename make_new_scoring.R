@@ -1,8 +1,10 @@
-####################################################################################
-#                                                                                  #
-# Data and Code for NCS - SDG analysis with the new scoring system (from -2 to +2) #
-#                                                                                  #
-####################################################################################
+######################################################################################
+######################################################################################
+##                                                                                  ##
+## Data and Code for NCS - SDG analysis with the new scoring system (from -2 to +2) ##
+##                                                                                  ##
+######################################################################################
+######################################################################################
 
 ### ----- clean workspace
 rm(list = ls(), envir = .GlobalEnv)
@@ -275,7 +277,9 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- ANALYSIS
 sensitivity_analysis <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos,
                                                          obs_values = obs_metric,
-                                                         Nrun       = 5)
+                                                         Nrun       = 1,
+                                                         save       = TRUE,
+                                                         name       = "sensitivity_analysis_res0.5")
 
         
     

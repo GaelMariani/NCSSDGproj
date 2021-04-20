@@ -75,7 +75,7 @@ SES_pval <- function(val_obs, mean_null, sd_null, rowname) {
 #' @param Nrun 	Number of replicate runs for metaComputesModules 
 #' @param Nsim Number of null matrices
 #' @param save if statement to save the results
-#' @param name the name of the plot to be saved
+#' @param name the name of the data to be saved
 #'
 #' @return a 3 column dataframe with null model results for nestedness and modularity OR TOi and TUI
 #' @export
@@ -386,12 +386,14 @@ turn_values_randomly <- function(data_links, percentage, binary = TRUE){
 #' @param matrix_rep a list of matrix 
 #' @param obs_values observed metric 
 #' @param Nrun Number of replicate runs for metaComputesModules 
+#' @param save if statement to save the results
+#' @param name the name of the data to be saved
 #'
 #' @return a dataframe with observed and modify metrics and SES and pvalue
 #' @export
 #'
 #' @examples
-sensitivity_analysis <- function(matrix_rep, obs_values, Nrun){
+sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name){
   
   ### Modularity
   modularity <- sapply(matrix_rep, bipartite::metaComputeModules, Nrun)
@@ -445,6 +447,13 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun){
     
     ## Bind data
     sensit_ana_res <- rbind(mod_res, nest_res, TUI_res, TOI_res)
+    
+  ### Saving output
+  if(save == TRUE) {
+    
+    save(sensit_ana_res, file = here::here("results", paste0(name, ".RData")))
+    
+  }
     
   return(sensit_ana_res)
   
