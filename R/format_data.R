@@ -350,16 +350,16 @@ Insurance_data2plot <- function(matrix01, Ntarget) {
 
 #' Sustainable Development Goals Infos
 #'
-#' @param matrix01 a matrix with targets in columns and NCS in rows
+#' @param matrix_cont a matrix with targets in columns and NCS in rows
 #'
 #' @return a dataframe with with the category, the color and the name of each SDG and target
 #' @export
 #'
 #' @examples
-SDG_infos <- function(matrix01){
+SDG_infos <- function(matrix_cont){
   
   ## Build a data frame with the name, category and color of each SDG and targets
-  data <- data.frame(name = colnames(matrix01)) %>%
+  data <- data.frame(name = colnames(matrix_cont)) %>%
     tidyr::separate(name, c("SDG", "target"), sep = "[.]", remove = FALSE) %>%
     
     # Add a colomn category (environment vs Economy vs Governance vs Society)

@@ -4,10 +4,10 @@
 \alias{SDG_infos}
 \title{Sustainable Development Goals Infos}
 \usage{
-SDG_infos(matrix01)
+SDG_infos(matrix_cont)
 }
 \arguments{
-\item{matrix01}{a matrix with targets in columns and NCS in rows}
+\item{matrix_cont}{a matrix with targets in columns and NCS in rows}
 }
 \value{
 a dataframe with with the category, the color and the name of each SDG and target

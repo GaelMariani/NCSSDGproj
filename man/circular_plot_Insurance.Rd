@@ -14,7 +14,8 @@ circular_plot_Insurance(
   colNCS_coast,
   colNCS_mar,
   iconSDG,
-  save = FALSE
+  save = FALSE,
+  name
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ circular_plot_Insurance(
 \item{iconSDG}{}
 
 \item{save}{}
+
+\item{name}{}
 }
 \value{
 

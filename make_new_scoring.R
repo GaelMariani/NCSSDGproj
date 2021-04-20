@@ -167,11 +167,11 @@ rm(list = ls(), envir = .GlobalEnv)
   
   
 
-#####################################################################
-#                                                                   #
-#        Null models for Modularity + Nestedness + Insurance        #
-#                                                                   #
-#####################################################################  
+#######################################################
+#                                                     #
+# NULL MODELS for Modularity + Nestedness + Insurance #
+#                                                     #
+#######################################################  
 rm(list = ls(), envir = .GlobalEnv)
   
 ### ----- LOAD DATA
@@ -236,11 +236,11 @@ rm(list = ls(), envir = .GlobalEnv)
                                               name            = "TUI_TOI_res_neg")
     
     
-#####################################################################
-#                                                                   #
-#                       Sensitivity analysis                        #
-#                                                                   #
-#####################################################################    
+################################################################
+#                                                              #
+# SENSITIVITY ANALYSIS for Modularity + Nestedness + Insurance #
+#                                                              #
+################################################################    
 rm(list = ls(), envir = .GlobalEnv)
     
 ### ----- LOAD DATA
@@ -257,41 +257,114 @@ rm(list = ls(), envir = .GlobalEnv)
   matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = FALSE) 
   
   ## ---- Randomly turn x% of values and do it 999 times for positive and negative scores
-  matrices_modif <- list(# Positive scores
-                         "score_pos" = replicate(n        = 99,
-                                                 expr     =  NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_pos"]],
-                                                                                              percentage = 0.05, 
-                                                                                              binary     = TRUE),
-                                                 simplify = FALSE),
-                         
-                         # Negative scores
-                         "score_neg" = replicate(n        = 99, 
-                                                 expr     = NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_neg"]],
-                                                                                             percentage = 0.05, 
-                                                                                             binary     = TRUE),
-                                                 simplify = FALSE))
+  matrices_modif_0.05 <- list(# Positive scores
+                              "score_pos" = replicate(n        = 99,
+                                                      simplify = FALSE,
+                                                      expr     =  NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_pos"]],
+                                                                                                   percentage = 0.05, 
+                                                                                                   binary     = TRUE)),
+                              
+                              # Negative scores
+                              "score_neg" = replicate(n        = 99, 
+                                                      simplify = FALSE,
+                                                      expr     = NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_neg"]],
+                                                                                                  percentage = 0.05, 
+                                                                                                  binary     = TRUE)))
+  
+  matrices_modif_0.1 <- list(# Positive scores
+                             "score_pos" = replicate(n        = 99,
+                                                     simplify = FALSE,
+                                                     expr     =  NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_pos"]],
+                                                                                                  percentage = 0.1, 
+                                                                                                  binary     = TRUE)),
+                            
+                             # Negative scores
+                             "score_neg" = replicate(n        = 99, 
+                                                     simplify = FALSE,
+                                                     expr     = NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_neg"]],
+                                                                                                 percentage = 0.1, 
+                                                                                                 binary     = TRUE)))
   
   ## ---- From dataframes to contingency matrices
-  matrix_conting_bin_pos <- lapply(matrices_modif[["score_pos"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  matrix_conting_bin_pos0.05 <- lapply(matrices_modif_0.05[["score_pos"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  matrix_conting_bin_pos0.1 <- lapply(matrices_modif_0.1[["score_pos"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  
   
 ### ----- ANALYSIS
-sensitivity_analysis <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos,
-                                                         obs_values = obs_metric,
-                                                         Nrun       = 1,
-                                                         save       = TRUE,
-                                                         name       = "sensitivity_analysis_res0.5")
+sensitivity_analysis0.05 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.05,
+                                                             obs_values = obs_metric,
+                                                             Nrun       = 1,
+                                                             save       = TRUE,
+                                                             name       = "sensitivity_analysis_res0.05")
 
-        
+sensitivity_analysis0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.1,
+                                                            obs_values = obs_metric,
+                                                            Nrun       = 1,
+                                                            save       = TRUE,
+                                                            name       = "sensitivity_analysis_res0.1")
+
+
     
-#####################################################################
-#                                                                   #
-#               produce FIGURE 4 - Target's insurance               #
-#                                                                   #
-#####################################################################      
+#########################################
+#                                       #
+# produce FIGURE 4 - Target's insurance #
+#                                       #
+#########################################      
 rm(list = ls(), envir = .GlobalEnv)    
-    
 
+### ----- LOAD DATA
     
+  ## ---- Data of links between NCS and SDG
+  sheets  <- NCSSDGproj::read_all_sheets()
+  
+  ## ---- SDG icons
+  pathSDG <- NCSSDGproj::load_SDG_icon()
+
+### ----- FORMAT DATA
+  
+  ## ---- From sheets to df
+  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  
+  ## ---- From dataframes to contingency matrices 
+  matrix_conting_bin <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  
+  ## ---- Format data into a long data frame
+  data_long <- lapply(matrix_all, NCSSDGproj::matrix_to_longDF)
+  
+  ## ---- Informations on NCSs
+  NCS_info <- NCSSDGproj::NCS_info(matrix_cont = matrix_conting_bin[["score_pos"]])
+  
+  ## ---- Informations on SDGs
+  SDG_info <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_pos"]])
+  
+  ## ---- SDG icons
+  icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
+  
+  
+  
+### ----- ANALYSIS
+  
+  ## ---- Compute target's insurance
+  data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix_conting_bin[["score_pos"]], 
+                                                    Ntarget  = ncol(matrix_conting_bin[["score_pos"]])) 
+  
+  ## ---- Format data to plot
+  data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
+                                                    data_long = data_long[["score_pos"]], 
+                                                    SDG_info = SDG_info, 
+                                                    NCS_info = NCS_info) # format data with polar coordinates
+### ----- PLOT DATA
+NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]], 
+                                    label_data   = data_circu[[2]],
+                                    base_data    = data_circu[[3]],
+                                    grid_data    = data_circu[[4]],
+                                    SDG_info     = SDG_info,
+                                    colNCS_ter   = "#228B22", 
+                                    colNCS_coast = "#5EA9A2",
+                                    colNCS_mar   = "#1134A6",
+                                    iconSDG      = icon_SDG,
+                                    save         = TRUE,
+                                    name         = "circular_plot_V2")   
 
 
     
