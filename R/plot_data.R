@@ -920,7 +920,7 @@ legend_verti <- function(data_plot, color){
 #' @export
 #'
 #' @examples
-circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, colNCS_ter, colNCS_coast, colNCS_mar, iconSDG, save = FALSE, name){
+circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_info, colNCS_ter, colNCS_coast, colNCS_mar, icon_SDG, save = FALSE, name){
   
   # Color scale
   col <- SDG_info %>%
@@ -1097,8 +1097,21 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
                                name = NULL) 
   
+  
+  
   ## Add SDG icons
   plot <- cowplot::ggdraw(plot)
+  
+  ## Remove unwanted icons 
+  data$SDG2 <- paste("SDG", data$SDG, sep = " ")
+  
+  for(i in 1:length(icon_SDG)){
+    
+    if(! names(icon_SDG)[i] %in% data$SDG2){
+      icon_SDG[i] <- list(NULL)
+    }
+    
+  }
   
   circular_plot <- plot +
     cowplot::draw_plot(vert_legend,    x = 0.135,  y = 0.135,  width = 0.75,  height = 0.75) +

@@ -352,8 +352,7 @@ rm(list = ls(), envir = .GlobalEnv)
 
   ## ---- Informations on SDGs
   SDG_info <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_pos"]])
-  SDG_info_neg <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_neg"]]) %>%
-    dplyr::mutate(SDG2 = paste("SDG", SDG, sep = " "))
+  SDG_info_neg <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_neg"]]) 
   
   ## ---- SDG icons
   icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
@@ -408,11 +407,11 @@ rm(list = ls(), envir = .GlobalEnv)
                                       label_data   = data_circu_neg[[2]],
                                       base_data    = data_circu_neg[[3]],
                                       grid_data    = data_circu_neg[[4]],
-                                      SDG_info     = SDG_info,
+                                      SDG_info     = SDG_info_neg,
                                       colNCS_ter   = "#228B22", 
                                       colNCS_coast = "#5EA9A2",
                                       colNCS_mar   = "#1134A6",
-                                      iconSDG      = icon_SDG,
+                                      icon_SDG      = icon_SDG,
                                       save         = TRUE,
                                       name         = "Figure4_neg")   
 

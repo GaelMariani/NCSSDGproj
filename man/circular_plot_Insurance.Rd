@@ -13,7 +13,7 @@ circular_plot_Insurance(
   colNCS_ter,
   colNCS_coast,
   colNCS_mar,
-  iconSDG,
+  icon_SDG,
   save = FALSE,
   name
 )
@@ -35,11 +35,11 @@ circular_plot_Insurance(
 
 \item{colNCS_mar}{}
 
-\item{iconSDG}{}
-
 \item{save}{}
 
 \item{name}{}
+
+\item{iconSDG}{}
 }
 \value{
 
