@@ -36,8 +36,8 @@ the paper.
 The [:hammer: dev\_history.R](dev_history.R) file allow to rebuild our
 research compendium from scratch.
 
-The [:briefcase: make.R](make_new_scoring.R) file allow to produce all
-the analyses and render the corresponding plots.
+The [:briefcase: make\_new\_scoring.R](make_new_scoring.R) file allow to
+produce all the analyses and render the corresponding plots.
 
 ## How to run it?
 
