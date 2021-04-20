@@ -163,16 +163,27 @@ SDG_contrib_tbl <- function(){
 #' @examples
 load_metric_obs <- function(){
   
+  ### POSITIVE data
   load(here::here("results", "Nest_Modu_res_pos.RData"))
   nest_mod_obs <- res
   
   load(here::here("results", "TUI_TOI_res_pos.RData"))
   insurance_obs <- res
   
-  ### Bind data
-  metric_obs <- rbind(nest_mod_obs, insurance_obs)
+    ## Bind data
+    metric_obs_pos <- rbind(nest_mod_obs, insurance_obs)
   
+  ### NEGATIVE DATA
+  load(here::here("results", "Nest_Modu_res_neg.RData"))
+  nest_mod_obs <- res
   
+  load(here::here("results", "TUI_TOI_res_neg.RData"))
+  insurance_obs <- res
+  
+    ## Bind data
+    metric_obs_neg <- rbind(nest_mod_obs, insurance_obs)
+  
+  metric_obs <- list("score_pos" = metric_obs_pos, "score_neg" = metric_obs_neg)
   return(metric_obs)
 }
 

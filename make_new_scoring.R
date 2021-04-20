@@ -288,20 +288,36 @@ rm(list = ls(), envir = .GlobalEnv)
   ## ---- From dataframes to contingency matrices
   matrix_conting_bin_pos0.05 <- lapply(matrices_modif_0.05[["score_pos"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
   matrix_conting_bin_pos0.1 <- lapply(matrices_modif_0.1[["score_pos"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  matrix_conting_bin_neg0.05 <- lapply(matrices_modif_0.05[["score_neg"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
+  matrix_conting_bin_neg0.1 <- lapply(matrices_modif_0.1[["score_neg"]], NCSSDGproj::contingency_mat_targets, binary = TRUE)
   
   
 ### ----- ANALYSIS
-sensitivity_analysis0.05 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.05,
-                                                             obs_values = obs_metric,
-                                                             Nrun       = 1,
-                                                             save       = TRUE,
-                                                             name       = "sensitivity_analysis_res0.05")
+sensitivity_analysis_pos0.05 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.05,
+                                                                 obs_values = obs_metric,
+                                                                 Nrun       = 1,
+                                                                 save       = TRUE,
+                                                                 name       = "sensitivity_analysis_res_pos0.05")
 
-sensitivity_analysis0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.1,
-                                                            obs_values = obs_metric,
-                                                            Nrun       = 1,
-                                                            save       = TRUE,
-                                                            name       = "sensitivity_analysis_res0.1")
+sensitivity_analysis_pos0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.1,
+                                                                obs_values = obs_metric,
+                                                                Nrun       = 1,
+                                                                save       = TRUE,
+                                                                name       = "sensitivity_analysis_res_pos0.1")
+
+
+sensitivity_analysis_neg0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_neg0.1,
+                                                                obs_values = obs_metric,
+                                                                Nrun       = 1,
+                                                                save       = TRUE,
+                                                                name       = "sensitivity_analysis_res_neg0.1")
+
+
+sensitivity_analysis_neg0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_neg0.1,
+                                                                obs_values = obs_metric,
+                                                                Nrun       = 1,
+                                                                save       = TRUE,
+                                                                name       = "sensitivity_analysis_res_neg0.1")
 
 
     
