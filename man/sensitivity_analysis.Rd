@@ -4,7 +4,7 @@
 \alias{sensitivity_analysis}
 \title{Run Sensitivity Analysis}
 \usage{
-sensitivity_analysis(matrix_rep, obs_values, Nrun)
+sensitivity_analysis(matrix_rep, obs_values, Nrun, save = TRUE, name)
 }
 \arguments{
 \item{matrix_rep}{a list of matrix}
@@ -12,6 +12,10 @@ sensitivity_analysis(matrix_rep, obs_values, Nrun)
 \item{obs_values}{observed metric}
 
 \item{Nrun}{Number of replicate runs for metaComputesModules}
+
+\item{save}{if statement to save the results}
+
+\item{name}{the name of the data to be saved}
 }
 \value{
 a dataframe with observed and modify metrics and SES and pvalue
