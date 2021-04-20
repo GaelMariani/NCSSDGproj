@@ -353,6 +353,7 @@ rm(list = ls(), envir = .GlobalEnv)
                                                     data_long = data_long[["score_pos"]], 
                                                     SDG_info = SDG_info, 
                                                     NCS_info = NCS_info) # format data with polar coordinates
+  
 ### ----- PLOT DATA
 NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]], 
                                     label_data   = data_circu[[2]],
