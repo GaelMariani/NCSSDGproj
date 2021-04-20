@@ -36,8 +36,8 @@ the paper.
 The [:hammer: dev\_history.R](dev_history.R) file allow to rebuild our
 research compendium from scratch.
 
-The [:briefcase: make.R](make.R) file allow to produce all the analyses
-and render the corresponding plots.
+The [:briefcase: make.R](make_new_scoring.R) file allow to produce all
+the analyses and render the corresponding plots.
 
 ## How to run it?
 
@@ -72,7 +72,7 @@ R version [here](https://cran.r-project.org).
 utils::sessionInfo()
 #> R version 3.6.2 (2019-12-12)
 #> Platform: x86_64-w64-mingw32/x64 (64-bit)
-#> Running under: Windows 10 x64 (build 19041)
+#> Running under: Windows 10 x64 (build 19042)
 #> 
 #> Matrix products: default
 #> 
