@@ -279,9 +279,9 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     
     ggplot2::labs(x = "", y = "") +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text   = ggplot2::element_text(size = 12),
+    ggplot2::theme(axis.text   = ggplot2::element_text(size = 12, face = "bold"),
                    axis.text.y = ggplot2::element_text(color = rev(color_text), face = "bold"),
-                   axis.title.y  = ggplot2::element_text(size = 18),
+                   axis.title  = ggplot2::element_text(size = 18),
                    
                    # Legend modifications
                    legend.position   = c(0.90, 0.90),
@@ -727,9 +727,9 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
   CA_legend <- NCSSDGproj::load_CA_legend()
   
   ### Plot NCS from CA analysis
-  arrow <- ggplot2::arrow(angle  = 10, 
+  arrow <- ggplot2::arrow(angle  = 20, 
                           type   = "closed", 
-                          length = ggplot2::unit(0.5, "cm"), 
+                          length = ggplot2::unit(0.3, "cm"), 
                           ends   = "last")
   
     ## Plot CA for NCS points
@@ -757,10 +757,10 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
       # Text above arrows
       ggplot2::annotate(geom  ="text", 
                         x     = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
-                        y     = rep(1, 3), 
+                        y     = c(rep(1.1, 2), 1), 
                         label = data_arrow$text[c(1,3,5)], 
                         color = data_arrow$color[c(1,3,5)], 
-                        size  = 5) +
+                        size  = 4.5) +
       
       ggplot2::ggtitle(NULL) +
       ggplot2::theme_bw() +

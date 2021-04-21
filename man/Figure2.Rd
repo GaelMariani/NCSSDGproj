@@ -4,7 +4,12 @@
 \alias{Figure2}
 \title{Build Figure Two}
 \usage{
-Figure2(save = FALSE)
+Figure2(save = FALSE, name)
+}
+\arguments{
+\item{save}{}
+
+\item{name}{}
 }
 \value{
 

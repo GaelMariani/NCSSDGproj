@@ -40,7 +40,7 @@ icon_NCS <- NCSSDGproj::format_icons(pathNCS, icon_SDG = FALSE)
   
 
 ### ----- FORMAT DATA
-matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets)
+matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
 
 SDG_network <- lapply(1:length(matrix_all), 
                       function(i){
@@ -64,8 +64,6 @@ SDG_network <- lapply(1:length(matrix_all),
                       })
 names(SDG_network) <- names(matrix_all)
 
-NCSSDG  
-
 ### ----- PLOT DATA
 
   ## ---- Plot panel A - the bipartite network
@@ -74,19 +72,22 @@ NCSSDG
                            icon_SDG    = icon_SDG,
                            icon_NCS    = icon_NCS,
                            nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
-                           save        = TRUE)
+                           save        = TRUE,
+                           name        = "network_SDG_NCS_V3")
     
   ## ---- Plot panel B - the barplot
   NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
                                    color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
-                                   save        = TRUE)
+                                   save        = TRUE,
+                                   name        = "barplot_perc_achieve_V3")
   
   ## ---- Plot legend for the two plots
   NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
                              color     = c("#1134A6", "#5EA9A2", "#228B22"))
     
   ## ---- Bind fig 1A with fig 1B
-  NCSSDGproj::Figure2(save = TRUE)
+  NCSSDGproj::Figure2(save = TRUE,
+                      name = "Figure2_V3")
   
   
 #####################################################################
@@ -105,7 +106,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- FORMAT DATA
 
   ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets)
+  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
   
   ## ---- From dataframes to contingency matrices 
   
@@ -154,7 +155,7 @@ rm(list = ls(), envir = .GlobalEnv)
                       colNCS_coast   = "#5EA9A2",
                       colNCS_mar     = "#1134A6",
                       save           = TRUE,
-                      name           = "Figure3_pos")
+                      name           = "Figure3_pos_V2")
   
   ## ---- Figure with all panels for NEGATIVE links
   NCSSDGproj::Figure3(data           = contri_CA_neg[["CorresAna"]],
@@ -198,8 +199,8 @@ rm(list = ls(), envir = .GlobalEnv)
                                                rawdata         = matrix_all[["score_pos"]], 
                                                NMalgo          = "quasiswap", 
                                                NESTmethod      = "NODF",
-                                               Nrun            = 1, 
-                                               Nsim            = 99, # Nsim = 1000 in the paper - TAKES TIME TO RUN
+                                               Nrun            = 1, # Nrun = 10 in the paper
+                                               Nsim            = 99, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                                TargetInsurance = FALSE,
                                                save            = TRUE,
                                                name            = "Nest_Modu_res_pos")
@@ -209,8 +210,8 @@ rm(list = ls(), envir = .GlobalEnv)
                                                rawdata         = matrix_all[["score_neg"]], 
                                                NMalgo          = "quasiswap", 
                                                NESTmethod      = "NODF",
-                                               Nrun            = 1, 
-                                               Nsim            = 99, # Nsim = 1000 in the paper - TAKES TIME TO RUN
+                                               Nrun            = 1, # Nrun = 10 in the paper
+                                               Nsim            = 99, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                                TargetInsurance = FALSE,
                                                save            = TRUE,
                                                name            = "Nest_Modu_res_neg")
@@ -221,7 +222,7 @@ rm(list = ls(), envir = .GlobalEnv)
     TUI_TOI_res_pos <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_pos"]], 
                                               rawdata         = matrix_all[["score_pos"]], 
                                               NMalgo          = "r00",
-                                              Nsim            = 999, # Nsim = 1000 in the paper - TAKES TIME TO RUN
+                                              Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                               TargetInsurance = TRUE,
                                               save            = TRUE,
                                               name            = "TUI_TOI_res_pos")
@@ -231,7 +232,7 @@ rm(list = ls(), envir = .GlobalEnv)
     TUI_TOI_res_neg <- NCSSDGproj::NullModels(matrix01        = matrix_conting_bin[["score_neg"]], 
                                               rawdata         = matrix_all[["score_neg"]], 
                                               NMalgo          = "r00", 
-                                              Nsim            = 999, # Nsim = 1000 in the paper - TAKES TIME TO RUN
+                                              Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                               TargetInsurance = TRUE,
                                               save            = TRUE,
                                               name            = "TUI_TOI_res_neg")
@@ -399,9 +400,9 @@ rm(list = ls(), envir = .GlobalEnv)
                                       colNCS_ter   = "#228B22", 
                                       colNCS_coast = "#5EA9A2",
                                       colNCS_mar   = "#1134A6",
-                                      iconSDG      = icon_SDG,
+                                      icon_SDG      = icon_SDG,
                                       save         = TRUE,
-                                      name         = "Figure4_pos")   
+                                      name         = "Figure4_pos_V2")   
 
   ## ---- NEGATIVE data
   NCSSDGproj::circular_plot_Insurance(data         = data_circu_neg[[1]], 
@@ -414,7 +415,7 @@ rm(list = ls(), envir = .GlobalEnv)
                                       colNCS_mar   = "#1134A6",
                                       icon_SDG      = icon_SDG,
                                       save         = TRUE,
-                                      name         = "Figure4_neg")   
+                                      name         = "Figure4_neg_V2")   
 
     
     

@@ -276,8 +276,8 @@ CA_contri_vars <- function(matrix_cont, axis2_targ, colNCS_ter, colNCS_coast, co
   }
       
   ### Format data to draw arrows on plot
-  data_arrow <- data.frame(y     = rep(0.9, 6),
-                           ymax  = rep(0.9, 6),
+  data_arrow <- data.frame(y     = c(rep(1.02, 4), 0.95, 0.95),
+                           ymax  = c(rep(1.02, 4), 0.95, 0.95),
                            x     = c(min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
                                      max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
                                      min(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),

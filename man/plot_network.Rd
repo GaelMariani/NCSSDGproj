@@ -4,7 +4,15 @@
 \alias{plot_network}
 \title{Plot Network As Flux Diagramm}
 \usage{
-plot_network(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE)
+plot_network(
+  network_obj,
+  matrix,
+  icon_SDG,
+  icon_NCS,
+  nodes_col,
+  save = FALSE,
+  name
+)
 }
 \arguments{
 \item{network_obj}{a network object - use matrix_to_network}
@@ -14,6 +22,12 @@ plot_network(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE)
 \item{icon_SDG}{a list of 16 rastergrob objects for each SDG - use format_icons}
 
 \item{icon_NCS}{a list of 11 rastergrob objects for each NCS - use format_icons}
+
+\item{nodes_col}{}
+
+\item{save}{}
+
+\item{name}{}
 }
 \value{
 a flux diagramm of the links between SDG and NCS
