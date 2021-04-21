@@ -64,6 +64,7 @@ SDG_network <- lapply(1:length(matrix_all),
                       })
 names(SDG_network) <- names(matrix_all)
 
+NCSSDG  
 
 ### ----- PLOT DATA
 
