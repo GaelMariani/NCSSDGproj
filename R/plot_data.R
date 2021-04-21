@@ -75,7 +75,11 @@ edge_col <- function(matrix) {
 #' @param network_obj a network object - use matrix_to_network
 #' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
 #' @param icon_SDG a list of 16 rastergrob objects for each SDG - use format_icons
+#' @param nodes_col 
+#' @param save 
+#' @param name 
 #' @param icon_NCS a list of 11 rastergrob objects for each NCS - use format_icons
+#'
 #' @save if TRUE the plot is saved in the results folder
 #' 
 #'
@@ -84,7 +88,7 @@ edge_col <- function(matrix) {
 #' 
 #'
 #' @examples
-plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE) {
+plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE, name) {
   
   ## Plot the network
   netw <- GGally::ggnet2(net        = network_obj, 
@@ -153,8 +157,8 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
   ## Save plot
   if(save == TRUE) {
     
-    save(netw, file = here::here("results", "network_SDG_NCS_V2.RData"))
-    ggplot2::ggsave(here::here("figures", "network_SDG_NCS_V2.png"), width = 5, height = 6.8, device = "png")
+    save(netw, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 5, height = 6.8, device = "png")
     
   } else {return(netw)}
   
@@ -166,12 +170,13 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
 #' @param SDG_network Matrices with positive and negative relationship - use outputs in SDG_network object
 #' @param color color for each type of NCS
 #' @param save if TRUE the plot is saved in the results folder
+#' @param name 
 #'
 #' @return a barplot with positive and negative values from targets achievement 
 #' @export
 #'
 #' @examples
-barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
+barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
   
   ### Colors of SDGs
   color_text <- c("#FDB713", "#00AED9", "#3EB049", "#F99D26", "#EF402B", "#279B48",
@@ -264,8 +269,8 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
                                 name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos)+2, 10), 
-                                               max(data_plot$text_labs_pos) -2, 20)) +
+                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos), 10)-10, 
+                                               max(data_plot$text_labs_pos), 20)) +
     
     ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))),
                               expand = c(0.03,0.03)) +
@@ -276,7 +281,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text   = ggplot2::element_text(size = 12),
                    axis.text.y = ggplot2::element_text(color = rev(color_text), face = "bold"),
-                   axis.title  = ggplot2::element_text(size = 18),
+                   axis.title.y  = ggplot2::element_text(size = 18),
                    
                    # Legend modifications
                    legend.position   = c(0.90, 0.90),
@@ -299,8 +304,8 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE){
   ## Save plot
   if(save == TRUE) {
     
-    save(barplot_perc_achieve, file = here::here("results", "barplot_perc_achieve.RData"))
-    ggplot2::ggsave(here::here("figures", "barplot_perc_achieve.png"), width = 5, height = 6.8, device = "png")
+    save(barplot_perc_achieve, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 5, height = 6.8, device = "png")
     
   } 
   
@@ -353,12 +358,15 @@ barplot_legend <- function(data_plot, color) {
 
 #' Build Figure Two 
 #'
+#' @param save 
+#' @param name 
+#'
 #' @return
 #' @export
 #' 
 #'
 #' @examples
-Figure2 <- function(save = FALSE) {
+Figure2 <- function(save = FALSE, name) {
   
   # Load panels
   fig1a <- NCSSDGproj::load_Fig1A_V2()
@@ -379,7 +387,7 @@ Figure2 <- function(save = FALSE) {
   # save
   if(save == TRUE) {
     
-    ggplot2::ggsave(here::here("figures", "Figure2_V2.png"), width=10, height=9, device="png")   
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width=10, height=9, device="png")   
     
   } else {return(fig1)}
 }
