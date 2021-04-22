@@ -450,3 +450,12 @@ overlap_neg <- spaa::niche.overlap(mat    = t(test[[2]]),
                                    method = "levins")
 mean(overlap_neg)
 
+
+
+
+### Supp
+NCSSDGproj::percentage_of_ones(data_pos = matrix_all[["score_pos"]], 
+                               data_neg = matrix_all[["score_neg"]],
+                               save     = TRUE,
+                               name     = "supp_fig_perc_of_ones")
+

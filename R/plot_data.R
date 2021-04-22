@@ -1151,4 +1151,85 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
 }
 
 
+#' Percentage Of Ones In Each Ecosystem
+#'
+#' @param data_pos matrix with positive values
+#' @param data_neg matrix with negative values
+#' @param save if statement, if TRUE the plot is saved
+#' @param name the name of the plot to be saved
+#'
+#' @return
+#' @export
+#'
+#' @examples
+percentage_of_ones <- function(data_pos, data_neg, save = TRUE, name){
+  
+  ### Function to calculate the proportion of ones
+  data_format <- function(data_to_format, type){ 
+    
+    ### Format to matrix
+    data <- data_to_format
+    data <- as.matrix(data[,-1])
+    rownames(data) <- data_to_format$ecosystem
+    
+    ### Create table for output
+    table <- data.frame(ecosystem = data_to_format$ecosystem,
+                        ratio     = NA,
+                        pos_neg   = type)
+    
+    
+    ### Compute % of ones in each rows
+    for(i in 1:nrow(data)){
+      table[i, "ratio"] <- (sum(data[i,] == 1)/sum(data[i,] > 0))*100
+    }
+    
+    return(table)
+  }
+  
+    ## Apply the function
+    data_posi <- data_format(data_to_format = data_pos, type = "positive")
+    data_nega <- data_format(data_to_format = data_neg, type = "negative")
+    data <- rbind(data_posi, data_nega)
+    
+    data$ratio[data$pos_neg == "negative"] <- data$ratio[data$pos_neg == "negative"]*-1
+    
+    data <- data %>% dplyr::arrange(desc(ratio)) 
+    
+    data[is.na(data)] <- 0
+  
+  ### Plot
+  plot <- ggplot2::ggplot() +
+
+    ## Plot bars
+    ggplot2::geom_col(data        = data, 
+                      mapping     = ggplot2::aes(x     = reorder(ecosystem, -ratio), 
+                                                 y     = ratio,
+                                                 fill  = pos_neg),
+                      show.legend = FALSE) +
+    
+    ## Add a vertical bar at 0
+    ggplot2::geom_hline(yintercept = 0) +
+    
+    ## scale modif
+    ggplot2::scale_fill_manual(values = ggplot2::alpha(c("darkgreen", "red"), 0.8),
+                               name    = NULL) +
+    
+    ggplot2::scale_y_continuous(breaks = seq(-100, 100, 20)) +
+    
+    ggplot2::coord_flip() +
+    
+    ggplot2::labs(x = "", y = "Ratio") +
+    
+    ggplot2::theme_bw()
+    
+  ### Save plot
+  if(save == TRUE) {
+    
+    save(Figure3, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 15, height = 8.5, device = "png")
+    
+  } else {return(plot)}
+  
+}
+
   
