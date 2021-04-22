@@ -260,28 +260,28 @@ rm(list = ls(), envir = .GlobalEnv)
   
   ## ---- Randomly turn x% of values and do it 999 times for positive and negative scores
   matrices_modif_0.05 <- list(# Positive scores
-                              "score_pos" = replicate(n        = 99,
+                              "score_pos" = replicate(n        = 99, # change by 999 for the paper
                                                       simplify = FALSE,
                                                       expr     = NCSSDGproj::turn_values_randomly(data_links  = matrix_all[["score_pos"]],
                                                                                                    percentage = 0.05, 
                                                                                                    binary     = TRUE)),
                               
                               # Negative scores
-                              "score_neg" = replicate(n        = 99, 
+                              "score_neg" = replicate(n        = 99, # change by 999 for the paper
                                                       simplify = FALSE,
                                                       expr     = NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_neg"]],
                                                                                                   percentage = 0.05, 
                                                                                                   binary     = TRUE)))
   
   matrices_modif_0.1 <- list(# Positive scores
-                             "score_pos" = replicate(n        = 99,
+                             "score_pos" = replicate(n        = 99, # change by 999 for the paper
                                                      simplify = FALSE,
                                                      expr     =  NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_pos"]],
                                                                                                   percentage = 0.1, 
                                                                                                   binary     = TRUE)),
                             
                              # Negative scores
-                             "score_neg" = replicate(n        = 99, 
+                             "score_neg" = replicate(n        = 99, # change by 999 for the paper
                                                      simplify = FALSE,
                                                      expr     = NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_neg"]],
                                                                                                  percentage = 0.1, 
