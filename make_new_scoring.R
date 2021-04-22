@@ -262,7 +262,7 @@ rm(list = ls(), envir = .GlobalEnv)
   matrices_modif_0.05 <- list(# Positive scores
                               "score_pos" = replicate(n        = 99,
                                                       simplify = FALSE,
-                                                      expr     =  NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_pos"]],
+                                                      expr     = NCSSDGproj::turn_values_randomly(data_links  = matrix_all[["score_pos"]],
                                                                                                    percentage = 0.05, 
                                                                                                    binary     = TRUE)),
                               

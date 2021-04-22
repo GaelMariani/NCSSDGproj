@@ -328,28 +328,29 @@ CA_contri_vars <- function(matrix_cont, axis2_targ, colNCS_ter, colNCS_coast, co
 turn_values_randomly <- function(data_links, percentage, binary = TRUE){
   
   ### Function to replace randomly wanted values
-  turn_values <- function(data, value_to_match, new_value, perc){
+  turn_values <- function(data_links, value_to_match, new_value, perc){
   
     ## Turn df into a matrix
-    matrix <- as.matrix(data[, -1])
+    matrix <- as.matrix(data_links[, -1])
     
     ## Select a percentage of values == value_to_match and replace it by new_value 
     
       # Cell numbers for which value == value_to_match
       cell_number <- which(matrix == value_to_match)
       
-      # Select randomly a percentage of matching values
-      vals_to_be_modified <- round(runif(n   = round(x      = perc*length(cell_number),
-                                                     digits = 0),
-                                         min = 1, 
-                                         max = length(cell_number)))
+      # Sample randomly a percentage of matching values
+      vals_to_be_modified <- round(sample(x       = 1:length(cell_number), 
+                                          size    = round(x      = perc*length(cell_number),
+                                                          digits = 0),
+                                          replace = FALSE))
       
-      # Replace original values by the new one
+      
+      # Replace original values by the new ones
       matrix[cell_number[vals_to_be_modified]] <- new_value
       
     ## Format data
     data <- as.data.frame(matrix) %>%
-      cbind(data[,1], .)
+      cbind(data_links[,1], .)
     
     colnames(data)[1] <- "ecosystem"
     
@@ -360,13 +361,13 @@ turn_values_randomly <- function(data_links, percentage, binary = TRUE){
   ### Apply the function
     
     ## Turn x% of 1 into 2: mimicking that we missed references at the global scale in 10% of cases
-    data_1st_modif <- turn_values(data           = data_links, 
+    data_1st_modif <- turn_values(data_links     = data_links, 
                                   value_to_match = 1, 
                                   new_value      = 2, 
                                   perc           = percentage)
     
     ## Turn x% of 1 into 0: mimicking a disagreement between expert on 10% of targets scored with a one
-    data_2nd_modif <- turn_values(data           = data_1st_modif, 
+    data_2nd_modif <- turn_values(data_links     = data_1st_modif, 
                                   value_to_match = 1, 
                                   new_value      = 0, 
                                   perc           = percentage)
