@@ -1220,7 +1220,9 @@ percentage_of_ones <- function(data_pos, data_neg, save = TRUE, name){
     
     ggplot2::labs(x = "", y = "Ratio") +
     
-    ggplot2::theme_bw()
+    ggplot2::theme_bw() +
+    
+    ggplot2::theme(axis.text   = ggplot2::element_text(size = 16))
     
   ### Save plot
   if(save == TRUE) {
