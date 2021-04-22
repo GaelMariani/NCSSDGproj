@@ -1222,7 +1222,8 @@ percentage_of_ones <- function(data_pos, data_neg, save = TRUE, name){
     
     ggplot2::theme_bw() +
     
-    ggplot2::theme(axis.text   = ggplot2::element_text(size = 16))
+    ggplot2::theme(axis.text   = ggplot2::element_text(size = 16),
+                   axis.title  = ggplot2::element_text(size = 18))
     
   ### Save plot
   if(save == TRUE) {
