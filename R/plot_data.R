@@ -144,7 +144,7 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
                       y = seq(0,1,0.1), 
                       label = rownames(matrix),
                       color = nodes_col, 
-                      alpha = 0.8,
+                      # alpha = 0.8,
                       size = 3.75, 
                       fontface = "bold") +
     
