@@ -73,13 +73,13 @@ names(SDG_network) <- names(matrix_all)
                            icon_NCS    = icon_NCS,
                            nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                            save        = TRUE,
-                           name        = "network_SDG_NCS_V3")
+                           name        = "network_SDG_NCS_V4")
     
   ## ---- Plot panel B - the barplot
   NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
                                    color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
                                    save        = TRUE,
-                                   name        = "barplot_perc_achieve_V3")
+                                   name        = "barplot_perc_achieve_V4")
   
   ## ---- Plot legend for the two plots
   NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
@@ -87,7 +87,7 @@ names(SDG_network) <- names(matrix_all)
     
   ## ---- Bind fig 1A with fig 1B
   NCSSDGproj::Figure2(save = TRUE,
-                      name = "Figure2_V3")
+                      name = "Figure2_V4")
   
   
 #####################################################################

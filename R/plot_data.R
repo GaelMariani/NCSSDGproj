@@ -140,12 +140,12 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
     
     # add text to ecosystem
     ggplot2::annotate(geom = "text", 
-                      x = c(rep(-0.2,11)), 
+                      x = c(rep(-0.203,11)), 
                       y = seq(0,1,0.1), 
                       label = rownames(matrix),
                       color = nodes_col, 
                       alpha = 0.8,
-                      size = 3.3, 
+                      size = 3.75, 
                       fontface = "bold") +
     
     
@@ -206,8 +206,8 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                   
                   ## Position of labels for text
                   text_labs_pos = ifelse(test = pos_neg == "-",
-                                         yes  = (-1*perc_goal) - 8, 
-                                         no   = perc_goal + 8),
+                                         yes  = (-1*perc_goal) - 9, 
+                                         no   = perc_goal + 9),
                   
                   ## Group order
                   group_order   = forcats::fct_relevel(group_neg, "Marine", "Coastal", "Terrestrial", "Marine_neg", "Coastal_neg", "Terrestrial_neg"))
@@ -257,7 +257,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                                   label = text),
                        stat        = "identity",
                        data        = text_plot, 
-                       size        = 3.5,
+                       size        = 4,
                        show.legend = FALSE) +
     
     
@@ -269,19 +269,26 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                 name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos), 10)-10, 
-                                               max(data_plot$text_labs_pos), 20)) +
+                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
+                                               max(data_plot$text_labs_pos), 20),
+                                expand = c(0.07,0)) +
     
     ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))),
                               expand = c(0.03,0.03)) +
     
     ggplot2::coord_flip() +
     
-    ggplot2::labs(x = "", y = "") +
+    ggplot2::labs(x = "", y = "% linked") +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text   = ggplot2::element_text(size = 12, face = "bold"),
-                   axis.text.y = ggplot2::element_text(color = rev(color_text), face = "bold"),
-                   axis.title  = ggplot2::element_text(size = 18),
+    ggplot2::theme(axis.text.x    = ggplot2::element_text(size = 13, face = "bold"),
+                   axis.text.y    = ggplot2::element_text(size   = 13,
+                                                          color  = rev(color_text), 
+                                                          face   = "bold"),
+                   # axis.title   = ggplot2::element_text(size = 12),
+                   axis.title.x = ggplot2::element_text(size   = 14, face = "bold"),
+                                                        # vjust  = 5,
+                                                        # hjust  = 1.25),
+                                                        # margin = ggplot2::margin(0,15,0,0)),
                    
                    # Legend modifications
                    legend.position   = c(0.90, 0.90),
@@ -290,7 +297,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                                              color = "transparent"),
                    
                    # Widen the left margin
-                   #plot.margin = ggplot2::unit(c(2, 2, 4, 2), "lines"),
+                   # plot.margin = grid::unit(c(1, 4, 1, -4), "lines"),
                    
                    # Remove grid on the background
                    panel.grid.major = ggplot2::element_blank(),
@@ -376,13 +383,18 @@ Figure2 <- function(save = FALSE, name) {
   # Assemble panels
   fig1 <- cowplot::ggdraw() +
     
-    cowplot::draw_plot(fig1a, x = 0, y = 0.02, width = 0.61, height = 0.98) +
-    cowplot::draw_plot(fig1b, x = 0.5, y = 0.04, width = 0.5, height = 1) +
-    cowplot::draw_plot(legend, x = 0.3, y = 0, width = 0.5, height = 0.05) +
+    cowplot::draw_plot(fig1a, x = 0, y = 0.005, width = 0.61, height = 0.97) +
+    cowplot::draw_plot(fig1b, x = 0.5, y = 0.025, width = 0.5, height = 0.98) +
+    cowplot::draw_plot(legend, x = 0.3, y = 0, width = 0.5, height = 0.02) +
     cowplot::draw_plot_label(label = c("a", "b"),
                              size = 15,
                              x = c(0, 0.55),
-                             y = c(1, 1)) 
+                             y = c(0.98, 0.98)) 
+    # cowplot::draw_label(label = "% linked",
+    #                     fontface = "bold",
+    #                     size = 12,
+    #                     x = 0.97,
+    #                     y = 0.99)
   
   # save
   if(save == TRUE) {

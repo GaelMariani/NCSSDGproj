@@ -67,7 +67,7 @@ load_Fig1A <- function(){
 #' @examples
 load_Fig1A_V2 <- function(){
   
-  load(here::here("results", "network_SDG_NCS_V3.RData"))
+  load(here::here("results", "network_SDG_NCS_V4.RData"))
   return(netw)
   
 }
@@ -95,7 +95,7 @@ load_Fig1B <- function(){
 #' @examples
 load_Fig1B_V2 <- function(){
   
-  load(here::here("results", "barplot_perc_achieve_V3.RData"))
+  load(here::here("results", "barplot_perc_achieve_V4.RData"))
   return(barplot_perc_achieve)
   
 }
