@@ -505,13 +505,13 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
   # base_data$SDG <- 1:16
   base_data$SDG <- unique(data$SDG[!is.na(data$SDG)])
   
-  base_data[5, 3] <- base_data[5, 3] + 0.5
-  base_data[5, 4] <- base_data[5, 4] + 0.25
+  # base_data[5, 3] <- base_data[5, 3] + 0.5
+  # base_data[5, 4] <- base_data[5, 4] + 0.25
   
   ### Prepare a data frale for grid
   grid_data <- base_data
-  grid_data$end <- grid_data$end[ c( nrow(grid_data), 1:nrow(grid_data)-1)] + 1
-  grid_data$start <- grid_data$start - 1
+  grid_data$end <- grid_data$end[c(nrow(grid_data), 1:nrow(grid_data)-1)] + 0.75
+  grid_data$start <- as.numeric(grid_data$start)- 0.75
   grid_data <- grid_data[-1,]
   
   data_CircuPlot <- list("data" = data,

@@ -402,7 +402,7 @@ rm(list = ls(), envir = .GlobalEnv)
                                       colNCS_mar   = "#1134A6",
                                       icon_SDG      = icon_SDG,
                                       save         = TRUE,
-                                      name         = "Figure4_pos_V2")   
+                                      name         = "Figure4_pos_V3")   
 
   ## ---- NEGATIVE data
   NCSSDGproj::circular_plot_Insurance(data         = data_circu_neg[[1]], 
