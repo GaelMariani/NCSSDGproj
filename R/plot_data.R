@@ -1165,6 +1165,230 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
 }
 
 
+#' Insurance Circular Plot For Negative Data
+#'
+#' @param data 
+#' @param label_data 
+#' @param base_data 
+#' @param grid_data 
+#' @param SDG_info 
+#' @param colNCS_ter 
+#' @param colNCS_coast 
+#' @param colNCS_mar 
+#' @param icon_SDG 
+#' @param save 
+#' @param name 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, SDG_info, colNCS_ter, colNCS_coast, colNCS_mar, icon_SDG, save = FALSE, name){
+  
+  # Color scale
+  col <- SDG_info %>%
+    dplyr::mutate(SDG = as.numeric(SDG)) %>%
+    dplyr::group_by(SDG) %>%
+    dplyr::summarise(color = unique(color)) 
+  
+  # Join null data and observed data 
+  data$null_vals <- NA
+  data$null_vals[is.na(data$goal.target) == FALSE] <- 5.5
+  
+  
+  # vertical legend
+  vert_legend <- NCSSDGproj::load_vert_legend()
+  
+  # modify base_data if end == start (if only one target in a SDG, no bars)
+  for(i in 1:nrow(base_data)){
+    
+    if(base_data$start[i] == base_data$end[i]){
+      base_data$start[i] <- base_data$start[i] - 0.25
+      base_data$end[i] <- base_data$end[i] + 0.25
+    }
+    
+  }
+  
+  # Plot
+  plot <- ggplot2::ggplot(data = data,
+                          mapping = ggplot2::aes(x = as.factor(id),
+                                                 y = as.numeric(value_group),
+                                                 fill = factor(group)),
+                          show.legend = FALSE) +
+    
+    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id),
+                                             y = as.numeric(value_group),
+                                             group = factor(group)),
+                      stat = "identity",
+                      alpha = 0.7,
+                      show.legend = FALSE) +
+    
+    
+    # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are OVER it.
+    ggplot2::geom_segment(data        = grid_data, 
+                          mapping     = ggplot2::aes(x    = end,
+                                                     y    = 8,
+                                                     xend = start,
+                                                     yend = 8),
+                          colour      = "black",
+                          alpha       = 0.7,
+                          size        = 0.4,
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data        = grid_data, 
+                          mapping     = ggplot2::aes(x    = end, 
+                                                     y    = 6,
+                                                     xend = start,
+                                                     yend = 6), 
+                          colour      = "black", 
+                          alpha       = 0.7, 
+                          size        = 0.4, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data        = grid_data, 
+                          mapping     = ggplot2::aes(x    = end, 
+                                                     y    = 4, 
+                                                     xend = start, 
+                                                     yend = 4), 
+                          colour      = "black", 
+                          alpha       = 0.7, 
+                          size        = 0.4, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data        = grid_data, 
+                          mapping     = ggplot2::aes(x    = end, 
+                                                     y    = 2, 
+                                                     xend = start, 
+                                                     yend = 2), 
+                          colour      = "black", 
+                          alpha       = 0.7, 
+                          size        = 0.4, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data        = grid_data, 
+                          mapping     = ggplot2::aes(x    = end, 
+                                                     y    = 0, 
+                                                     xend = start, 
+                                                     yend = 0), 
+                          colour      = "black", 
+                          alpha       = 0.7,
+                          size        = 0.4, 
+                          inherit.aes = FALSE) +
+    
+    # Add text showing the value of each 0/2/4/6/8 lines
+    ggplot2::annotate(geom     = "text", 
+                      x        = rep(max(data$id), 5), 
+                      y        = c(8, 6, 4, 2, 0), 
+                      label    = c("8", "6", "4", "2", "0"), 
+                      color    = "black", 
+                      alpha    = 0.7, 
+                      size     = 3,
+                      angle    = 0, 
+                      fontface = "bold", 
+                      hjust    = 1) +
+    
+    ggplot2::geom_bar(mapping     = ggplot2::aes(x    = as.factor(id), 
+                                                 y    = value_group, 
+                                                 fill = as.factor(group)), 
+                      stat        = "identity", 
+                      alpha       = 0.5,
+                      show.legend = FALSE) +
+    
+    ## Add points for null values
+    ggplot2::geom_point(data    = data,
+                        mapping = ggplot2::aes(x     = as.factor(id),
+                                               y     = null_vals,
+                                               group = factor(group)),
+                        color   = "firebrick1",
+                        fill    = "firebrick1",
+                        shape   = 21,
+                        size    = 2) +
+    
+    ggplot2::ylim(-20, 12) +
+    
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "none",
+                   axis.text = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_blank(),
+                   panel.grid = ggplot2::element_blank(),
+                   plot.margin = ggplot2::unit(rep(-1,4), "cm")) +
+    
+    ggplot2::coord_polar() +
+    
+    # Add target's number above each bars
+    ggplot2::geom_text(data = label_data,
+                       mapping = ggplot2::aes(x = id, 
+                                              y = max(tot, na.rm = TRUE) + 0.5, 
+                                              label = goal.target, 
+                                              hjust = hjust), 
+                       color = "black", 
+                       fontface = "bold",
+                       alpha = 0.7, 
+                       size = 3.5, 
+                       angle = label_data$angle, 
+                       inherit.aes = FALSE ) +
+    
+    # Add base line information
+    ggplot2::geom_segment(data = base_data, 
+                          mapping = ggplot2::aes(x = start, 
+                                                 y = -1, 
+                                                 xend = end, 
+                                                 yend = -1), 
+                          colour = col$color, 
+                          alpha = 0.8, 
+                          size = 1, 
+                          inherit.aes = FALSE) +
+    
+    
+  ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
+                             name = NULL) 
+  
+  
+  
+  ## Add SDG icons
+  plot <- cowplot::ggdraw(plot)
+  
+  ## Remove unwanted icons 
+  data$SDG2 <- paste("SDG", data$SDG, sep = " ")
+  
+  for(i in 1:length(icon_SDG)){
+    
+    if(! names(icon_SDG)[i] %in% data$SDG2){
+      icon_SDG[i] <- list(NULL)
+    }
+    
+  }
+  
+  circular_plot <- plot +
+    cowplot::draw_plot(vert_legend,    x = 0.135,  y = 0.135,  width = 0.75,  height = 0.75) +
+    cowplot::draw_grob(icon_SDG[[9]],  x = 0.549,  y = 0.682,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[15]], x = 0.678,  y = 0.550,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[6]],  x = 0.6347, y = 0.325,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[10]], x = 0.694,  y = 0.527,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[5]],  x = 0.698,  y = 0.455,  width = 0.045, height = 0.045) + # SDG 5
+    cowplot::draw_grob(icon_SDG[[2]],  x = 0.6725, y = 0.3835, width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[1]],  x = 0.480,  y = 0.260,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[11]], x = 0.3548, y = 0.303,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[8]],  x = 0.4748, y = 0.258,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[14]], x = 0.267,  y = 0.42,   width = 0.045, height = 0.045) + # SDG 10
+    cowplot::draw_grob(icon_SDG[[4]],  x = 0.264,  y = 0.514,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[13]], x = 0.295,  y = 0.363,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[7]],  x = 0.266,  y = 0.418,  width = 0.045, height = 0.045) + # SDG 13
+    cowplot::draw_grob(icon_SDG[[16]], x = 0.329,  y = 0.633,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[3]],  x = 0.425,  y = 0.693, width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[[12]], x = 0.425,  y = 0.69,   width = 0.045, height = 0.045)
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(circular_plot, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 10.5, height = 10.5, device = "png")
+    
+  } else {return(circular_plot)}
+  
+}
+
+
 #' Percentage Of Ones In Each Ecosystem
 #'
 #' @param data_pos matrix with positive values

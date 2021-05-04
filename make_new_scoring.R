@@ -405,17 +405,17 @@ rm(list = ls(), envir = .GlobalEnv)
                                       name         = "Figure4_pos_V3")   
 
   ## ---- NEGATIVE data
-  NCSSDGproj::circular_plot_Insurance(data         = data_circu_neg[[1]], 
-                                      label_data   = data_circu_neg[[2]],
-                                      base_data    = data_circu_neg[[3]],
-                                      grid_data    = data_circu_neg[[4]],
-                                      SDG_info     = SDG_info_neg,
-                                      colNCS_ter   = "#228B22", 
-                                      colNCS_coast = "#5EA9A2",
-                                      colNCS_mar   = "#1134A6",
-                                      icon_SDG      = icon_SDG,
-                                      save         = TRUE,
-                                      name         = "Figure4_neg_V2")   
+  NCSSDGproj::circular_plot_Insurance_neg(data         = data_circu_neg[[1]], 
+                                          label_data   = data_circu_neg[[2]],
+                                          base_data    = data_circu_neg[[3]],
+                                          grid_data    = data_circu_neg[[4]],
+                                          SDG_info     = SDG_info_neg,
+                                          colNCS_ter   = "#228B22", 
+                                          colNCS_coast = "#5EA9A2",
+                                          colNCS_mar   = "#1134A6",
+                                          icon_SDG      = icon_SDG,
+                                          save         = TRUE,
+                                          name         = "Figure4_neg_V3")   
 
     
     
