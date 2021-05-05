@@ -1485,9 +1485,10 @@ percentage_of_ones <- function(data_pos, data_neg, save = TRUE, name){
 #' @export
 #'
 #' @examples
-plot_n_links <- function(data, save = TRUE, name){
+plot_n_links <- function(data_pos, data_neg, save = TRUE, name){
   
   
+  plot_links <- function(data){
   ### Calculate the number of links for each ecosystem
   data_plot <- data.frame(ecosystem = data$ecosystem,
                           n_links   = rowSums(data[, -1])) %>%
@@ -1521,17 +1522,35 @@ plot_n_links <- function(data, save = TRUE, name){
     
     ggplot2::theme(axis.text   = ggplot2::element_text(size = 15, color = "black"),
                    axis.title  = ggplot2::element_text(size = 18))
+  
+  }
     
+  ### Apply the function to positive and negative linkages
+  plot_pos <- plot_links(data = data_pos)
+  plot_neg <- plot_links(data = data_neg)
+  
+  
+  ### Bind the two plot
+  plot <- cowplot::ggdraw() +
+    cowplot::draw_plot(plot_pos, x = 0, y = 0, width = 0.5, height = 1) +
+    cowplot::draw_plot(plot_neg, x = 0.5, y = 0, width = 0.5, height = 1) +
+    cowplot::draw_plot_label(label = c("a", "b"),
+                             size  = 15,
+                             x     = c(0.05, 0.55),
+                             y     = c(0.98, 0.98))
    
   ### Save plot
   if(save == TRUE) {
     
     save(Figure3, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 5.5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 11, height = 6.8, device = "png")
     
   } else {return(plot)} 
   
 }
+
+
+
 
 
   

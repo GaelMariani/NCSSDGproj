@@ -467,6 +467,9 @@ NCSSDGproj::percentage_of_ones(data_pos = matrix_all[["score_pos"]],
   matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
   
   ## Plot 
-  NCSSDGproj::plot_n_links(data = matrix_all[["score_pos"]], save = TRUE, name = "n_links_pos")
-  NCSSDGproj::plot_n_links(data = matrix_all[["score_neg"]], save = TRUE, name = "n_links_neg")
+  NCSSDGproj::plot_n_links(data_pos = matrix_all[["score_pos"]],
+                           data_neg = matrix_all[["score_neg"]],
+                           save     = TRUE,
+                           name     = "n_links_supp_fig")
+
   
