@@ -404,7 +404,7 @@ rm(list = ls(), envir = .GlobalEnv)
                                       save         = TRUE,
                                       name         = "Figure4_pos_V3")   
 
-  ## ---- NEGATIVE data
+  ## ---- NEGATIVE data (Supplementary)
   NCSSDGproj::circular_plot_Insurance_neg(data         = data_circu_neg[[1]], 
                                           label_data   = data_circu_neg[[2]],
                                           base_data    = data_circu_neg[[3]],
@@ -450,12 +450,23 @@ overlap_neg <- spaa::niche.overlap(mat    = t(test[[2]]),
                                    method = "levins")
 mean(overlap_neg)
 
+#########################
+# Supplementary Figures #
+#########################
 
-
-
-### Supp
+### Supplementary Fig. 2 - % of ones by ecosytems
 NCSSDGproj::percentage_of_ones(data_pos = matrix_all[["score_pos"]], 
                                data_neg = matrix_all[["score_neg"]],
                                save     = TRUE,
                                name     = "supp_fig_perc_of_ones")
 
+### Supplementary Fig. 3 - number of links by ecosystem
+
+  ## Data
+  sheets  <- NCSSDGproj::read_all_sheets()
+  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  
+  ## Plot 
+  NCSSDGproj::plot_n_links(data = matrix_all[["score_pos"]], save = TRUE, name = "n_links_pos")
+  NCSSDGproj::plot_n_links(data = matrix_all[["score_neg"]], save = TRUE, name = "n_links_neg")
+  

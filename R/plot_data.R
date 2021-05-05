@@ -1473,4 +1473,65 @@ percentage_of_ones <- function(data_pos, data_neg, save = TRUE, name){
   
 }
 
+
+
+#' Plot The Number Of Links By Ecosystems
+#'
+#' @param data 
+#' @param save 
+#' @param name 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+plot_n_links <- function(data, save = TRUE, name){
+  
+  
+  ### Calculate the number of links for each ecosystem
+  data_plot <- data.frame(ecosystem = data$ecosystem,
+                          n_links   = rowSums(data[, -1])) %>%
+    dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
+                                           (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
+                                           TRUE ~ "#1134A6"))
+
+  
+  ### Plot data
+  plot <- ggplot2::ggplot() +
+    
+    ## Plot bars
+    ggplot2::geom_col(data        = data_plot, 
+                      mapping     = ggplot2::aes(x     = reorder(ecosystem, n_links), 
+                                                 y     = n_links,
+                                                 fill  = group),
+                      fill        = scales::alpha(data_plot$group, 0.8),
+                      show.legend = FALSE) +
+    
+    ## scale modif
+    ggplot2::scale_fill_manual(values  = data_plot$group,
+                               name    = NULL) +
+    
+    # ggplot2::scale_y_continuous(breaks = seq(-100, 100, 20)) +
+    
+    ggplot2::coord_flip() +
+    
+    ggplot2::labs(x = "", y = "Number of links") +
+    
+    ggplot2::theme_bw() +
+    
+    ggplot2::theme(axis.text   = ggplot2::element_text(size = 15, color = "black"),
+                   axis.title  = ggplot2::element_text(size = 18))
+    
+   
+  ### Save plot
+  if(save == TRUE) {
+    
+    save(Figure3, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 5.5, height = 6.8, device = "png")
+    
+  } else {return(plot)} 
+  
+}
+
+
   
