@@ -42,44 +42,78 @@ icon_NCS <- NCSSDGproj::format_icons(pathNCS, icon_SDG = FALSE)
 ### ----- FORMAT DATA
 matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
 
-SDG_network <- lapply(1:length(matrix_all), 
-                      function(i){
-                        
-                        # -- matrix in long format
-                        data_long   <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[[i]])
-                        
-                        # -- weighted contingency matrix of SDG
-                        SDG_matrix  <- NCSSDGproj::matrix_SDG(data_long = data_long)
-                        
-                        # -- create a network object
-                        SDG_network <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix,
-                                                                     mode1  = "P",
-                                                                     mode2  = "A")
-                        
-                        # -- percentage of target achieved
-                        data_pourc  <- NCSSDGproj::perc_SDG(data_long = data_long)
-                        
-                        return(list(data_long = data_long, matrix = SDG_matrix, network = SDG_network, data_pourc = data_pourc))
-                        
-                      })
-names(SDG_network) <- names(matrix_all)
+  ## Positive links
+  data_long_pos <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_pos"]])
+  SDG_matrix_pos  <- NCSSDGproj::matrix_SDG(data_long = data_long_pos)
+  SDG_network_pos <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix_pos,
+                                                   mode1  = "P",
+                                                   mode2  = "A",
+                                                   pos = TRUE)
+  data_pourc_pos  <- NCSSDGproj::perc_SDG(data_long = data_long_pos)
+
+
+  ## Negative links
+  data_long_neg <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_neg"]])
+  SDG_matrix_neg  <- t(NCSSDGproj::matrix_SDG(data_long = data_long_neg))
+  SDG_network_neg <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix_neg,
+                                                   mode1  = "P",
+                                                   mode2  = "A",
+                                                   pos = FALSE)
+  data_pourc_neg  <- NCSSDGproj::perc_SDG(data_long = data_long_neg)
+  
+  ## merge data
+  SDG_network <- list("score_pos" = list(data_long = data_long_pos, matrix = SDG_matrix_pos, network = SDG_network_pos, data_pourc = data_pourc_pos),
+                      "score_neg" = list(data_long = data_long_neg, matrix = SDG_matrix_neg, network = SDG_network_neg, data_pourc = data_pourc_neg))
+
+# SDG_network <- lapply(1:length(matrix_all), 
+#                       function(i){
+#                         
+#                         # -- matrix in long format
+#                         data_long   <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[[i]])
+#                         
+#                         # -- weighted contingency matrix of SDG
+#                         SDG_matrix  <- NCSSDGproj::matrix_SDG(data_long = data_long)
+#                         
+#                         # -- create a network object
+#                         SDG_network <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix,
+#                                                                      mode1  = "P",
+#                                                                      mode2  = "A",
+#                                                                      pos = TRUE)
+#                         
+#                         # -- percentage of target achieved
+#                         data_pourc  <- NCSSDGproj::perc_SDG(data_long = data_long)
+#                         
+#                         return(list(data_long = data_long, matrix = SDG_matrix, network = SDG_network, data_pourc = data_pourc))
+#                         
+#                       })
+# names(SDG_network) <- names(matrix_all)
 
 ### ----- PLOT DATA
 
-  ## ---- Plot panel A - the bipartite network
-  NCSSDGproj::plot_network(network_obj = SDG_network[["score_cumulate"]][["network"]],
-                           matrix      = SDG_network[["score_cumulate"]][["matrix"]],
-                           icon_SDG    = icon_SDG,
-                           icon_NCS    = icon_NCS,
-                           nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
-                           save        = TRUE,
-                           name        = "network_SDG_NCS_V4")
+  ## ---- Plot panel A - the bipartite positive network
+  NCSSDGproj::plot_network_pos(network_obj = SDG_network[["score_pos"]][["network"]],
+                               matrix      = SDG_network[["score_pos"]][["matrix"]],
+                               icon_SDG    = icon_SDG,
+                               icon_NCS    = icon_NCS,
+                               nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                               save        = TRUE,
+                               name        = "network_SDG_NCS_pos_V1")
+  
+  ## ---- Plot panel C - the bipartite negative network
+  NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
+                               matrix      = SDG_network[["score_neg"]][["matrix"]],
+                               icon_SDG    = icon_SDG,
+                               icon_NCS    = icon_NCS,
+                               nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                               save        = TRUE,
+                               name        = "network_SDG_NCS_neg_V2")
+
     
   ## ---- Plot panel B - the barplot
   NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
                                    color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
                                    save        = TRUE,
-                                   name        = "barplot_perc_achieve_V4")
+                                   name        = "barplot_perc_achieve_V6")
   
   ## ---- Plot legend for the two plots
   NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
@@ -87,7 +121,7 @@ names(SDG_network) <- names(matrix_all)
     
   ## ---- Bind fig 1A with fig 1B
   NCSSDGproj::Figure2(save = TRUE,
-                      name = "Figure2_V4")
+                      name = "Figure2_V5")
   
   
 #####################################################################
