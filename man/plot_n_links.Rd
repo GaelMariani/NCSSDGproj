@@ -4,14 +4,14 @@
 \alias{plot_n_links}
 \title{Plot The Number Of Links By Ecosystems}
 \usage{
-plot_n_links(data, save = TRUE, name)
+plot_n_links(data_pos, data_neg, save = TRUE, name)
 }
 \arguments{
-\item{data}{}
-
 \item{save}{}
 
 \item{name}{}
+
+\item{data}{}
 }
 \value{
 

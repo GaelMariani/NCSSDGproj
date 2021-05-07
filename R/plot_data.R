@@ -54,23 +54,44 @@ edge_size <- function(matrix, x) {
 #' @export
 #'
 #' @examples
-edge_col <- function(matrix) {
+edge_col <- function(matrix, pos = TRUE) {
   
-  nodes_col <- c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3))
+  nodes_col <- c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)) # terr, coast, marine
     #c(rep("#66c2a5", 4), rep("#31859C", 4), rep("#1134A6", 3))
   
-  edge.cols <- vector(mode="character", length = 0)
+  if(pos == TRUE){
+    
+  edge.cols <- vector(mode = "character", length = 0)
   
-  for(i in 1:dim(matrix)[1]) {
-    edge.cols <- c(edge.cols, rep(nodes_col[i], sum(matrix[i,]>0)))
-  }
+    for(i in 1:dim(matrix)[1]) {
+      edge.cols <- c(edge.cols, rep(nodes_col[i], sum(matrix[i,]>0)))
+    }
   
+  } else {
+    
+    matrix_col <- matrix(NA, nrow = nrow(matrix), ncol = ncol(matrix))
+    
+    for(i in 1:nrow(matrix)){
+      
+      for(j in 1:ncol(matrix)){
+        
+        matrix_col[i,j] <- ifelse(matrix[i, j] > 0, nodes_col[j], NA)
+        
+      } # end FOR j
+      
+    } # end FOR i 
+  
+  edge.cols <- as.vector(t(matrix_col))
+  edge.cols <- edge.cols[!is.na(edge.cols)]
+    
+  } # end ELSE
+
   return(edge.cols)
   
 }
 
 
-#' Plot Network As Flux Diagramm
+#' Plot Network As Flux Diagramm For Positive Links
 #'
 #' @param network_obj a network object - use matrix_to_network
 #' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
@@ -88,7 +109,7 @@ edge_col <- function(matrix) {
 #' 
 #'
 #' @examples
-plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE, name) {
+plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE, name) {
   
   ## Plot the network
   netw <- GGally::ggnet2(net        = network_obj, 
@@ -101,26 +122,26 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
                          edge.alpha = 0.4,
                          color      = rep("white", 27),
-                         edge.color = NCSSDGproj::edge_col(matrix),
-                         layout.exp = 0.5) +
+                         edge.color = NCSSDGproj::edge_col(matrix, pos = TRUE),
+                         layout.exp = 0.25) +
     
     # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
-    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = 1.05) + 
-    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .917) +
-    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .784) +
-    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .651) +
-    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .518) +
-    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .385) +
-    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .252) +
-    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = .119) +
-    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.0178) +   
-    ggplot2::annotation_custom(icon_SDG[[10]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.15) + 
-    ggplot2::annotation_custom(icon_SDG[[11]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.283) +
-    ggplot2::annotation_custom(icon_SDG[[12]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.416) + 
-    ggplot2::annotation_custom(icon_SDG[[13]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.549) +
-    ggplot2::annotation_custom(icon_SDG[[14]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.682) +
-    ggplot2::annotation_custom(icon_SDG[[15]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.815) +
-    ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.96, xmax = 1.1, ymin = -Inf, ymax = -.948) +
+    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = 1.05) + 
+    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .917) +
+    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .784) +
+    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .651) +
+    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .518) +
+    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .385) +
+    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .252) +
+    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .119) +
+    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.0178) +   
+    ggplot2::annotation_custom(icon_SDG[[10]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.15) + 
+    ggplot2::annotation_custom(icon_SDG[[11]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.283) +
+    ggplot2::annotation_custom(icon_SDG[[12]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.416) + 
+    ggplot2::annotation_custom(icon_SDG[[13]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.549) +
+    ggplot2::annotation_custom(icon_SDG[[14]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.682) +
+    ggplot2::annotation_custom(icon_SDG[[15]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.815) +
+    ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.948) +
     
     # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
     ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = 1.05) +
@@ -139,14 +160,14 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
     ggplot2::scale_y_reverse() + 
     
     # add text to ecosystem
-    ggplot2::annotate(geom = "text", 
-                      x = c(rep(-0.203,11)), 
-                      y = seq(0,1,0.1), 
-                      label = rownames(matrix),
-                      color = nodes_col, 
-                      # alpha = 0.8,
-                      size = 3.75, 
-                      fontface = "bold") +
+    # ggplot2::annotate(geom = "text", 
+    #                   x = c(rep(-0.203,11)), 
+    #                   y = seq(0,1,0.1), 
+    #                   label = rownames(matrix),
+    #                   color = nodes_col, 
+    #                   # alpha = 0.8,
+    #                   size = 3.75, 
+    #                   fontface = "bold") +
     
     
     ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
@@ -163,6 +184,92 @@ plot_network <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, sav
   } else {return(netw)}
   
 }
+
+
+#' Plot Network As Flux Diagramm For Negative Links
+#'
+#' @param network_obj a network object - use matrix_to_network
+#' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
+#' @param icon_SDG a list of 16 rastergrob objects for each SDG - use format_icons
+#' @param nodes_col 
+#' @param save 
+#' @param name 
+#' @param icon_NCS a list of 11 rastergrob objects for each NCS - use format_icons
+#'
+#' @save if TRUE the plot is saved in the results folder
+#' 
+#'
+#' @return a flux diagramm of the links between SDG and NCS
+#' @export
+#' 
+#'
+#' @examples
+plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col, save = FALSE, name) {
+  
+  ## Plot the network
+  netw <- GGally::ggnet2(net        = network_obj, 
+                         mode       = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
+                         label      = FALSE,
+                         shape      = "shape",
+                         size       = c(rep(15, 16), colSums(matrix)),
+                         max_size   = 9, 
+                         label.size = 2,
+                         edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
+                         edge.alpha = 0.4,
+                         color      = rep("white", 27),
+                         edge.color = NCSSDGproj::edge_col(matrix, pos = FALSE),
+                         layout.exp = 0.25) +
+    
+    # # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
+    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .917) +
+    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .784) +
+    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .651) +
+    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .518) +
+    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .385) +
+    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .252) +
+    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .119) +
+    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.0178) +
+    ggplot2::annotation_custom(icon_SDG[[10]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.15) +
+    ggplot2::annotation_custom(icon_SDG[[11]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.283) +
+    ggplot2::annotation_custom(icon_SDG[[12]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.416) +
+    ggplot2::annotation_custom(icon_SDG[[13]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.549) +
+    ggplot2::annotation_custom(icon_SDG[[14]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.682) +
+    ggplot2::annotation_custom(icon_SDG[[15]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.815) +
+    ggplot2::annotation_custom(icon_SDG[[16]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.948) +
+    
+    # # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.925, xmax = 1.075, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.880, xmax = 1.120, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.917, xmax = 1.083, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.911, xmax = 1.089, ymin = -Inf, ymax = 0.25) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.902, xmax = 1.098, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.913, xmax = 1.087, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.911, xmax = 1.099, ymin = -Inf, ymax = -.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.927, xmax = 1.073, ymin = -Inf, ymax = -.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.931, xmax = 1.069, ymin = -Inf, ymax = -.95) +
+     
+    # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
+    ggplot2::scale_y_reverse() +
+
+    ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
+                   axis.text.x = ggplot2::element_blank(),
+                   axis.ticks  = ggplot2::element_blank(), 
+                   plot.background = ggplot2::element_blank(),
+                   legend.position = "none") 
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(netw, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 5, height = 6.8, device = "png")
+    
+  } else {return(netw)}
+  
+}
+
 
 
 #' Barplot Percentage Of Target Achieved 
@@ -224,7 +331,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                               xmax = -Inf, 
                                               ymin = 0, 
                                               ymax = -Inf),
-                       fill    = "red",
+                       fill    = "darkgreen",
                        alpha   = 0.10) +
     
     ## Color area for values below  0 in green
@@ -232,13 +339,13 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                               xmax = -Inf, 
                                               ymin = 0, 
                                               ymax = Inf),
-                       fill    = "darkgreen",
+                       fill    = "red",
                        alpha   = 0.10) +
     
     ## Plot bars
     ggplot2::geom_col(data        = data_plot, 
-                      mapping     = ggplot2::aes(x     = factor(SDG_number, levels = rev(unique(order))), 
-                                                 y     = rel_pourc_neg,
+                      mapping     = ggplot2::aes(x     = as.numeric(factor(SDG_number, levels = rev(unique(order)))), 
+                                                 y     = -rel_pourc_neg,
                                                  fill  = group_order),
                       position    = "stack",
                       stat        = "identity",
@@ -250,8 +357,8 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     ggplot2::geom_hline(yintercept = 0) +
     
     ## Add text (number of targets achieved in each SDG)
-    ggplot2::geom_text(mapping     = ggplot2::aes(x     = SDG_number, 
-                                                  y     = text_labs_pos, 
+    ggplot2::geom_text(mapping     = ggplot2::aes(x     = as.numeric(factor(SDG_number, levels = rev(unique(order)))), 
+                                                  y     = -text_labs_pos*1.08, 
                                                   group = pos_neg,
                                                   color = pos_neg,
                                                   label = text),
@@ -269,21 +376,28 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                 name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
+                                breaks   = -seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
                                                max(data_plot$text_labs_pos), 20),
-                                expand = c(0.07,0)) +
+                                labels   = abs(seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
+                                               max(data_plot$text_labs_pos), 20)),
+                                expand   = c(0.08,0)) +
     
-    ggplot2::scale_x_discrete(labels = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))),
-                              expand = c(0.03,0.03)) +
+    ggplot2::scale_x_continuous(breaks   = 1:16,
+                                # labels   = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))),
+                                labels   = rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)),
+                                expand   = c(0.01, 0.01),
+                                sec.axis = ggplot2::dup_axis()) +
     
     ggplot2::coord_flip() +
     
     ggplot2::labs(x = "", y = "% linked") +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text.x    = ggplot2::element_text(size = 13, face = "bold"),
-                   axis.text.y    = ggplot2::element_text(size   = 13,
-                                                          color  = rev(color_text), 
-                                                          face   = "bold"),
+    ggplot2::theme(axis.text.x  = ggplot2::element_text(size = 12, face = "bold"),
+                   # axis.text.y    = ggplot2::element_text(size   = 13,
+                   #                                        color  = rev(color_text),
+                   #                                        face   = "bold"),
+                   axis.text.y  = ggplot2::element_blank(),
+                   # axis.ticks.y = ggplot2::element_blank(),
                    # axis.title   = ggplot2::element_text(size = 12),
                    axis.title.x = ggplot2::element_text(size   = 14, face = "bold"),
                                                         # vjust  = 5,
@@ -306,15 +420,15 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                                             colour = NA)) +
     
     
-    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE)) 
+    ggplot2::guides(fill  = ggplot2::guide_legend(reverse = TRUE)) 
   
   ## Save plot
   if(save == TRUE) {
     
     save(barplot_perc_achieve, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 4.5, height = 6.8, device = "png")
     
-  } 
+  } else {return(barplot_perc_achieve)}
   
 }
 
@@ -375,21 +489,39 @@ barplot_legend <- function(data_plot, color) {
 #' @examples
 Figure2 <- function(save = FALSE, name) {
   
-  # Load panels
-  fig1a <- NCSSDGproj::load_Fig1A_V2()
-  fig1b <- NCSSDGproj::load_Fig1B_V2()
+  # Plot panels
+  fig1a <- NCSSDGproj::plot_network_pos(network_obj = SDG_network[["score_pos"]][["network"]],
+                                        matrix      = SDG_network[["score_pos"]][["matrix"]],
+                                        icon_SDG    = icon_SDG,
+                                        icon_NCS    = icon_NCS,
+                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                                        save        = FALSE)
+  
+  
+  fig1b <- NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
+                                            color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
+                                            save        = FALSE)
+  
+  fig1c <- NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
+                                        matrix      = SDG_network[["score_neg"]][["matrix"]],
+                                        icon_SDG    = icon_SDG,
+                                        icon_NCS    = icon_NCS,
+                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                                        save        = FALSE)
+  
   legend <- NCSSDGproj::load_legend()
   
   # Assemble panels
   fig1 <- cowplot::ggdraw() +
     
-    cowplot::draw_plot(fig1a, x = 0, y = 0.005, width = 0.61, height = 0.97) +
-    cowplot::draw_plot(fig1b, x = 0.5, y = 0.025, width = 0.5, height = 0.98) +
-    cowplot::draw_plot(legend, x = 0.3, y = 0, width = 0.5, height = 0.02) +
-    cowplot::draw_plot_label(label = c("a", "b"),
+    cowplot::draw_plot(fig1a, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(fig1b, x = 0.325, y = 0.026, width = 0.35, height = 0.98) +
+    cowplot::draw_plot(fig1c, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.02) +
+    cowplot::draw_plot_label(label = c("a", "b", "c"),
                              size = 15,
-                             x = c(0, 0.55),
-                             y = c(0.98, 0.98)) 
+                             x = c(0, 0.33, 0.65),
+                             y = c(0.98, 0.98, 0.98)) 
     # cowplot::draw_label(label = "% linked",
     #                     fontface = "bold",
     #                     size = 12,

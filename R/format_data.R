@@ -157,6 +157,7 @@ matrix_SDG <- function(data_long) {
 #' @param matrix a weighted or binary matrix with SDG in column and NCS in row - use matrix_SDG
 #' @param mode1 
 #' @param mode2 
+#' @param pos specify positive or negative data
 #'
 #' @return a network object 
 #' @export
@@ -164,17 +165,19 @@ matrix_SDG <- function(data_long) {
 #' @importFrom network `%v%<-` `%v%`
 #'
 #' @examples
-matrix_to_network <- function (matrix, mode1= "P", mode2 = "A") {
+matrix_to_network <- function (matrix, mode1 = "P", mode2 = "A", pos = TRUE) {
 
   if(!is.matrix(matrix)) matrix <- as.matrix(matrix)
   
-  p <- dim(matrix)[1]    
-  a <- dim(matrix)[2]    
+  if(pos == TRUE){
+  
+  p <- dim(matrix)[1] # row    
+  a <- dim(matrix)[2] # column   
   net <- network::network(matrix,
                           matrix.type = "bipartite",
                           ignore.eval = FALSE,
                           names.eval = "weights")
-  net
+  
   network::set.vertex.attribute(net, "mode", c(rep(mode1, p), rep(mode2, a)))
   
   # Rename vertex (or nodes) names
@@ -182,7 +185,27 @@ matrix_to_network <- function (matrix, mode1= "P", mode2 = "A") {
   
   # Create "phono" to assign a shape 
   net %v% "phono" = ifelse(network::network.vertex.names(net) == "Ecosystem", "Ecosystem", "SDG")
-  net %v% "shape" = ifelse(net %v% "phono" == "Ecosystem", 19, 15)
+  net %v% "shape" = ifelse(net %v% "phono" == "Ecosystem", 19, 15) 
+  
+  } else {
+    
+    p <- dim(matrix)[1] # row    
+    a <- dim(matrix)[2] # column   
+    net <- network::network(matrix,
+                            matrix.type = "bipartite",
+                            ignore.eval = FALSE,
+                            names.eval = "weights")
+    
+    network::set.vertex.attribute(net, "mode", c(rep(mode1, p), rep(mode2, a)))
+    
+    # Rename vertex (or nodes) names
+    network::network.vertex.names(net) <- c(rep("SDG", 16), rep("Ecosystem", 11))
+    
+    # Create "phono" to assign a shape 
+    net %v% "phono" = ifelse(network::network.vertex.names(net) == "SDG", "SDG", "Ecosystem")
+    net %v% "shape" = ifelse(net %v% "phono" == "SDG", 15, 19) 
+    
+  }
   
   return(net)
   
