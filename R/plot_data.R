@@ -1606,84 +1606,6 @@ percentage_of_ones <- function(data_pos, data_neg, save = TRUE, name){
 }
 
 
-
-#' Plot The Number Of Links By Ecosystems
-#'
-#' @param data 
-#' @param save 
-#' @param name 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-plot_n_links <- function(data_pos, data_neg, save = TRUE, name){
-  
-  
-  plot_links <- function(data){
-    
-  ### Calculate the number of links for each ecosystem
-  data_plot <- data.frame(ecosystem = data$ecosystem,
-                          n_links   = rowSums(data[, -1])) %>%
-    dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
-                                           (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
-                                           TRUE ~ "#1134A6"))
-
-  
-  ### Plot data
-  plot <- ggplot2::ggplot() +
-    
-    ## Plot bars
-    ggplot2::geom_col(data        = data_plot, 
-                      mapping     = ggplot2::aes(x     = reorder(ecosystem, n_links), 
-                                                 y     = n_links,
-                                                 fill  = group),
-                      fill        = scales::alpha(data_plot$group, 0.8),
-                      show.legend = FALSE) +
-    
-    ## scale modif
-    ggplot2::scale_fill_manual(values  = data_plot$group,
-                               name    = NULL) +
-    
-    # ggplot2::scale_y_continuous(breaks = seq(-100, 100, 20)) +
-    
-    ggplot2::coord_flip() +
-    
-    ggplot2::labs(x = "", y = "Number of links") +
-    
-    ggplot2::theme_bw() +
-    
-    ggplot2::theme(axis.text   = ggplot2::element_text(size = 15, color = "black"),
-                   axis.title  = ggplot2::element_text(size = 18))
-  
-  }
-    
-  ### Apply the function to positive and negative linkages
-  plot_pos <- plot_links(data = data_pos)
-  plot_neg <- plot_links(data = data_neg)
-  
-  
-  ### Bind the two plot
-  plot <- cowplot::ggdraw() +
-    cowplot::draw_plot(plot_pos, x = 0, y = 0, width = 0.5, height = 1) +
-    cowplot::draw_plot(plot_neg, x = 0.5, y = 0, width = 0.5, height = 1) +
-    cowplot::draw_plot_label(label = c("a", "b"),
-                             size  = 15,
-                             x     = c(0.05, 0.55),
-                             y     = c(0.98, 0.98))
-   
-  ### Save plot
-  if(save == TRUE) {
-    
-    save(Figure3, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 11, height = 6.8, device = "png")
-    
-  } else {return(plot)} 
-  
-}
-
-
-
 #' Biplot Of Negative Versus Positive Links
 #'
 #' @param data 
@@ -1694,69 +1616,129 @@ plot_n_links <- function(data_pos, data_neg, save = TRUE, name){
 #' @export
 #'
 #' @examples
-biplot_npos_vs_nneg <- function(data_pos, data_neg, save = TRUE, name){
+supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, name2){
   
   ### Calculate number of links for each ecosystem
   
     ## Positive data
-    data_pos <- data.frame(ecosystem   = data_pos$ecosystem,
-                           n_links_pos = rowSums(data_pos[, -1])) %>%
+    pos <- data.frame(ecosystem   = data_pos$ecosystem,
+                      n_links_pos = rowSums(data_pos[, -1])) %>%
+      
       dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
                                              (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
-                                             TRUE ~ "#1134A6"))
+                                             TRUE ~ "#1134A6"),
+                    link = "positive") 
     
     ## Negative data
-    data_neg <- data.frame(ecosystem   = data_neg$ecosystem,
-                           n_links_neg = rowSums(data_neg[, -1])) 
+    neg <- data.frame(ecosystem   = data_neg$ecosystem,
+                      n_links_neg = rowSums(data_neg[, -1])) %>%
+      
+      dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
+                                             (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
+                                             TRUE ~ "#1134A6"),
+                    link = "negative")
     
     ## Bind data
-    data_plot <- dplyr::left_join(x  = data_pos,
-                                  y  = data_neg,
-                                  by = "ecosystem")
+    data_bars <-  neg %>%
+      dplyr::mutate(n_links_neg = -n_links_neg) %>%
+      magrittr::set_colnames(colnames(pos)) %>%
+      rbind(pos)
     
-  ### Plot
-  plot <- ggplot2::ggplot() +
     
-    ggplot2::geom_point(data        = data_plot, 
-                        mapping     = ggplot2::aes(x     = n_links_pos, 
-                                                   y     = n_links_neg,
-                                                   color = group),
-                        color       = scales::alpha(data_plot$group, 0.8),
-                        show.legend = TRUE) +
+  ### Plot barplot
+  plot_bars <- ggplot2::ggplot() +
     
-    ggplot2::labs(x = "Positive links",
-                  y = "Negative links") +
+    ## Plot bars
+    ggplot2::geom_col(data        = data_bars, 
+                      mapping     = ggplot2::aes(x     = reorder(ecosystem, abs(n_links_pos)), 
+                                                 y     = n_links_pos,
+                                                 fill  = link),
+                      show.legend = FALSE) +
     
-    ggplot2::geom_line(mapping = ggplot2::aes(x = c(0, max(data_plot$n_links_pos)), 
-                                              y = c(0, max(data_plot$n_links_neg)))) +
+    ## Add a vertical bar at 0
+    ggplot2::geom_hline(yintercept = 0) +
     
-    ggplot2::scale_x_continuous(breaks = seq(0, 70, 10))  +
+    ## scale color modif
+    ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red", "darkgreen"), 0.8),
+                               name    = NULL) +
+      
+    ggplot2::scale_y_continuous(breaks = seq(min(data_bars$n_links_pos), max(data_bars$n_links_pos), 5)) +
     
-    ggplot2::expand_limits(x = c(0, 70)) +
+    ggplot2::coord_flip() +
     
-    ggrepel::geom_text_repel(data    = data_plot,
-                             mapping = ggplot2::aes(x     = n_links_pos, 
-                                                    y     = n_links_neg,
-                                                    label = ecosystem), 
-                             color = data_plot$group,
-                             size   = 4) +
-              
+    ggplot2::labs(x = "", y = "Number of links") +
+    
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.title       = ggplot2::element_text(size = 17),
-                   axis.text        = ggplot2::element_text(size = 14),
-                   legend.title     = ggplot2::element_text(size = 17),
-                   legend.text      = ggplot2::element_text(size = 14),
+    
+    ggplot2::theme(axis.text        = ggplot2::element_text(size  = 16),
+                   # axis.text.y = ggplot2::element_text(color = reorder(data_bars$group, abs(data_bars$n_links_pos))),
+                   axis.title       = ggplot2::element_text(size  = 18),
                    panel.grid.minor = ggplot2::element_blank(),
                    panel.grid.major = ggplot2::element_blank())
-  
-  ### Save plot
-  if(save == TRUE) {
     
-    save(Figure3, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 11, height = 6.8, device = "png")
+    ### Save plot
+    if(save == TRUE) {
+      
+      save(Figure3, file = here::here("results", paste0(name1, ".RData")))
+      ggplot2::ggsave(here::here("figures", paste0(name1, ".png")), width = 15, height = 8.5, device = "png")
+      
+    } else {return(plot_bars)}
     
-  } else {return(plot)} 
-
+    
+  ### Plot biplot   
+  if(biplot == TRUE){
+    
+    data_biplot <- dplyr::left_join(x  = pos[, c("ecosystem", "n_links_pos", "group")],
+                                    y  = neg[, c("ecosystem", "n_links_neg")],
+                                    by = "ecosystem")
+    
+    ### Plot
+    biplot <- ggplot2::ggplot() +
+      
+      ggplot2::geom_point(data        = data_biplot, 
+                          mapping     = ggplot2::aes(x     = n_links_pos, 
+                                                     y     = n_links_neg,
+                                                     color = group),
+                          color       = scales::alpha(data_plot$group, 0.8),
+                          show.legend = TRUE) +
+      
+      ggplot2::labs(x = "Positive links",
+                    y = "Negative links") +
+      
+      ggplot2::geom_line(mapping = ggplot2::aes(x = c(0, max(data_biplot$n_links_pos)), 
+                                                y = c(0, max(data_biplot$n_links_neg)))) +
+      
+      ggplot2::scale_x_continuous(breaks = seq(0, 70, 10))  +
+      
+      ggplot2::expand_limits(x = c(0, 70)) +
+      
+      ggrepel::geom_text_repel(data    = data_biplot,
+                               mapping = ggplot2::aes(x     = n_links_pos, 
+                                                      y     = n_links_neg,
+                                                      label = ecosystem), 
+                               color = data_plot$group,
+                               size   = 4) +
+                
+      ggplot2::theme_bw() +
+      ggplot2::theme(axis.title       = ggplot2::element_text(size = 17),
+                     axis.text        = ggplot2::element_text(size = 14),
+                     legend.title     = ggplot2::element_text(size = 17),
+                     legend.text      = ggplot2::element_text(size = 14),
+                     panel.grid.minor = ggplot2::element_blank(),
+                     panel.grid.major = ggplot2::element_blank())
+    
+    ### Save plot
+    if(save == TRUE) {
+      
+      save(Figure3, file = here::here("results", paste0(name2, ".RData")))
+      ggplot2::ggsave(here::here("figures", paste0(name2, ".png")), width = 11, height = 6.8, device = "png")
+      
+    } else {return(biplot)} 
+    
+  }
+    
 }
+
+
 
   

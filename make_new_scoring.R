@@ -494,7 +494,7 @@ NCSSDGproj::percentage_of_ones(data_pos = matrix_all[["score_pos"]],
                                save     = TRUE,
                                name     = "supp_fig_perc_of_ones")
 
-### Supplementary Fig. 3 - number of links by ecosystem
+### Supplementary Fig. 3 - number of links by ecosystem AND/OR Supplementary Fig. 4 - biplot n positive vs. n negative links
 rm(list = ls(), envir = .GlobalEnv)    
 
   ## Data
@@ -502,25 +502,13 @@ rm(list = ls(), envir = .GlobalEnv)
   matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
   
   ## Plot 
-  NCSSDGproj::plot_n_links(data_pos = matrix_all[["score_pos"]],
-                           data_neg = matrix_all[["score_neg"]],
-                           save     = TRUE,
-                           name     = "n_links_supp_fig")
-  
-### Supplementary Fig. 4 - biplot n positive vs. n negative links
-rm(list = ls(), envir = .GlobalEnv)    
-  
-  ## Data
-  sheets  <- NCSSDGproj::read_all_sheets()
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
-  
-  ## Plot 
-  NCSSDGproj::biplot_npos_vs_nneg(data_pos = matrix_all[["score_pos"]], 
-                                  data_neg = matrix_all[['score_neg']],
-                                  save     = TRUE,
-                                  name     = "biplot_n_links")
+  NCSSDGproj::supp_plot_n_links(data_pos = matrix_all[["score_pos"]], 
+                                data_neg = matrix_all[['score_neg']],
+                                save     = TRUE,
+                                name1    = "n_links_barplot",
+                                biplot   = TRUE,
+                                name2    = "n_links_biplot")
 
-  
 
   
 ##########################
