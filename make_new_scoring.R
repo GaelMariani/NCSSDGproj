@@ -505,5 +505,83 @@ NCSSDGproj::percentage_of_ones(data_pos = matrix_all[["score_pos"]],
                            data_neg = matrix_all[["score_neg"]],
                            save     = TRUE,
                            name     = "n_links_supp_fig")
+  
+### Supplementary Fig. 4 - biplot n positive vs. n negative links
 
+  
+
+  
+##########################
+# Supplementary Analyses #
+##########################
+  
+### Modularity and nestedness at the SDG level
+  
+  ## Load data
+  sheets  <- NCSSDGproj::read_all_sheets()
+
+  ## Format data
+  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  
+    # Positive links
+    data_long_pos <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_pos"]])
+    SDG_matrix_pos  <- NCSSDGproj::matrix_SDG(data_long = data_long_pos)
+    raw_data_pos <- cbind(rownames(SDG_matrix_pos), as.data.frame(SDG_matrix_pos))
+    colnames(raw_data_pos)[1] <- "ecosystem"
+  
+    # Negative links
+    data_long_neg <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_neg"]])
+    SDG_matrix_neg  <- NCSSDGproj::matrix_SDG(data_long = data_long_neg)
+    raw_data_neg <- cbind(rownames(SDG_matrix_neg), as.data.frame(SDG_matrix_neg))
+    colnames(raw_data_neg)[1] <- "ecosystem"  
+  
+  ## Analyses
+    
+    # Modularity and Nestedness positive data
+    NCSSDGproj::NullModels(matrix01        = SDG_matrix_pos, 
+                           rawdata         = raw_data_pos, 
+                           NMalgo          = "quasiswap_count", # r2dtable different results
+                           NESTmethod      = "NODF",
+                           Nrun            = 1, # Nrun = 10 in the paper
+                           Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
+                           TargetInsurance = FALSE,
+                           save            = TRUE,
+                           name            = "Nest_Modu_SDGlevel_pos")
+    
+    # Modularity and Nestedness negative data
+    NCSSDGproj::NullModels(matrix01        = SDG_matrix_neg, 
+                           rawdata         = raw_data_neg, 
+                           NMalgo          = "quasiswap_count", # quasiswap_count different results
+                           NESTmethod      = "NODF",
+                           Nrun            = 1, # Nrun = 10 in the paper
+                           Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
+                           TargetInsurance = FALSE,
+                           save            = TRUE,
+                           name            = "Nest_Modu_SDGlevel_neg")
+    
+    
+    # TUI and TOI positive data
+    SDG_matrix_pos[SDG_matrix_pos > 0] <- 1
+    raw_data_pos <- cbind(rownames(SDG_matrix_pos), as.data.frame(SDG_matrix_pos))
+    colnames(raw_data_pos)[1] <- "ecosystem"
+    NCSSDGproj::NullModels(matrix01        = SDG_matrix_pos, 
+                           rawdata         = raw_data_pos, 
+                           NMalgo          = "r00",
+                           Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
+                           TargetInsurance = TRUE,
+                           save            = TRUE,
+                           name            = "TUI_TOI_SDGlevel_pos")
+    
+    # TUI and TOI negative data
+    SDG_matrix_neg[SDG_matrix_neg > 0] <- 1
+    raw_data_neg <- cbind(rownames(SDG_matrix_neg), as.data.frame(SDG_matrix_neg))
+    colnames(raw_data_neg)[1] <- "ecosystem"    
+    NCSSDGproj::NullModels(matrix01        = SDG_matrix_neg, 
+                           rawdata         = raw_data_neg, 
+                           NMalgo          = "r00",
+                           Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
+                           TargetInsurance = TRUE,
+                           save            = TRUE,
+                           name            = "TUI_TOI_SDGlevel_neg")
+            
   
