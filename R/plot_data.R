@@ -1621,6 +1621,7 @@ plot_n_links <- function(data_pos, data_neg, save = TRUE, name){
   
   
   plot_links <- function(data){
+    
   ### Calculate the number of links for each ecosystem
   data_plot <- data.frame(ecosystem = data$ecosystem,
                           n_links   = rowSums(data[, -1])) %>%
@@ -1683,6 +1684,79 @@ plot_n_links <- function(data_pos, data_neg, save = TRUE, name){
 
 
 
+#' Biplot Of Negative Versus Positive Links
+#'
+#' @param data 
+#' @param save 
+#' @param name 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+biplot_npos_vs_nneg <- function(data_pos, data_neg, save = TRUE, name){
+  
+  ### Calculate number of links for each ecosystem
+  
+    ## Positive data
+    data_pos <- data.frame(ecosystem   = data_pos$ecosystem,
+                           n_links_pos = rowSums(data_pos[, -1])) %>%
+      dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
+                                             (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
+                                             TRUE ~ "#1134A6"))
+    
+    ## Negative data
+    data_neg <- data.frame(ecosystem   = data_neg$ecosystem,
+                           n_links_neg = rowSums(data_neg[, -1])) 
+    
+    ## Bind data
+    data_plot <- dplyr::left_join(x  = data_pos,
+                                  y  = data_neg,
+                                  by = "ecosystem")
+    
+  ### Plot
+  plot <- ggplot2::ggplot() +
+    
+    ggplot2::geom_point(data        = data_plot, 
+                        mapping     = ggplot2::aes(x     = n_links_pos, 
+                                                   y     = n_links_neg,
+                                                   color = group),
+                        color       = scales::alpha(data_plot$group, 0.8),
+                        show.legend = TRUE) +
+    
+    ggplot2::labs(x = "Positive links",
+                  y = "Negative links") +
+    
+    ggplot2::geom_line(mapping = ggplot2::aes(x = c(0, max(data_plot$n_links_pos)), 
+                                              y = c(0, max(data_plot$n_links_neg)))) +
+    
+    ggplot2::scale_x_continuous(breaks = seq(0, 70, 10))  +
+    
+    ggplot2::expand_limits(x = c(0, 70)) +
+    
+    ggrepel::geom_text_repel(data    = data_plot,
+                             mapping = ggplot2::aes(x     = n_links_pos, 
+                                                    y     = n_links_neg,
+                                                    label = ecosystem), 
+                             color = data_plot$group,
+                             size   = 4) +
+              
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.title       = ggplot2::element_text(size = 17),
+                   axis.text        = ggplot2::element_text(size = 14),
+                   legend.title     = ggplot2::element_text(size = 17),
+                   legend.text      = ggplot2::element_text(size = 14),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   panel.grid.major = ggplot2::element_blank())
+  
+  ### Save plot
+  if(save == TRUE) {
+    
+    save(Figure3, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 11, height = 6.8, device = "png")
+    
+  } else {return(plot)} 
 
+}
 
   
