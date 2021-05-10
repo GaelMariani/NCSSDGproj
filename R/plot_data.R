@@ -357,15 +357,15 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     ggplot2::geom_hline(yintercept = 0) +
     
     ## Add text (number of targets achieved in each SDG)
-    ggplot2::geom_text(mapping     = ggplot2::aes(x     = as.numeric(factor(SDG_number, levels = rev(unique(order)))), 
-                                                  y     = -text_labs_pos*1.08, 
-                                                  group = pos_neg,
-                                                  color = pos_neg,
-                                                  label = text),
-                       stat        = "identity",
-                       data        = text_plot, 
-                       size        = 4,
-                       show.legend = FALSE) +
+    # ggplot2::geom_text(mapping     = ggplot2::aes(x     = as.numeric(factor(SDG_number, levels = rev(unique(order)))), 
+    #                                               y     = -text_labs_pos*1.08, 
+    #                                               group = pos_neg,
+    #                                               color = pos_neg,
+    #                                               label = text),
+    #                    stat        = "identity",
+    #                    data        = text_plot, 
+    #                    size        = 4,
+    #                    show.legend = FALSE) +
     
     
     ## scale modif
