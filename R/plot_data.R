@@ -331,7 +331,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                               xmax = -Inf, 
                                               ymin = 0, 
                                               ymax = -Inf),
-                       fill    = "darkgreen",
+                       fill    = "#E9B200",
                        alpha   = 0.10) +
     
     ## Color area for values below  0 in green
@@ -372,7 +372,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     ggplot2::scale_fill_manual(values = color,
                                name   = NULL) +
     
-    ggplot2::scale_color_manual(values = c("red", "darkgreen"),
+    ggplot2::scale_color_manual(values = c("red", "#9c7c32"),
                                 name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
