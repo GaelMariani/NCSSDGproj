@@ -1642,7 +1642,10 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
     data_bars <-  neg %>%
       dplyr::mutate(n_links_neg = -n_links_neg) %>%
       magrittr::set_colnames(colnames(pos)) %>%
-      rbind(pos)
+      rbind(pos) %>%
+      dplyr::arrange(plyr::desc(n_links_pos)) %>%
+      dplyr::mutate(order = c(seq(1, length(unique(ecosystem)), 1), rep(0, length(unique(ecosystem)))))
+      
     
     
   ### Plot barplot
@@ -1650,7 +1653,7 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
     
     ## Plot bars
     ggplot2::geom_col(data        = data_bars, 
-                      mapping     = ggplot2::aes(x     = reorder(ecosystem, abs(n_links_pos)), 
+                      mapping     = ggplot2::aes(x     = reorder(ecosystem, -order), 
                                                  y     = n_links_pos,
                                                  fill  = link),
                       show.legend = FALSE) +
@@ -1659,7 +1662,7 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
     ggplot2::geom_hline(yintercept = 0) +
     
     ## scale color modif
-    ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red", "darkgreen"), 0.8),
+    ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red", "darkgreen"), 0.75),
                                name    = NULL) +
       
     ggplot2::scale_y_continuous(breaks = seq(min(data_bars$n_links_pos), max(data_bars$n_links_pos), 5)) +
@@ -1675,6 +1678,7 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
                    axis.title       = ggplot2::element_text(size  = 18),
                    panel.grid.minor = ggplot2::element_blank(),
                    panel.grid.major = ggplot2::element_blank())
+  
     
     ### Save plot
     if(save == TRUE) {
@@ -1699,16 +1703,17 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
                           mapping     = ggplot2::aes(x     = n_links_pos, 
                                                      y     = n_links_neg,
                                                      color = group),
-                          color       = scales::alpha(data_plot$group, 0.8),
+                          color       = scales::alpha(data_biplot$group, 0.8),
                           show.legend = TRUE) +
       
       ggplot2::labs(x = "Positive links",
                     y = "Negative links") +
       
       ggplot2::geom_line(mapping = ggplot2::aes(x = c(0, max(data_biplot$n_links_pos)), 
-                                                y = c(0, max(data_biplot$n_links_neg)))) +
+                                                y = c(0, max(data_biplot$n_links_pos)))) +
       
       ggplot2::scale_x_continuous(breaks = seq(0, 70, 10))  +
+      ggplot2::scale_y_continuous(breaks = seq(0, 70, 10))  +
       
       ggplot2::expand_limits(x = c(0, 70)) +
       
@@ -1716,7 +1721,7 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
                                mapping = ggplot2::aes(x     = n_links_pos, 
                                                       y     = n_links_neg,
                                                       label = ecosystem), 
-                               color = data_plot$group,
+                               color = data_biplot$group,
                                size   = 4) +
                 
       ggplot2::theme_bw() +
