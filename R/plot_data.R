@@ -54,17 +54,17 @@ edge_size <- function(matrix, x) {
 #' @export
 #'
 #' @examples
-edge_col <- function(matrix, pos = TRUE) {
+edge_col <- function(matrix, neg = TRUE) {
   
   nodes_col <- c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)) # terr, coast, marine
     #c(rep("#66c2a5", 4), rep("#31859C", 4), rep("#1134A6", 3))
   
-  if(pos == TRUE){
+  if(neg == TRUE){
     
   edge.cols <- vector(mode = "character", length = 0)
   
-    for(i in 1:dim(matrix)[1]) {
-      edge.cols <- c(edge.cols, rep(nodes_col[i], sum(matrix[i,]>0)))
+    for(i in 1:dim(matrix)[2]) {
+      edge.cols <- c(edge.cols, rep(nodes_col[i], sum(matrix[,i]>0)))
     }
   
   } else {
@@ -116,45 +116,46 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
                          mode       = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
                          label      = FALSE,
                          shape      = "shape",
-                         size       = c(rowSums(matrix), rep(15, 16)),
+                         size       = c(rep(15, 16), colSums(matrix)),
                          max_size   = 18, 
                          label.size = 2,
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
                          edge.alpha = 0.4,
                          color      = rep("white", 27),
-                         edge.color = NCSSDGproj::edge_col(matrix, pos = TRUE),
+                         edge.color = NCSSDGproj::edge_col(matrix, neg = FALSE),
                          layout.exp = 0.25) +
     
-    # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
-    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = 1.05) + 
-    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .917) +
-    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .784) +
-    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .651) +
-    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .518) +
-    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .385) +
-    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .252) +
-    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .119) +
-    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.0178) +   
-    ggplot2::annotation_custom(icon_SDG[[10]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.15) + 
-    ggplot2::annotation_custom(icon_SDG[[11]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.283) +
-    ggplot2::annotation_custom(icon_SDG[[12]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.416) + 
-    ggplot2::annotation_custom(icon_SDG[[13]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.549) +
-    ggplot2::annotation_custom(icon_SDG[[14]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.682) +
-    ggplot2::annotation_custom(icon_SDG[[15]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.815) +
-    ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.948) +
+    ## Add silhouette of SDG (xmax = 1.1 to plot with barplot)
+    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .917) +
+    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .784) +
+    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .651) +
+    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .518) +
+    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .385) +
+    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .252) +
+    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .119) +
+    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.0178) +
+    ggplot2::annotation_custom(icon_SDG[[10]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.15) +
+    ggplot2::annotation_custom(icon_SDG[[11]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.283) +
+    ggplot2::annotation_custom(icon_SDG[[12]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.416) +
+    ggplot2::annotation_custom(icon_SDG[[13]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.549) +
+    ggplot2::annotation_custom(icon_SDG[[14]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.682) +
+    ggplot2::annotation_custom(icon_SDG[[15]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.815) +
+    ggplot2::annotation_custom(icon_SDG[[16]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.948) +
     
-    # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.075, xmax = 0.075, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.120, xmax = 0.120, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.083, xmax = 0.083, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.089, xmax = 0.089, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.098, xmax = 0.098, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.087, xmax = 0.087, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.099, xmax = 0.099, ymin = -Inf, ymax = -.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.073, xmax = 0.073, ymin = -Inf, ymax = -.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.069, xmax = 0.069, ymin = -Inf, ymax = -.95) + 
+    ## Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.925, xmax = 1.075, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.880, xmax = 1.120, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.917, xmax = 1.083, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.911, xmax = 1.089, ymin = -Inf, ymax = 0.25) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.902, xmax = 1.098, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.913, xmax = 1.087, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.911, xmax = 1.099, ymin = -Inf, ymax = -.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.927, xmax = 1.073, ymin = -Inf, ymax = -.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.931, xmax = 1.069, ymin = -Inf, ymax = -.95) +
+    
     
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
     ggplot2::scale_y_reverse() + 
@@ -217,39 +218,41 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
                          edge.alpha = 0.4,
                          color      = rep("white", 27),
-                         edge.color = NCSSDGproj::edge_col(matrix, pos = FALSE),
+                         edge.color = NCSSDGproj::edge_col(matrix, neg = TRUE),
                          layout.exp = 0.25) +
     
-    # # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
-    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .917) +
-    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .784) +
-    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .651) +
-    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .518) +
-    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .385) +
-    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .252) +
-    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = .119) +
-    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.0178) +
-    ggplot2::annotation_custom(icon_SDG[[10]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.15) +
-    ggplot2::annotation_custom(icon_SDG[[11]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.283) +
-    ggplot2::annotation_custom(icon_SDG[[12]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.416) +
-    ggplot2::annotation_custom(icon_SDG[[13]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.549) +
-    ggplot2::annotation_custom(icon_SDG[[14]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.682) +
-    ggplot2::annotation_custom(icon_SDG[[15]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.815) +
-    ggplot2::annotation_custom(icon_SDG[[16]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.948) +
+    # Add silhouette of SDG (xmax = 1.1 to plot with barplot)
+    ggplot2::annotation_custom(icon_SDG[[1]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = 1.05) + 
+    ggplot2::annotation_custom(icon_SDG[[2]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .917) +
+    ggplot2::annotation_custom(icon_SDG[[3]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .784) +
+    ggplot2::annotation_custom(icon_SDG[[4]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .651) +
+    ggplot2::annotation_custom(icon_SDG[[5]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .518) +
+    ggplot2::annotation_custom(icon_SDG[[6]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .385) +
+    ggplot2::annotation_custom(icon_SDG[[7]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .252) +
+    ggplot2::annotation_custom(icon_SDG[[8]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = .119) +
+    ggplot2::annotation_custom(icon_SDG[[9]],  xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.0178) +   
+    ggplot2::annotation_custom(icon_SDG[[10]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.15) + 
+    ggplot2::annotation_custom(icon_SDG[[11]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.283) +
+    ggplot2::annotation_custom(icon_SDG[[12]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.416) + 
+    ggplot2::annotation_custom(icon_SDG[[13]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.549) +
+    ggplot2::annotation_custom(icon_SDG[[14]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.682) +
+    ggplot2::annotation_custom(icon_SDG[[15]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.815) +
+    ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.948) +
     
-    # # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.925, xmax = 1.075, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.880, xmax = 1.120, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.917, xmax = 1.083, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.911, xmax = 1.089, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.902, xmax = 1.098, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.913, xmax = 1.087, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.911, xmax = 1.099, ymin = -Inf, ymax = -.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.927, xmax = 1.073, ymin = -Inf, ymax = -.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.931, xmax = 1.069, ymin = -Inf, ymax = -.95) +
+    # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.075, xmax = 0.075, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.120, xmax = 0.120, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.083, xmax = 0.083, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.089, xmax = 0.089, ymin = -Inf, ymax = 0.25) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.098, xmax = 0.098, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.087, xmax = 0.087, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.099, xmax = 0.099, ymin = -Inf, ymax = -.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.073, xmax = 0.073, ymin = -Inf, ymax = -.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.069, xmax = 0.069, ymin = -Inf, ymax = -.95) + 
+    
+
      
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
     ggplot2::scale_y_reverse() +
@@ -331,7 +334,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                               xmax = -Inf, 
                                               ymin = 0, 
                                               ymax = -Inf),
-                       fill    = "#E9B200",
+                       fill    = "red",
                        alpha   = 0.10) +
     
     ## Color area for values below  0 in green
@@ -339,13 +342,13 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                               xmax = -Inf, 
                                               ymin = 0, 
                                               ymax = Inf),
-                       fill    = "red",
+                       fill    = "#E9B200",
                        alpha   = 0.10) +
     
     ## Plot bars
     ggplot2::geom_col(data        = data_plot, 
                       mapping     = ggplot2::aes(x     = as.numeric(factor(SDG_number, levels = rev(unique(order)))), 
-                                                 y     = -rel_pourc_neg,
+                                                 y     = rel_pourc_neg,
                                                  fill  = group_order),
                       position    = "stack",
                       stat        = "identity",
@@ -376,7 +379,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                 name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks   = -seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
+                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
                                                max(data_plot$text_labs_pos), 20),
                                 labels   = abs(seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
                                                max(data_plot$text_labs_pos), 20)),
@@ -514,9 +517,9 @@ Figure2 <- function(save = FALSE, name) {
   # Assemble panels
   fig1 <- cowplot::ggdraw() +
     
-    cowplot::draw_plot(fig1a, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(fig1c, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
     cowplot::draw_plot(fig1b, x = 0.325, y = 0.026, width = 0.35, height = 0.98) +
-    cowplot::draw_plot(fig1c, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(fig1a, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
     cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.02) +
     cowplot::draw_plot_label(label = c("a", "b", "c"),
                              size = 15,

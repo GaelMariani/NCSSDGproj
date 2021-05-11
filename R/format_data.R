@@ -165,11 +165,11 @@ matrix_SDG <- function(data_long) {
 #' @importFrom network `%v%<-` `%v%`
 #'
 #' @examples
-matrix_to_network <- function (matrix, mode1 = "P", mode2 = "A", pos = TRUE) {
+matrix_to_network <- function (matrix, mode1 = "P", mode2 = "A", neg = TRUE) {
 
   if(!is.matrix(matrix)) matrix <- as.matrix(matrix)
   
-  if(pos == TRUE){
+  if(neg == TRUE){
   
   p <- dim(matrix)[1] # row    
   a <- dim(matrix)[2] # column   

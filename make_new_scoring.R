@@ -44,11 +44,11 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
 
   ## Positive links
   data_long_pos <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_pos"]])
-  SDG_matrix_pos  <- NCSSDGproj::matrix_SDG(data_long = data_long_pos)
+  SDG_matrix_pos  <- t(NCSSDGproj::matrix_SDG(data_long = data_long_pos))
   SDG_network_pos <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix_pos,
                                                    mode1  = "P",
                                                    mode2  = "A",
-                                                   pos = TRUE)
+                                                   neg    = FALSE)
   data_pourc_pos  <- NCSSDGproj::perc_SDG(data_long = data_long_pos)
 
 
@@ -58,7 +58,7 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
   SDG_network_neg <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix_neg,
                                                    mode1  = "P",
                                                    mode2  = "A",
-                                                   pos = FALSE)
+                                                   neg    = TRUE)
   data_pourc_neg  <- NCSSDGproj::perc_SDG(data_long = data_long_neg)
   
   ## merge data
@@ -97,7 +97,7 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
                                icon_NCS    = icon_NCS,
                                nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                                save        = TRUE,
-                               name        = "network_SDG_NCS_pos_V1")
+                               name        = "network_SDG_NCS_pos_V2")
   
   ## ---- Plot panel C - the bipartite negative network
   NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
@@ -106,7 +106,7 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
                                icon_NCS    = icon_NCS,
                                nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                                save        = TRUE,
-                               name        = "network_SDG_NCS_neg_V2")
+                               name        = "network_SDG_NCS_neg_V3")
 
     
   ## ---- Plot panel B - the barplot
