@@ -1342,17 +1342,18 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
   }
   
   # Plot
-  plot <- ggplot2::ggplot(data = data,
-                          mapping = ggplot2::aes(x = as.factor(id),
-                                                 y = as.numeric(value_group),
-                                                 fill = factor(group)),
+  plot <- ggplot2::ggplot(data        = data,
+                          mapping     = ggplot2::aes(x    = as.factor(id),
+                                                     y    = as.numeric(value_group),
+                                                     fill = factor(group)),
                           show.legend = FALSE) +
     
-    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id),
-                                             y = as.numeric(value_group),
-                                             group = factor(group)),
-                      stat = "identity",
-                      alpha = 0.7,
+    ggplot2::geom_bar(mapping     =  ggplot2::aes(x     = as.factor(id),
+                                                  y     = as.numeric(value_group),
+                                                  group = factor(group)),
+                      width       = 0.8,
+                      stat        = "identity",
+                      alpha       = 0.7,
                       show.legend = FALSE) +
     
     
@@ -1422,6 +1423,7 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
     ggplot2::geom_bar(mapping     = ggplot2::aes(x    = as.factor(id), 
                                                  y    = value_group, 
                                                  fill = as.factor(group)), 
+                      width       = 0.8, 
                       stat        = "identity", 
                       alpha       = 0.5,
                       show.legend = FALSE) +
