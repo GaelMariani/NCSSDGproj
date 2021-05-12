@@ -63,8 +63,8 @@ edge_col <- function(matrix, neg = TRUE) {
     
   edge.cols <- vector(mode = "character", length = 0)
   
-    for(i in 1:dim(matrix)[2]) {
-      edge.cols <- c(edge.cols, rep(nodes_col[i], sum(matrix[,i]>0)))
+    for(i in 1:dim(matrix)[1]) {
+      edge.cols <- c(edge.cols, rep(nodes_col[i], sum(matrix[i,]>0)))
     }
   
   } else {
@@ -174,6 +174,7 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
                    axis.text.x = ggplot2::element_blank(),
                    axis.ticks  = ggplot2::element_blank(), 
+                   plot.background = ggplot2::element_blank(),
                    legend.position = "none") 
   
   ## Save plot
@@ -212,7 +213,7 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
                          mode       = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
                          label      = FALSE,
                          shape      = "shape",
-                         size       = c(rep(15, 16), colSums(matrix)),
+                         size       = c(rowSums(matrix), rep(15, 16)),
                          max_size   = 9, 
                          label.size = 2,
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
@@ -359,6 +360,15 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     ## Add a vertical bar at 0
     ggplot2::geom_hline(yintercept = 0) +
     
+    ## Add + and - sign 
+    ggplot2::annotate(geom  = "text", 
+                      y     = c(-70, 105), 
+                      x     = c(rep(16.1, 2)), 
+                      label = c("-", "+"), 
+                      color = c("red", "#E9B200"), 
+                      face  = "bold",
+                      size  = 9) +
+    
     ## Add text (number of targets achieved in each SDG)
     # ggplot2::geom_text(mapping     = ggplot2::aes(x     = as.numeric(factor(SDG_number, levels = rev(unique(order)))), 
     #                                               y     = -text_labs_pos*1.08, 
@@ -395,7 +405,9 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     
     ggplot2::labs(x = "", y = "% linked") +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text.x  = ggplot2::element_text(size = 12, face = "bold"),
+    ggplot2::theme(axis.text.x  = ggplot2::element_text(size  = 12, 
+                                                        face  = "bold",
+                                                        color = c(rep("red", 3), "#4D4D4D", rep("#E9B200", 6))),
                    # axis.text.y    = ggplot2::element_text(size   = 13,
                    #                                        color  = rev(color_text),
                    #                                        face   = "bold"),
@@ -493,8 +505,8 @@ barplot_legend <- function(data_plot, color) {
 Figure2 <- function(save = FALSE, name) {
   
   # Plot panels
-  fig1a <- NCSSDGproj::plot_network_pos(network_obj = SDG_network[["score_pos"]][["network"]],
-                                        matrix      = SDG_network[["score_pos"]][["matrix"]],
+  fig1a <- NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
+                                        matrix      = SDG_network[["score_neg"]][["matrix"]],
                                         icon_SDG    = icon_SDG,
                                         icon_NCS    = icon_NCS,
                                         nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
@@ -505,21 +517,23 @@ Figure2 <- function(save = FALSE, name) {
                                             color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
                                             save        = FALSE)
   
-  fig1c <- NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
-                                        matrix      = SDG_network[["score_neg"]][["matrix"]],
+  fig1c <- NCSSDGproj::plot_network_pos(network_obj = SDG_network[["score_pos"]][["network"]],
+                                        matrix      = SDG_network[["score_pos"]][["matrix"]],
                                         icon_SDG    = icon_SDG,
                                         icon_NCS    = icon_NCS,
                                         nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                                         save        = FALSE)
+  
+
   
   legend <- NCSSDGproj::load_legend()
   
   # Assemble panels
   fig1 <- cowplot::ggdraw() +
     
-    cowplot::draw_plot(fig1c, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(fig1a, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
     cowplot::draw_plot(fig1b, x = 0.325, y = 0.026, width = 0.35, height = 0.98) +
-    cowplot::draw_plot(fig1a, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(fig1c, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
     cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.02) +
     cowplot::draw_plot_label(label = c("a", "b", "c"),
                              size = 15,

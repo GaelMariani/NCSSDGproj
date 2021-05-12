@@ -54,7 +54,7 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
 
   ## Negative links
   data_long_neg <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_neg"]])
-  SDG_matrix_neg  <- t(NCSSDGproj::matrix_SDG(data_long = data_long_neg))
+  SDG_matrix_neg  <- NCSSDGproj::matrix_SDG(data_long = data_long_neg)
   SDG_network_neg <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix_neg,
                                                    mode1  = "P",
                                                    mode2  = "A",
@@ -97,7 +97,7 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
                                icon_NCS    = icon_NCS,
                                nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                                save        = TRUE,
-                               name        = "network_SDG_NCS_pos_V2")
+                               name        = "network_SDG_NCS_pos_V3")
   
   ## ---- Plot panel C - the bipartite negative network
   NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
@@ -106,14 +106,14 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
                                icon_NCS    = icon_NCS,
                                nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                                save        = TRUE,
-                               name        = "network_SDG_NCS_neg_V3")
+                               name        = "network_SDG_NCS_neg_V4")
 
     
   ## ---- Plot panel B - the barplot
   NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
                                    color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
                                    save        = TRUE,
-                                   name        = "barplot_perc_achieve_V6")
+                                   name        = "barplot_perc_achieve_V7")
   
   ## ---- Plot legend for the two plots
   NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
@@ -121,7 +121,7 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
     
   ## ---- Bind fig 1A with fig 1B
   NCSSDGproj::Figure2(save = TRUE,
-                      name = "Figure2_V7")
+                      name = "Figure2_V8")
   
   
 #####################################################################
