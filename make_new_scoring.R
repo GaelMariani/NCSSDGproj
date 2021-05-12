@@ -121,7 +121,7 @@ matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
     
   ## ---- Bind fig 1A with fig 1B
   NCSSDGproj::Figure2(save = TRUE,
-                      name = "Figure2_V8")
+                      name = "Figure2_V9")
   
   
 #####################################################################
