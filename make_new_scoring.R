@@ -40,7 +40,7 @@ icon_NCS <- NCSSDGproj::format_icons(pathNCS, icon_SDG = FALSE)
   
 
 ### ----- FORMAT DATA
-matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
 
   ## Positive links
   data_long_pos <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_pos"]])
@@ -140,7 +140,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- FORMAT DATA
 
   ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
   
   ## ---- From dataframes to contingency matrices 
   
@@ -218,7 +218,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- FORMAT DATA
   
   ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
   
   ## ---- From dataframes to contingency matrices 
   matrix_conting_bin <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = TRUE)
@@ -290,7 +290,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- FORMAT DATA
     
   ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = FALSE) 
+  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = FALSE) 
   
   ## ---- Randomly turn x% of values and do it 999 times for positive and negative scores
   matrices_modif_0.05 <- list(# Positive scores
@@ -375,7 +375,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- FORMAT DATA
   
   ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
   
   ## ---- From dataframes to contingency matrices 
   matrix_conting_bin <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = TRUE)
@@ -499,15 +499,15 @@ rm(list = ls(), envir = .GlobalEnv)
 
   ## Data
   sheets  <- NCSSDGproj::read_all_sheets()
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
   
   ## Plot 
   NCSSDGproj::supp_plot_n_links(data_pos = matrix_all[["score_pos"]], 
                                 data_neg = matrix_all[['score_neg']],
                                 save     = TRUE,
-                                name1    = "n_links_barplot",
+                                name1    = "Supp_fig3",
                                 biplot   = TRUE,
-                                name2    = "n_links_biplot")
+                                name2    = "Supp_fig4")
 
 
   
@@ -521,7 +521,7 @@ rm(list = ls(), envir = .GlobalEnv)
   sheets  <- NCSSDGproj::read_all_sheets()
 
   ## Format data
-  matrix_all <- NCSSDGproj::sheets_to_matrix(sheets_list = sheets, binary = TRUE)
+  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
   
     # Positive links
     data_long_pos <- NCSSDGproj::matrix_to_longDF(matrix01 = matrix_all[["score_pos"]])

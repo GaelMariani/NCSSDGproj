@@ -96,15 +96,13 @@ edge_col <- function(matrix, neg = TRUE) {
 #' @param network_obj a network object - use matrix_to_network
 #' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
 #' @param icon_SDG a list of 16 rastergrob objects for each SDG - use format_icons
-#' @param nodes_col 
-#' @param save 
-#' @param name 
 #' @param icon_NCS a list of 11 rastergrob objects for each NCS - use format_icons
-#'
-#' @save if TRUE the plot is saved in the results folder
+#' @param nodes_col a character vector specifying the color of nodes
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved
 #' 
 #'
-#' @return a flux diagramm of the links between SDG and NCS
+#' @return a flux diagramm of the positive links between SDG and NCS
 #' @export
 #' 
 #'
@@ -193,15 +191,13 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
 #' @param network_obj a network object - use matrix_to_network
 #' @param matrix a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG
 #' @param icon_SDG a list of 16 rastergrob objects for each SDG - use format_icons
-#' @param nodes_col 
-#' @param save 
-#' @param name 
 #' @param icon_NCS a list of 11 rastergrob objects for each NCS - use format_icons
+#' @param nodes_col a character vector specifying the color of nodes
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved 
 #'
-#' @save if TRUE the plot is saved in the results folder
-#' 
 #'
-#' @return a flux diagramm of the links between SDG and NCS
+#' @return a flux diagramm of the negative links between SDG and NCS
 #' @export
 #' 
 #'
@@ -279,11 +275,11 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
 #' Barplot Percentage Of Target Achieved 
 #'
 #' @param SDG_network Matrices with positive and negative relationship - use outputs in SDG_network object
-#' @param color color for each type of NCS
+#' @param color a character vector specifying the color of each type of NCS
 #' @param save if TRUE the plot is saved in the results folder
-#' @param name 
+#' @param name the name of the plot to be saved
 #'
-#' @return a barplot with positive and negative values from targets achievement 
+#' @return a barplot with positive and negative values percent of targets linked
 #' @export
 #'
 #' @examples
@@ -448,7 +444,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
 }
 
 
-#' Plot Legend Figure Two
+#' Plot Legend Of Figure Two
 #'
 #' @param data_plot get it from SDG_network and use positive matrix - SDG_network--"score_pos"-- --"data_pourc"--
 #' @param color color for each type of NCS
@@ -494,10 +490,10 @@ barplot_legend <- function(data_plot, color) {
 
 #' Build Figure Two 
 #'
-#' @param save 
-#' @param name 
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved
 #'
-#' @return
+#' @return Figure 2 in the paper
 #' @export
 #' 
 #'
@@ -524,7 +520,8 @@ Figure2 <- function(save = FALSE, name) {
                                         nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                                         save        = FALSE)
   
-
+  NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
+                             color     = c("#1134A6", "#5EA9A2", "#228B22"))
   
   legend <- NCSSDGproj::load_legend()
   
@@ -538,12 +535,7 @@ Figure2 <- function(save = FALSE, name) {
     cowplot::draw_plot_label(label = c("a", "b", "c"),
                              size = 15,
                              x = c(0, 0.33, 0.65),
-                             y = c(0.98, 0.98, 0.98)) 
-    # cowplot::draw_label(label = "% linked",
-    #                     fontface = "bold",
-    #                     size = 12,
-    #                     x = 0.97,
-    #                     y = 0.99)
+                             y = c(0.98, 0.98, 0.98))
   
   # save
   if(save == TRUE) {
@@ -676,7 +668,7 @@ Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save)
 
 
 
-#' Circular Barplot Of Contribution
+#' Circular Barplot Of Contribution For Supplementary Fig 1 And 2
 #'
 #' @param data obtained with NCSSDGproj::CA_contri_vars 1st element of the list
 #' @param variable 
@@ -866,7 +858,7 @@ legend_CA <- function(data){
 }
 
 
-#' Figure 3
+#' Supplementary Fig 1
 #'
 #' @param data obtained with NCSSDGproj::CA_contri_vars
 #' @param colNCS_ter 
@@ -876,16 +868,19 @@ legend_CA <- function(data){
 #' @param targ_contrib12 
 #' @param data_arrow 
 #' @param name the name of the plot to be saved
+#' @param arrow 
 #'
 #' @return
 #' @export
 #'
 #' @examples
-Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE, name){
+supp_fig1 <- function(data, targ_contrib12, arrow = TRUE, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE, name){
   
   ### Legend
-  CA_legend <- NCSSDGproj::legend_CA(data = data)
-  CA_legend <- NCSSDGproj::load_CA_legend()
+  legend <- NCSSDGproj::load_legend()
+  
+  # CA_legend <- NCSSDGproj::legend_CA(data = data)
+  # CA_legend <- NCSSDGproj::load_CA_legend()
   
   ### Plot NCS from CA analysis
   arrow <- ggplot2::arrow(angle  = 20, 
@@ -903,29 +898,37 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
                                          repel     = TRUE,
                                          invisible = "quali") +
       
-      # Arrows
-      ggplot2::geom_segment(data        = data_arrow,
-                            mapping     = ggplot2::aes(x    = x,
-                                                       xend = xmax,
-                                                       y    = y,
-                                                       yend = ymax),
-                            arrow       = arrow, 
-                            color       = data_arrow$color, 
-                            linejoin    = "mitre",
-                            lwd         = 1.0, 
-                            show.legend = NA) +
-      
-      # Text above arrows
-      ggplot2::annotate(geom  ="text", 
-                        x     = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
-                        y     = c(rep(1.1, 2), 1), 
-                        label = data_arrow$text[c(1,3,5)], 
-                        color = data_arrow$color[c(1,3,5)], 
-                        size  = 4.5) +
       
       ggplot2::ggtitle(NULL) +
       ggplot2::theme_bw() +
       ggplot2::theme(legend.position = "none") 
+      
+      if(arrow == TRUE){
+      
+        ca_NCS_12 <- ca_NCS_12 +  
+        
+        # Arrows
+        ggplot2::geom_segment(data        = data_arrow,
+                              mapping     = ggplot2::aes(x    = x,
+                                                         xend = xmax,
+                                                         y    = y,
+                                                         yend = ymax),
+                              arrow       = arrow, 
+                              color       = data_arrow$color, 
+                              linejoin    = "mitre",
+                              lwd         = 1.0, 
+                              show.legend = NA) +
+        
+        # Text above arrows
+        ggplot2::annotate(geom  ="text", 
+                          x     = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
+                          y     = c(rep(1.1, 2), 1.05), 
+                          label = data_arrow$text[c(1,3,5)], 
+                          color = data_arrow$color[c(1,3,5)], 
+                          size  = 4.5) 
+      }
+      
+
     
     
     ## Barplot of contribution for axis 1 
@@ -1001,29 +1004,29 @@ Figure3 <- function(data, targ_contrib12, data_arrow, colNCS_ter, colNCS_coast, 
                                         ytitle = -5)
 
   ### Arrange plots together
-  Figure3 <- cowplot::ggdraw() +
-    cowplot::draw_plot(ca_NCS_12, x = 0, y = 0.5, width = 0.5, height = 0.5) +
-    cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
-    cowplot::draw_plot(NCS_axis1, x = 0.0, y = 0.06, width = 0.22, height = 0.47) +
-    cowplot::draw_plot(NCS_axis2, x = 0.25, y = 0.06, width = 0.22, height = 0.47) +
-    cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.029, width = 0.22, height = 0.53) +
-    cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.029, width = 0.22, height = 0.53) +
-    cowplot::draw_plot(CA_legend, x = 0.25, y = 0, width = 0.5, height = 0.1) +
-    cowplot::draw_plot_label(label = c("a", "b", "c", "d", "e", "f"),
+  supp_fig <- cowplot::ggdraw() +
+    cowplot::draw_plot(ca_NCS_12, x = 0.1, y = 0.5, width = 0.8, height = 0.5) +
+    # cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
+    cowplot::draw_plot(NCS_axis1, x = 0.20, y = 0.06, width = 0.30, height = 0.47) +
+    cowplot::draw_plot(NCS_axis2, x = 0.5, y = 0.06, width = 0.32, height = 0.47) +
+    # cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.029, width = 0.22, height = 0.53) +
+    # cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.029, width = 0.22, height = 0.53) +
+    cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.1) +
+    cowplot::draw_plot_label(label = c("a", "b", "c"),
                              size = 15,
-                             x = c(0, 0.5, 0, 0.25, 0.5, 0.75),
-                             y = c(1, 1, 0.45, 0.45, 0.45, 0.45))
+                             x = c(0.08, 0.18, 0.5),
+                             y = c(1, 0.45, 0.45))
 
     
-  Figure3
+  supp_fig
   
   ### Save plot
   if(save == TRUE) {
     
-    save(Figure3, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 15, height = 8.5, device = "png")
+    save(supp_fig, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 12, height = 8.5, device = "png")
     
-  } else {return(Figure3)}
+  } else {return(supp_fig)}
   
 }
 

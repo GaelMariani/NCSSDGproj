@@ -7,7 +7,7 @@
 load_NCS_icon()
 }
 \value{
-list of path to read and transform NCS icon
+a character with the list of paths to read and transform NCS icons
 }
 \description{
 Load NCS icons path

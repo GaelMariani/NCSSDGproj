@@ -17,7 +17,7 @@ read_all_sheets <- function(){
 
 #' Load SDG icons path 
 #'
-#' @return list of path to read and transform SDG icon 
+#' @return a character with the list of paths to read and transform SDG icons 
 #' @export
 #'
 #' @examples
@@ -31,7 +31,7 @@ load_SDG_icon <- function() {
 
 #' Load NCS icons path 
 #'
-#' @return list of path to read and transform NCS icon 
+#' @return a character with the list of paths to read and transform NCS icons
 #' @export 
 #'
 #' @examples

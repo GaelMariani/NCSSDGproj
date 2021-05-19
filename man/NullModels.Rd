@@ -17,13 +17,13 @@ NullModels(
 )
 }
 \arguments{
-\item{matrix01}{formatted matrix to calculate network indices, nestedness and modularity. Use data_netw_indice to format}
+\item{matrix01}{formatted matrix to calculate network indices, nestedness and modularity - use contingency_mat_targets}
 
-\item{rawdata}{a dataframe with targets of the SDGs in columns and NCSs in rows}
+\item{rawdata}{a dataframe with targets of the SDGs in columns and NCSs in rows - use sheets_to_df}
 
-\item{NMalgo}{name of null model algorithm => r00 for Insurance and quasiswap for modularity and nestedness}
+\item{NMalgo}{name of null model algorithm}
 
-\item{NESTmethod}{"NODF" or "weighted NODF"}
+\item{NESTmethod}{method to calculate nestedness, use "NODF" or "weighted NODF"}
 
 \item{Nrun}{Number of replicate runs for metaComputesModules}
 

@@ -9,6 +9,7 @@ dir.create("dataR")
 dir.create("results")
 dir.create("reports")
 dir.create("figures")
+dir.create("make_results")
 
 
 # Library to be used and put in the DESCRIPTION file
@@ -39,6 +40,7 @@ usethis::use_package("openxlsx")
 usethis::use_package("forcats")
 usethis::use_package("tibble")
 usethis::use_package("ggrepel")
+usethis::use_package("kableExtra")
 
 usethis::use_pipe()
 
@@ -50,6 +52,17 @@ usethis::use_r("plot_data")
 usethis::use_r("utils-pipe")
 usethis::use_r("unused_functions")
 
+
+
+file.create("make_results/figure_2.R")
+file.create("make_results/figure_3.R")
+file.create("make_results/null_models.R")
+file.create("make_results/sensitivity_analyses.R")
+file.create("make_results/figure_4.R")
+file.create("make_results/supp_figure_1.R")
+file.create("make_results/supp_figure_2.R")
+file.create("make_results/supp_figure_3.R")
+file.create("make_results/supp_figure_4.R")
 
 
 

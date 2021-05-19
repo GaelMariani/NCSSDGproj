@@ -53,10 +53,10 @@ TUI_TOI <- function(data_TI, Necosystem, Ntarget)  {
 #' @examples
 SES_pval <- function(val_obs, mean_null, sd_null, rowname) {
   
-  results_nm <- data.frame(Val_Obs = val_obs,
+  results_nm <- data.frame(Val_Obs   = val_obs,
                            Val_nulls =  mean_null,
-                           SES = (val_obs - mean_null)/sd_null,
-                           pvalue = 2*pnorm(-abs((val_obs - mean_null)/sd_null)))
+                           SES       = (val_obs - mean_null)/sd_null,
+                           pvalue    = 2*pnorm(-abs((val_obs - mean_null)/sd_null)))
   
   rownames(results_nm) <- rowname
   
@@ -67,13 +67,13 @@ SES_pval <- function(val_obs, mean_null, sd_null, rowname) {
 
 #' Null Model Analysis
 #'
-#' @param matrix01 formatted matrix to calculate network indices, nestedness and modularity. Use data_netw_indice to format
-#' @param NMalgo name of null model algorithm => r00 for Insurance and quasiswap for modularity and nestedness
-#' @param NESTmethod "NODF" or "weighted NODF"
-#' @param TargetInsurance if TRUE, compute Insurance indices, if FALSE calculate  network indices
-#' @param rawdata a dataframe with targets of the SDGs in columns and NCSs in rows
+#' @param matrix01 formatted matrix to calculate network indices, nestedness and modularity - use contingency_mat_targets
+#' @param rawdata a dataframe with targets of the SDGs in columns and NCSs in rows - use sheets_to_df
+#' @param NMalgo name of null model algorithm 
+#' @param NESTmethod method to calculate nestedness, use "NODF" or "weighted NODF"
 #' @param Nrun 	Number of replicate runs for metaComputesModules 
 #' @param Nsim Number of null matrices
+#' @param TargetInsurance if TRUE, compute Insurance indices, if FALSE calculate  network indices
 #' @param save if statement to save the results
 #' @param name the name of the data to be saved
 #'

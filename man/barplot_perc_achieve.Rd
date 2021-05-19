@@ -9,14 +9,14 @@ barplot_perc_achieve(SDG_network, color, save = FALSE, name)
 \arguments{
 \item{SDG_network}{Matrices with positive and negative relationship - use outputs in SDG_network object}
 
-\item{color}{color for each type of NCS}
+\item{color}{a character vector specifying the color of each type of NCS}
 
 \item{save}{if TRUE the plot is saved in the results folder}
 
-\item{name}{}
+\item{name}{the name of the plot to be saved}
 }
 \value{
-a barplot with positive and negative values from targets achievement
+a barplot with positive and negative values percent of targets linked
 }
 \description{
 Barplot Percentage Of Target Achieved

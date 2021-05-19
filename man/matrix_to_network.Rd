@@ -4,7 +4,7 @@
 \alias{matrix_to_network}
 \title{From Matrix to Network object}
 \usage{
-matrix_to_network(matrix, mode1 = "P", mode2 = "A", pos = TRUE)
+matrix_to_network(matrix, mode1 = "P", mode2 = "A", neg = TRUE)
 }
 \arguments{
 \item{matrix}{a weighted or binary matrix with SDG in column and NCS in row - use matrix_SDG}

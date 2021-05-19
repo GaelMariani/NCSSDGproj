@@ -31,13 +31,13 @@ format_icons <- function(path, icon_SDG = TRUE) {
 #' Transform Sheets From Each Ecosystem Into Combined Matrix
 #'
 #' @param sheets_list a list of dataframes obtained with read_all_sheets
-#' @param binary if statement to turn all values 2 into values 1 for binary analysis
+#' @param binary if statement to turn all values 2 into values 1 for binary analysis if binary = TRUE
 #'
 #' @return a list of four elements -df- with positive, negative, net and cumulate scores matrix
 #' @export
 #'
 #' @examples
-sheets_to_matrix <- function(sheets_list, binary){
+sheets_to_df <- function(sheets_list, binary){
   
   ### Function to clean and format
   clean_and_format <- function(df, pos_or_neg) {
@@ -99,17 +99,17 @@ sheets_to_matrix <- function(sheets_list, binary){
 }
 
 
-#' Matrix Long Format
+#' Data Frame In Long Format
 #'
-#' @param matrix01 the raw matrix with targets in columns and NCS in rows - use sheets_to_matrix
+#' @param df the raw matrix with targets in columns and NCS in rows - use sheets_to_df
 #'
 #' @return a df to the long format with score for each SDG's target and each ecosystem
 #' @export
 #'
 #' @examples
-matrix_to_longDF <- function(matrix01) {
+df_to_longDF <- function(df) {
   
-  data_long <- matrix01 %>%
+  data_long <- df %>%
     tidyr::gather(., goal.target, value, -1) %>% # long format
     magrittr::set_names(c("ecosystem", "goal.target", "value")) %>%
     tidyr::separate(goal.target, c("goal", "target"), sep = "[.]", remove = FALSE) %>%
@@ -129,9 +129,9 @@ matrix_to_longDF <- function(matrix01) {
 
 #' Weighted Contingency Matrix of SDG 
 #'
-#' @param data_long A dataframe with score for each NCS and SDG's targets
+#' @param data_long A dataframe with score for each NCS and SDG's targets - use df_to_longDF
 #'
-#' @return a weighted matrix with SDG in columns and NCS in rows
+#' @return a weighted matrix of links between SDG in columns and NCS in rows
 #' @export
 #'
 #' @examples
@@ -214,7 +214,7 @@ matrix_to_network <- function (matrix, mode1 = "P", mode2 = "A", neg = TRUE) {
 
 #' Percentage Of Target Achieved
 #'
-#' @param data_long a df to the long format with score for each SDG's target and each ecosystem - use matrix_to_longDF
+#' @param data_long a df to the long format with score for each SDG's target and each ecosystem - use df_to_longDF
 #'
 #' @return a df with percentage of target achieve totally + by group of NCS, values to be plotted 
 #' @export
@@ -267,7 +267,7 @@ perc_SDG <- function(data_long) {
 
 #' Contingency Matrix Of SDG's Targets For Network Indices And Unipartit Plot
 #'
-#' @param raw_data a dataframe with targets of the SDGs in columns and NCSs in rows
+#' @param raw_data a dataframe with targets of the SDGs in columns and NCSs in rows - use sheets_to_df
 #' @param binary if statement to turn all values 2 into values 1 for binary analysis
 #'
 #' @return a matrix of 0 and 1 

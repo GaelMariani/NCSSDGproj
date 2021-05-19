@@ -7,12 +7,12 @@
 Figure2(save = FALSE, name)
 }
 \arguments{
-\item{save}{}
+\item{save}{if TRUE the plot is saved in the results folder}
 
-\item{name}{}
+\item{name}{the name of the plot to be saved}
 }
 \value{
-
+Figure 2 in the paper
 }
 \description{
 Build Figure Two

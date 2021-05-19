@@ -4,7 +4,7 @@
 \alias{edge_col}
 \title{Set Edges Color}
 \usage{
-edge_col(matrix, pos = TRUE)
+edge_col(matrix, neg = TRUE)
 }
 \arguments{
 \item{matrix}{a weighted contingency matrix with SDG in columns and NCS in rows - use matrix_SDG}

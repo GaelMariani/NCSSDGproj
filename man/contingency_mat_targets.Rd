@@ -7,7 +7,7 @@
 contingency_mat_targets(raw_data, binary = TRUE)
 }
 \arguments{
-\item{raw_data}{a dataframe with targets of the SDGs in columns and NCSs in rows}
+\item{raw_data}{a dataframe with targets of the SDGs in columns and NCSs in rows - use sheets_to_df}
 
 \item{binary}{if statement to turn all values 2 into values 1 for binary analysis}
 }

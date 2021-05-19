@@ -7,7 +7,7 @@
 perc_SDG(data_long)
 }
 \arguments{
-\item{data_long}{a df to the long format with score for each SDG's target and each ecosystem - use matrix_to_longDF}
+\item{data_long}{a df to the long format with score for each SDG's target and each ecosystem - use df_to_longDF}
 }
 \value{
 a df with percentage of target achieve totally + by group of NCS, values to be plotted

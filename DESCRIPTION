@@ -36,4 +36,5 @@ Imports:
     plyr,
     ggrepel,
     openxlsx,
-    tibble
+    tibble,
+    kableExtra

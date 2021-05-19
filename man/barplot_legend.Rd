@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_data.R
 \name{barplot_legend}
 \alias{barplot_legend}
-\title{Plot Legend Figure Two}
+\title{Plot Legend Of Figure Two}
 \usage{
 barplot_legend(data_plot, color)
 }
@@ -15,5 +15,5 @@ barplot_legend(data_plot, color)
 a the legend of the barplot
 }
 \description{
-Plot Legend Figure Two
+Plot Legend Of Figure Two
 }

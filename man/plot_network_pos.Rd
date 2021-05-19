@@ -23,14 +23,14 @@ plot_network_pos(
 
 \item{icon_NCS}{a list of 11 rastergrob objects for each NCS - use format_icons}
 
-\item{nodes_col}{}
+\item{nodes_col}{a character vector specifying the color of nodes}
 
-\item{save}{}
+\item{save}{if TRUE the plot is saved in the results folder}
 
-\item{name}{}
+\item{name}{the name of the plot to be saved}
 }
 \value{
-a flux diagramm of the links between SDG and NCS
+a flux diagramm of the positive links between SDG and NCS
 }
 \description{
 Plot Network As Flux Diagramm For Positive Links

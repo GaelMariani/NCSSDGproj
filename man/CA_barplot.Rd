@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_data.R
 \name{CA_barplot}
 \alias{CA_barplot}
-\title{Circular Barplot Of Contribution}
+\title{Circular Barplot Of Contribution For Supplementary Fig 1 And 2}
 \usage{
 CA_barplot(data, axis, variable, ymin, ytitle)
 }
@@ -23,5 +23,5 @@ CA_barplot(data, axis, variable, ymin, ytitle)
 
 }
 \description{
-Circular Barplot Of Contribution
+Circular Barplot Of Contribution For Supplementary Fig 1 And 2
 }

@@ -7,7 +7,7 @@
 load_SDG_icon()
 }
 \value{
-list of path to read and transform SDG icon
+a character with the list of paths to read and transform SDG icons
 }
 \description{
 Load SDG icons path
