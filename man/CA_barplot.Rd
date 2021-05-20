@@ -9,18 +9,18 @@ CA_barplot(data, axis, variable, ymin, ytitle)
 \arguments{
 \item{data}{obtained with NCSSDGproj::CA_contri_vars 1st element of the list}
 
-\item{axis}{}
+\item{axis}{un number corresponding to the axis of the correspondance analysis}
 
-\item{variable}{}
+\item{variable}{a character specifying if working on "row" vs "column"}
 
-\item{ymin}{}
+\item{ymin}{a number for y min value}
 
-\item{ytitle}{}
+\item{ytitle}{a number for title position}
 
-\item{ymax}{}
+\item{ymax}{a number for y max value}
 }
 \value{
-
+a circular barplot in Supp Fig 1 and 2
 }
 \description{
 Circular Barplot Of Contribution For Supplementary Fig 1 And 2

@@ -6,7 +6,7 @@
 \usage{
 supp_fig1(
   data,
-  targ_contrib12,
+  arrow,
   data_arrow,
   colNCS_ter,
   colNCS_coast,
@@ -18,22 +18,22 @@ supp_fig1(
 \arguments{
 \item{data}{obtained with NCSSDGproj::CA_contri_vars}
 
-\item{targ_contrib12}{}
+\item{arrow}{TRUE if arrow must be plotted}
 
-\item{data_arrow}{}
+\item{data_arrow}{if TRUE, a df specifying the position of each arrow}
 
-\item{colNCS_ter}{}
+\item{colNCS_ter}{color for terrestrial ecosystems}
 
-\item{colNCS_coast}{}
+\item{colNCS_coast}{color for coastal ecosystems}
 
-\item{colNCS_mar}{}
+\item{colNCS_mar}{color for marine ecosystems}
 
-\item{save}{}
+\item{save}{if TRUE the plot is saved in the results folder}
 
 \item{name}{the name of the plot to be saved}
 }
 \value{
-
+the Supplementary Fig 1 in the paper
 }
 \description{
 Supplementary Fig 1

@@ -7,9 +7,9 @@
 Insurance_data2plot(matrix01, Ntarget)
 }
 \arguments{
-\item{matrix01}{a matrix with targets in columns and NCS in rows}
+\item{matrix01}{a binary matrix with targets in columns and NCS in rows - use contingency_mat_targets}
 
-\item{Ntarget}{the total number of targets}
+\item{Ntarget}{the total number of targets linked}
 }
 \value{
 A data frame with number of times a target is achieved with a column identifying observed data vs. null data

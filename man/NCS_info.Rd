@@ -7,7 +7,7 @@
 NCS_info(matrix_cont)
 }
 \arguments{
-\item{matrix_cont}{a matrix with targets in columns and NCS in rows}
+\item{matrix_cont}{a matrix with targets in columns and NCS in rows - use contingency_mat_targets}
 }
 \value{
 a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine

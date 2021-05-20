@@ -19,30 +19,30 @@ circular_plot_Insurance_neg(
 )
 }
 \arguments{
-\item{data}{}
+\item{data}{a df with the number of time a target is achieved by each time of ecosystem - use circular_data_Insurance}
 
-\item{label_data}{}
+\item{label_data}{a df with label text and position - use circular_data_Insurance}
 
-\item{base_data}{}
+\item{base_data}{a df with the position of each semi-circle - use circular_data_Insurance}
 
-\item{grid_data}{}
+\item{grid_data}{a df with the position of grid - use circular_data_Insurance}
 
-\item{SDG_info}{}
+\item{SDG_info}{a dataframe with the category, the color and the name of each SDG and target - use SDG_infos}
 
-\item{colNCS_ter}{}
+\item{colNCS_ter}{color for terrestrial ecosystems}
 
-\item{colNCS_coast}{}
+\item{colNCS_coast}{color for coastal ecosystems}
 
-\item{colNCS_mar}{}
+\item{colNCS_mar}{color for marine ecosystems}
 
-\item{icon_SDG}{}
+\item{save}{if TRUE the plot is saved in the results folder}
 
-\item{save}{}
+\item{name}{the name of the plot to be saved}
 
-\item{name}{}
+\item{iconSDG}{a list of 16 rastergrob objects for each SDG - use format_icons}
 }
 \value{
-
+figure 4 in the paper
 }
 \description{
 Insurance Circular Plot For Negative Data

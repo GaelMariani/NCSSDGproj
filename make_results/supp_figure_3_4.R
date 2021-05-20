@@ -11,9 +11,9 @@ sheets  <- NCSSDGproj::read_all_sheets()
 matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
 
 ### PLOT
-NCSSDGproj::supp_plot_n_links(data_pos = matrix_all[["score_pos"]], 
-                              data_neg = matrix_all[['score_neg']],
-                              save     = TRUE,
-                              name1    = "Supp_fig3",
-                              biplot   = TRUE,
-                              name2    = "Supp_fig4")
+NCSSDGproj::supp_fig3_4(data_pos = matrix_all[["score_pos"]], 
+                        data_neg = matrix_all[['score_neg']],
+                        save     = TRUE,
+                        name1    = "Supp_fig3_v2",
+                        biplot   = TRUE,
+                        name2    = "Supp_fig4_v2")

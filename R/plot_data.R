@@ -1355,133 +1355,48 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
 }
 
 
-#' Percentage Of Ones In Each Ecosystem
-#'
-#' @param data_pos matrix with positive values
-#' @param data_neg matrix with negative values
-#' @param save if statement, if TRUE the plot is saved
-#' @param name the name of the plot to be saved
-#'
-#' @return
-#' @export
-#'
-#' @examples
-percentage_of_ones <- function(data_pos, data_neg, save = TRUE, name){
-  
-  ### Function to calculate the proportion of ones
-  data_format <- function(data_to_format, type){ 
-    
-    ### Format to matrix
-    data <- data_to_format
-    data <- as.matrix(data[,-1])
-    rownames(data) <- data_to_format$ecosystem
-    
-    ### Create table for output
-    table <- data.frame(ecosystem = data_to_format$ecosystem,
-                        ratio     = NA,
-                        pos_neg   = type)
-    
-    
-    ### Compute % of ones in each rows
-    for(i in 1:nrow(data)){
-      table[i, "ratio"] <- (sum(data[i,] == 1)/sum(data[i,] > 0))*100
-    }
-    
-    return(table)
-  }
-  
-    ## Apply the function
-    data_posi <- data_format(data_to_format = data_pos, type = "positive")
-    data_nega <- data_format(data_to_format = data_neg, type = "negative")
-    data <- rbind(data_posi, data_nega)
-    
-    data$ratio[data$pos_neg == "negative"] <- data$ratio[data$pos_neg == "negative"]*-1
-    
-    data <- data %>% dplyr::arrange(desc(ratio)) 
-    
-    data[is.na(data)] <- 0
-  
-  ### Plot
-  plot <- ggplot2::ggplot() +
-
-    ## Plot bars
-    ggplot2::geom_col(data        = data, 
-                      mapping     = ggplot2::aes(x     = reorder(ecosystem, -ratio), 
-                                                 y     = ratio,
-                                                 fill  = pos_neg),
-                      show.legend = FALSE) +
-    
-    ## Add a vertical bar at 0
-    ggplot2::geom_hline(yintercept = 0) +
-    
-    ## scale modif
-    ggplot2::scale_fill_manual(values = ggplot2::alpha(c("darkgreen", "red"), 0.8),
-                               name    = NULL) +
-    
-    ggplot2::scale_y_continuous(breaks = seq(-100, 100, 20)) +
-    
-    ggplot2::coord_flip() +
-    
-    ggplot2::labs(x = "", y = "Ratio") +
-    
-    ggplot2::theme_bw() +
-    
-    ggplot2::theme(axis.text   = ggplot2::element_text(size = 16),
-                   axis.title  = ggplot2::element_text(size = 18))
-    
-  ### Save plot
-  if(save == TRUE) {
-    
-    save(Figure3, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 15, height = 8.5, device = "png")
-    
-  } else {return(plot)}
-  
-}
-
-
 #' Biplot Of Negative Versus Positive Links
 #'
-#' @param data 
-#' @param save 
-#' @param name 
+#' @param data data to be plotted - use sheets_to_df
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved
 #'
-#' @return
+#' @return Supp figure 3 and 4 in the paper
 #' @export
 #'
 #' @examples
-supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, name2){
+supp_fig3_4 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, name2){
   
   ### Calculate number of links for each ecosystem
   
-    ## Positive data
-    pos <- data.frame(ecosystem   = data_pos$ecosystem,
-                      n_links_pos = rowSums(data_pos[, -1])) %>%
-      
-      dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
-                                             (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
-                                             TRUE ~ "#1134A6"),
-                    link = "positive") 
+  ## Positive data
+  pos <- data.frame(ecosystem   = data_pos$ecosystem,
+                    n_links_pos = rowSums(data_pos[, -1])) %>%
     
-    ## Negative data
-    neg <- data.frame(ecosystem   = data_neg$ecosystem,
-                      n_links_neg = rowSums(data_neg[, -1])) %>%
-      
-      dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
-                                             (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
-                                             TRUE ~ "#1134A6"),
-                    link = "negative")
+    dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
+                                           (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
+                                           TRUE ~ "#1134A6"),
+                  link = "positive") 
+  
+  ## Negative data
+  neg <- data.frame(ecosystem   = data_neg$ecosystem,
+                    n_links_neg = rowSums(data_neg[, -1])) %>%
     
-    ## Bind data
-    data_bars <-  neg %>%
-      dplyr::mutate(n_links_neg = -n_links_neg) %>%
-      magrittr::set_colnames(colnames(pos)) %>%
-      rbind(pos) %>%
-      dplyr::arrange(plyr::desc(n_links_pos)) %>%
-      dplyr::mutate(order = c(seq(1, length(unique(ecosystem)), 1), rep(0, length(unique(ecosystem)))))
-      
-    
-    
+    dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "#228B22",
+                                           (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "#5EA9A2",
+                                           TRUE ~ "#1134A6"),
+                  link = "negative")
+  
+  ## Bind data
+  data_bars <-  neg %>%
+    dplyr::mutate(n_links_neg = -n_links_neg) %>%
+    magrittr::set_colnames(colnames(pos)) %>%
+    rbind(pos) %>%
+    dplyr::arrange(plyr::desc(n_links_pos)) %>%
+    dplyr::mutate(order = c(seq(1, length(unique(ecosystem)), 1), rep(0, length(unique(ecosystem)))))
+  
+  
+  
   ### Plot barplot
   plot_bars <- ggplot2::ggplot() +
     
@@ -1498,7 +1413,7 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
     ## scale color modif
     ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red", "darkgreen"), 0.75),
                                name    = NULL) +
-      
+    
     ggplot2::scale_y_continuous(breaks = seq(min(data_bars$n_links_pos), max(data_bars$n_links_pos), 5)) +
     
     ggplot2::coord_flip() +
@@ -1513,16 +1428,16 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
                    panel.grid.minor = ggplot2::element_blank(),
                    panel.grid.major = ggplot2::element_blank())
   
+  
+  ### Save plot
+  if(save == TRUE) {
     
-    ### Save plot
-    if(save == TRUE) {
-      
-      save(Figure3, file = here::here("results", paste0(name1, ".RData")))
-      ggplot2::ggsave(here::here("figures", paste0(name1, ".png")), width = 15, height = 8.5, device = "png")
-      
-    } else {return(plot_bars)}
+    save(plot_bars, file = here::here("results", paste0(name1, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name1, ".png")), width = 15, height = 8.5, device = "png")
     
-    
+  } else {return(plot_bars)}
+  
+  
   ### Plot biplot   
   if(biplot == TRUE){
     
@@ -1557,7 +1472,7 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
                                                       label = ecosystem), 
                                color = data_biplot$group,
                                size   = 4) +
-                
+      
       ggplot2::theme_bw() +
       ggplot2::theme(axis.title       = ggplot2::element_text(size = 17),
                      axis.text        = ggplot2::element_text(size = 14),
@@ -1569,184 +1484,16 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
     ### Save plot
     if(save == TRUE) {
       
-      save(Figure3, file = here::here("results", paste0(name2, ".RData")))
+      save(biplot, file = here::here("results", paste0(name2, ".RData")))
       ggplot2::ggsave(here::here("figures", paste0(name2, ".png")), width = 11, height = 6.8, device = "png")
       
     } else {return(biplot)} 
     
   }
-    
-}
-
-
-#' Get Legend Correspondance Analysis
-#'
-#' @param data 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-legend_CA <- function(data){
-  
-  all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
-    dplyr::mutate(target = rownames(.)) %>%
-    dplyr::select(c(1:2, 6)) %>%
-    stats::setNames(c("Coord1", "Coord2", "target"))
-  
-  contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
-    dplyr::right_join(., all_targ, by = "target") 
-  
-  contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
-  contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
-  
-  data[["grp_targ"]] <- contrib_target
-  
-  ## CA plot
-  ca_SDG_12 <- ggplot2::ggplot(data = contrib_target,
-                               mapping = ggplot2::aes(x = Coord1,
-                                                      y = Coord2,
-                                                      fill = Type_CA)) + 
-    
-    ggplot2::geom_col(data = contrib_target,
-                      mapping = ggplot2::aes(x = Coord1,
-                                             y = Coord2,
-                                             fill = Type_CA)) +
-    
-    ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""))) +
-    
-    ggplot2::labs(x = "Dim 1 (28.8%)", y = "", fill = NULL) +
-    
-    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#808000", "#1134A6", "#680020", "#E1BC84", "#abdda4", "#228B22")) +
-    
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = "top")
-  
-  CA_legend <- ggpubr::get_legend(ca_SDG_12)
-  save(CA_legend, file = here::here("results", "CA_legend.RData"))
   
 }
 
 
 
-#' Insurance Plot
-#'
-#' @param data A data frame with number of times a target is achieved with a column identifying observed data vs. null data
-#' @param TI Target Insurance
-#' @param TUI_obs Target Under Insurance observed
-#' @param TUI_null Target Under Insurance from null matrix
-#' @param obs_col color for observed data
-#' @param null_col color for null data
-#' @param save if TRUE the plot is saved in the results folder
-#' 
-#' 
-#'
-#' @return 
-#' @export
-#'
-#' @examples
-Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save) {
-  
-  arrow = ggplot2::arrow(angle=15, type = "closed", length = ggplot2::unit(0.1, "inches"))
-  
-  Insurance_plot <- ggplot2::ggplot(data = data, 
-                                    mapping = ggplot2::aes(x = as.numeric(xval), 
-                                                           y = value, 
-                                                           color = group)) +
-    
-    ggplot2::geom_ribbon(data = data[1:(nrow(data)/2), ], 
-                         mapping = ggplot2::aes(ymin = 0, 
-                                                ymax = data$value[1:(nrow(data)/2)]), 
-                         color = "transparent", 
-                         fill = "#ACACF7") +
-    
-    ggplot2::geom_hline(yintercept = TI, 
-                        color = "grey20", 
-                        linetype = "dashed") +
-    
-    ggplot2::scale_color_manual(values = c(null_col, obs_col), 
-                                name = NULL) +
-    
-    ggplot2::scale_x_continuous(breaks = seq(0, 83, 5), 
-                                expand = c(0, 1, 0.1, 0)) +
-    
-    ggplot2::scale_y_continuous(breaks = seq(0, 11, 1), 
-                                expand = c(0, 0, 0.1, 0)) +
-    
-    
-    ggplot2::geom_line() +
-    
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 y = 6, 
-                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 yend = 6),
-                          arrow = arrow, 
-                          color = obs_col, 
-                          show.legend = NA) +
-    
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 y = 6, 
-                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 yend = 6),
-                          arrow = arrow, 
-                          color = obs_col, 
-                          show.legend = NA) +
-    
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 y = 0, 
-                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
-                                                 yend = 6), 
-                          color =  obs_col, 
-                          linetype = "dashed") +
-    
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
-                                                 y = 0,
-                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
-                                                 yend = 6), 
-                          color =  obs_col, 
-                          linetype = "dashed") +
-    
-    ggplot2::annotate(geom = "text", 
-                      x = 78.5, 
-                      y = 7.5, 
-                      label = "Targets underinsured", 
-                      color = "black",
-                      fontface = "bold", 
-                      size = 5) +
-    
-    ggplot2::annotate(geom = "text", 
-                      x = 75, 
-                      y = 6.7, 
-                      label = as.character(TUI_obs), 
-                      color = "#0000EB", 
-                      size = 5) +
-    
-    ggplot2::annotate(geom = "text", 
-                      x = 82, 
-                      y = 6.7, 
-                      label = as.character(TUI_null), 
-                      color = "black", 
-                      size = 5) +
-    
-    ggplot2::labs(x = "Rank of SDGs targets", y = "Number of NCS linked") +
-    
-    ggplot2::theme_classic() +
-    
-    ggplot2::theme(legend.position = c(0.75, 0.85),
-                   legend.text = ggplot2::element_text(size = 16, face="bold"),
-                   axis.text = ggplot2::element_text(size = 14),
-                   axis.title = ggplot2::element_text(size = 16)) 
-  
-  ## Save plot
-  if(save == TRUE) {
-    
-    save(Insurance_plot, file = here::here("results", "Insurance_plot.RData"))
-    ggplot2::ggsave(here::here("figures", "Insurance_plot.png"), width = 10.5, height = 5.5, device = "png")
-    
-  } else {return(Insurance_plot)}
-  
-  
-  
-}
 
   

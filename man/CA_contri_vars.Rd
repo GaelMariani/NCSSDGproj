@@ -4,21 +4,19 @@
 \alias{CA_contri_vars}
 \title{Correspondance Analysis Of Variable Contribution}
 \usage{
-CA_contri_vars(matrix_cont, axis2_targ, colNCS_ter, colNCS_coast, colNCS_mar)
+CA_contri_vars(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar)
 }
 \arguments{
-\item{matrix_cont}{a matrix with NCS in rows and SDG targets in columns}
+\item{matrix_cont}{a matrix with NCS in rows and SDG targets in columns - use contingency_mat_targets}
 
-\item{axis2_targ}{}
+\item{colNCS_ter}{color for terrestrial ecosystems}
 
-\item{colNCS_ter}{}
+\item{colNCS_coast}{color for coastal ecosystems}
 
-\item{colNCS_coast}{}
-
-\item{colNCS_mar}{}
+\item{colNCS_mar}{color for marine ecosystems}
 }
 \value{
-
+a list of three files, with CA analysis results, contribution of row to the variance and the data to add arrow on the plot
 }
 \description{
 Correspondance Analysis Of Variable Contribution

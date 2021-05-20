@@ -4,27 +4,19 @@
 \alias{circular_data_Insurance}
 \title{Format Data For Circular Plot}
 \usage{
-circular_data_Insurance(
-  data_Insurance,
-  data_long,
-  SDG_info,
-  NCS_info,
-  negative = FALSE
-)
+circular_data_Insurance(data_Insurance, data_long, SDG_info, NCS_info)
 }
 \arguments{
-\item{data_Insurance}{}
+\item{data_Insurance}{a df with the observed and expected number of time a target is linked - use Insurance_data2plot}
 
-\item{data_long}{}
+\item{data_long}{a df to the long format with score for each SDG's target and each ecosystem - use df_to_longDF}
 
-\item{SDG_info}{}
+\item{SDG_info}{a dataframe with the category, the color and the name of each SDG and target - use SDG_infos}
 
-\item{NCS_info}{}
-
-\item{negative}{}
+\item{NCS_info}{a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine - use NCS_infos}
 }
 \value{
-
+a list a 4 df -1 for data, 1 for label position, 1 for semi circle position, 1 for grid position- used for the circular plot of insurance
 }
 \description{
 Format Data For Circular Plot

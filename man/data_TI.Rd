@@ -7,7 +7,7 @@
 data_TI(matrix)
 }
 \arguments{
-\item{matrix}{a matrix with targets in rows and NCS in columns}
+\item{matrix}{a matrix with targets in rows and NCS in columns - use contingency_mat_targets}
 }
 \value{
 a dataframe with the number of time each target is achieved

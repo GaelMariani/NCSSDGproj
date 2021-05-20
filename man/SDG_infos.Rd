@@ -7,10 +7,10 @@
 SDG_infos(matrix_cont)
 }
 \arguments{
-\item{matrix_cont}{a matrix with targets in columns and NCS in rows}
+\item{matrix_cont}{a matrix with targets in columns and NCS in rows - use contingency_mat_targets}
 }
 \value{
-a dataframe with with the category, the color and the name of each SDG and target
+a dataframe with the category, the color and the name of each SDG and target
 }
 \description{
 Sustainable Development Goals Infos
