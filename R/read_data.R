@@ -73,37 +73,10 @@ load_vert_legend <- function(){
 }
 
 
-#' Load Correspondance Analysis Legend
-#'
-#' @return A RData to plot circular plot
-#' @export
-#'
-#' @examples
-load_CA_legend <- function(){
-  
-  load(here::here("results", "CA_legend.RData"))
-  return(CA_legend)
-  
-}
-
-
-#' Read the binary matrix
-#'
-#' @return a dataframe with target's contribution and type to the second axis variance
-#' @export
-#'
-#' @examples
-SDG_contrib_tbl <- function(){
-  
-  readxl::read_excel(here::here("rawdata", "colnames12_v2.xlsx"))
-  
-}
-
-
 #' Load Observed Metrics
 #'
-#' @return
-#' @export
+#' @return a list of 2 elements, with observed indices values for positive and negative scores
+#' @export 
 #'
 #' @examples
 load_metric_obs <- function(){
@@ -131,77 +104,4 @@ load_metric_obs <- function(){
   metric_obs <- list("score_pos" = metric_obs_pos, "score_neg" = metric_obs_neg)
   return(metric_obs)
 }
-
-
-
-#' Load First Figure Panel A
-#'
-#' @return A RData to plot Figure 1A
-#' @export
-#'
-#' @examples
-load_Fig1A <- function(){
-  
-  load(here::here("results", "network_SDG_NCS.RData"))
-  return(netw)
-  
-}
-
-
-#' Load First Figure Panel A Version Two
-#'
-#' @return A RData to plot Figure 1A
-#' @export
-#'
-#' @examples
-load_Fig1A_V2 <- function(){
-  
-  load(here::here("results", "network_SDG_NCS_pos_V1.RData"))
-  return(netw)
-  
-}
-
-
-#' Load First Figure Panel B
-#'
-#' @return A RData to plot Figure 1B
-#' @export
-#'
-#' @examples
-load_Fig1B <- function(){
-  
-  load(here::here("results", "barplot_pourc.RData"))
-  return(barplot_pourc)
-  
-}
-
-
-#' Load First Figure Panel B test
-#'
-#' @return A RData to plot Figure 1B
-#' @export
-#'
-#' @examples
-load_Fig1B_V2 <- function(){
-  
-  load(here::here("results", "barplot_perc_achieve_V5.RData"))
-  return(barplot_perc_achieve)
-  
-}
-
-
-#' Load First Figure Panel C test
-#'
-#' @return A RData to plot Figure 1B
-#' @export
-#'
-#' @examples
-load_Fig1c_V2 <- function(){
-  
-  load(here::here("results", "network_SDG_NCS_neg_V1.RData"))
-  return(barplot_perc_achieve)
-  
-}
-
-
 

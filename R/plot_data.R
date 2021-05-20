@@ -271,7 +271,6 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
 }
 
 
-
 #' Barplot Percentage Of Target Achieved 
 #'
 #' @param SDG_network Matrices with positive and negative relationship - use outputs in SDG_network object

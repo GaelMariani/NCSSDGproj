@@ -16,7 +16,7 @@ circular_data_CA(data_contrib, variable, axis)
 \item{TOP20}{use if variable = "col"}
 }
 \value{
-
+a list a 4 df -1 for data, 1 for label position, 1 for semi circle position, 1 for grid position- used for the circular plot of NCS contribution
 }
 \description{
 Data To Plot Circular Contribution

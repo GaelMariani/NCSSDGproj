@@ -7,7 +7,7 @@
 load_metric_obs()
 }
 \value{
-
+a list of 2 elements, with observed indices values for positive and negative scores
 }
 \description{
 Load Observed Metrics

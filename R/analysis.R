@@ -39,7 +39,6 @@ TUI_TOI <- function(data_TI, Necosystem, Ntarget)  {
 }
 
 
-
 #' SES Pvalue Calculation
 #'
 #' @param val_obs observed value of the indice
@@ -292,11 +291,11 @@ CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
       
 #' Randomly Turn Values In A Matrix
 #'
-#' @param data_links a dataframe with links bewteen targets -in columns- and NCS -in rows-
+#' @param data_links a dataframe with links bewteen targets -in columns- and NCS -in rows-, use sheets_to_df
 #' @param percentage percentage -from 0 to 1- of values that match to be replaced
 #' @param binary if statement to turn all values 2 into values 1 for binary analysis
 #'
-#' @return a dataframe with modified values
+#' @return a dataframe with modified values for a given number of matrices
 #' @export
 #'
 #' @examples
@@ -359,7 +358,7 @@ turn_values_randomly <- function(data_links, percentage, binary = TRUE){
 
 #' Run Sensitivity Analysis
 #'
-#' @param matrix_rep a list of matrix 
+#' @param matrix_rep a list of matrix, use contingency_mat_targets
 #' @param obs_values observed metric 
 #' @param Nrun Number of replicate runs for metaComputesModules 
 #' @param save if statement to save the results
@@ -436,26 +435,4 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
 }
 
 
-#' Correspondance Analysis On Targets
-#'
-#' @param matrix01 a matrix with NCS in rows and SDG targets in columns
-#'
-#' @return a list of two elements, the all CA and CA with subseted variables
-#' @export
-#'
-#' @examples
-Correspondance_Analysis <- function(matrix01) {
-  
-  ca <- ade4::dudi.coa(matrix01, scannf = FALSE, nf = 3)
-  
-  contrib <- ade4::inertia.dudi(ca, col=TRUE, row =TRUE)
-  contrib <- ca[["co"]]
-  
-  var_sub <- rownames(subset(contrib, contrib$Comp1 > 0.4 | contrib$Comp1 < -0.5 | contrib$Comp2 > 0.4))
-  
-  CA_analysis <- list("Correspondance Analysis" = ca, "CA_subset" = var_sub)
-  
-  return(CA_analysis)
-  
-}
 

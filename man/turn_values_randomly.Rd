@@ -7,14 +7,14 @@
 turn_values_randomly(data_links, percentage, binary = TRUE)
 }
 \arguments{
-\item{data_links}{a dataframe with links bewteen targets -in columns- and NCS -in rows-}
+\item{data_links}{a dataframe with links bewteen targets -in columns- and NCS -in rows-, use sheets_to_df}
 
 \item{percentage}{percentage -from 0 to 1- of values that match to be replaced}
 
 \item{binary}{if statement to turn all values 2 into values 1 for binary analysis}
 }
 \value{
-a dataframe with modified values
+a dataframe with modified values for a given number of matrices
 }
 \description{
 Randomly Turn Values In A Matrix

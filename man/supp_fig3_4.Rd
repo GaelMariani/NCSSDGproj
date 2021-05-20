@@ -7,14 +7,14 @@
 supp_fig3_4(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, name2)
 }
 \arguments{
-\item{save}{}
+\item{save}{if TRUE the plot is saved in the results folder}
 
-\item{data}{}
+\item{data}{data to be plotted - use sheets_to_df}
 
-\item{name}{}
+\item{name}{the name of the plot to be saved}
 }
 \value{
-
+Supp figure 3 and 4 in the paper
 }
 \description{
 Biplot Of Negative Versus Positive Links

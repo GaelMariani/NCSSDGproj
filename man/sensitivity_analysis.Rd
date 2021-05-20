@@ -7,7 +7,7 @@
 sensitivity_analysis(matrix_rep, obs_values, Nrun, save = TRUE, name)
 }
 \arguments{
-\item{matrix_rep}{a list of matrix}
+\item{matrix_rep}{a list of matrix, use contingency_mat_targets}
 
 \item{obs_values}{observed metric}
 

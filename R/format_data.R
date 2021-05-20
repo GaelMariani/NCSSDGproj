@@ -521,7 +521,7 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
 #' @param axis axis to be plotted
 #' @param TOP20 use if variable = "col"
 #'
-#' @return
+#' @return a list a 4 df -1 for data, 1 for label position, 1 for semi circle position, 1 for grid position- used for the circular plot of NCS contribution
 #' @export
 #'
 #' @examples
@@ -636,28 +636,4 @@ circular_data_CA <- function(data_contrib, variable, axis){
 }
 
 
-#' Null Data For Circular Plot
-#'
-#' @param matrix01 matrix with targets in columns and NCS in rows
-#' @param nsim number of null matrices to be produced
-#'
-#' @return a data frame with the number of time a target is achieved and the mean value
-#' @export
-#'
-#' @examples
-null_data_CircPlot <- function(matrix01, nsim){
-  
-  null_matrices <- stats::simulate(vegan::nullmodel(matrix01, "r00"), nsim = 10)
-  null_matrices <- asplit(null_matrices, 3)
-  
-  NM_df <- lapply(null_matrices, as.data.frame)
-  NM_sum <- lapply(NM_df, colSums)
-  
-  null_data_Circ <- as.data.frame(do.call(cbind, NM_sum)) %>%
-    dplyr::mutate(meanrows = rowMeans(.),
-                  target = names(NM_df[[1]])) %>%
-    dplyr::select(c("target", "meanrows"))
-  
-  return(null_data_Circ)
-  
-}
+
