@@ -45,77 +45,6 @@ load_NCS_icon <- function() {
 }
 
 
-#' Load First Figure Panel A
-#'
-#' @return A RData to plot Figure 1A
-#' @export
-#'
-#' @examples
-load_Fig1A <- function(){
-  
-  load(here::here("results", "network_SDG_NCS.RData"))
-  return(netw)
-  
-}
-
-
-#' Load First Figure Panel A Version Two
-#'
-#' @return A RData to plot Figure 1A
-#' @export
-#'
-#' @examples
-load_Fig1A_V2 <- function(){
-  
-  load(here::here("results", "network_SDG_NCS_pos_V1.RData"))
-  return(netw)
-  
-}
-
-
-#' Load First Figure Panel B
-#'
-#' @return A RData to plot Figure 1B
-#' @export
-#'
-#' @examples
-load_Fig1B <- function(){
-  
-  load(here::here("results", "barplot_pourc.RData"))
-  return(barplot_pourc)
-  
-}
-
-
-#' Load First Figure Panel B test
-#'
-#' @return A RData to plot Figure 1B
-#' @export
-#'
-#' @examples
-load_Fig1B_V2 <- function(){
-  
-  load(here::here("results", "barplot_perc_achieve_V5.RData"))
-  return(barplot_perc_achieve)
-  
-}
-
-
-#' Load First Figure Panel C test
-#'
-#' @return A RData to plot Figure 1B
-#' @export
-#'
-#' @examples
-load_Fig1c_V2 <- function(){
-  
-  load(here::here("results", "network_SDG_NCS_neg_V1.RData"))
-  return(barplot_perc_achieve)
-  
-}
-
-
-
 #' Load Legend Of NCS
 #'
 #' @return A RData to plot Figure 1B
@@ -201,6 +130,77 @@ load_metric_obs <- function(){
   
   metric_obs <- list("score_pos" = metric_obs_pos, "score_neg" = metric_obs_neg)
   return(metric_obs)
+}
+
+
+
+#' Load First Figure Panel A
+#'
+#' @return A RData to plot Figure 1A
+#' @export
+#'
+#' @examples
+load_Fig1A <- function(){
+  
+  load(here::here("results", "network_SDG_NCS.RData"))
+  return(netw)
+  
+}
+
+
+#' Load First Figure Panel A Version Two
+#'
+#' @return A RData to plot Figure 1A
+#' @export
+#'
+#' @examples
+load_Fig1A_V2 <- function(){
+  
+  load(here::here("results", "network_SDG_NCS_pos_V1.RData"))
+  return(netw)
+  
+}
+
+
+#' Load First Figure Panel B
+#'
+#' @return A RData to plot Figure 1B
+#' @export
+#'
+#' @examples
+load_Fig1B <- function(){
+  
+  load(here::here("results", "barplot_pourc.RData"))
+  return(barplot_pourc)
+  
+}
+
+
+#' Load First Figure Panel B test
+#'
+#' @return A RData to plot Figure 1B
+#' @export
+#'
+#' @examples
+load_Fig1B_V2 <- function(){
+  
+  load(here::here("results", "barplot_perc_achieve_V5.RData"))
+  return(barplot_perc_achieve)
+  
+}
+
+
+#' Load First Figure Panel C test
+#'
+#' @return A RData to plot Figure 1B
+#' @export
+#'
+#' @examples
+load_Fig1c_V2 <- function(){
+  
+  load(here::here("results", "network_SDG_NCS_neg_V1.RData"))
+  return(barplot_perc_achieve)
+  
 }
 
 

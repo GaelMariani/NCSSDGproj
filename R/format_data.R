@@ -295,7 +295,7 @@ contingency_mat_targets <- function(raw_data, binary = TRUE) {
 
 #' Natural Climate Solutions Infos
 #'
-#' @param matrix_cont a matrix with targets in columns and NCS in rows
+#' @param matrix_cont a matrix with targets in columns and NCS in rows - use contingency_mat_targets
 #'
 #' @return a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine
 #' @export
@@ -311,9 +311,71 @@ NCS_info <- function(matrix_cont){
 }
 
 
+#' Sustainable Development Goals Infos
+#'
+#' @param matrix_cont a matrix with targets in columns and NCS in rows - use contingency_mat_targets
+#'
+#' @return a dataframe with the category, the color and the name of each SDG and target
+#' @export
+#'
+#' @examples
+SDG_infos <- function(matrix_cont){
+  
+  ## Build a data frame with the name, category and color of each SDG and targets
+  data <- data.frame(name = colnames(matrix_cont)) %>%
+    tidyr::separate(name, c("SDG", "target"), sep = "[.]", remove = FALSE) %>%
+    
+    # Add a colomn category (environment vs Economy vs Governance vs Society)
+    dplyr::mutate(category = dplyr::case_when((SDG == "6" | SDG == "12" | SDG == "14" | SDG == "15" | SDG == "13") ~ "Environment",
+                                              (SDG == "7" | SDG == "8" | SDG == "9" | SDG == "11") ~ "Economy",
+                                              (SDG == "16") ~ "Governance",
+                                              TRUE ~ as.character("Society")),
+                  
+                  # Add a column with SDG names
+                  SDG_name = dplyr::case_when((SDG == 1) ~ "No Poverty",
+                                              (SDG == 2) ~ "Zero Hunger",
+                                              (SDG == 3) ~ "Good Health",
+                                              (SDG == 4) ~ "Quality Education",
+                                              (SDG == 5) ~ "Gender Equality",
+                                              (SDG == 6) ~ "Clean Water",
+                                              (SDG == 7) ~ "Affordable + Clean Energy", 
+                                              (SDG == 8) ~ "Decent Work", 
+                                              (SDG == 9) ~ "Industry + Innovation",
+                                              (SDG == 10) ~ "Reduced Inequalities",
+                                              (SDG == 11) ~ "Sustainable Cities",
+                                              (SDG == 12) ~ "Responsible Consumption",
+                                              (SDG == 13) ~"Climate Action",
+                                              (SDG == 14) ~ "Life Bellow Water",
+                                              (SDG == 15) ~ "Life on Land",
+                                              (SDG == 16) ~ "Peace, Justice"), 
+                  
+                  # Add a column with the official color of each SDG
+                  color = dplyr::case_when((SDG == 1) ~ "#F41528",
+                                           (SDG == 2) ~ "#D3A029",
+                                           (SDG == 3) ~ "#279B48",
+                                           (SDG == 4) ~ "#C5192D",
+                                           (SDG == 5) ~ "#FF3A21",
+                                           (SDG == 6) ~ "#00AED9",
+                                           (SDG == 7) ~ "#FDB713", 
+                                           (SDG == 8) ~ "#8F1838", 
+                                           (SDG == 9) ~ "#F36D25",
+                                           (SDG == 10) ~ "#E11484",
+                                           (SDG == 11) ~ "#F99D26",
+                                           (SDG == 12) ~ "#CF8D2A",
+                                           (SDG == 13) ~ "#3F7E44",
+                                           (SDG == 14) ~ "#007DBC",
+                                           (SDG == 15) ~ "#3EB049",
+                                           (SDG == 16) ~ "#02558B")) %>%
+    dplyr::arrange(SDG_name)
+  
+  return(data)
+  
+}
+
+
 #' Format Data For TI Estimate
 #'
-#' @param matrix a matrix with targets in rows and NCS in columns
+#' @param matrix a matrix with targets in rows and NCS in columns - use contingency_mat_targets
 #'
 #' @return a dataframe with the number of time each target is achieved
 #' @export
@@ -331,11 +393,10 @@ data_TI <- function(matrix) {
 }
 
 
-
 #' Insurance Data To Plot
 #'
-#' @param matrix01 a matrix with targets in columns and NCS in rows
-#' @param Ntarget the total number of targets
+#' @param matrix01 a binary matrix with targets in columns and NCS in rows - use contingency_mat_targets
+#' @param Ntarget the total number of targets linked
 #'
 #' @return A data frame with number of times a target is achieved with a column identifying observed data vs. null data
 #'
@@ -370,109 +431,18 @@ Insurance_data2plot <- function(matrix01, Ntarget) {
 }
 
 
-
-#' Sustainable Development Goals Infos
-#'
-#' @param matrix_cont a matrix with targets in columns and NCS in rows
-#'
-#' @return a dataframe with with the category, the color and the name of each SDG and target
-#' @export
-#'
-#' @examples
-SDG_infos <- function(matrix_cont){
-  
-  ## Build a data frame with the name, category and color of each SDG and targets
-  data <- data.frame(name = colnames(matrix_cont)) %>%
-    tidyr::separate(name, c("SDG", "target"), sep = "[.]", remove = FALSE) %>%
-    
-    # Add a colomn category (environment vs Economy vs Governance vs Society)
-    dplyr::mutate(category = dplyr::case_when((SDG == "6" | SDG == "12" | SDG == "14" | SDG == "15" | SDG == "13") ~ "Environment",
-                                              (SDG == "7" | SDG == "8" | SDG == "9" | SDG == "11") ~ "Economy",
-                                              (SDG == "16") ~ "Governance",
-                                              TRUE ~ as.character("Society")),
-                  
-                  # Add a column with SDG names
-                  SDG_name = dplyr::case_when((SDG == 1) ~ "No Poverty",
-                                              (SDG == 2) ~ "Zero Hunger",
-                                              (SDG == 3) ~ "Good Health",
-                                              (SDG == 4) ~ "Quality Education",
-                                              (SDG == 5) ~ "Gender Equality",
-                                              (SDG == 6) ~ "Clean Water",
-                                              (SDG == 7) ~ "Affordable + Clean Energy", 
-                                              (SDG == 8) ~ "Decent Work", 
-                                              (SDG == 9) ~ "Industry + Innovation",
-                                              (SDG == 10) ~ "Reduced Inequalities",
-                                              (SDG == 11) ~ "Sustainable Cities",
-                                              (SDG == 12) ~ "Responsible Consumption",
-                                              (SDG == 13) ~"Climate Action",
-                                              (SDG == 14) ~ "Life Bellow Water",
-                                              (SDG == 15) ~ "Life on Land",
-                                              (SDG == 16) ~ "Peace, Justice"), 
-                                
-                  # Add a column with the official color of each SDG
-                  color = dplyr::case_when((SDG == 1) ~ "#F41528",
-                                           (SDG == 2) ~ "#D3A029",
-                                           (SDG == 3) ~ "#279B48",
-                                           (SDG == 4) ~ "#C5192D",
-                                           (SDG == 5) ~ "#FF3A21",
-                                           (SDG == 6) ~ "#00AED9",
-                                           (SDG == 7) ~ "#FDB713", 
-                                           (SDG == 8) ~ "#8F1838", 
-                                           (SDG == 9) ~ "#F36D25",
-                                           (SDG == 10) ~ "#E11484",
-                                           (SDG == 11) ~ "#F99D26",
-                                           (SDG == 12) ~ "#CF8D2A",
-                                           (SDG == 13) ~ "#3F7E44",
-                                           (SDG == 14) ~ "#007DBC",
-                                           (SDG == 15) ~ "#3EB049",
-                                           (SDG == 16) ~ "#02558B")) %>%
-    dplyr::arrange(SDG_name)
-  
-  return(data)
-  
-}
-
-
-#' Null Data For Circular Plot
-#'
-#' @param matrix01 matrix with targets in columns and NCS in rows
-#' @param nsim number of null matrices to be produced
-#'
-#' @return a data frame with the number of time a target is achieved and the mean value
-#' @export
-#'
-#' @examples
-null_data_CircPlot <- function(matrix01, nsim){
-  
-  null_matrices <- stats::simulate(vegan::nullmodel(matrix01, "r00"), nsim = 10)
-  null_matrices <- asplit(null_matrices, 3)
-  
-  NM_df <- lapply(null_matrices, as.data.frame)
-  NM_sum <- lapply(NM_df, colSums)
-  
-  null_data_Circ <- as.data.frame(do.call(cbind, NM_sum)) %>%
-    dplyr::mutate(meanrows = rowMeans(.),
-                  target = names(NM_df[[1]])) %>%
-    dplyr::select(c("target", "meanrows"))
-  
-  return(null_data_Circ)
-  
-}
-
-
 #' Format Data For Circular Plot
 #'
-#' @param data_Insurance 
-#' @param SDG_info 
-#' @param data_long 
-#' @param NCS_info 
-#' @param negative 
+#' @param data_Insurance a df with the observed and expected number of time a target is linked - use Insurance_data2plot 
+#' @param data_long a df to the long format with score for each SDG's target and each ecosystem - use df_to_longDF
+#' @param SDG_info a dataframe with the category, the color and the name of each SDG and target - use SDG_infos
+#' @param NCS_info a dataframe with type of NCS info i.e. terrestrial vs coastal vs marine - use NCS_infos
 #'
-#' @return
+#' @return a list a 4 df -1 for data, 1 for label position, 1 for semi circle position, 1 for grid position- used for the circular plot of insurance
 #' @export
 #'
 #' @examples
-circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_info, negative = FALSE){
+circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_info){
   
   ### Data by group of NCS
   data_Insurance$target <- as.factor(data_Insurance$target)
@@ -525,11 +495,7 @@ circular_data_Insurance <- function(data_Insurance, data_long, SDG_info, NCS_inf
     dplyr::rowwise() %>% 
     dplyr::mutate(title = mean(c(start, end))) 
   
-  # base_data$SDG <- 1:16
   base_data$SDG <- unique(data$SDG[!is.na(data$SDG)])
-  
-  # base_data[5, 3] <- base_data[5, 3] + 0.5
-  # base_data[5, 4] <- base_data[5, 4] + 0.25
   
   ### Prepare a data frale for grid
   grid_data <- base_data
@@ -669,3 +635,29 @@ circular_data_CA <- function(data_contrib, variable, axis){
   
 }
 
+
+#' Null Data For Circular Plot
+#'
+#' @param matrix01 matrix with targets in columns and NCS in rows
+#' @param nsim number of null matrices to be produced
+#'
+#' @return a data frame with the number of time a target is achieved and the mean value
+#' @export
+#'
+#' @examples
+null_data_CircPlot <- function(matrix01, nsim){
+  
+  null_matrices <- stats::simulate(vegan::nullmodel(matrix01, "r00"), nsim = 10)
+  null_matrices <- asplit(null_matrices, 3)
+  
+  NM_df <- lapply(null_matrices, as.data.frame)
+  NM_sum <- lapply(NM_df, colSums)
+  
+  null_data_Circ <- as.data.frame(do.call(cbind, NM_sum)) %>%
+    dplyr::mutate(meanrows = rowMeans(.),
+                  target = names(NM_df[[1]])) %>%
+    dplyr::select(c("target", "meanrows"))
+  
+  return(null_data_Circ)
+  
+}

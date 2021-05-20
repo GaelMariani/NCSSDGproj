@@ -164,91 +164,66 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
 }
 
 
-#' Correspondance Analysis On Targets
-#'
-#' @param matrix01 a matrix with NCS in rows and SDG targets in columns
-#'
-#' @return a list of two elements, the all CA and CA with subseted variables
-#' @export
-#'
-#' @examples
-Correspondance_Analysis <- function(matrix01) {
-  
-  ca <- ade4::dudi.coa(matrix01, scannf = FALSE, nf = 3)
-  
-  contrib <- ade4::inertia.dudi(ca, col=TRUE, row =TRUE)
-  contrib <- ca[["co"]]
-  
-  var_sub <- rownames(subset(contrib, contrib$Comp1 > 0.4 | contrib$Comp1 < -0.5 | contrib$Comp2 > 0.4))
-  
-  CA_analysis <- list("Correspondance Analysis" = ca, "CA_subset" = var_sub)
-
-  return(CA_analysis)
-  
-}
-
-
 #' Correspondance Analysis Of Variable Contribution
 #' 
-#' @param matrix_cont a matrix with NCS in rows and SDG targets in columns
-#' @param axis2_targ 
-#' @param colNCS_ter 
-#' @param colNCS_coast 
-#' @param colNCS_mar 
+#' @param matrix_cont a matrix with NCS in rows and SDG targets in columns - use contingency_mat_targets
+#' @param colNCS_ter color for terrestrial ecosystems
+#' @param colNCS_coast color for coastal ecosystems
+#' @param colNCS_mar color for marine ecosystems
 #'
-#' @return 
+#' @return a list of three files, with CA analysis results, contribution of row to the variance and the data to add arrow on the plot
 #' @export
 #'
 #' @examples
-CA_contri_vars <- function(matrix_cont, axis2_targ, colNCS_ter, colNCS_coast, colNCS_mar){
+CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
   
-  ### Correspondance Analysis on the matrix
+  # ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix_cont, graph = FALSE)
   res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix_cont)
-  
-  ### Contribution of columns (targets) to the variance of the different axis
-  col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]]) %>%
-    dplyr::mutate(target = as.factor(rownames(.)))
-  
-    ## select rownames of the most contributing targets (those with a contribution significantly higher than expected)
-    col_expect_contrib <- 100/ncol(matrix_cont)
-  
-      # 1st axis
-      name1 <- as.character(col_contrib$target[col_contrib[,1] >= col_expect_contrib])
-      # 2nd axis
-      name2 <- as.character(col_contrib$target[col_contrib[,2] >= col_expect_contrib])
-      # 3rd axis
-      name3 <- as.character(col_contrib$target[col_contrib[,3] >= col_expect_contrib])
-      # 4th axis
-      name4 <- as.character(col_contrib$target[col_contrib[,4] >= col_expect_contrib])
-      
-      # 1st and 2nd axis together
-      col_names12 <- data.frame(target = unique(c(name1, name2))) %>%
-        dplyr::left_join(., col_contrib[, c(1:2, 6)], by = "target")
-      
-      save(col_names12, file = here::here("rawdata", "col_names12.RData"))
-        
-      col_names34 <- unique(c(name3, name4))
-      
-    ## TOP 20 most contributing targets on axis 1 and 2
-      
-      # Axis 1
-      TOP20_axis1 <- col_contrib %>%
-        dplyr::arrange(dplyr::desc(col_contrib$`Dim 1`)) %>%
-        dplyr::top_n(20, wt = `Dim 1`) %>%
-        dplyr::select(c("Dim 1")) %>%
-        stats::setNames("Dim") %>%
-        dplyr::mutate(target = rownames(.)) %>%
-        dplyr::right_join(., axis2_targ[1:20,], by = "target")
-      
-      # Axis 2
-      TOP20_axis2 <- col_contrib %>%
-        dplyr::arrange(dplyr::desc(col_contrib$`Dim 2`)) %>%
-        dplyr::top_n(20, wt = `Dim 2`) %>%
-        dplyr::select(c("Dim 2")) %>%
-        stats::setNames("Dim") %>%
-        dplyr::mutate(target = rownames(.)) %>%
-        dplyr::right_join(., axis2_targ[21:40,], by = "target")
+  # 
+  # ### Contribution of columns (targets) to the variance of the different axis
+  # col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]]) %>%
+  #   dplyr::mutate(target = as.factor(rownames(.)))
+  # 
+  #   ## select rownames of the most contributing targets (those with a contribution significantly higher than expected)
+  #   col_expect_contrib <- 100/ncol(matrix_cont)
+  # 
+  #     # 1st axis
+  #     name1 <- as.character(col_contrib$target[col_contrib[,1] >= col_expect_contrib])
+  #     # 2nd axis
+  #     name2 <- as.character(col_contrib$target[col_contrib[,2] >= col_expect_contrib])
+  #     # 3rd axis
+  #     name3 <- as.character(col_contrib$target[col_contrib[,3] >= col_expect_contrib])
+  #     # 4th axis
+  #     name4 <- as.character(col_contrib$target[col_contrib[,4] >= col_expect_contrib])
+  #     
+  #     # 1st and 2nd axis together
+  #     col_names12 <- data.frame(target = unique(c(name1, name2))) %>%
+  #       dplyr::left_join(., col_contrib[, c(1:2, 6)], by = "target")
+  #     
+  #     save(col_names12, file = here::here("rawdata", "col_names12.RData"))
+  #       
+  #     col_names34 <- unique(c(name3, name4))
+  #     
+  #   ## TOP 20 most contributing targets on axis 1 and 2
+  #     
+  #     # Axis 1
+  #     TOP20_axis1 <- col_contrib %>%
+  #       dplyr::arrange(dplyr::desc(col_contrib$`Dim 1`)) %>%
+  #       dplyr::top_n(20, wt = `Dim 1`) %>%
+  #       dplyr::select(c("Dim 1")) %>%
+  #       stats::setNames("Dim") %>%
+  #       dplyr::mutate(target = rownames(.)) %>%
+  #       dplyr::right_join(., axis2_targ[1:20,], by = "target")
+  #     
+  #     # Axis 2
+  #     TOP20_axis2 <- col_contrib %>%
+  #       dplyr::arrange(dplyr::desc(col_contrib$`Dim 2`)) %>%
+  #       dplyr::top_n(20, wt = `Dim 2`) %>%
+  #       dplyr::select(c("Dim 2")) %>%
+  #       stats::setNames("Dim") %>%
+  #       dplyr::mutate(target = rownames(.)) %>%
+  #       dplyr::right_join(., axis2_targ[21:40,], by = "target")
       
   ### Contribution of rows (NCS) to the variance of each axis
   row_contrib <- as.data.frame(factoextra::get_ca_row(res.ca)[["contrib"]])
@@ -301,11 +276,11 @@ CA_contri_vars <- function(matrix_cont, axis2_targ, colNCS_ter, colNCS_coast, co
       
   ### Save data
   CA_contrib <- list("CorresAna"        = res.ca,
-                     "TOP20_axis1_targ" = TOP20_axis1,
-                     "TOP20_axis2_targ" = TOP20_axis2,
-                     "col_contrib"      = list("tot"   = col_contrib, 
-                                               "axe12" = col_names12, 
-                                               "axe34" = col_names34),
+                     # "TOP20_axis1_targ" = TOP20_axis1,
+                     # "TOP20_axis2_targ" = TOP20_axis2,
+                     # "col_contrib"      = list("tot"   = col_contrib, 
+                     #                           "axe12" = col_names12, 
+                     #                           "axe34" = col_names34),
                      "row_contrib"      = list("tot"   = row_contrib,
                                                "axe12" = row_names12),
                      "data_arrow"       = data_arrow)
@@ -457,6 +432,30 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
   }
     
   return(sensit_ana_res)
+  
+}
+
+
+#' Correspondance Analysis On Targets
+#'
+#' @param matrix01 a matrix with NCS in rows and SDG targets in columns
+#'
+#' @return a list of two elements, the all CA and CA with subseted variables
+#' @export
+#'
+#' @examples
+Correspondance_Analysis <- function(matrix01) {
+  
+  ca <- ade4::dudi.coa(matrix01, scannf = FALSE, nf = 3)
+  
+  contrib <- ade4::inertia.dudi(ca, col=TRUE, row =TRUE)
+  contrib <- ca[["co"]]
+  
+  var_sub <- rownames(subset(contrib, contrib$Comp1 > 0.4 | contrib$Comp1 < -0.5 | contrib$Comp2 > 0.4))
+  
+  CA_analysis <- list("Correspondance Analysis" = ca, "CA_subset" = var_sub)
+  
+  return(CA_analysis)
   
 }
 

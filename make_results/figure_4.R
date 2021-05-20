@@ -29,7 +29,6 @@ rm(list = ls(), envir = .GlobalEnv)
   NCS_info <- NCSSDGproj::NCS_info(matrix_cont = matrix_conting_bin[["score_pos"]])
   
   ## ---- Informations on SDGs
-  SDG_info <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_pos"]])
   SDG_info_neg <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_neg"]]) 
   
   ## ---- SDG icons

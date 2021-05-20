@@ -488,549 +488,6 @@ barplot_legend <- function(data_plot, color) {
 }
 
 
-#' Build Figure Two 
-#'
-#' @param save if TRUE the plot is saved in the results folder
-#' @param name the name of the plot to be saved
-#'
-#' @return Figure 2 in the paper
-#' @export
-#' 
-#'
-#' @examples
-Figure2 <- function(save = FALSE, name) {
-  
-  # Plot panels
-  fig1a <- NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
-                                        matrix      = SDG_network[["score_neg"]][["matrix"]],
-                                        icon_SDG    = icon_SDG,
-                                        icon_NCS    = icon_NCS,
-                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
-                                        save        = FALSE)
-  
-  
-  fig1b <- NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
-                                            color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
-                                            save        = FALSE)
-  
-  fig1c <- NCSSDGproj::plot_network_pos(network_obj = SDG_network[["score_pos"]][["network"]],
-                                        matrix      = SDG_network[["score_pos"]][["matrix"]],
-                                        icon_SDG    = icon_SDG,
-                                        icon_NCS    = icon_NCS,
-                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
-                                        save        = FALSE)
-  
-  NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
-                             color     = c("#1134A6", "#5EA9A2", "#228B22"))
-  
-  legend <- NCSSDGproj::load_legend()
-  
-  # Assemble panels
-  fig1 <- cowplot::ggdraw() +
-    
-    cowplot::draw_plot(fig1a, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
-    cowplot::draw_plot(fig1b, x = 0.325, y = 0.026, width = 0.35, height = 0.98) +
-    cowplot::draw_plot(fig1c, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
-    cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.02) +
-    cowplot::draw_plot_label(label = c("a", "b", "c"),
-                             size = 15,
-                             x = c(0, 0.33, 0.65),
-                             y = c(0.98, 0.98, 0.98))
-  
-  # save
-  if(save == TRUE) {
-    
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width=10, height=9, device="png")   
-    
-  } else {return(fig1)}
-}
-
-
-#' Insurance Plot
-#'
-#' @param data A data frame with number of times a target is achieved with a column identifying observed data vs. null data
-#' @param TI Target Insurance
-#' @param TUI_obs Target Under Insurance observed
-#' @param TUI_null Target Under Insurance from null matrix
-#' @param obs_col color for observed data
-#' @param null_col color for null data
-#' @param save if TRUE the plot is saved in the results folder
-#' 
-#' 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save) {
-  
-  arrow = ggplot2::arrow(angle=15, type = "closed", length = ggplot2::unit(0.1, "inches"))
-  
-  Insurance_plot <- ggplot2::ggplot(data = data, 
-                                    mapping = ggplot2::aes(x = as.numeric(xval), 
-                                                           y = value, 
-                                                           color = group)) +
-    
-    ggplot2::geom_ribbon(data = data[1:(nrow(data)/2), ], 
-                         mapping = ggplot2::aes(ymin = 0, 
-                                                ymax = data$value[1:(nrow(data)/2)]), 
-                         color = "transparent", 
-                         fill = "#ACACF7") +
-    
-    ggplot2::geom_hline(yintercept = TI, 
-                        color = "grey20", 
-                        linetype = "dashed") +
-    
-    ggplot2::scale_color_manual(values = c(null_col, obs_col), 
-                                name = NULL) +
-    
-    ggplot2::scale_x_continuous(breaks = seq(0, 83, 5), 
-                                expand = c(0, 1, 0.1, 0)) +
-    
-    ggplot2::scale_y_continuous(breaks = seq(0, 11, 1), 
-                                expand = c(0, 0, 0.1, 0)) +
-    
-    
-    ggplot2::geom_line() +
-    
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 y = 6, 
-                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 yend = 6),
-                          arrow = arrow, 
-                          color = obs_col, 
-                          show.legend = NA) +
-            
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 y = 6, 
-                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 yend = 6),
-                          arrow = arrow, 
-                          color = obs_col, 
-                          show.legend = NA) +
-    
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
-                                                 y = 0, 
-                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
-                                                 yend = 6), 
-                          color =  obs_col, 
-                          linetype = "dashed") +
-    
-    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
-                                                 y = 0,
-                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
-                                                 yend = 6), 
-                          color =  obs_col, 
-                          linetype = "dashed") +
-    
-    ggplot2::annotate(geom = "text", 
-                      x = 78.5, 
-                      y = 7.5, 
-                      label = "Targets underinsured", 
-                      color = "black",
-                      fontface = "bold", 
-                      size = 5) +
-    
-    ggplot2::annotate(geom = "text", 
-                      x = 75, 
-                      y = 6.7, 
-                      label = as.character(TUI_obs), 
-                      color = "#0000EB", 
-                      size = 5) +
-            
-    ggplot2::annotate(geom = "text", 
-                      x = 82, 
-                      y = 6.7, 
-                      label = as.character(TUI_null), 
-                      color = "black", 
-                      size = 5) +
-    
-    ggplot2::labs(x = "Rank of SDGs targets", y = "Number of NCS linked") +
-    
-    ggplot2::theme_classic() +
-    
-    ggplot2::theme(legend.position = c(0.75, 0.85),
-                   legend.text = ggplot2::element_text(size = 16, face="bold"),
-                   axis.text = ggplot2::element_text(size = 14),
-                   axis.title = ggplot2::element_text(size = 16)) 
-  
-  ## Save plot
-  if(save == TRUE) {
-    
-    save(Insurance_plot, file = here::here("results", "Insurance_plot.RData"))
-    ggplot2::ggsave(here::here("figures", "Insurance_plot.png"), width = 10.5, height = 5.5, device = "png")
-    
-  } else {return(Insurance_plot)}
-  
-  
-  
-}
-
-
-
-#' Circular Barplot Of Contribution For Supplementary Fig 1 And 2
-#'
-#' @param data obtained with NCSSDGproj::CA_contri_vars 1st element of the list
-#' @param variable 
-#' @param ymin 
-#' @param ymax 
-#' @param ytitle 
-#' @param axis 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-CA_barplot <- function(data, axis, variable, ymin, ytitle){
-  
-  if(variable == "row"){
-    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = axis, variable = variable)
-    
-  } else {    
-    
-    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data,  axis = axis, variable = variable)
-    
-    }
-  
-  segment_data <- data_cont[["segment data"]]
-  label_data <- data_cont[["label data"]]
-  base_data <- data_cont[["base_data"]]
-  grid_data <- data_cont[["grid data"]]
-  data_contrib <- data_cont[["data"]]
-  
-  
-  ### Plot
-  ggplot2::ggplot(data = data_contrib,
-                  mapping = ggplot2::aes(x = as.factor(id), 
-                                         y =  Dim,
-                                         fill = group,
-                                         color = group)) +
-    
-    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
-                                             y =  Dim,
-                                             fill = group,
-                                             color = group),
-                      color = data_contrib$color,
-                      fill = scales::alpha(data_contrib$color, 0.7),
-                      stat = "identity",
-                      width = 0.75) +
-    
-    ggplot2::geom_segment(data = segment_data, 
-                          mapping = ggplot2::aes(x = xstart, 
-                                                 y = ystart, 
-                                                 xend = xend, 
-                                                 yend = yend), 
-                          colour = "grey", 
-                          alpha = 1, 
-                          size = 0.09, 
-                          inherit.aes = FALSE) +
-    
-    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id),
-                                             y = Dim,
-                                             fill = group,
-                                             color = group), 
-                      color = data_contrib$color,
-                      fill = scales::alpha(data_contrib$color, 0.7),
-                      stat = "identity",
-                      show.legend = FALSE, 
-                      width = 0.75) +
-    
-    ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 100/nrow(data[[variable]][["contrib"]])), 
-                        color = "red",
-                        linetype = "dashed") +
-  
-    ggplot2::annotate(geom = "text", 
-                      x = rep(0.2, 6), 
-                      y = seq(round(min(data_contrib$Dim), -1), 
-                              plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5, 
-                              (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/5), 
-                      
-                      label = c(as.character(seq(round(min(data_contrib$Dim), -1), 
-                                                 plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) -5, 
-                                                 (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) -5)/5))), 
-                      color = "black", 
-                      size = 3, 
-                      angle = 0, 
-                      fontface = "bold", 
-                      hjust = 1) +
-
-    ggplot2::ylim(ymin, max(data_contrib$Dim)*1.3) +
-    
-    ggplot2::theme_minimal() +
-
-    ggplot2::theme(legend.position = "none",
-                   axis.text = ggplot2::element_blank(),
-                   axis.title = ggplot2::element_blank(),
-                   panel.grid = ggplot2::element_blank(),
-                   plot.margin = ggplot2::unit(rep(-1,4), "cm")) +
-
-    ggplot2::coord_polar() +
-    
-    ggplot2::geom_text(data = label_data, 
-                       mapping = ggplot2::aes(x = id, 
-                                              y = Dim + 1, 
-                                              label = name_var, 
-                                              hjust = hjust), 
-                       color = "black",
-                       fontface="bold",
-                       alpha = 1, 
-                       size = 3.5, 
-                       angle = label_data$angle, 
-                       inherit.aes = FALSE) +
-    
-    ggplot2::geom_segment(data = base_data, 
-                          mapping = ggplot2::aes(x = start, 
-                                                 y = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6, 
-                                                 xend = end, 
-                                                 yend = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6), 
-                          color = unique(data_contrib$color), 
-                          alpha = 1, 
-                          size = 1.2, 
-                          inherit.aes = FALSE ) +
-    
-    ggplot2::theme(plot.title = ggplot2::element_text(vjust = -40))+
-    
-    ggplot2::theme(legend.text = ggplot2::element_text(colour = "grey", 
-                                                       size = 10,
-                                                       face = "bold"),
-                   legend.position = "none") +
-    
-    ggplot2::annotate(geom = "text", 
-                      x = 0, 
-                      y = ytitle, 
-                      label = paste("CA\naxis", axis), 
-                      color = "gray47", 
-                      size = 4, 
-                      angle = 0, 
-                      fontface = "bold") 
-  
-
-}
-
-  
-
-#' Get Legend Correspondance Analysis
-#'
-#' @param data 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-legend_CA <- function(data){
-  
-  all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
-    dplyr::mutate(target = rownames(.)) %>%
-    dplyr::select(c(1:2, 6)) %>%
-    stats::setNames(c("Coord1", "Coord2", "target"))
-  
-  contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
-    dplyr::right_join(., all_targ, by = "target") 
-  
-  contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
-  contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
-  
-  data[["grp_targ"]] <- contrib_target
-  
-  ## CA plot
-  ca_SDG_12 <- ggplot2::ggplot(data = contrib_target,
-                               mapping = ggplot2::aes(x = Coord1,
-                                                      y = Coord2,
-                                                      fill = Type_CA)) + 
-    
-    ggplot2::geom_col(data = contrib_target,
-                      mapping = ggplot2::aes(x = Coord1,
-                                             y = Coord2,
-                                             fill = Type_CA)) +
-    
-    ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""))) +
-    
-    ggplot2::labs(x = "Dim 1 (28.8%)", y = "", fill = NULL) +
-    
-    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#808000", "#1134A6", "#680020", "#E1BC84", "#abdda4", "#228B22")) +
-    
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = "top")
-  
-  CA_legend <- ggpubr::get_legend(ca_SDG_12)
-  save(CA_legend, file = here::here("results", "CA_legend.RData"))
-
-}
-
-
-#' Supplementary Fig 1
-#'
-#' @param data obtained with NCSSDGproj::CA_contri_vars
-#' @param colNCS_ter 
-#' @param colNCS_coast 
-#' @param colNCS_mar 
-#' @param save 
-#' @param targ_contrib12 
-#' @param data_arrow 
-#' @param name the name of the plot to be saved
-#' @param arrow 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-supp_fig1 <- function(data, targ_contrib12, arrow = TRUE, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE, name){
-  
-  ### Legend
-  legend <- NCSSDGproj::load_legend()
-  
-  # CA_legend <- NCSSDGproj::legend_CA(data = data)
-  # CA_legend <- NCSSDGproj::load_CA_legend()
-  
-  ### Plot NCS from CA analysis
-  arrow <- ggplot2::arrow(angle  = 20, 
-                          type   = "closed", 
-                          length = ggplot2::unit(0.3, "cm"), 
-                          ends   = "last")
-  
-    ## Plot CA for NCS points
-    ca_NCS_12 <- factoextra::fviz_ca_row(X         = data,
-                                         axes      = c(1,2),
-                                         title     = "",
-                                         pointsize = 3,
-                                         habillage = data[["grp"]]$group,
-                                         palette   = c(colNCS_coast, colNCS_mar, colNCS_ter),
-                                         repel     = TRUE,
-                                         invisible = "quali") +
-      
-      
-      ggplot2::ggtitle(NULL) +
-      ggplot2::theme_bw() +
-      ggplot2::theme(legend.position = "none") 
-      
-      if(arrow == TRUE){
-      
-        ca_NCS_12 <- ca_NCS_12 +  
-        
-        # Arrows
-        ggplot2::geom_segment(data        = data_arrow,
-                              mapping     = ggplot2::aes(x    = x,
-                                                         xend = xmax,
-                                                         y    = y,
-                                                         yend = ymax),
-                              arrow       = arrow, 
-                              color       = data_arrow$color, 
-                              linejoin    = "mitre",
-                              lwd         = 1.0, 
-                              show.legend = NA) +
-        
-        # Text above arrows
-        ggplot2::annotate(geom  ="text", 
-                          x     = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
-                          y     = c(rep(1.1, 2), 1.05), 
-                          label = data_arrow$text[c(1,3,5)], 
-                          color = data_arrow$color[c(1,3,5)], 
-                          size  = 4.5) 
-      }
-      
-
-    
-    
-    ## Barplot of contribution for axis 1 
-    NCS_axis1 <- NCSSDGproj::CA_barplot(data     = data, 
-                                        axis     = 1, 
-                                        variable = "row",
-                                        ymin     = -50,
-                                        # ymax     = 58,
-                                        ytitle   = -50)
-    
-    ## Barplot of contribution for axis 2
-    NCS_axis2 <- NCSSDGproj::CA_barplot(data     = data, 
-                                        axis     = 2, 
-                                        variable = "row",
-                                        ymin     = -50,
-                                        # ymax     = 59,
-                                        ytitle   = -50)
-  
-  
-  ### Plot the most important targets
-  all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
-    dplyr::mutate(target = rownames(.)) %>%
-    dplyr::select(c(1:2, 6)) %>%
-    stats::setNames(c("Coord1", "Coord2", "target"))
-
-  contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
-    dplyr::right_join(., all_targ, by = "target")
-
-  contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
-  contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
-
-  data[["grp_targ"]] <- contrib_target
-
-    ## CA plot
-    ca_SDG_12 <- ggplot2::ggplot(data    = contrib_target,
-                                 mapping = ggplot2::aes(x     = Coord1,
-                                                        y     = Coord2,
-                                                        group = Type_CA)) +
-
-      ggplot2::geom_point(shape = 17,
-                          color = contrib_target$Color_CA) +
-
-      ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""),
-                                                      group = Type_CA),
-                               color   = contrib_target$Color_CA) +
-
-      ggplot2::geom_hline(yintercept = 0,
-                          linetype   = "dashed") +
-
-      ggplot2::geom_vline(xintercept = 0,
-                          linetype   = "dashed") +
-
-      ggplot2::labs(x = "Dim 1 (28.8%)",
-                    y = "") +
-
-      ggplot2::theme_bw()
-
-
-    ## Circular plot axis 1
-    SDG_axis1 <- NCSSDGproj::CA_barplot(data = data,
-                                        axis = 1,
-                                        variable = "col",
-                                        ymin = -5,
-                                        # ymax = 6.5,
-                                        ytitle = -5)
-
-    ## Circular plot axis 2
-    SDG_axis2 <- NCSSDGproj::CA_barplot(data = data,
-                                        axis = 2,
-                                        variable = "col",
-                                        ymin = -5,
-                                        # ymax = 6.5,
-                                        ytitle = -5)
-
-  ### Arrange plots together
-  supp_fig <- cowplot::ggdraw() +
-    cowplot::draw_plot(ca_NCS_12, x = 0.1, y = 0.5, width = 0.8, height = 0.5) +
-    # cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
-    cowplot::draw_plot(NCS_axis1, x = 0.20, y = 0.06, width = 0.30, height = 0.47) +
-    cowplot::draw_plot(NCS_axis2, x = 0.5, y = 0.06, width = 0.32, height = 0.47) +
-    # cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.029, width = 0.22, height = 0.53) +
-    # cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.029, width = 0.22, height = 0.53) +
-    cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.1) +
-    cowplot::draw_plot_label(label = c("a", "b", "c"),
-                             size = 15,
-                             x = c(0.08, 0.18, 0.5),
-                             y = c(1, 0.45, 0.45))
-
-    
-  supp_fig
-  
-  ### Save plot
-  if(save == TRUE) {
-    
-    save(supp_fig, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 12, height = 8.5, device = "png")
-    
-  } else {return(supp_fig)}
-  
-}
-
-
 #' Produce Vertical Legend
 #'
 #' @param data_plot 
@@ -1074,21 +531,83 @@ legend_verti <- function(data_plot, color){
 }
 
 
-#' Insurance Circular Plot
+#' Build Figure Two 
 #'
-#' @param data 
-#' @param label_data 
-#' @param base_data 
-#' @param grid_data 
-#' @param SDG_info 
-#' @param colNCS_ter 
-#' @param colNCS_coast 
-#' @param colNCS_mar 
-#' @param iconSDG 
-#' @param save 
-#' @param name 
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved
 #'
-#' @return
+#' @return Figure 2 in the paper
+#' @export
+#' 
+#'
+#' @examples
+Figure2 <- function(save = FALSE, name) {
+  
+  # Plot panels
+  fig1a <- NCSSDGproj::plot_network_neg(network_obj = SDG_network[["score_neg"]][["network"]],
+                                        matrix      = SDG_network[["score_neg"]][["matrix"]],
+                                        icon_SDG    = icon_SDG,
+                                        icon_NCS    = icon_NCS,
+                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                                        save        = FALSE)
+  
+  
+  fig1b <- NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
+                                            color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
+                                            save        = FALSE)
+  
+  fig1c <- NCSSDGproj::plot_network_pos(network_obj = SDG_network[["score_pos"]][["network"]],
+                                        matrix      = SDG_network[["score_pos"]][["matrix"]],
+                                        icon_SDG    = icon_SDG,
+                                        icon_NCS    = icon_NCS,
+                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                                        save        = FALSE)
+  
+  NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
+                             color     = c("#1134A6", "#5EA9A2", "#228B22")) # produce legend in horizontal format
+  
+  NCSSDGproj::legend_verti(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
+                           color     = c("#1134A6", "#5EA9A2", "#228B22")) # produce legend in vertical format
+  
+  
+  legend <- NCSSDGproj::load_legend()
+  
+  # Assemble panels
+  fig1 <- cowplot::ggdraw() +
+    
+    cowplot::draw_plot(fig1a, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(fig1b, x = 0.325, y = 0.026, width = 0.35, height = 0.98) +
+    cowplot::draw_plot(fig1c, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.02) +
+    cowplot::draw_plot_label(label = c("a", "b", "c"),
+                             size = 15,
+                             x = c(0, 0.33, 0.65),
+                             y = c(0.98, 0.98, 0.98))
+  
+  # save
+  if(save == TRUE) {
+    
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width=10, height=9, device="png")   
+    
+  } else {return(fig1)}
+}
+
+
+#' Insurance Circular Plot - Figure 3
+#'
+#' @param data a df with the number of time a target is achieved by each time of ecosystem - use circular_data_Insurance
+#' @param label_data a df with label text and position - use circular_data_Insurance
+#' @param base_data a df with the position of each semi-circle - use circular_data_Insurance
+#' @param grid_data a df with the position of grid - use circular_data_Insurance
+#' @param SDG_info a dataframe with the category, the color and the name of each SDG and target - use SDG_infos
+#' @param colNCS_ter color for terrestrial ecosystems
+#' @param colNCS_coast color for coastal ecosystems
+#' @param colNCS_mar color for marine ecosystems
+#' @param iconSDG a list of 16 rastergrob objects for each SDG - use format_icons 
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved 
+#'
+#' @return figure 3 in the paper
 #' @export
 #'
 #' @examples
@@ -1104,9 +623,6 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   data$null_vals <- NA
   data$null_vals[is.na(data$goal.target) == FALSE] <- 5.5
   
-  # null_data$target <- as.factor(null_data$target)
-  # data <- data %>%
-  #   dplyr::left_join(., null_data, by = c("goal.target" = "target")) 
   
   # vertical legend
   vert_legend <- NCSSDGproj::load_vert_legend()
@@ -1198,7 +714,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                       angle    = 0, 
                       fontface = "bold", 
                       hjust    = 1) +
-      
+    
     ggplot2::geom_bar(mapping     = ggplot2::aes(x    = as.factor(id), 
                                                  y    = value_group, 
                                                  fill = as.factor(group)), 
@@ -1215,13 +731,6 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                         fill    = "firebrick1",
                         shape   = 21,
                         size    = 2) +
-    
-    #ggplot2::geom_line(data = data,
-    #                   mapping = ggplot2::aes(x = as.factor(id),
-    #                                          y = meanrows,
-    #                                          group = factor(group)),
-    #                   color = "firebrick3") +
-    
     
     ggplot2::ylim(-20, 12) +
     
@@ -1258,18 +767,9 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                           size = 1, 
                           inherit.aes = FALSE) +
     
-    #ggplot2::geom_text(data = base_data, 
-    #                   mapping = ggplot2::aes(x = title, 
-    #                                          y = -3.5, 
-    #                                          label = SDG), 
-    #                   colour = col$color, 
-    #                   alpha = 0.8, 
-    #                   size = 4, 
-    #                   fontface = "bold", 
-    #                   inherit.aes = FALSE) +
     
-    ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
-                               name = NULL) 
+  ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
+                             name = NULL) 
   
   
   
@@ -1311,27 +811,27 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     save(circular_plot, file = here::here("results", paste0(name, ".RData")))
     ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 10.5, height = 10.5, device = "png")
-  
+    
   } else {return(circular_plot)}
-
+  
 }
 
 
 #' Insurance Circular Plot For Negative Data
 #'
-#' @param data 
-#' @param label_data 
-#' @param base_data 
-#' @param grid_data 
-#' @param SDG_info 
-#' @param colNCS_ter 
-#' @param colNCS_coast 
-#' @param colNCS_mar 
-#' @param icon_SDG 
-#' @param save 
-#' @param name 
+#' @param data a df with the number of time a target is achieved by each time of ecosystem - use circular_data_Insurance
+#' @param label_data a df with label text and position - use circular_data_Insurance
+#' @param base_data a df with the position of each semi-circle - use circular_data_Insurance
+#' @param grid_data a df with the position of grid - use circular_data_Insurance
+#' @param SDG_info a dataframe with the category, the color and the name of each SDG and target - use SDG_infos
+#' @param colNCS_ter color for terrestrial ecosystems
+#' @param colNCS_coast color for coastal ecosystems
+#' @param colNCS_mar color for marine ecosystems
+#' @param iconSDG a list of 16 rastergrob objects for each SDG - use format_icons 
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved 
 #'
-#' @return
+#' @return figure 4 in the paper
 #' @export
 #'
 #' @examples
@@ -1494,8 +994,8 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
                           inherit.aes = FALSE) +
     
     
-  ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
-                             name = NULL) 
+    ggplot2::scale_fill_manual(values = c(colNCS_coast, colNCS_mar, colNCS_ter), 
+                               name = NULL) 
   
   
   
@@ -1539,6 +1039,318 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
     ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 10.5, height = 10.5, device = "png")
     
   } else {return(circular_plot)}
+  
+}
+
+
+#' Circular Barplot Of Contribution For Supplementary Fig 1 And 2
+#'
+#' @param data obtained with NCSSDGproj::CA_contri_vars 1st element of the list
+#' @param axis un number corresponding to the axis of the correspondance analysis
+#' @param variable a character specifying if working on "row" vs "column" 
+#' @param ymin a number for y min value
+#' @param ymax a number for y max value
+#' @param ytitle a number for title position
+#'
+#' @return a circular barplot in Supp Fig 1 and 2
+#' @export
+#'
+#' @examples
+CA_barplot <- function(data, axis, variable, ymin, ytitle){
+  
+  if(variable == "row"){
+    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = axis, variable = variable)
+    
+  } else {    
+    
+    data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data,  axis = axis, variable = variable)
+    
+    }
+  
+  segment_data <- data_cont[["segment data"]]
+  label_data <- data_cont[["label data"]]
+  base_data <- data_cont[["base_data"]]
+  grid_data <- data_cont[["grid data"]]
+  data_contrib <- data_cont[["data"]]
+  
+  
+  ### Plot
+  ggplot2::ggplot(data = data_contrib,
+                  mapping = ggplot2::aes(x = as.factor(id), 
+                                         y =  Dim,
+                                         fill = group,
+                                         color = group)) +
+    
+    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id), 
+                                             y =  Dim,
+                                             fill = group,
+                                             color = group),
+                      color = data_contrib$color,
+                      fill = scales::alpha(data_contrib$color, 0.7),
+                      stat = "identity",
+                      width = 0.75) +
+    
+    ggplot2::geom_segment(data = segment_data, 
+                          mapping = ggplot2::aes(x = xstart, 
+                                                 y = ystart, 
+                                                 xend = xend, 
+                                                 yend = yend), 
+                          colour = "grey", 
+                          alpha = 1, 
+                          size = 0.09, 
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_bar(mapping = ggplot2::aes(x = as.factor(id),
+                                             y = Dim,
+                                             fill = group,
+                                             color = group), 
+                      color = data_contrib$color,
+                      fill = scales::alpha(data_contrib$color, 0.7),
+                      stat = "identity",
+                      show.legend = FALSE, 
+                      width = 0.75) +
+    
+    ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 100/nrow(data[[variable]][["contrib"]])), 
+                        color = "red",
+                        linetype = "dashed") +
+  
+    ggplot2::annotate(geom = "text", 
+                      x = rep(0.2, 6), 
+                      y = seq(round(min(data_contrib$Dim), -1), 
+                              plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5, 
+                              (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/5), 
+                      
+                      label = c(as.character(seq(round(min(data_contrib$Dim), -1), 
+                                                 plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) -5, 
+                                                 (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) -5)/5))), 
+                      color = "black", 
+                      size = 3, 
+                      angle = 0, 
+                      fontface = "bold", 
+                      hjust = 1) +
+
+    ggplot2::ylim(ymin, max(data_contrib$Dim)*1.3) +
+    
+    ggplot2::theme_minimal() +
+
+    ggplot2::theme(legend.position = "none",
+                   axis.text = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_blank(),
+                   panel.grid = ggplot2::element_blank(),
+                   plot.margin = ggplot2::unit(rep(-1,4), "cm")) +
+
+    ggplot2::coord_polar() +
+    
+    ggplot2::geom_text(data = label_data, 
+                       mapping = ggplot2::aes(x = id, 
+                                              y = Dim + 1, 
+                                              label = name_var, 
+                                              hjust = hjust), 
+                       color = "black",
+                       fontface="bold",
+                       alpha = 1, 
+                       size = 3.5, 
+                       angle = label_data$angle, 
+                       inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data = base_data, 
+                          mapping = ggplot2::aes(x = start, 
+                                                 y = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6, 
+                                                 xend = end, 
+                                                 yend = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6), 
+                          color = unique(data_contrib$color), 
+                          alpha = 1, 
+                          size = 1.2, 
+                          inherit.aes = FALSE ) +
+    
+    ggplot2::theme(plot.title = ggplot2::element_text(vjust = -40))+
+    
+    ggplot2::theme(legend.text = ggplot2::element_text(colour = "grey", 
+                                                       size = 10,
+                                                       face = "bold"),
+                   legend.position = "none") +
+    
+    ggplot2::annotate(geom = "text", 
+                      x = 0, 
+                      y = ytitle, 
+                      label = paste("CA\naxis", axis), 
+                      color = "gray47", 
+                      size = 4, 
+                      angle = 0, 
+                      fontface = "bold") 
+  
+
+}
+
+
+#' Supplementary Fig 1
+#'
+#' @param data obtained with NCSSDGproj::CA_contri_vars
+#' @param arrow TRUE if arrow must be plotted
+#' @param data_arrow if TRUE, a df specifying the position of each arrow
+#' @param colNCS_ter color for terrestrial ecosystems
+#' @param colNCS_coast color for coastal ecosystems
+#' @param colNCS_mar color for marine ecosystems
+#' @param save if TRUE the plot is saved in the results folder
+#' @param name the name of the plot to be saved
+#'
+#'
+#' @return the Supplementary Fig 1 in the paper
+#' @export
+#'
+#' @examples
+supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE, name){
+  
+  ### Legend
+  legend <- NCSSDGproj::load_legend()
+  
+  # CA_legend <- NCSSDGproj::legend_CA(data = data)
+  # CA_legend <- NCSSDGproj::load_CA_legend()
+  
+  ### Plot NCS from CA analysis
+
+  
+    ## Plot CA for NCS points
+    ca_NCS_12 <- factoextra::fviz_ca_row(X         = data,
+                                         axes      = c(1,2),
+                                         title     = "",
+                                         pointsize = 3,
+                                         habillage = data[["grp"]]$group,
+                                         palette   = c(colNCS_coast, colNCS_mar, colNCS_ter),
+                                         repel     = TRUE,
+                                         invisible = "quali") +
+      
+      
+      ggplot2::ggtitle(NULL) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.position = "none") 
+      
+      if(arrow == TRUE){
+        
+        arrow <- ggplot2::arrow(angle  = 20, 
+                                type   = "closed", 
+                                length = ggplot2::unit(0.3, "cm"), 
+                                ends   = "last")
+      
+        ca_NCS_12 <- ca_NCS_12 +  
+        
+        # Arrows
+        ggplot2::geom_segment(data        = data_arrow,
+                              mapping     = ggplot2::aes(x    = x,
+                                                         xend = xmax,
+                                                         y    = y,
+                                                         yend = ymax),
+                              arrow       = arrow, 
+                              color       = data_arrow$color, 
+                              linejoin    = "mitre",
+                              lwd         = 1.0, 
+                              show.legend = NA) +
+        
+        # Text above arrows
+        ggplot2::annotate(geom  ="text", 
+                          x     = c(median(data_arrow$x[1:2]), median(data_arrow$x[3:4]), median(data_arrow$x[5:6])), 
+                          y     = c(rep(1.1, 2), 1.05), 
+                          label = data_arrow$text[c(1,3,5)], 
+                          color = data_arrow$color[c(1,3,5)], 
+                          size  = 4.5) 
+      } 
+    
+    ## Barplot of contribution for axis 1 
+    NCS_axis1 <- NCSSDGproj::CA_barplot(data     = data, 
+                                        axis     = 1, 
+                                        variable = "row",
+                                        ymin     = -50,
+                                        # ymax     = 58,
+                                        ytitle   = -50)
+    
+    ## Barplot of contribution for axis 2
+    NCS_axis2 <- NCSSDGproj::CA_barplot(data     = data, 
+                                        axis     = 2, 
+                                        variable = "row",
+                                        ymin     = -50,
+                                        # ymax     = 59,
+                                        ytitle   = -50)
+  
+  
+  ### Plot the most important targets
+  # all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
+  #   dplyr::mutate(target = rownames(.)) %>%
+  #   dplyr::select(c(1:2, 6)) %>%
+  #   stats::setNames(c("Coord1", "Coord2", "target"))
+  # 
+  # contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
+  #   dplyr::right_join(., all_targ, by = "target")
+  # 
+  # contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
+  # contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
+  # 
+  # data[["grp_targ"]] <- contrib_target
+  # 
+  #   ## CA plot
+  #   ca_SDG_12 <- ggplot2::ggplot(data    = contrib_target,
+  #                                mapping = ggplot2::aes(x     = Coord1,
+  #                                                       y     = Coord2,
+  #                                                       group = Type_CA)) +
+  # 
+  #     ggplot2::geom_point(shape = 17,
+  #                         color = contrib_target$Color_CA) +
+  # 
+  #     ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""),
+  #                                                     group = Type_CA),
+  #                              color   = contrib_target$Color_CA) +
+  # 
+  #     ggplot2::geom_hline(yintercept = 0,
+  #                         linetype   = "dashed") +
+  # 
+  #     ggplot2::geom_vline(xintercept = 0,
+  #                         linetype   = "dashed") +
+  # 
+  #     ggplot2::labs(x = "Dim 1 (28.8%)",
+  #                   y = "") +
+  # 
+  #     ggplot2::theme_bw()
+  # 
+  # 
+  #   ## Circular plot axis 1
+  #   SDG_axis1 <- NCSSDGproj::CA_barplot(data = data,
+  #                                       axis = 1,
+  #                                       variable = "col",
+  #                                       ymin = -5,
+  #                                       # ymax = 6.5,
+  #                                       ytitle = -5)
+  # 
+  #   ## Circular plot axis 2
+  #   SDG_axis2 <- NCSSDGproj::CA_barplot(data = data,
+  #                                       axis = 2,
+  #                                       variable = "col",
+  #                                       ymin = -5,
+  #                                       # ymax = 6.5,
+  #                                       ytitle = -5)
+
+  ### Arrange plots together
+  supp_fig <- cowplot::ggdraw() +
+    cowplot::draw_plot(ca_NCS_12, x = 0.1, y = 0.5, width = 0.8, height = 0.5) +
+    # cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
+    cowplot::draw_plot(NCS_axis1, x = 0.20, y = 0.06, width = 0.30, height = 0.47) +
+    cowplot::draw_plot(NCS_axis2, x = 0.5, y = 0.06, width = 0.32, height = 0.47) +
+    # cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.029, width = 0.22, height = 0.53) +
+    # cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.029, width = 0.22, height = 0.53) +
+    cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.1) +
+    cowplot::draw_plot_label(label = c("a", "b", "c"),
+                             size = 15,
+                             x = c(0.08, 0.18, 0.5),
+                             y = c(1, 0.45, 0.45))
+
+    
+  supp_fig
+  
+  ### Save plot
+  if(save == TRUE) {
+    
+    save(supp_fig, file = here::here("results", paste0(name, ".RData")))
+    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 12, height = 8.5, device = "png")
+    
+  } else {return(supp_fig)}
   
 }
 
@@ -1767,5 +1579,174 @@ supp_plot_n_links <- function(data_pos, data_neg, save = TRUE, name1, biplot = T
 }
 
 
+#' Get Legend Correspondance Analysis
+#'
+#' @param data 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+legend_CA <- function(data){
+  
+  all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
+    dplyr::mutate(target = rownames(.)) %>%
+    dplyr::select(c(1:2, 6)) %>%
+    stats::setNames(c("Coord1", "Coord2", "target"))
+  
+  contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
+    dplyr::right_join(., all_targ, by = "target") 
+  
+  contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
+  contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
+  
+  data[["grp_targ"]] <- contrib_target
+  
+  ## CA plot
+  ca_SDG_12 <- ggplot2::ggplot(data = contrib_target,
+                               mapping = ggplot2::aes(x = Coord1,
+                                                      y = Coord2,
+                                                      fill = Type_CA)) + 
+    
+    ggplot2::geom_col(data = contrib_target,
+                      mapping = ggplot2::aes(x = Coord1,
+                                             y = Coord2,
+                                             fill = Type_CA)) +
+    
+    ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""))) +
+    
+    ggplot2::labs(x = "Dim 1 (28.8%)", y = "", fill = NULL) +
+    
+    ggplot2::scale_fill_manual(values = c("grey90", "#abd9e9", "#808000", "#1134A6", "#680020", "#E1BC84", "#abdda4", "#228B22")) +
+    
+    ggplot2::theme_bw() +
+    ggplot2::theme(legend.position = "top")
+  
+  CA_legend <- ggpubr::get_legend(ca_SDG_12)
+  save(CA_legend, file = here::here("results", "CA_legend.RData"))
+  
+}
+
+
+
+#' Insurance Plot
+#'
+#' @param data A data frame with number of times a target is achieved with a column identifying observed data vs. null data
+#' @param TI Target Insurance
+#' @param TUI_obs Target Under Insurance observed
+#' @param TUI_null Target Under Insurance from null matrix
+#' @param obs_col color for observed data
+#' @param null_col color for null data
+#' @param save if TRUE the plot is saved in the results folder
+#' 
+#' 
+#'
+#' @return 
+#' @export
+#'
+#' @examples
+Insurance_plot <- function(data, TI, TUI_obs, TUI_null, obs_col, null_col, save) {
+  
+  arrow = ggplot2::arrow(angle=15, type = "closed", length = ggplot2::unit(0.1, "inches"))
+  
+  Insurance_plot <- ggplot2::ggplot(data = data, 
+                                    mapping = ggplot2::aes(x = as.numeric(xval), 
+                                                           y = value, 
+                                                           color = group)) +
+    
+    ggplot2::geom_ribbon(data = data[1:(nrow(data)/2), ], 
+                         mapping = ggplot2::aes(ymin = 0, 
+                                                ymax = data$value[1:(nrow(data)/2)]), 
+                         color = "transparent", 
+                         fill = "#ACACF7") +
+    
+    ggplot2::geom_hline(yintercept = TI, 
+                        color = "grey20", 
+                        linetype = "dashed") +
+    
+    ggplot2::scale_color_manual(values = c(null_col, obs_col), 
+                                name = NULL) +
+    
+    ggplot2::scale_x_continuous(breaks = seq(0, 83, 5), 
+                                expand = c(0, 1, 0.1, 0)) +
+    
+    ggplot2::scale_y_continuous(breaks = seq(0, 11, 1), 
+                                expand = c(0, 0, 0.1, 0)) +
+    
+    
+    ggplot2::geom_line() +
+    
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 y = 6, 
+                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 yend = 6),
+                          arrow = arrow, 
+                          color = obs_col, 
+                          show.legend = NA) +
+    
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 y = 6, 
+                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 yend = 6),
+                          arrow = arrow, 
+                          color = obs_col, 
+                          show.legend = NA) +
+    
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])), 
+                                                 y = 0, 
+                                                 xend = as.numeric(min(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
+                                                 yend = 6), 
+                          color =  obs_col, 
+                          linetype = "dashed") +
+    
+    ggplot2::geom_segment(mapping = ggplot2::aes(x = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
+                                                 y = 0,
+                                                 xend = as.numeric(max(data_Insurance$xval[data_Insurance$value[1:84] == 1])),
+                                                 yend = 6), 
+                          color =  obs_col, 
+                          linetype = "dashed") +
+    
+    ggplot2::annotate(geom = "text", 
+                      x = 78.5, 
+                      y = 7.5, 
+                      label = "Targets underinsured", 
+                      color = "black",
+                      fontface = "bold", 
+                      size = 5) +
+    
+    ggplot2::annotate(geom = "text", 
+                      x = 75, 
+                      y = 6.7, 
+                      label = as.character(TUI_obs), 
+                      color = "#0000EB", 
+                      size = 5) +
+    
+    ggplot2::annotate(geom = "text", 
+                      x = 82, 
+                      y = 6.7, 
+                      label = as.character(TUI_null), 
+                      color = "black", 
+                      size = 5) +
+    
+    ggplot2::labs(x = "Rank of SDGs targets", y = "Number of NCS linked") +
+    
+    ggplot2::theme_classic() +
+    
+    ggplot2::theme(legend.position = c(0.75, 0.85),
+                   legend.text = ggplot2::element_text(size = 16, face="bold"),
+                   axis.text = ggplot2::element_text(size = 14),
+                   axis.title = ggplot2::element_text(size = 16)) 
+  
+  ## Save plot
+  if(save == TRUE) {
+    
+    save(Insurance_plot, file = here::here("results", "Insurance_plot.RData"))
+    ggplot2::ggsave(here::here("figures", "Insurance_plot.png"), width = 10.5, height = 5.5, device = "png")
+    
+  } else {return(Insurance_plot)}
+  
+  
+  
+}
 
   
