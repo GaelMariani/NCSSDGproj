@@ -21,14 +21,14 @@ rm(list = ls(), envir = .GlobalEnv)
   
   matrices_modif_0.1 <- list(
     # Positive scores
-    "score_pos" = replicate(n        = 99, # change by 999 for the paper
+    "score_pos" = replicate(n        = 999, # n = 999 in the paper
                             simplify = FALSE,
                             expr     =  NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_pos"]],
                                                                          percentage = 0.1, 
                                                                          binary     = TRUE)),
     
     # Negative scores
-    "score_neg" = replicate(n        = 99, # change by 999 for the paper
+    "score_neg" = replicate(n        = 999, # n = 999 in the paper
                             simplify = FALSE,
                             expr     = NCSSDGproj::turn_values_randomly(data_links = matrix_all[["score_neg"]],
                                                                         percentage = 0.1, 
@@ -42,7 +42,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- ANALYSES
 sensitivity_analysis_pos0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.1,
                                                                 obs_values = obs_metric[["score_pos"]],
-                                                                Nrun       = 1,
+                                                                Nrun       = 5, # Nrun = 5 in the paper
                                                                 save       = FALSE,
                                                                 name       = "sensitivity_analysis_res_pos0.1")
 print(sensitivity_analysis_pos0.1)
@@ -51,7 +51,7 @@ print(sensitivity_analysis_pos0.1)
 
 sensitivity_analysis_neg0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_neg0.1,
                                                                 obs_values = obs_metric[["score_neg"]],
-                                                                Nrun       = 1,
+                                                                Nrun       = 5, # Nrun = 5 in the paper
                                                                 save       = TRUE,
                                                                 name       = "sensitivity_analysis_res_neg0.1")
 print(sensitivity_analysis_neg0.1)

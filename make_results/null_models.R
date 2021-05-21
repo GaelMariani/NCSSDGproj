@@ -28,8 +28,8 @@ rm(list = ls(), envir = .GlobalEnv)
                                                rawdata         = matrix_all[["score_pos"]], 
                                                NMalgo          = "quasiswap", 
                                                NESTmethod      = "NODF",
-                                               Nrun            = 1, # Nrun = 5 in the paper
-                                               Nsim            = 99, # Nsim = 999 in the paper - TAKES TIME TO RUN
+                                               Nrun            = 5, # Nrun = 5 in the paper
+                                               Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                                TargetInsurance = FALSE,
                                                save            = TRUE,
                                                name            = "Nest_Modu_res_pos")
@@ -41,8 +41,8 @@ rm(list = ls(), envir = .GlobalEnv)
                                                  rawdata         = matrix_all[["score_neg"]], 
                                                  NMalgo          = "quasiswap", 
                                                  NESTmethod      = "NODF",
-                                                 Nrun            = 1, # Nrun = 5 in the paper
-                                                 Nsim            = 99, # Nsim = 999 in the paper - TAKES TIME TO RUN
+                                                 Nrun            = 5, # Nrun = 5 in the paper
+                                                 Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                                  TargetInsurance = FALSE,
                                                  save            = TRUE,
                                                  name            = "Nest_Modu_res_neg")

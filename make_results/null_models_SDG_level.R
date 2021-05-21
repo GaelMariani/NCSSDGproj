@@ -31,7 +31,7 @@ matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
                                                    rawdata         = raw_data_pos, 
                                                    NMalgo          = "quasiswap_count", # r2dtable different results
                                                    NESTmethod      = "NODF",
-                                                   Nrun            = 1, # Nrun = 10 in the paper
+                                                   Nrun            = 5, # Nrun = 5 in the paper
                                                    Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                                    TargetInsurance = FALSE,
                                                    save            = TRUE,
@@ -44,7 +44,7 @@ matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
                                                    rawdata         = raw_data_neg, 
                                                    NMalgo          = "quasiswap_count", # quasiswap_count different results
                                                    NESTmethod      = "NODF",
-                                                   Nrun            = 1, # Nrun = 10 in the paper
+                                                   Nrun            = 5, # Nrun = 5 in the paper
                                                    Nsim            = 999, # Nsim = 999 in the paper - TAKES TIME TO RUN
                                                    TargetInsurance = FALSE,
                                                    save            = TRUE,
