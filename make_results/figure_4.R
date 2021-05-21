@@ -57,7 +57,7 @@ NCSSDGproj::circular_plot_Insurance_neg(data         = data_circu_neg[[1]],
                                         colNCS_ter   = "#228B22", 
                                         colNCS_coast = "#5EA9A2",
                                         colNCS_mar   = "#1134A6",
-                                        icon_SDG      = icon_SDG,
+                                        icon_SDG     = icon_SDG,
                                         save         = TRUE,
                                         name         = "Figure4_neg_V5")  
   
