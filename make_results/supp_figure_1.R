@@ -46,5 +46,5 @@ rm(list = ls(), envir = .GlobalEnv)
                         colNCS_coast   = "#5EA9A2",
                         colNCS_mar     = "#1134A6",
                         save           = TRUE,
-                        name           = "Supp_fig1_v2")
+                        name           = "Supp_fig1")
     

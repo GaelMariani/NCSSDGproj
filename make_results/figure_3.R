@@ -58,7 +58,7 @@ NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]],
                                     colNCS_mar   = "#1134A6",
                                     icon_SDG     = icon_SDG,
                                     save         = TRUE,
-                                    name         = "Figure3_pos_V4")   
+                                    name         = "Figure3")   
 
   
   

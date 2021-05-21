@@ -14,6 +14,6 @@ matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
 NCSSDGproj::supp_fig3_4(data_pos = matrix_all[["score_pos"]], 
                         data_neg = matrix_all[['score_neg']],
                         save     = TRUE,
-                        name1    = "Supp_fig3_v2",
+                        name1    = "Supp_fig3",
                         biplot   = TRUE,
-                        name2    = "Supp_fig4_v2")
+                        name2    = "Supp_fig4")
