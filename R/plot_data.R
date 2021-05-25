@@ -586,6 +586,7 @@ Figure2 <- function(save = FALSE, name) {
   # save
   if(save == TRUE) {
     
+    save(fig1, file = here::here("results", paste0(name, ".RData")))
     ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width=10, height=9, device="png")   
     
   } else {return(fig1)}

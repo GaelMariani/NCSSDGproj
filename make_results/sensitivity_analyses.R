@@ -15,6 +15,7 @@ rm(list = ls(), envir = .GlobalEnv)
 
 
 ### ----- FORMAT DATA
+set.seed(2511)
 
   ## ---- From sheets to df
   matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = FALSE) 

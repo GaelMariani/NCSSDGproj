@@ -44,14 +44,14 @@ sheets_to_df <- function(sheets_list, binary){
     
     clean <- df %>%
       dplyr::filter(nchar(X1) <= 5) %>%
-      dplyr::rename(., targets = X1, score = paste0("New.scoring.system.", pos_or_neg)) %>%
+      dplyr::rename(., targets = X1, score = paste0(pos_or_neg[1], pos_or_neg[2])) %>%
       dplyr::select("targets", "score") %>%
       dplyr::mutate(score = as.numeric(score)) %>%
       tidyr::pivot_wider(names_from = "targets", values_from = "score")
   }
   
     ## Format df with positive scores
-    clean_list_positive <- lapply(sheets_list, clean_and_format, pos_or_neg = "(+)")
+    clean_list_positive <- lapply(sheets_list, clean_and_format, pos_or_neg = c("Co-benefits.", "(+)"))
     matrix_positive <- do.call(rbind, clean_list_positive) %>%
       dplyr::mutate(ecosystem = rownames(.))
   
@@ -59,7 +59,7 @@ sheets_to_df <- function(sheets_list, binary){
       matrix_positive <- matrix_positive[, c(151, 1:150)]
   
     ## Format df with negative scores
-    clean_list_negative <- lapply(sheets_list, clean_and_format, pos_or_neg = "(-)")
+    clean_list_negative <- lapply(sheets_list, clean_and_format, pos_or_neg = c("Trade-offs.", "(-)"))
     matrix_negative <- do.call(rbind, clean_list_negative) %>%
       dplyr::mutate(ecosystem = rownames(.))
   
