@@ -20,7 +20,7 @@ rm(list = ls(), envir = .GlobalEnv)
   
   
 ### ----- ANALYSIS
-set.seed(2511)
+set.seed(2511) # for reproductibility
   
   ## ---- Modularity and Nestedness - NMalgo = "quasiswap" to conserve marginal sums
   

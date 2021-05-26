@@ -15,7 +15,7 @@ rm(list = ls(), envir = .GlobalEnv)
 
 
 ### ----- FORMAT DATA
-set.seed(2511)
+set.seed(2511) # for reproductibility
 
   ## ---- From sheets to df
   matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = FALSE) 
@@ -44,7 +44,7 @@ set.seed(2511)
 sensitivity_analysis_pos0.1 <- NCSSDGproj::sensitivity_analysis(matrix_rep = matrix_conting_bin_pos0.1,
                                                                 obs_values = obs_metric[["score_pos"]],
                                                                 Nrun       = 5, # Nrun = 5 in the paper
-                                                                save       = FALSE,
+                                                                save       = TRUE,
                                                                 name       = "sensitivity_analysis_res_pos0.1")
 print(sensitivity_analysis_pos0.1)
 

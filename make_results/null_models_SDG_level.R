@@ -25,7 +25,7 @@ matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
   colnames(raw_data_neg)[1] <- "ecosystem"  
 
 ### ----- ANALYSES
-set.seed(2511)
+set.seed(2511) # for reproductibility
 
   ## ---- Modularity and Nestedness positive data
   Nest_Modu_SDGlevel_pos <- NCSSDGproj::NullModels(matrix01        = SDG_matrix_pos, 
