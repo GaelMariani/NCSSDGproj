@@ -142,18 +142,18 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.948) +
     
     ## Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.925, xmax = 1.075, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.880, xmax = 1.120, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.917, xmax = 1.083, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.911, xmax = 1.089, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.941, xmax = 1.059, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.889, xmax = 1.111, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.920, xmax = 1.080, ymin = -Inf, ymax = 0.45) +
     ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.911, xmax = 1.089, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.902, xmax = 1.098, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.913, xmax = 1.087, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.915, xmax = 1.085, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.911, xmax = 1.099, ymin = -Inf, ymax = -.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.927, xmax = 1.073, ymin = -Inf, ymax = -.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.931, xmax = 1.069, ymin = -Inf, ymax = -.95) +
-    
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.893, xmax = 1.107, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.910, xmax = 1.090, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.910, xmax = 1.090, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.900, xmax = 1.100, ymin = -Inf, ymax = -.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.932, xmax = 1.068, ymin = -Inf, ymax = -.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.927, xmax = 1.073, ymin = -Inf, ymax = -.95) +
+
     
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
     ggplot2::scale_y_reverse() + 
@@ -237,17 +237,17 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.948) +
     
     # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.075, xmax = 0.075, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.120, xmax = 0.120, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.083, xmax = 0.083, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.089, xmax = 0.089, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.098, xmax = 0.098, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.087, xmax = 0.087, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.085, xmax = 0.085, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.099, xmax = 0.099, ymin = -Inf, ymax = -.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.073, xmax = 0.073, ymin = -Inf, ymax = -.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.069, xmax = 0.069, ymin = -Inf, ymax = -.95) + 
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.046, xmax = 0.046, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.028, xmax = 0.028, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.059, xmax = 0.059, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.041, xmax = 0.041, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.041, xmax = 0.041, ymin = -Inf, ymax = 0.25) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.041, xmax = 0.041, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.026, xmax = 0.026, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.040, xmax = 0.040, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.040, xmax = 0.040, ymin = -Inf, ymax = -0.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.027, xmax = 0.0257, ymin = -Inf, ymax = -0.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.045, xmax = 0.045, ymin = -Inf, ymax = -0.95) + 
     
 
      
@@ -549,12 +549,12 @@ Figure2 <- function(save = FALSE, name) {
                                         icon_NCS    = icon_NCS,
                                         nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
                                         save        = FALSE)
-  
-  
-  fig1b <- NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network, 
+
+
+  fig1b <- NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network,
                                             color       = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
                                             save        = FALSE)
-  
+
   fig1c <- NCSSDGproj::plot_network_pos(network_obj = SDG_network[["score_pos"]][["network"]],
                                         matrix      = SDG_network[["score_pos"]][["matrix"]],
                                         icon_SDG    = icon_SDG,
