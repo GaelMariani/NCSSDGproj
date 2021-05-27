@@ -43,5 +43,5 @@ df_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
 
 ### ----- PRODUCE FIGURE 2
 NCSSDGproj::Figure2(save = TRUE,
-                    name = "Figure2_test")
+                    name = "Figure2")
 
