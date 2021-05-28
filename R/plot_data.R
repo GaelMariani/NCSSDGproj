@@ -114,7 +114,7 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
                          mode       = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
                          label      = FALSE,
                          shape      = "shape",
-                         size       = c(rep(15, 16), colSums(matrix)),
+                         size       = 0.1,
                          max_size   = 18, 
                          label.size = 2,
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
@@ -142,17 +142,17 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.948) +
     
     ## Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.911, xmax = 1.089, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.941, xmax = 1.059, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.889, xmax = 1.111, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.920, xmax = 1.080, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.911, xmax = 1.089, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.893, xmax = 1.107, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.910, xmax = 1.090, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.910, xmax = 1.090, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.900, xmax = 1.100, ymin = -Inf, ymax = -.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.932, xmax = 1.068, ymin = -Inf, ymax = -.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.927, xmax = 1.073, ymin = -Inf, ymax = -.95) +
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.92, xmax = 1.16, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.25) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -.95) +
 
     
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
@@ -209,7 +209,7 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
                          mode       = NCSSDGproj::coords(mymat = matrix, maxX = 6, maxY = 15),
                          label      = FALSE,
                          shape      = "shape",
-                         size       = c(rowSums(matrix), rep(15, 16)),
+                         size       = 0.1,
                          max_size   = 9, 
                          label.size = 2,
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
@@ -237,17 +237,17 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.948) +
     
     # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.046, xmax = 0.046, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.028, xmax = 0.028, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.059, xmax = 0.059, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.041, xmax = 0.041, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.041, xmax = 0.041, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.041, xmax = 0.041, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.026, xmax = 0.026, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.040, xmax = 0.040, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.040, xmax = 0.040, ymin = -Inf, ymax = -0.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.027, xmax = 0.0257, ymin = -Inf, ymax = -0.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.045, xmax = 0.045, ymin = -Inf, ymax = -0.95) + 
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.85) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.16, xmax = 0.08, ymin = -Inf, ymax = 0.65) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.45) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.25) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.05) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.15) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.35) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.55) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.75) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.95) + 
     
 
      
