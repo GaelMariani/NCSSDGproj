@@ -46,12 +46,20 @@ devtools::load_all()
   source(here::here("make_results", "null_models_SDG_level.R"))
   
   
-  ################################################################
-  #                                                              #
-  # SENSITIVITY ANALYSIS for Modularity + Nestedness + Insurance #
-  #                                                              #
-  ################################################################  
-  source(here::here("make_results", "sensitivity_analyses.R"))
+  #######################################################################################
+  #                                                                                     #
+  # SENSITIVITY ANALYSIS for Modularity + Nestedness + Insurance - 10% of modified data #
+  #                                                                                     #
+  #######################################################################################  
+  source(here::here("make_results", "sensitivity_analyses_10p.R"))
+  
+  
+  #######################################################################################
+  #                                                                                     #
+  # SENSITIVITY ANALYSIS for Modularity + Nestedness + Insurance - 20% of modified data #
+  #                                                                                     #
+  #######################################################################################  
+  source(here::here("make_results", "sensitivity_analyses_20p.R"))
   
   
   ############################################################
