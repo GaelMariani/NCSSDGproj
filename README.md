@@ -33,11 +33,14 @@ perform all the analyses. It contains 4 `.R` files:
 [:file\_folder: **figures**](figures/) directory contains all figures in
 the paper.
 
+[:file\_folder: **make\_results**](make_results/) contains detailled R
+scripts to produce figures and run analysis.
+
 The [:hammer: dev\_history.R](dev_history.R) file allow to rebuild our
 research compendium from scratch.
 
-The [:briefcase: make\_new\_scoring.R](make_new_scoring.R) file allow to
-produce all the analyses and render the corresponding plots.
+The [:briefcase: make.R](make.R) file allow to produce all analyses and
+render the corresponding plots.
 
 ## How to run it?
 
@@ -86,9 +89,9 @@ utils::sessionInfo()
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] compiler_3.6.2  magrittr_1.5    tools_3.6.2     htmltools_0.4.0
-#>  [5] yaml_2.2.1      Rcpp_1.0.4.6    stringi_1.4.6   rmarkdown_2.5  
-#>  [9] knitr_1.30      stringr_1.4.0   xfun_0.19       digest_0.6.25  
-#> [13] rlang_0.4.6     evaluate_0.14
+#>  [5] yaml_2.2.1      Rcpp_1.0.4.6    stringi_1.4.6   rmarkdown_2.7  
+#>  [9] knitr_1.33      stringr_1.4.0   xfun_0.22       digest_0.6.25  
+#> [13] rlang_0.4.11    evaluate_0.14
 ```
 
 ### Licenses
