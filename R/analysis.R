@@ -1,4 +1,5 @@
-#' Target Under Insurance And Over Insurance
+#' Target Under Insurance -TUI- And Over Insurance -TOI-
+#' Functional indices adapted for Mouillot et al. 2014 - Functional over-redundancy and high functional vulnerability in global fish faunas on tropical reefs - https://doi.org/10.1073/pnas.1317625111
 #'
 #' @param data_TI a dataframe with the number of time each target is achieved
 #' @param Necosystem the number of ecosystem
@@ -11,18 +12,18 @@
 TUI_TOI <- function(data_TI, Necosystem, Ntarget)  {
   
   
-  # TUI, percentage of target achieved by only one ecosystem
+  # TUI, percentage of target achieved by only one ecosystem - equivalent to Functional Vulnerability in Mouillot et al. (2014)
   for(nrow in 1:nrow(data_TI)){
     data_TI$min[nrow] <- min(data_TI$value[nrow]-1, 1)
   }
   
   target_under_insurance <- (Ntarget - sum(data_TI$min))/Ntarget
   
-  # Target Insurance the mean number of ecosystem that help in achieving a target
+  # Target Insurance the mean number of ecosystem that help in achieving a target - equivalent to Function redundancy in Mouillot et al. (2014)
   Target_insurance <- sum(data_TI$value)/Ntarget  
   
   
-  # TOI, percentage of NCS in excess in target having more NCS than expected from target insurance
+  # TOI, percentage of NCS in excess in target having more NCS than expected from target insurance - equivalent to Functional Over Redundancy in Mouillot et al. (2014)
   for(nrow in 1:nrow(data_TI)){
     data_TI$max[nrow] <- max(data_TI$value[nrow], Target_insurance)
   }
@@ -290,6 +291,8 @@ CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
 
       
 #' Randomly Turn Values In A Matrix
+#' 
+#' Turns x% of 1 into 2 and y% 1 into 0 to mimick expert's desagreement.
 #'
 #' @param data_links a dataframe with links bewteen targets -in columns- and NCS -in rows-, use sheets_to_df
 #' @param percentage percentage -from 0 to 1- of values that match to be replaced
