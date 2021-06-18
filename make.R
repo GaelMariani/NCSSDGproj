@@ -6,19 +6,23 @@
 #######################################################################
 #######################################################################
 
-### ----- clean workspace
+### ----- STEP 1: clean workspace
 rm(list = ls(), envir = .GlobalEnv)  
 
-### ----- install devtools
-install.packages("devtools")
+### ----- STEP 2: install devtools if not already installed
+if(!require(devtools)){
+  install.packages("devtools")
+  library(devtools)
+  }
 
-### ----- install/update packages (1 if you want to install all packages)
+### ----- STEP 3: install/update packages (1 if you want to install all packages)
 devtools::install_deps()
 
-### ----- load functions in the compendium
+### ----- STEP 4: load functions in the compendium
 devtools::load_all()
 
   ## ---- in case of any problem with the installation of the package GGally try
+  ## ---- Once installed, re-run STEP 3 and STEP 4
   devtools::install_github("ggobi/ggally")
 
 

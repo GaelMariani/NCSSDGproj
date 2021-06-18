@@ -1204,9 +1204,6 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
   ### Legend
   legend <- NCSSDGproj::load_legend()
   
-  # CA_legend <- NCSSDGproj::legend_CA(data = data)
-  # CA_legend <- NCSSDGproj::load_CA_legend()
-  
   ### Plot NCS from CA analysis
 
   
@@ -1271,70 +1268,12 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
                                         # ymax     = 59,
                                         ytitle   = -50)
   
-  
-  ### Plot the most important targets
-  # all_targ <- as.data.frame(data[["col"]][["coord"]]) %>%
-  #   dplyr::mutate(target = rownames(.)) %>%
-  #   dplyr::select(c(1:2, 6)) %>%
-  #   stats::setNames(c("Coord1", "Coord2", "target"))
-  # 
-  # contrib_target <- NCSSDGproj::SDG_contrib_tbl() %>%
-  #   dplyr::right_join(., all_targ, by = "target")
-  # 
-  # contrib_target$Color_CA[is.na(contrib_target$Color_CA)] <- "grey90"
-  # contrib_target$Type_CA[is.na(contrib_target$Type_CA)] <- "below expected"
-  # 
-  # data[["grp_targ"]] <- contrib_target
-  # 
-  #   ## CA plot
-  #   ca_SDG_12 <- ggplot2::ggplot(data    = contrib_target,
-  #                                mapping = ggplot2::aes(x     = Coord1,
-  #                                                       y     = Coord2,
-  #                                                       group = Type_CA)) +
-  # 
-  #     ggplot2::geom_point(shape = 17,
-  #                         color = contrib_target$Color_CA) +
-  # 
-  #     ggrepel::geom_text_repel(mapping = ggplot2::aes(label = ifelse(Type_CA != "below expected", target, ""),
-  #                                                     group = Type_CA),
-  #                              color   = contrib_target$Color_CA) +
-  # 
-  #     ggplot2::geom_hline(yintercept = 0,
-  #                         linetype   = "dashed") +
-  # 
-  #     ggplot2::geom_vline(xintercept = 0,
-  #                         linetype   = "dashed") +
-  # 
-  #     ggplot2::labs(x = "Dim 1 (28.8%)",
-  #                   y = "") +
-  # 
-  #     ggplot2::theme_bw()
-  # 
-  # 
-  #   ## Circular plot axis 1
-  #   SDG_axis1 <- NCSSDGproj::CA_barplot(data = data,
-  #                                       axis = 1,
-  #                                       variable = "col",
-  #                                       ymin = -5,
-  #                                       # ymax = 6.5,
-  #                                       ytitle = -5)
-  # 
-  #   ## Circular plot axis 2
-  #   SDG_axis2 <- NCSSDGproj::CA_barplot(data = data,
-  #                                       axis = 2,
-  #                                       variable = "col",
-  #                                       ymin = -5,
-  #                                       # ymax = 6.5,
-  #                                       ytitle = -5)
 
   ### Arrange plots together
   supp_fig <- cowplot::ggdraw() +
     cowplot::draw_plot(ca_NCS_12, x = 0.1, y = 0.5, width = 0.8, height = 0.5) +
-    # cowplot::draw_plot(ca_SDG_12, x = 0.5, y = 0.5, width = 0.5, height = 0.5) +
     cowplot::draw_plot(NCS_axis1, x = 0.20, y = 0.06, width = 0.30, height = 0.47) +
     cowplot::draw_plot(NCS_axis2, x = 0.5, y = 0.06, width = 0.32, height = 0.47) +
-    # cowplot::draw_plot(SDG_axis1, x = 0.5, y = 0.029, width = 0.22, height = 0.53) +
-    # cowplot::draw_plot(SDG_axis2, x = 0.75, y = 0.029, width = 0.22, height = 0.53) +
     cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.1) +
     cowplot::draw_plot_label(label = c("a", "b", "c"),
                              size = 15,

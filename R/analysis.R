@@ -177,53 +177,9 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
 #' @examples
 CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
   
-  # ### Correspondance Analysis on the matrix
+  ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix_cont, graph = FALSE)
   res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix_cont)
-  # 
-  # ### Contribution of columns (targets) to the variance of the different axis
-  # col_contrib <- as.data.frame(factoextra::get_ca_col(res.ca)[["contrib"]]) %>%
-  #   dplyr::mutate(target = as.factor(rownames(.)))
-  # 
-  #   ## select rownames of the most contributing targets (those with a contribution significantly higher than expected)
-  #   col_expect_contrib <- 100/ncol(matrix_cont)
-  # 
-  #     # 1st axis
-  #     name1 <- as.character(col_contrib$target[col_contrib[,1] >= col_expect_contrib])
-  #     # 2nd axis
-  #     name2 <- as.character(col_contrib$target[col_contrib[,2] >= col_expect_contrib])
-  #     # 3rd axis
-  #     name3 <- as.character(col_contrib$target[col_contrib[,3] >= col_expect_contrib])
-  #     # 4th axis
-  #     name4 <- as.character(col_contrib$target[col_contrib[,4] >= col_expect_contrib])
-  #     
-  #     # 1st and 2nd axis together
-  #     col_names12 <- data.frame(target = unique(c(name1, name2))) %>%
-  #       dplyr::left_join(., col_contrib[, c(1:2, 6)], by = "target")
-  #     
-  #     save(col_names12, file = here::here("rawdata", "col_names12.RData"))
-  #       
-  #     col_names34 <- unique(c(name3, name4))
-  #     
-  #   ## TOP 20 most contributing targets on axis 1 and 2
-  #     
-  #     # Axis 1
-  #     TOP20_axis1 <- col_contrib %>%
-  #       dplyr::arrange(dplyr::desc(col_contrib$`Dim 1`)) %>%
-  #       dplyr::top_n(20, wt = `Dim 1`) %>%
-  #       dplyr::select(c("Dim 1")) %>%
-  #       stats::setNames("Dim") %>%
-  #       dplyr::mutate(target = rownames(.)) %>%
-  #       dplyr::right_join(., axis2_targ[1:20,], by = "target")
-  #     
-  #     # Axis 2
-  #     TOP20_axis2 <- col_contrib %>%
-  #       dplyr::arrange(dplyr::desc(col_contrib$`Dim 2`)) %>%
-  #       dplyr::top_n(20, wt = `Dim 2`) %>%
-  #       dplyr::select(c("Dim 2")) %>%
-  #       stats::setNames("Dim") %>%
-  #       dplyr::mutate(target = rownames(.)) %>%
-  #       dplyr::right_join(., axis2_targ[21:40,], by = "target")
       
   ### Contribution of rows (NCS) to the variance of each axis
   row_contrib <- as.data.frame(factoextra::get_ca_row(res.ca)[["contrib"]])
