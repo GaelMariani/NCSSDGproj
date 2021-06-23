@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-coords <- function (mymat, maxX, maxY) {
+coords <- function(mymat, maxX, maxY) {
   
   ## Coords for mode "P"
   coordP <- cbind(rep(-1*maxX, dim(mymat)[1]), seq(from=0, to=maxY, by= maxY/(dim(mymat)[1]-1)))
@@ -56,7 +56,7 @@ edge_size <- function(matrix, x) {
 #' @examples
 edge_col <- function(matrix, neg = TRUE) {
   
-  nodes_col <- c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)) # terr, coast, marine
+  nodes_col <- c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 4)) # terr, coast, marine
     #c(rep("#66c2a5", 4), rep("#31859C", 4), rep("#1134A6", 3))
   
   if(neg == TRUE){
@@ -119,7 +119,7 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
                          label.size = 2,
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
                          edge.alpha = 0.4,
-                         color      = rep("white", 27),
+                         color      = rep("white", 28),
                          edge.color = NCSSDGproj::edge_col(matrix, neg = FALSE),
                          layout.exp = 0.25) +
     
@@ -214,7 +214,7 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
                          label.size = 2,
                          edge.size  = NCSSDGproj::edge_size(matrix, 5)/1.3, 
                          edge.alpha = 0.4,
-                         color      = rep("white", 27),
+                         color      = rep("white", 28),
                          edge.color = NCSSDGproj::edge_col(matrix, neg = TRUE),
                          layout.exp = 0.25) +
     
@@ -547,7 +547,7 @@ Figure2 <- function(save = FALSE, name) {
                                         matrix      = SDG_network[["score_neg"]][["matrix"]],
                                         icon_SDG    = icon_SDG,
                                         icon_NCS    = icon_NCS,
-                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 4)),
                                         save        = FALSE)
 
 
@@ -559,7 +559,7 @@ Figure2 <- function(save = FALSE, name) {
                                         matrix      = SDG_network[["score_pos"]][["matrix"]],
                                         icon_SDG    = icon_SDG,
                                         icon_NCS    = icon_NCS,
-                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 3)),
+                                        nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 4)),
                                         save        = FALSE)
   
   NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 

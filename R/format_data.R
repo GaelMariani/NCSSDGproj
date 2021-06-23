@@ -118,7 +118,7 @@ df_to_longDF <- function(df) {
     dplyr::select(-"target") %>%
     dplyr::arrange(match(x = ecosystem, c("Peatland", "Urban forest", "Forest", "Grassland",
                                           "Tidalmarsh", "Mangroves", "Seagrass", "Macroalgae",
-                                          "Pelagic area", "Antarctic", "Mesopelagic area"))) %>%
+                                          "Pelagic area", "Antarctic", "Mesopelagic area", "Seabed"))) %>%
     dplyr::mutate(ecosystem = forcats::as_factor(ecosystem),
                   goal.target = factor(goal.target))
   
@@ -140,10 +140,10 @@ matrix_SDG <- function(data_long) {
   mat_SDG <- data_long %>%
     reshape2::acast(., factor(ecosystem, levels = unique(ecosystem))~goal, sum) %>%
     magrittr::set_rownames(c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Seagrass", "Macroalgae",
-                             "Pelagic","Antarctic", "Mesopelagic", "Mangrove"))
+                             "Pelagic","Antarctic", "Mesopelagic", "Seabed", "Mangrove"))
   
   SDG_matrix <- mat_SDG[c("Peatland", "Urban forest", "Forest", "Grassland", "Tidalmarsh", "Mangrove",
-                          "Seagrass", "Macroalgae", "Pelagic", "Antarctic", "Mesopelagic"),
+                          "Seagrass", "Macroalgae", "Seabed",  "Pelagic", "Antarctic", "Mesopelagic"),
                         c("SDG 7", "SDG 6", "SDG 15", "SDG 11", "SDG 5", "SDG 3", "SDG 13", "SDG 9",
                           "SDG 1", "SDG 4", "SDG 8", "SDG 16", "SDG 12", "SDG 10", "SDG 2", "SDG 14")]
   
