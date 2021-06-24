@@ -624,7 +624,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   
   # Join null data and observed data 
   data$null_vals <- NA
-  data$null_vals[is.na(data$goal.target) == FALSE] <- 5.5
+  data$null_vals[is.na(data$goal.target) == FALSE] <- 6
   
   
   # vertical legend
@@ -646,6 +646,16 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     
     # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are OVER it.
+    ggplot2::geom_segment(data        = grid_data, 
+                          mapping     = ggplot2::aes(x    = end, 
+                                                     y    = 12, 
+                                                     xend = start, 
+                                                     yend = 12), 
+                          colour      = "black", 
+                          alpha       = 0.7, 
+                          size        = 0.4, 
+                          inherit.aes = FALSE) +
+    
     ggplot2::geom_segment(data        = grid_data, 
                           mapping     = ggplot2::aes(x    = end, 
                                                      y    = 10, 
@@ -708,9 +718,9 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     # Add text showing the value of each 0/2/4/6/8/10 lines
     ggplot2::annotate(geom     = "text", 
-                      x        = rep(max(data$id), 6), 
-                      y        = c(10, 8, 6, 4, 2, 0), 
-                      label    = c("10", "8", "6", "4", "2", "0"), 
+                      x        = rep(max(data$id), 7), 
+                      y        = c(12, 10, 8, 6, 4, 2, 0), 
+                      label    = c("12", "10", "8", "6", "4", "2", "0"), 
                       color    = "black", 
                       alpha    = 0.7, 
                       size     = 3,
@@ -735,7 +745,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                         shape   = 21,
                         size    = 2) +
     
-    ggplot2::ylim(-20, 12) +
+    ggplot2::ylim(-20, 13) +
     
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "none",
@@ -748,7 +758,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     # Add target's number above each bars
     ggplot2::geom_text(data = label_data,
-                       mapping = ggplot2::aes(x = id, 
+                       mapping = ggplot2::aes(x = id,
                                               y = max(tot, na.rm = TRUE) + 0.5, 
                                               label = goal.target, 
                                               hjust = hjust), 
@@ -883,6 +893,16 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
     # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are OVER it.
     ggplot2::geom_segment(data        = grid_data, 
                           mapping     = ggplot2::aes(x    = end,
+                                                     y    = 10,
+                                                     xend = start,
+                                                     yend = 10),
+                          colour      = "black",
+                          alpha       = 0.7,
+                          size        = 0.4,
+                          inherit.aes = FALSE) +
+    
+    ggplot2::geom_segment(data        = grid_data, 
+                          mapping     = ggplot2::aes(x    = end,
                                                      y    = 8,
                                                      xend = start,
                                                      yend = 8),
@@ -933,9 +953,9 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
     
     # Add text showing the value of each 0/2/4/6/8 lines
     ggplot2::annotate(geom     = "text", 
-                      x        = rep(max(data$id), 5), 
-                      y        = c(8, 6, 4, 2, 0), 
-                      label    = c("8", "6", "4", "2", "0"), 
+                      x        = rep(max(data$id), 6), 
+                      y        = c(10, 8, 6, 4, 2, 0), 
+                      label    = c("10", "8", "6", "4", "2", "0"), 
                       color    = "black", 
                       alpha    = 0.7, 
                       size     = 3,
@@ -961,7 +981,7 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
                         shape   = 21,
                         size    = 2) +
     
-    ggplot2::ylim(-20, 12) +
+    ggplot2::ylim(-20, 13) +
     
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "none",
