@@ -21,7 +21,7 @@ format_icons <- function(path, icon_SDG = TRUE) {
     names(icon_rast) <- c(paste(rep("SDG", 17), seq(1,17,1)))
     icon <- icon_rast[SDG_order]
     
-  } else { icon <- icon_rast[c(1,2,3,4,7,8,9,10,11,5,6)] }
+  } else { icon <- icon_rast[c(1,2,3,4,9,10,11,12,5,6,7,8)] }
   
   return(icon)
   

@@ -143,16 +143,18 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     
     ## Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
     ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.92, xmax = 1.16, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -.95) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.86) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.92, xmax = 1.16, ymin = -Inf, ymax = 0.675) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.49) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.31) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.125) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.05) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.23) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.41) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.59) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.76) +
+    ggplot2::annotation_custom(icon_NCS[[12]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.95) +
+    
 
     
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
@@ -238,16 +240,17 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     
     # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
     ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.85) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.16, xmax = 0.08, ymin = -Inf, ymax = 0.65) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.45) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.25) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.05) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.15) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.35) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.55) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.75) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.95) + 
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.86) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.16, xmax = 0.08, ymin = -Inf, ymax = 0.675) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.49) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.31) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.125) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.05) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.23) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.41) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.59) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.76) +
+    ggplot2::annotation_custom(icon_NCS[[12]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.95) + 
     
 
      
@@ -357,7 +360,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     
     ## Add + and - sign 
     ggplot2::annotate(geom  = "text", 
-                      y     = c(-70, 105), 
+                      y     = c(-100, 100), 
                       x     = c(rep(16.1, 2)), 
                       label = c("-", "+"), 
                       color = c("red", "#E9B200"), 
@@ -384,9 +387,9 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                 name   = NULL) +
     
     ggplot2::scale_y_continuous(position = "right", 
-                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
+                                breaks   = seq(plyr::round_any(min(data_plot$text_labs_pos), 10), 
                                                max(data_plot$text_labs_pos), 20),
-                                labels   = abs(seq(plyr::round_any(min(data_plot$text_labs_pos), 10)+10, 
+                                labels   = abs(seq(plyr::round_any(min(data_plot$text_labs_pos), 10), 
                                                max(data_plot$text_labs_pos), 20)),
                                 expand   = c(0.08,0)) +
     
@@ -402,7 +405,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x  = ggplot2::element_text(size  = 12, 
                                                         face  = "bold",
-                                                        color = c(rep("red", 3), "#4D4D4D", rep("#E9B200", 6))),
+                                                        color = c(rep("red", 5), "#4D4D4D", rep("#E9B200", 5))),
                    # axis.text.y    = ggplot2::element_text(size   = 13,
                    #                                        color  = rev(color_text),
                    #                                        face   = "bold"),
