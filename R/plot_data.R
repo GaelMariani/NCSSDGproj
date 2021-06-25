@@ -1091,10 +1091,11 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
     }
   
   segment_data <- data_cont[["segment data"]]
-  label_data <- data_cont[["label data"]]
   base_data <- data_cont[["base_data"]]
   grid_data <- data_cont[["grid data"]]
-  data_contrib <- data_cont[["data"]]
+  data_contrib <- data_cont[["data"]] 
+  label_data <- data_cont[["label data"]] %>%
+    dplyr::mutate(name_var = gsub("(?<=\\()[^()]*(?=\\))(*SKIP)(*F)|.", "", name_var2, perl=T)) # select text inside parenthesis
   
   
   ### Plot
@@ -1238,7 +1239,8 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
                                          habillage = data[["grp"]]$group,
                                          palette   = c(colNCS_coast, colNCS_mar, colNCS_ter),
                                          repel     = TRUE,
-                                         invisible = "quali") +
+                                         invisible = "quali",
+                                         label     = data[["grp"]]$Ecosystem) +
       
       
       ggplot2::ggtitle(NULL) +

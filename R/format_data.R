@@ -555,7 +555,8 @@ circular_data_CA <- function(data_contrib, variable, axis){
                                                 name_var2 == "Seagrass"         ~ "SG",
                                                 name_var2 == "Pelagic area"     ~ "Pel",
                                                 name_var2 == "Antarctic"        ~ "Ant",
-                                                name_var2 == "Mesopelagic area" ~ "MP"))
+                                                name_var2 == "Mesopelagic area" ~ "MP",
+                                                name_var2 == "Seabed"           ~ "SB"))
 
   
   } else {

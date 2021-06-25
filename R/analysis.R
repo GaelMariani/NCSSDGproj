@@ -177,10 +177,29 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
 #' @examples
 CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
   
+  ### Change variable name
+  tmp <- data.frame(Ecosystem = rownames(matrix_cont)) %>%
+    dplyr::mutate(acronyme  = dplyr::case_when(Ecosystem == "Urban forest"     ~ "(UFo)",
+                                               Ecosystem == "Forest"           ~ "(FO)",
+                                               Ecosystem == "Peatland"         ~ "(PL)",
+                                               Ecosystem == "Grassland"        ~ "(GL)",
+                                               Ecosystem == "Mangrove"         ~ "(MG)",
+                                               Ecosystem == "Tidalmarsh"       ~ "(TD)",
+                                               Ecosystem == "Macroalgae"       ~ "(MA)",
+                                               Ecosystem == "Seagrass"         ~ "(SG)",
+                                               Ecosystem == "Pelagic area"     ~ "(Pel)",
+                                               Ecosystem == "Antarctic"        ~ "(Ant)",
+                                               Ecosystem == "Mesopelagic area" ~ "(MP)",
+                                               Ecosystem == "Seabed"           ~ "(SB)"),
+                  Ecosystem = paste(Ecosystem, acronyme))
+  
+  grp <- NCSSDGproj::NCS_info(matrix_cont) 
+  rownames(matrix_cont) <- tmp$Ecosystem
+  
   ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix_cont, graph = FALSE)
-  res.ca[["grp"]] <- NCSSDGproj::NCS_info(matrix_cont)
-      
+  res.ca[["grp"]] <- grp
+  
   ### Contribution of rows (NCS) to the variance of each axis
   row_contrib <- as.data.frame(factoextra::get_ca_row(res.ca)[["contrib"]])
   
@@ -195,29 +214,29 @@ CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
       row_names12 <- unique(c(name1_r, name2_r))
    
   ### Add a row because seagrass do not have negative interactions.    
-  if(nrow(res.ca[["row"]][["coord"]]) == 10){
-    
-    tmp <- res.ca[["row"]][["coord"]]
-    
-    new_mat <- matrix(NA, nrow = 11, ncol = ncol(tmp), dimnames = list(c("Urban forest", "Forest", "Peatland", "Grassland", "Seagrass", "Mangrove", "Tidalmarsh", "Macroalgae", "Pelagic area", "Antarctic", "Mesopelagic area"),
-                                                                       dimnames(tmp)[[2]]))
-    new_mat[-5,] <- tmp
-    
-    res.ca[["row"]][["coord"]] <- new_mat
-  }
+  # if(nrow(res.ca[["row"]][["coord"]]) == 11){
+  #   
+  #   tmp <- res.ca[["row"]][["coord"]]
+  #   
+  #   new_mat <- matrix(NA, nrow = 11, ncol = ncol(tmp), dimnames = list(c("Urban forest (UFo)", "Forest (FO)", "Peatland (PT)", "Grassland (GL)", "Seagrass(SG)", "Mangrove (MG)", "Tidalmarsh (TD)", "Macroalgae (MA)", "Pelagic area (Pel)", "Antarctic (Ant)", "Mesopelagic area (MP)"),
+  #                                                                      dimnames(tmp)[[2]]))
+  #   new_mat[-5,] <- tmp
+  #   
+  #   res.ca[["row"]][["coord"]] <- new_mat
+  # }
       
   ### Format data to draw arrows on plot
   data_arrow <- data.frame(y     = c(rep(1.02, 4), 0.95, 0.95),
                            ymax  = c(rep(1.02, 4), 0.95, 0.95),
-                           x     = c(min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
-                                     max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                           x     = c(min(res.ca[["row"]][["coord"]][9:12, "Dim 1"]),
+                                     max(res.ca[["row"]][["coord"]][9:12, "Dim 1"]),
                                      min(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
                                      max(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
                                      min(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
                                      max(res.ca[["row"]][["coord"]][1:4, "Dim 1"])),
                                
-                           xmax  = c(max(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
-                                     min(res.ca[["row"]][["coord"]][9:11, "Dim 1"]),
+                           xmax  = c(max(res.ca[["row"]][["coord"]][9:12, "Dim 1"]),
+                                     min(res.ca[["row"]][["coord"]][9:12, "Dim 1"]),
                                      max(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
                                      min(res.ca[["row"]][["coord"]][5:8, "Dim 1"], na.rm = TRUE),
                                      max(res.ca[["row"]][["coord"]][1:4, "Dim 1"]),
@@ -229,7 +248,8 @@ CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
   if(sum(is.na(res.ca[["row"]][["coord"]])) > 0){
     res.ca[["row"]][["coord"]] <-  res.ca[["row"]][["coord"]][-5,]
   }
-      
+  
+
   ### Save data
   CA_contrib <- list("CorresAna"        = res.ca,
                      # "TOP20_axis1_targ" = TOP20_axis1,

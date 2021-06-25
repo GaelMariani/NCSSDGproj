@@ -505,7 +505,7 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
 #' @export
 #'
 #' @examples
-CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
+CA_contri_vars_unused <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
   
   # ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix_cont, graph = FALSE)
