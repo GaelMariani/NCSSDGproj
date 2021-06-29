@@ -46,7 +46,6 @@ usethis::use_r("utils-pipe")
 usethis::use_r("unused_functions")
 
 
-
 file.create("make_results/figure_2.R")
 file.create("make_results/figure_3.R")
 file.create("make_results/null_models.R")
@@ -58,6 +57,8 @@ file.create("make_results/supp_figure_1.R")
 file.create("make_results/supp_figure_2.R")
 file.create("make_results/supp_figure_3.R")
 file.create("make_results/supp_figure_4.R")
+file.create("make_results/results_extraction.R")
+
 
 
 
