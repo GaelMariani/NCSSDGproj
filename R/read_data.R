@@ -6,8 +6,8 @@
 #' @examples
 read_all_sheets <- function(){
   
-  sheets <- openxlsx::getSheetNames(here::here("rawdata", "supplementary_material_V3.xlsx"))[-1] # remove scoring system and Polar sheets
-  sheets_list <- lapply(sheets, openxlsx::read.xlsx, xlsxFile = here::here("rawdata", "supplementary_material_V3.xlsx"))
+  sheets <- openxlsx::getSheetNames(here::here("rawdata", "supplementary_material_V5.xlsx"))[-1] # remove scoring system and Polar sheets
+  sheets_list <- lapply(sheets, openxlsx::read.xlsx, xlsxFile = here::here("rawdata", "supplementary_material_V5.xlsx"))
   
   names(sheets_list) <- sheets
   
