@@ -803,21 +803,21 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   circular_plot <- plot +
     cowplot::draw_plot(vert_legend,          x = 0.135,  y = 0.135,  width = 0.75,  height = 0.75) +
     cowplot::draw_grob(icon_SDG[["SDG 1"]],  x = 0.514,  y = 0.690,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.585,  y = 0.664,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.642,  y = 0.616,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.680,  y = 0.546,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.583,  y = 0.664,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.640,  y = 0.615,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.679,  y = 0.548,  width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.692,  y = 0.475,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.676,  y = 0.396,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.635,  y = 0.334,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.580,  y = 0.294,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.500,  y = 0.265,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.424,  y = 0.27,   width = 0.045, height = 0.045) +  
-    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.358,  y = 0.308,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.303,  y = 0.366,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.270,  y = 0.427,  width = 0.045, height = 0.045) + 
+    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.675,  y = 0.400,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.639,  y = 0.341,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.585,  y = 0.296,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.506,  y = 0.268,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.427,  y = 0.271,  width = 0.045, height = 0.045) +  
+    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.360,  y = 0.308,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.303,  y = 0.368,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.270,  y = 0.428,  width = 0.045, height = 0.045) + 
     cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.268,  y = 0.514,  width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.328,  y = 0.626,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.421,  y = 0.682, width = 0.045, height = 0.045)
+    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.421,  y = 0.682,  width = 0.045, height = 0.045)
   
   ## Save plot
   if(save == TRUE) {
