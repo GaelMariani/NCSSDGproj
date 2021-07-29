@@ -3,6 +3,7 @@
 export("%>%")
 export(CA_barplot)
 export(CA_contri_vars)
+export(CA_contri_vars_unused)
 export(Figure2)
 export(Figure2_unused)
 export(Insurance_data2plot)

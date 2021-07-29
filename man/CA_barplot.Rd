@@ -4,7 +4,7 @@
 \alias{CA_barplot}
 \title{Circular Barplot Of Contribution For Supplementary Fig 1 And 2}
 \usage{
-CA_barplot(data, axis, variable, ymin, ytitle)
+CA_barplot(data, axis, variable, ymin, ytitle, neg = TRUE)
 }
 \arguments{
 \item{data}{obtained with NCSSDGproj::CA_contri_vars 1st element of the list}

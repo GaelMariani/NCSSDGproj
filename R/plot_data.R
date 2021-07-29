@@ -1098,15 +1098,32 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
     
     data_cont <- NCSSDGproj::circular_data_CA(data_contrib = data,  axis = axis, variable = variable)
     
-    }
+  }
   
+  ### Set ymax value
+  ymax_axis1 <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = 1, variable = variable)
+  ymax_axis2 <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = 2, variable = variable)
+  # ymax <- max(c(ymax_axis1[["data"]]$Dim, ymax_axis2[["data"]]$Dim))
+  
+  if(abs(max(ymax_axis1[["data"]]$Dim) - max(ymax_axis2[["data"]]$Dim)) > 5 & axis == 1){
+    ymin <- -50
+    ytitle <- -50
+  } else {
+    ymin <- -15
+    ytitle <- -15
+  }
+  
+  # if(neg == TRUE & axis == 1){
+  #   ymin <- -50
+  #   ytitle <- -50
+  # }
+
   segment_data <- data_cont[["segment data"]]
   base_data <- data_cont[["base_data"]]
   grid_data <- data_cont[["grid data"]]
   data_contrib <- data_cont[["data"]] 
   label_data <- data_cont[["label data"]] %>%
     dplyr::mutate(name_var = gsub("(?<=\\()[^()]*(?=\\))(*SKIP)(*F)|.", "", name_var2, perl=T)) # select text inside parenthesis
-  
   
   ### Plot
   ggplot2::ggplot(data = data_contrib,
@@ -1163,6 +1180,7 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
                       fontface = "bold", 
                       hjust = 1) +
 
+
     ggplot2::ylim(ymin, max(data_contrib$Dim)*1.3) +
     
     ggplot2::theme_minimal() +
@@ -1186,16 +1204,7 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
                        size = 3.5, 
                        angle = label_data$angle, 
                        inherit.aes = FALSE) +
-    
-    ggplot2::geom_segment(data = base_data, 
-                          mapping = ggplot2::aes(x = start, 
-                                                 y = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6, 
-                                                 xend = end, 
-                                                 yend = - (plyr::round_any(max(data_contrib$Dim), 10, f = ceiling) - 5)/6), 
-                          color = unique(data_contrib$color), 
-                          alpha = 1, 
-                          size = 1.2, 
-                          inherit.aes = FALSE ) +
+
     
     ggplot2::theme(plot.title = ggplot2::element_text(vjust = -40))+
     
@@ -1213,7 +1222,6 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
                       angle = 0, 
                       fontface = "bold") 
   
-
 }
 
 
@@ -1233,7 +1241,7 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
 #' @export
 #'
 #' @examples
-supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, save = FALSE, name){
+supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, neg, save = FALSE, name){
   
   ### Legend
   legend <- NCSSDGproj::load_legend()
@@ -1287,21 +1295,23 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
                           size  = 4.5) 
       } 
     
+    
+    
     ## Barplot of contribution for axis 1 
     NCS_axis1 <- NCSSDGproj::CA_barplot(data     = data, 
                                         axis     = 1, 
-                                        variable = "row",
-                                        ymin     = -50,
-                                        # ymax     = 58,
-                                        ytitle   = -50)
+                                        variable = "row")
+                                        # ymin     = -15,
+                                        # # ymax     = 58,
+                                        # ytitle   = -15)
     
     ## Barplot of contribution for axis 2
     NCS_axis2 <- NCSSDGproj::CA_barplot(data     = data, 
                                         axis     = 2, 
-                                        variable = "row",
-                                        ymin     = -50,
-                                        # ymax     = 59,
-                                        ytitle   = -50)
+                                        variable = "row")
+                                        # ymin     = -50,
+                                        # # ymax     = 59,
+                                        # ytitle   = -50)
   
 
   ### Arrange plots together
