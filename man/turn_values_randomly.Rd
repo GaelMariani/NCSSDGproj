@@ -17,5 +17,5 @@ turn_values_randomly(data_links, percentage, binary = TRUE)
 a dataframe with modified values for a given number of matrices
 }
 \description{
-Randomly Turn Values In A Matrix
+Turns x\% of 1 into 2 and y\% 1 into 0 to mimick expert's desagreement.
 }

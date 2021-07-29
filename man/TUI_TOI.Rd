@@ -2,7 +2,8 @@
 % Please edit documentation in R/analysis.R
 \name{TUI_TOI}
 \alias{TUI_TOI}
-\title{Target Under Insurance And Over Insurance}
+\title{Target Under Insurance -TUI- And Over Insurance -TOI-
+Functional indices adapted for Mouillot et al. 2014 - Functional over-redundancy and high functional vulnerability in global fish faunas on tropical reefs - https://doi.org/10.1073/pnas.1317625111}
 \usage{
 TUI_TOI(data_TI, Necosystem, Ntarget)
 }
@@ -17,5 +18,6 @@ TUI_TOI(data_TI, Necosystem, Ntarget)
 a three columns dataframe with TUI, TI and TOI values
 }
 \description{
-Target Under Insurance And Over Insurance
+Target Under Insurance -TUI- And Over Insurance -TOI-
+Functional indices adapted for Mouillot et al. 2014 - Functional over-redundancy and high functional vulnerability in global fish faunas on tropical reefs - https://doi.org/10.1073/pnas.1317625111
 }
