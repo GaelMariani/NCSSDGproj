@@ -152,8 +152,8 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
     ## Produce and save normality plots
     hist_mod <- ggplot2::ggplot(as.data.frame(mod_null), ggplot2::aes(x = mod_null)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::ggtitle("Modularity") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
     hist_nest <- ggplot2::ggplot(as.data.frame(nest_null), ggplot2::aes(x = nest_null)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::ggtitle("Nestedness") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-    qqplot_mod <- ggpubr::ggqqplot(mod_null)
-    qqplot_nest <- ggpubr::ggqqplot(nest_null)
+    qqplot_mod <- ggpubr::ggqqplot(mod_null) + ggplot2::theme_bw()
+    qqplot_nest <- ggpubr::ggqqplot(nest_null) + ggplot2::theme_bw()
     qqplots <- (hist_mod | hist_nest)/(qqplot_mod | qqplot_nest)
     ggplot2::ggsave(here::here("figures", "Supp_fig5.png"), qqplots, width = 9, height = 5, device = "png")
     save(qqplots, file = here::here("results", "Supp_fig5.RData"))
@@ -246,8 +246,8 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
       ## Produce and save normality plots
       hist_TUI <- ggplot2::ggplot(indices_nullmod_df, ggplot2::aes(x = TUI)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::ggtitle("TUI") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
       hist_TOI <- ggplot2::ggplot(indices_nullmod_df, ggplot2::aes(x = TOI)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::ggtitle("TOI") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-      qqplot_TUI <- ggpubr::ggqqplot(indices_nullmod_df$TUI)
-      qqplot_TOI <- ggpubr::ggqqplot(indices_nullmod_df$TOI)
+      qqplot_TUI <- ggpubr::ggqqplot(indices_nullmod_df$TUI) + ggplot2::theme_bw()
+      qqplot_TOI <- ggpubr::ggqqplot(indices_nullmod_df$TOI) + ggplot2::theme_bw()
       qqplots <- (hist_TUI | hist_TOI)/(qqplot_TUI | qqplot_TOI)
       ggplot2::ggsave(here::here("figures", "Supp_fig6.png"), qqplots, width = 9, height = 5, device = "png")
       save(qqplots, file = here::here("results", "Supp_fig6.RData"))
