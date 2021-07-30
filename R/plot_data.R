@@ -806,18 +806,18 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.583,  y = 0.664,  width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.640,  y = 0.615,  width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.679,  y = 0.548,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.692,  y = 0.475,  width = 0.045, height = 0.045) + 
+    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.692,  y = 0.474,  width = 0.045, height = 0.045) + 
     cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.675,  y = 0.400,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.639,  y = 0.341,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.585,  y = 0.296,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.506,  y = 0.268,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.427,  y = 0.271,  width = 0.045, height = 0.045) +  
+    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.638,  y = 0.340,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.584,  y = 0.295,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.504,  y = 0.268,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.425,  y = 0.272,  width = 0.045, height = 0.045) +  
     cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.360,  y = 0.308,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.303,  y = 0.368,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.270,  y = 0.428,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.268,  y = 0.514,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.328,  y = 0.626,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.421,  y = 0.682,  width = 0.045, height = 0.045)
+    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.296,  y = 0.375,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.270,  y = 0.437,  width = 0.045, height = 0.045) + 
+    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.272,  y = 0.521,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.330,  y = 0.627,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.423,  y = 0.683,  width = 0.045, height = 0.045)
   
   ## Save plot
   if(save == TRUE) {
@@ -1050,20 +1050,20 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
     cowplot::draw_plot(vert_legend,          x = 0.135,  y = 0.135,  width = 0.75,  height = 0.75) +
     cowplot::draw_grob(icon_SDG[["SDG 1"]],  x = 0.538,  y = 0.685,  width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.637,  y = 0.619,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.690,  y = 0.512,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.682,  y = 0.410,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.647,  y = 0.355,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.599,  y = 0.304,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.548,  y = 0.275,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.469,  y = 0.263,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.393,  y = 0.280,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.332,  y = 0.329,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.292,  y = 0.379,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.269,  y = 0.432,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.689,  y = 0.515,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.684,  y = 0.414,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.655,  y = 0.364,  width = 0.045, height = 0.045) + 
+    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.616,  y = 0.315,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.563,  y = 0.279,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.478,  y = 0.263,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.401,  y = 0.276,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.342,  y = 0.320,  width = 0.045, height = 0.045) + 
+    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.294,  y = 0.363,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.275,  y = 0.415,  width = 0.045, height = 0.045) +
     cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.266,  y = 0.418,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.273,  y = 0.520,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.334,  y = 0.632,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.417,  y = 0.683,  width = 0.045, height = 0.045)
+    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.269,  y = 0.510,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.325,  y = 0.621,  width = 0.045, height = 0.045) +
+    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.411,  y = 0.680,  width = 0.045, height = 0.045)
   
   ## Save plot
   if(save == TRUE) {
@@ -1105,18 +1105,13 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
   ymax_axis2 <- NCSSDGproj::circular_data_CA(data_contrib = data, axis = 2, variable = variable)
   # ymax <- max(c(ymax_axis1[["data"]]$Dim, ymax_axis2[["data"]]$Dim))
   
-  if(abs(max(ymax_axis1[["data"]]$Dim) - max(ymax_axis2[["data"]]$Dim)) > 5 & axis == 1){
+  if(abs(max(ymax_axis1[["data"]]$Dim) - max(ymax_axis2[["data"]]$Dim)) > 10 & axis == 1){
     ymin <- -50
     ytitle <- -50
   } else {
-    ymin <- -15
-    ytitle <- -15
+    ymin <- -70
+    ytitle <- -70
   }
-  
-  # if(neg == TRUE & axis == 1){
-  #   ymin <- -50
-  #   ytitle <- -50
-  # }
 
   segment_data <- data_cont[["segment data"]]
   base_data <- data_cont[["base_data"]]
