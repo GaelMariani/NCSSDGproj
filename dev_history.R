@@ -34,6 +34,8 @@ usethis::use_package("plyr")
 usethis::use_package("ggrepel")
 usethis::use_package("openxlsx")
 usethis::use_package("tibble")
+usethis::use_package("patchwork")
+
 
 usethis::use_pipe()
 

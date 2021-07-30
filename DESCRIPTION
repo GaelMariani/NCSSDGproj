@@ -37,4 +37,5 @@ Imports:
     ggrepel,
     openxlsx,
     tibble,
-    kableExtra
+    kableExtra,
+    patchwork
