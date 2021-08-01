@@ -112,12 +112,20 @@ devtools::load_all()
   source(here::here("make_results", "supp_figure_3_4.R"))
   
   
-  ##################################################
-  #                                                #
-  # produce supp. Fig 5 - NUll model positive data #
-  #                                                #
-  ################################################## 
+  #####################################################
+  #                                                   #
+  # produce supp. Fig 5 - Null model positive results #
+  #                                                   #
+  ##################################################### 
   source(here::here("make_results", "supp_figure_5.R"))
+  
+  
+  #####################################################
+  #                                                   #
+  # produce supp. Fig 6 - Null model negative results #
+  #                                                   #
+  ##################################################### 
+  source(here::here("make_results", "supp_figure_6.R"))
   
   
 
