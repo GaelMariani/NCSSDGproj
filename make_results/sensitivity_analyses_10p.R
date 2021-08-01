@@ -11,7 +11,7 @@ rm(list = ls(), envir = .GlobalEnv)
   sheets  <- NCSSDGproj::read_all_sheets()
   
   ## Observed modularity and nestedness values
-  obs_metric <- NCSSDGproj::load_metric_obs()
+  obs_metric <- NCSSDGproj::load_metric_obs(null_vals = FALSE)
 
 
 ### ----- FORMAT DATA

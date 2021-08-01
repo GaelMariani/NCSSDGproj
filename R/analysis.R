@@ -400,7 +400,7 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
     ## For modularity and nestedness >> Calculate 2.5 and 97.5 percentile to break free from normality
 
       # Modularity
-      mod_res <- data.frame(val_obs   = obs_values["Modularity", "Val_Obs"],
+      mod_res <- data.frame(val_obs   = obs_values["Modularity", "val_Obs"],
                             mean_null = mean(modularity_vals),
                             perc_2.5  = signif(quantile(modularity_vals, c(0.025, 0.975))[1], 4),
                             perc_97.5 = signif(quantile(modularity_vals, c(0.025, 0.975))[2], 4))
@@ -408,7 +408,7 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
         
       
       # Nestedness
-      nest_res <- data.frame(val_obs   = obs_values["Nestedness", "Val_Obs"],
+      nest_res <- data.frame(val_obs   = obs_values["Nestedness", "val_Obs"],
                              mean_null = mean(nestedness),
                              perc_2.5  = signif(quantile(nestedness, c(0.025, 0.975))[1], 4), 
                              perc_97.5 = signif(quantile(nestedness, c(0.025, 0.975))[2], 4))
@@ -417,7 +417,7 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
     ## For TUI and TOI >> Calculate 2.5 and 97.5 percentile to break free from normality
     
       # TUI
-      TUI_res <- data.frame(val_obs   = obs_values["TUI", "Val_Obs"],
+      TUI_res <- data.frame(val_obs   = obs_values["TUI", "val_Obs"],
                             mean_null = mean(insurance_vals$TUI),
                             perc_2.5  = signif(quantile(insurance_vals$TUI, c(0.025, 0.975))[1], 4),
                             perc_97.5 = signif(quantile(insurance_vals$TUI, c(0.025, 0.975))[2], 4))
@@ -425,7 +425,7 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
 
     
       # For TOI
-      TOI_res <- data.frame(val_obs   = obs_values["TOI", "Val_Obs"],
+      TOI_res <- data.frame(val_obs   = obs_values["TOI", "val_Obs"],
                             mean_null = mean(insurance_vals$TOI),
                             perc_2.5  = round(quantile(insurance_vals$TOI, c(0.025, 0.975))[1], 3),
                             perc_97.5 = round(quantile(insurance_vals$TOI, c(0.025, 0.975))[2], 3))
