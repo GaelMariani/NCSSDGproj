@@ -402,8 +402,8 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
       # Modularity
       mod_res <- data.frame(val_obs   = obs_values["Modularity", "Val_Obs"],
                             mean_null = mean(modularity_vals),
-                            perc_2.5  = signif(quantile(mod_null, c(0.025, 0.975))[1], 4),
-                            perc_97.5 = signif(quantile(mod_null, c(0.025, 0.975))[2], 4))
+                            perc_2.5  = signif(quantile(modularity_vals, c(0.025, 0.975))[1], 4),
+                            perc_97.5 = signif(quantile(modularity_vals, c(0.025, 0.975))[2], 4))
       rownames(mod_res) <- "Modularity"
         
       
