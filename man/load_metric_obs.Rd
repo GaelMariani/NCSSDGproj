@@ -4,7 +4,10 @@
 \alias{load_metric_obs}
 \title{Load Observed Metrics}
 \usage{
-load_metric_obs()
+load_metric_obs(null_vals = TRUE)
+}
+\arguments{
+\item{null_vals}{if TRUE, return 999 null values from nul models, if false return null model results}
 }
 \value{
 a list of 2 elements, with observed indices values for positive and negative scores

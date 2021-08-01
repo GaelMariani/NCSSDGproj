@@ -1473,6 +1473,58 @@ supp_fig3_4 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, n
 }
 
 
-
+#' Plot Null Values Vs. Observed Value With Percentiles
+#'
+#' @param null_vals a list of null values for modularity, nestedness, TUI and TOI
+#' @param res_null_mod a dataframe with 2.5 and 97.5 percentiles and observed values for modularity, nestedness, TUI and TOI - use load_metric_obs
+#' @param name the name of the plot to be saved
+#'
+#' @return
+#' @export
+#'
+#' @examples
+supp_fig5to8 <- function(null_vals, res_null_mod, name){
+  
+  library(patchwork)
+  
+  plot_list <- list()
+  
+  ### Histogramm of null values with percentiles and observed value
+  plot_hist <- function(i){
+    
+    ggplot2::ggplot(data    = null_vals, 
+                    mapping = ggplot2::aes(x = null_vals[,i])) + 
+      
+      ## Histogram
+      ggplot2::geom_histogram(color = "black", 
+                              fill  = "grey80") + 
+      
+      ggplot2::xlab("null values") +
+      
+      ## Vertical bars for percentiles values
+      ggplot2::geom_vline(xintercept = res_null_mod[i, "perc_2.5"], color = "brown4", linetype = "dashed", size = 1.1) +
+      ggplot2::geom_vline(xintercept = res_null_mod[i, "perc_97.5"], color = "brown4", linetype = "dashed", size = 1.1) +
+      
+      ## Vertical bar for the observed values
+      ggplot2::geom_vline(xintercept = res_null_mod[i, "val_obs"], color = "seagreen4", size = 1.1) +
+      
+      ggplot2::ggtitle(rownames(res_null_mod)[i]) + 
+      ggplot2::theme_bw() +  
+      ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
+  }
+  
+  plot_list[[1]] <- plot_hist(i = 1)
+  plot_list[[2]] <- plot_hist(i = 2)
+  plot_list[[3]] <- plot_hist(i = 3)
+  plot_list[[4]] <- plot_hist(i = 4)
+  
+  ### Arrange plots together
+  plots <- (plot_list[[1]] | plot_list[[2]])/(plot_list[[3]] | plot_list[[4]])
+  
+  ### Save plot
+  ggplot2::ggsave(here::here("figures", paste0(name, ".png")), plots, width = 9, height = 5, device = "png")
+  save(plots, file = here::here("results", paste0(name, ".RData")))
+  
+}
 
   

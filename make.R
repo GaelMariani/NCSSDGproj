@@ -112,6 +112,13 @@ devtools::load_all()
   source(here::here("make_results", "supp_figure_3_4.R"))
   
   
+  ##################################################
+  #                                                #
+  # produce supp. Fig 5 - NUll model positive data #
+  #                                                #
+  ################################################## 
+  source(here::here("make_results", "supp_figure_5.R"))
+  
   
 
 

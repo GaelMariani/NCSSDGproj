@@ -75,33 +75,45 @@ load_vert_legend <- function(){
 
 #' Load Observed Metrics
 #'
+#' @param null_vals if TRUE, return 999 null values from nul models, if false return null model results
+#'
 #' @return a list of 2 elements, with observed indices values for positive and negative scores
 #' @export 
 #'
 #' @examples
-load_metric_obs <- function(){
+load_metric_obs <- function(null_vals = TRUE){
+  
+  if(null_vals == TRUE){x <- 2} else { x <- 1}
   
   ### POSITIVE data
   load(here::here("results", "Nest_Modu_res_pos.RData"))
-  nest_mod_obs <- res
+  nest_mod_obs <- res[[x]]
   
   load(here::here("results", "TUI_TOI_res_pos.RData"))
-  insurance_obs <- res
+  insurance_obs <- res[[x]]
   
     ## Bind data
-    metric_obs_pos <- rbind(nest_mod_obs, insurance_obs)
+    if(null_vals == TRUE){
+      metric_obs_pos <- cbind(nest_mod_obs, insurance_obs) 
+    } else {metric_obs_pos <- rbind(nest_mod_obs, insurance_obs)}
   
   ### NEGATIVE DATA
   load(here::here("results", "Nest_Modu_res_neg.RData"))
-  nest_mod_obs <- res
+  nest_mod_obs <- res[[x]]
   
   load(here::here("results", "TUI_TOI_res_neg.RData"))
-  insurance_obs <- res
+  insurance_obs <- res[[x]]
   
     ## Bind data
-    metric_obs_neg <- rbind(nest_mod_obs, insurance_obs)
+    if(null_vals == TRUE){
+      metric_obs_neg <- cbind(nest_mod_obs, insurance_obs) 
+    } else {metric_obs_neg <- rbind(nest_mod_obs, insurance_obs)}
+    
   
   metric_obs <- list("score_pos" = metric_obs_pos, "score_neg" = metric_obs_neg)
   return(metric_obs)
 }
+
+
+
 
