@@ -98,72 +98,30 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
     mod_null <- sapply(mod_null, function(x) x@likelihood)
     
     nest_null <- sapply(null_matrices, bipartite::nested, method = NESTmethod)
-    
+   
+   
   ## Statistic tests 
     
-    # For modularity >> Test the gaussian distribution of the 999 null values (shapiro test), if gaussian, calculate SES
-    shapiro_mod  <- shapiro.test(mod_null)$p.value
+    # For modularity >> Calculate 2.5 and 97.5 percentile to break free from normality
+    mod_res <- data.frame(val_obs   = modularity_obs@likelihood,
+                          mean_null = mean(mod_null),
+                          perc_2.5  = signif(quantile(mod_null, c(0.025, 0.975))[1], 4),
+                          perc_97.5 = signif(quantile(mod_null, c(0.025, 0.975))[2], 4))
+    rownames(mod_res) <- "Modularity"
     
-    if(shapiro_mod < 0.05){
-      cat("Shapiro test, Modularity p.value:", signif(shapiro_mod, digits = 3), 
-          "\n The 999 null values does not follow a normal distribution\n",
-          ">>> You can't calculate Standardize Effect Size \n \n",
-          "2.5th and 97.5 Percentiles modularity: \n",
-          quantile(mod_null, c(0.025, 0.975)),
-          "\n Modularity observed:", modularity_obs@likelihood)
-      
-      mod_res <- data.frame(Observed_val         = modularity_obs@likelihood,
-                            Mean_null_val        = mean(mod_null),
-                            Percentiles_2.5_97.5 = paste0("[",round(quantile(mod_null, c(0.025, 0.975))[1], 4), " ; ", round(quantile(mod_null, c(0.025, 0.975))[2], 4), "]"))
-      rownames(mod_res) <- "Modularity"
-      
-    } else {
-      cat("Shapiro test, Modularity p.value:", round(shapiro_mod, digits = 5),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-      
-      # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test, if gaussian, calculate SES
-      mod_res <- NCSSDGproj::SES_pval(val_obs = modularity_obs@likelihood, mean_null = mean(mod_null), sd_null = sd(mod_null), rowname = "Modularity")
-      mod_res
-    }
   
-    # For nestedness >> Test the gaussian distribution of the 999 null values (shapiro test)
-    shapiro_nest <- shapiro.test(nest_null)$p.value
-    
-    if(shapiro_nest < 0.05){
-      cat("Shapiro test, Nestedness p.value:", signif(shapiro_nest, digits = 3),
-          "\n The 999 null values does not follow a normal distribution\n", 
-          ">>> You can't calculate Standardize Effect Size \n \n",
-          "2.5th and 97.5 Percentiles nestedness: \n",
-          quantile(nest_null, c(0.025, 0.975)),
-          "\n Nestedness observed:", nestedness_obs)
-      
-      nest_res <- data.frame(Observed_val         = nestedness_obs,
-                             Mean_null_val        = mean(nest_null),
-                             Percentiles_2.5_97.5 = paste0("[",round(quantile(nest_null, c(0.025, 0.975))[1], 2), " ; ", round(quantile(nest_null, c(0.025, 0.975))[2], 2), "]"))
-      rownames(nest_res) <- "Nestedness"
-      
-    } else {
-      cat("Shapiro test, Nestedness p.value:", round(shapiro_nest, digits = 5),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-      
-      # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test
-      nest_res <- NCSSDGproj::SES_pval(val_obs = nestedness_obs, mean_null = mean(nest_null), sd_null = sd(nest_null), rowname = "Nestedness")
-      nest_res
-    }
-      
-    ## Produce and save normality plots
-    hist_mod <- ggplot2::ggplot(as.data.frame(mod_null), ggplot2::aes(x = mod_null)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::annotate(geom = "text", x = Inf, y = Inf, vjust = 1.2, hjust = 1.05, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_mod, 3))) + ggplot2::ggtitle("Modularity") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-    hist_nest <- ggplot2::ggplot(as.data.frame(nest_null), ggplot2::aes(x = nest_null)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_nest, 3))) + ggplot2::ggtitle("Nestedness") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-    qqplot_mod <- ggpubr::ggqqplot(mod_null) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_mod, 3)))
-    qqplot_nest <- ggpubr::ggqqplot(nest_null) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_nest, 3)))
-    qqplots <- (hist_mod | hist_nest)/(qqplot_mod | qqplot_nest)
-    ggplot2::ggsave(here::here("figures", "Supp_fig5.png"), qqplots, width = 9, height = 5, device = "png")
-    save(qqplots, file = here::here("results", "Supp_fig5.RData"))
+    # For nestedness >> Calculate 2.5 and 97.5 percentile to break free from normality
+    nest_res <- data.frame(val_obs   = nestedness_obs,
+                           mean_null = mean(nest_null),
+                           perc_2.5  = signif(quantile(nest_null, c(0.025, 0.975))[1], 4),
+                           perc_97.5 = signif(quantile(nest_null, c(0.025, 0.975))[2], 4))
+    rownames(nest_res) <- "Nestedness"
 
-      
   ## Bind and store data
   mod_nest_res <- rbind(mod_res, nest_res)
-  res <- mod_nest_res
+  res <- list("Nest_Mod" = mod_nest_res, "null_vals" = data.frame(modularity = mod_null, nestedness = nest_null)) 
+  
 
-    
   } # end IF
   
   ### Compute Target Insurance values     
@@ -194,67 +152,25 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
       indices_NM <- lapply(data_TI, NCSSDGproj::TUI_TOI, Necosystem = 11, Ntarget = nrow(TI_data_obs))
       indices_nullmod_df <- do.call(rbind, indices_NM)
       
-    ## Statistic tests >> Test the gaussian distribution of the 999 null values (shapiro test)
+    ## Statistic tests 
       
-      # For TUI
-      shapiro_TUI <- shapiro.test(indices_nullmod_df$TUI)$p.value
-        
-      if(shapiro_TUI < 0.05){
-        cat("Shapiro test, TUI p.value:", signif(shapiro_TUI, digits = 3),
-            "\n The 999 null values does not follow a normal distribution\n", 
-            ">>> You can't calculate Standardize Effect Size \n \n",
-            "2.5th and 97.5 Percentiles nestedness: \n",
-            quantile(indices_nullmod_df$TUI, c(0.025, 0.975)),
-            "\n TUI observed:", indices_obs$TUI)
-        
-        TUI_res <- data.frame(Observed_val         = indices_obs$TUI,
-                              Mean_null_val        = mean(indices_nullmod_df$TUI),
-                              Percentiles_2.5_97.5 = paste0("[",round(quantile(indices_nullmod_df$TUI, c(0.025, 0.975))[1], 3), " ; ", round(quantile(indices_nullmod_df$TUI, c(0.025, 0.975))[2], 3), "]"))
-        rownames(TUI_res) <- "TUI"
-          
-      } else {
-        cat("Shapiro test, TUI p.value:", round(shapiro_TUI, digits = 5),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-        
-          # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test
-          TUI_res <- NCSSDGproj::SES_pval(val_obs = indices_obs$TUI, mean_null = mean(indices_nullmod_df$TUI), sd_null = sd(indices_nullmod_df$TUI), rowname = "TUI") 
-      }  
-      
-      # For TOI
-      shapiro_TOI <- shapiro.test(indices_nullmod_df$TOI)$p.value
-      
-      if(shapiro_TOI < 0.05){
-        cat("Shapiro test, TOI p.value:", signif(shapiro_TOI, digits = 3),
-            "\n The 999 null values does not follow a normal distribution\n", 
-            ">>> You can't calculate Standardize Effect Size \n \n",
-            "2.5th and 97.5 Percentiles nestedness: \n",
-            quantile(indices_nullmod_df$TOI, c(0.025, 0.975)),
-            "\n TOI observed:", indices_obs$TOI)
-        
-        TOI_res <- data.frame(Observed_val         = indices_obs$TOI,
-                              Mean_null_val        = mean(indices_nullmod_df$TOI),
-                              Percentiles_2.5_97.5 = paste0("[",round(quantile(indices_nullmod_df$TOI, c(0.025, 0.975))[1], 3), " ; ", round(quantile(indices_nullmod_df$TUI, c(0.025, 0.975))[2], 3), "]"))
-        rownames(TOI_res) <- "TOI"
-        
-      } else {
-        cat("Shapiro test, TOI p.value:", round(shapiro_TOI, digits = 3),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-        
-        # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test
-        TOI_res <- NCSSDGproj::SES_pval(val_obs = indices_obs$TOI, mean_null = mean(indices_nullmod_df$TOI), sd_null = sd(indices_nullmod_df$TOI), rowname = "TUI") 
-      }  
-      
-      
-      ## Produce and save normality plots
-      hist_TUI <- ggplot2::ggplot(indices_nullmod_df, ggplot2::aes(x = TUI)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::annotate(geom = "text", x = Inf, y = Inf, vjust = 1.2, hjust = 1.05, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TUI, 3))) + ggplot2::ggtitle("TUI") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-      hist_TOI <- ggplot2::ggplot(indices_nullmod_df, ggplot2::aes(x = TOI)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TOI, 3))) + ggplot2::ggtitle("TOI") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-      qqplot_TUI <- ggpubr::ggqqplot(indices_nullmod_df$TUI) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TUI, 3)))
-      qqplot_TOI <- ggpubr::ggqqplot(indices_nullmod_df$TOI) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TOI, 3)))
-      qqplots <- (hist_TUI | hist_TOI)/(qqplot_TUI | qqplot_TOI)
-      ggplot2::ggsave(here::here("figures", "Supp_fig6.png"), qqplots, width = 9, height = 5, device = "png")
-      save(qqplots, file = here::here("results", "Supp_fig6.RData"))
-      
-      
-      # Bind results
-      res <- list("TUI" = TUI_res, "TOI" = TOI_res)
+      # For TUI >> Calculate 2.5 and 97.5 percentile to break free from normality
+      TUI_res <- data.frame(val_obs   = indices_obs$TUI,
+                            mean_null = mean(indices_nullmod_df$TUI),
+                            perc_2.5  = signif(quantile(indices_nullmod_df$TUI, c(0.025, 0.975))[1], 4),
+                            perc_97.5 = signif(quantile(indices_nullmod_df$TUI, c(0.025, 0.975))[2], 4))
+      rownames(TUI_res) <- "TUI"
+
+      # For TOI >> Calculate 2.5 and 97.5 percentile to break free from normality
+      TOI_res <- data.frame(val_obs   = indices_obs$TOI,
+                            mean_null = mean(indices_nullmod_df$TOI),
+                            perc_2.5  = signif(quantile(indices_nullmod_df$TOI, c(0.025, 0.975))[1], 4),
+                            perc_97.5 = signif(quantile(indices_nullmod_df$TOI, c(0.025, 0.975))[2], 4))
+      rownames(TOI_res) <- "TOI"
+
+    ## Bind and store data
+    TUI_TOI_res <- rbind(TUI_res, TOI_res)
+    res <- list("TUI_TOI" = TUI_TOI_res, "null_vals" = indices_nullmod_df)
       
   } # end ELSE
   
@@ -265,7 +181,7 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
     
   }
   
-  return(res)
+  return(res[[1]])
   
 }
 
@@ -481,126 +397,43 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
     
   ### Statistic tests
     
-    ## For modularity and nestedness
-    shapiro_mod <- shapiro.test(modularity_vals)$p.value
-    shapiro_nest <- shapiro.test(nestedness)$p.value
-    
-      # Choice between SES computation and 2.5 and 07.5 percentiles
+    ## For modularity and nestedness >> Calculate 2.5 and 97.5 percentile to break free from normality
+
+      # Modularity
+      mod_res <- data.frame(val_obs   = obs_values["Modularity", "Val_Obs"],
+                            mean_null = mean(modularity_vals),
+                            perc_2.5  = signif(quantile(mod_null, c(0.025, 0.975))[1], 4),
+                            perc_97.5 = signif(quantile(mod_null, c(0.025, 0.975))[2], 4))
+      rownames(mod_res) <- "Modularity"
         
-        # Modularity
-        if(shapiro_mod < 0.05){
-          cat("Shapiro test, Modularity p.value:", signif(shapiro_mod, digits = 3), 
-              "\n The 999 null values does not follow a normal distribution\n",
-              ">>> You can't calculate Standardize Effect Size \n \n",
-              "2.5th and 97.5 Percentiles modularity: \n",
-              quantile(modularity_vals, c(0.025, 0.975)),
-              "\n Modularity observed:", obs_values["Modularity", "Val_Obs"])
-          
-          mod_res <- data.frame(Observed_val         = obs_values["Modularity", "Val_Obs"],
-                                Mean_null_val        = mean(modularity_vals),
-                                Percentiles_2.5_97.5 = paste0("[",round(quantile(mod_null, c(0.025, 0.975))[1], 4), " ; ", round(quantile(mod_null, c(0.025, 0.975))[2], 4), "]"))
-          rownames(mod_res) <- "Modularity"
-          
-        } else {
-          cat("Shapiro test, Modularity p.value:", round(shapiro_mod, digits = 5),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-          
-          # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test, if gaussian, calculate SES
-          mod_res <- NCSSDGproj::SES_pval(val_obs   = obs_values["Modularity", "Val_Obs"], mean_null = mean(modularity_vals), sd_null = sd(modularity_vals), rowname   = "Modularity")
-        }
-    
-    
-        # Nestedness
-        if(shapiro_nest < 0.05){
-          cat("Shapiro test, Nestedness p.value:", signif(shapiro_nest, digits = 5),
-              "\n The 999 null values does not follow a normal distribution\n", 
-              ">>> You can't calculate Standardize Effect Size \n \n",
-              "2.5th and 97.5 Percentiles nestedness: \n",
-              quantile(nestedness, c(0.025, 0.975)),
-              "\n Nestedness observed:", obs_values["Nestedness", "Val_Obs"])
-          
-          nest_res <- data.frame(Observed_val         = obs_values["Nestedness", "Val_Obs"],
-                                 Mean_null_val        = mean(nestedness),
-                                 Percentiles_2.5_97.5 = paste0("[",round(quantile(nestedness, c(0.025, 0.975))[1], 2), " ; ", round(quantile(nestedness, c(0.025, 0.975))[2], 2), "]"))
-          rownames(nest_res) <- "Nestedness"
-          
-        } else {
-          cat("Shapiro test, Nestedness p.value:", round(shapiro_nest, digits = 5),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-          
-          # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test
-          nest_res <- NCSSDGproj::SES_pval(val_obs = obs_values["Nestedness", "Val_Obs"], mean_null = mean(nestedness), sd_null = sd(nestedness), rowname = "Nestedness")
-        }
-    
-      # Produce and save normality plots
-      hist_mod <- ggplot2::ggplot(as.data.frame(modularity_vals), ggplot2::aes(x = modularity_vals)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_mod, 3))) + ggplot2::ggtitle("Modularity") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-      hist_nest <- ggplot2::ggplot(as.data.frame(nestedness), ggplot2::aes(x = nestedness)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_nest, 3))) +  ggplot2::ggtitle("Nestedness") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) 
-      qqplot_mod <- ggpubr::ggqqplot(modularity_vals) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_mod, 3)))
-      qqplot_nest <- ggpubr::ggqqplot(nestedness) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_nest, 3)))
-      qqplots <- (hist_mod | hist_nest)/(qqplot_mod | qqplot_nest)
-      ggplot2::ggsave(here::here("figures", "Supp_fig7_sensi.png"), qqplots, width = 9, height = 5, device = "png")
-      save(qqplots, file = here::here("results", "Supp_fig7_sensi.RData"))
       
+      # Nestedness
+      nest_res <- data.frame(val_obs   = obs_values["Nestedness", "Val_Obs"],
+                             mean_null = mean(nestedness),
+                             perc_2.5  = signif(quantile(nestedness, c(0.025, 0.975))[1], 4), 
+                             perc_97.5 = signif(quantile(nestedness, c(0.025, 0.975))[2], 4))
+      rownames(nest_res) <- "Nestedness"
+        
+    ## For TUI and TOI >> Calculate 2.5 and 97.5 percentile to break free from normality
     
-    ## For TUI and TOI
-    shapiro_TUI <- shapiro.test(insurance_vals$TUI)$p.value
-    shapiro_TOI <- shapiro.test(insurance_vals$TOI)$p.value
+      # TUI
+      TUI_res <- data.frame(val_obs   = obs_values["TUI", "Val_Obs"],
+                            mean_null = mean(insurance_vals$TUI),
+                            perc_2.5  = signif(quantile(insurance_vals$TUI, c(0.025, 0.975))[1], 4),
+                            perc_97.5 = signif(quantile(insurance_vals$TUI, c(0.025, 0.975))[2], 4))
+      rownames(TUI_res) <- "TUI"
+
     
-      # Choice between SES computation and 2.5 and 07.5 percentiles
-    
-        # For TUI
-        if(shapiro_TUI < 0.05){
-          cat("Shapiro test, TUI p.value:", signif(shapiro_TUI, digits = 3),
-              "\n The 999 null values does not follow a normal distribution\n", 
-              ">>> You can't calculate Standardize Effect Size \n \n",
-              "2.5th and 97.5 Percentiles nestedness: \n",
-              quantile(insurance_vals$TUI, c(0.025, 0.975)),
-              "\n TUI observed:", obs_values["TUI", "Val_Obs"])
-          
-          TUI_res <- data.frame(Observed_val         = obs_values["TUI", "Val_Obs"],
-                                Mean_null_val        = mean(insurance_vals$TUI),
-                                Percentiles_2.5_97.5 = paste0("[",round(quantile(insurance_vals$TUI, c(0.025, 0.975))[1], 3), " ; ", round(quantile(insurance_vals$TUI, c(0.025, 0.975))[2], 3), "]"))
-          rownames(TUI_res) <- "TUI"
-          
-        } else {
-          cat("Shapiro test, TUI p.value:", round(shapiro_TUI, digits = 5),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-          
-          # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test
-          TUI_res <- NCSSDGproj::SES_pval(val_obs = obs_values["TUI", "Val_Obs"], mean_null = mean(insurance_vals$TUI), sd_null = sd(insurance_vals$TUI), rowname = "TUI") 
-        }
-    
-    
-        # For TOI
-        if(shapiro_TOI < 0.05){
-          cat("Shapiro test, TOI p.value:", signif(shapiro_TOI, digits = 3),
-              "\n The 999 null values does not follow a normal distribution\n", 
-              ">>> You can't calculate Standardize Effect Size \n \n",
-              "2.5th and 97.5 Percentiles nestedness: \n",
-              quantile(insurance_vals$TOI, c(0.025, 0.975)),
-              "\n TOI observed:", obs_values["TOI", "Val_Obs"])
-          
-          TOI_res <- data.frame(Observed_val         = obs_values["TOI", "Val_Obs"],
-                                Mean_null_val        = mean(insurance_vals$TOI),
-                                Percentiles_2.5_97.5 = paste0("[",round(quantile(insurance_vals$TOI, c(0.025, 0.975))[1], 3), " ; ", round(quantile(insurance_vals$TOI, c(0.025, 0.975))[2], 3), "]"))
-          rownames(TOI_res) <- "TOI"
-          
-        } else {
-          cat("Shapiro test, TOI p.value:", round(shapiro_TOI, digits = 3),"\n The 999 null values follow a normal distribution\n", ">>> You can calculate Standardize Effect Size")
-          
-          # Store results into a data frame and compute SES and pvals ==> 2*pnorm for bilateral test
-          TOI_res <- NCSSDGproj::SES_pval(val_obs = obs_values["TOI", "Val_Obs"], mean_null = mean(insurance_vals$TOI), sd_null = sd(insurance_vals$TOI), rowname = "TUI") 
-        }  
-    
-      
-      # Produce and save normality plots
-      hist_TUI <- ggplot2::ggplot(as.data.frame(insurance_vals), ggplot2::aes(x = TUI)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::ggtitle("TUI") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TUI, 3)))
-      hist_TOI <- ggplot2::ggplot(as.data.frame(insurance_vals), ggplot2::aes(x = TOI)) + ggplot2::xlab("null values") + ggplot2::geom_histogram(color = "black", fill = "grey80") + ggplot2::ggtitle("TOI") + ggplot2::theme_bw() +  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TOI, 3)))
-      qqplot_TUI <- ggpubr::ggqqplot(insurance_vals$TUI) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TUI, 3)))
-      qqplot_TOI <- ggpubr::ggqqplot(insurance_vals$TOI) + ggplot2::theme_bw() + ggplot2::annotate(geom = "text", x = -Inf, y = Inf, vjust = 1.2, hjust = -0.02, size = 3, label = paste("Shapiro test, p.value = ", signif(shapiro_TOI, 3)))
-      qqplots <- (hist_TUI | hist_TOI)/(qqplot_TUI | qqplot_TOI)
-      ggplot2::ggsave(here::here("figures", "Supp_fig8_sensi.png"), qqplots, width = 9, height = 5, device = "png")
-      save(qqplots, file = here::here("results", "Supp_fig8_sensi.RData"))
+      # For TOI
+      TOI_res <- data.frame(val_obs   = obs_values["TOI", "Val_Obs"],
+                            mean_null = mean(insurance_vals$TOI),
+                            perc_2.5  = round(quantile(insurance_vals$TOI, c(0.025, 0.975))[1], 3),
+                            perc_97.5 = round(quantile(insurance_vals$TOI, c(0.025, 0.975))[2], 3))
+      rownames(TOI_res) <- "TOI"
     
     ## Bind data
-    sensit_ana_res <- list("modularity" = mod_res, "nestedness" = nest_res, "TUI" = TUI_res, "TOI" = TOI_res)
+    sensit_ana_res <- list("res_analyses" = rbind(mod_res, nest_res, TUI_res, TOI_res),
+                           "null_values"  = data.frame(modularity = modularity_vals, nestedness = nestedness, TUI = insurance_vals$TUI, TOI = insurance_vals$TOI))
     
   ### Saving output
   if(save == TRUE) {
@@ -609,7 +442,7 @@ sensitivity_analysis <- function(matrix_rep, obs_values, Nrun, save = TRUE, name
     
   }
     
-  return(sensit_ana_res)
+  return(sensit_ana_res[["res_analyses"]])
   
 }
 
