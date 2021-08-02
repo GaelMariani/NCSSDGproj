@@ -135,6 +135,14 @@ devtools::load_all()
   ######################################################## 
   source(here::here("make_results", "supp_figure_7_8.R"))
   
+  
+  #########################################################
+  #                                                       #
+  # produce supp. Fig 9 and 10 - sensitivity analyses 20p #
+  #                                                       #
+  ######################################################### 
+  source(here::here("make_results", "supp_figure_9_10.R"))
+  
 
 
   
