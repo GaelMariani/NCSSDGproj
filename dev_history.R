@@ -61,8 +61,8 @@ file.create("make_results/supp_figure_3.R")
 file.create("make_results/supp_figure_4.R")
 file.create("make_results/supp_figure_5.R")
 file.create("make_results/supp_figure_6.R")
-file.create("make_results/supp_figure_7.R")
-file.create("make_results/supp_figure_8.R")
+file.create("make_results/supp_figure_7_8.R")
+file.create("make_results/supp_figure_9_10.R")
 
 
 

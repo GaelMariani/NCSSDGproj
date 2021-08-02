@@ -32,4 +32,4 @@ neg <- get(load(here::here("results", "sensitivity_analysis_res_neg0.1.RData")))
   ## Negative values
   NCSSDGproj::supp_fig5to8(null_vals    = null_values_neg, 
                            res_null_mod = sensit_ana_res_neg,
-                           name         = "Supp_fig7_sensit_neg_10p")
+                           name         = "Supp_fig8_sensit_neg_10p")
