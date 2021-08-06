@@ -139,7 +139,7 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
         dplyr::filter(value != 0)
       
       # Calculate TOI and TUI on observed data
-      indices_obs <- NCSSDGproj::TUI_TOI(TI_data_obs, Necosystem = 11, Ntarget = nrow(TI_data_obs))
+      indices_obs <- NCSSDGproj::TUI_TOI(TI_data_obs, Necosystem = 12, Ntarget = nrow(TI_data_obs))
     
     ## Null matrices 
     nm_r00 <- stats::simulate(vegan::nullmodel(matrix01, NMalgo), nsim = Nsim) # Returns a list of matrices
@@ -149,7 +149,7 @@ NullModels <- function(matrix01, rawdata, NMalgo, NESTmethod, Nrun, Nsim, Target
       data_TI <- lapply(nm_r00, NCSSDGproj::data_TI)
       
       # Calculate TOI and TUI on null matrices
-      indices_NM <- lapply(data_TI, NCSSDGproj::TUI_TOI, Necosystem = 11, Ntarget = nrow(TI_data_obs))
+      indices_NM <- lapply(data_TI, NCSSDGproj::TUI_TOI, Necosystem = 12, Ntarget = nrow(TI_data_obs))
       indices_nullmod_df <- do.call(rbind, indices_NM)
       
     ## Statistic tests 
