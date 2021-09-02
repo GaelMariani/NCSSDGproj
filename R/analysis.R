@@ -236,17 +236,6 @@ CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
       
       row_names12 <- unique(c(name1_r, name2_r))
    
-  ### Add a row because seagrass do not have negative interactions.    
-  # if(nrow(res.ca[["row"]][["coord"]]) == 11){
-  #   
-  #   tmp <- res.ca[["row"]][["coord"]]
-  #   
-  #   new_mat <- matrix(NA, nrow = 11, ncol = ncol(tmp), dimnames = list(c("Urban forest (UFo)", "Forest (FO)", "Peatland (PT)", "Grassland (GL)", "Seagrass(SG)", "Mangrove (MG)", "Tidalmarsh (TD)", "Macroalgae (MA)", "Pelagic area (Pel)", "Antarctic (Ant)", "Mesopelagic area (MP)"),
-  #                                                                      dimnames(tmp)[[2]]))
-  #   new_mat[-5,] <- tmp
-  #   
-  #   res.ca[["row"]][["coord"]] <- new_mat
-  # }
       
   ### Format data to draw arrows on plot
   data_arrow <- data.frame(y     = c(rep(1.02, 4), 0.95, 0.95),
@@ -275,11 +264,6 @@ CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
 
   ### Save data
   CA_contrib <- list("CorresAna"        = res.ca,
-                     # "TOP20_axis1_targ" = TOP20_axis1,
-                     # "TOP20_axis2_targ" = TOP20_axis2,
-                     # "col_contrib"      = list("tot"   = col_contrib, 
-                     #                           "axe12" = col_names12, 
-                     #                           "axe34" = col_names34),
                      "row_contrib"      = list("tot"   = row_contrib,
                                                "axe12" = row_names12),
                      "data_arrow"       = data_arrow)

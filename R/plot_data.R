@@ -160,17 +160,6 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
     ggplot2::scale_y_reverse() + 
     
-    # add text to ecosystem
-    # ggplot2::annotate(geom = "text", 
-    #                   x = c(rep(-0.203,11)), 
-    #                   y = seq(0,1,0.1), 
-    #                   label = rownames(matrix),
-    #                   color = nodes_col, 
-    #                   # alpha = 0.8,
-    #                   size = 3.75, 
-    #                   fontface = "bold") +
-    
-    
     ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
                    axis.text.x = ggplot2::element_blank(),
                    axis.ticks  = ggplot2::element_blank(), 
@@ -367,18 +356,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                       face  = "bold",
                       size  = 9) +
     
-    ## Add text (number of targets achieved in each SDG)
-    # ggplot2::geom_text(mapping     = ggplot2::aes(x     = as.numeric(factor(SDG_number, levels = rev(unique(order)))), 
-    #                                               y     = -text_labs_pos*1.08, 
-    #                                               group = pos_neg,
-    #                                               color = pos_neg,
-    #                                               label = text),
-    #                    stat        = "identity",
-    #                    data        = text_plot, 
-    #                    size        = 4,
-    #                    show.legend = FALSE) +
-    
-    
+
     ## scale modif
     ggplot2::scale_fill_manual(values = color,
                                name   = NULL) +
@@ -394,7 +372,6 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
                                 expand   = c(0.08,0)) +
     
     ggplot2::scale_x_continuous(breaks   = 1:16,
-                                # labels   = paste(rep("SDG", 11), rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14))),
                                 labels   = rev(c(7,6,15,11,5,3,13,9,1,4,8,16,12,10,2,14)),
                                 expand   = c(0.01, 0.01),
                                 sec.axis = ggplot2::dup_axis()) +
@@ -406,17 +383,9 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
     ggplot2::theme(axis.text.x  = ggplot2::element_text(size  = 12, 
                                                         face  = "bold",
                                                         color = c(rep("red", 5), "#4D4D4D", rep("#E9B200", 5))),
-                   # axis.text.y    = ggplot2::element_text(size   = 13,
-                   #                                        color  = rev(color_text),
-                   #                                        face   = "bold"),
                    axis.text.y  = ggplot2::element_blank(),
-                   # axis.ticks.y = ggplot2::element_blank(),
-                   # axis.title   = ggplot2::element_text(size = 12),
                    axis.title.x = ggplot2::element_text(size   = 14, face = "bold"),
-                                                        # vjust  = 5,
-                                                        # hjust  = 1.25),
-                                                        # margin = ggplot2::margin(0,15,0,0)),
-                   
+
                    # Legend modifications
                    legend.position   = c(0.90, 0.90),
                    legend.text       = ggplot2::element_text(size = 16),
@@ -1405,7 +1374,6 @@ supp_fig7 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, nam
     ggplot2::theme_bw() +
     
     ggplot2::theme(axis.text        = ggplot2::element_text(size  = 16),
-                   # axis.text.y = ggplot2::element_text(color = reorder(data_bars$group, abs(data_bars$n_links_pos))),
                    axis.title       = ggplot2::element_text(size  = 18),
                    panel.grid.minor = ggplot2::element_blank(),
                    panel.grid.major = ggplot2::element_blank())
