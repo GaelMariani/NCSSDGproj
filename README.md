@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Co-benefits and trade-offs between Natural Climate Solution and Sustainable Development Goals
+# Co-benefits and trade-offs between Natural Climate Solutions and Sustainable Development Goals
 
 This repository contains data and code used to obtain results of the
 paper Mariani et al. (202?) - Co-benefits and trade\_offs between
