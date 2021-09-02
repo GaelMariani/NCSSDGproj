@@ -1,6 +1,6 @@
 ####################################################################
 #                                                                  #
-# produce supp. Fig 2 - Correspondance Analysis for positive links #
+# produce supp. Fig 3 - Correspondance Analysis for negative links #
 #                                                                  #
 ####################################################################
 rm(list = ls(), envir = .GlobalEnv)
@@ -23,7 +23,7 @@ rm(list = ls(), envir = .GlobalEnv)
     
     # --- 0-1-2 score
     matrix_conting <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = FALSE)
-
+  
   ## ---- Informations on the NCS
   info_NCS <- NCSSDGproj::NCS_info(matrix_cont = matrix_conting_bin[[1]])
   
@@ -31,7 +31,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- ANALYSIS  
 
   ## ---- Correspondance analysis for POSITIVE links with the contribution of each target and NCS to the variance of each axis
-  contri_CA_pos <- NCSSDGproj::CA_contri_vars(matrix_cont  = matrix_conting_bin[["score_pos"]],
+  contri_CA_neg <- NCSSDGproj::CA_contri_vars(matrix_cont  = matrix_conting_bin[["score_neg"]],
                                               colNCS_ter   = "#228B22",
                                               colNCS_coast = "#5EA9A2",
                                               colNCS_mar   = "#1134A6")
@@ -39,12 +39,12 @@ rm(list = ls(), envir = .GlobalEnv)
 ### PLOT DATA 
 
   ## ---- Figure with all panels for POSITIVE links
-  NCSSDGproj::supp_fig2_3(data           = contri_CA_pos[["CorresAna"]],
-                          arrow          = TRUE,
-                          data_arrow     = contri_CA_pos[["data_arrow"]],
+  NCSSDGproj::supp_fig2_3(data           = contri_CA_neg[["CorresAna"]],
+                          arrow          = FALSE,
+                          data_arrow     = contri_CA_neg[["data_arrow"]],
                           colNCS_ter     = "#228B22", 
                           colNCS_coast   = "#5EA9A2",
                           colNCS_mar     = "#1134A6",
                           save           = TRUE,
-                          name           = "Supp_fig2")
-    
+                          name           = "Supp_fig3")
+  

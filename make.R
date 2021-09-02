@@ -28,9 +28,9 @@ devtools::install_deps()
 devtools::load_all()
 
   ## ---- in case of any problem with the installation of the package GGally try
-  ## ---- Once installed, re-run STEP 4 and STEP 5
   devtools::install_github("ggobi/ggally")
-
+  ## ---- Once installed, re-run STEP 4 and STEP 5
+  
 
   ###################################################################################
   #                                                                                 #
@@ -88,66 +88,61 @@ devtools::load_all()
   source(here::here("make_results", "figure_4.R"))
   
   
-  ####################################################################
-  #                                                                  #
-  # produce supp. Fig 1 - Correspondance Analysis for positive links #
-  #                                                                  #
-  ####################################################################
+  #####################################################
+  #                                                   #
+  # produce supp. Fig 1 - Null model positive results #
+  #                                                   #
+  ##################################################### 
   source(here::here("make_results", "supp_figure_1.R"))
   
   
   ####################################################################
   #                                                                  #
-  # produce supp. Fig 2 - Correspondance Analysis for negative links #
+  # produce supp. Fig 2 - Correspondance Analysis for positive links #
   #                                                                  #
   ####################################################################
   source(here::here("make_results", "supp_figure_2.R"))
   
   
-  #######################################
-  #                                     #
-  # produce supp. Fig 3 and supp. Fig 4 #
-  #                                     #
-  ####################################### 
-  source(here::here("make_results", "supp_figure_3_4.R"))
+  ####################################################################
+  #                                                                  #
+  # produce supp. Fig 3 - Correspondance Analysis for negative links #
+  #                                                                  #
+  ####################################################################
+  source(here::here("make_results", "supp_figure_3.R"))
   
   
   #####################################################
   #                                                   #
-  # produce supp. Fig 5 - Null model positive results #
+  # produce supp. Fig 4 - Null model negative results #
   #                                                   #
   ##################################################### 
-  source(here::here("make_results", "supp_figure_5.R"))
-  
-  
-  #####################################################
-  #                                                   #
-  # produce supp. Fig 6 - Null model negative results #
-  #                                                   #
-  ##################################################### 
-  source(here::here("make_results", "supp_figure_6.R"))
+  source(here::here("make_results", "supp_figure_4.R"))
   
   
   ########################################################
   #                                                      #
-  # produce supp. Fig 7 and 8 - sensitivity analyses 10p #
+  # produce supp. Fig 5 and 6 - sensitivity analyses 10p #
   #                                                      #
   ######################################################## 
-  source(here::here("make_results", "supp_figure_7_8.R"))
+  source(here::here("make_results", "supp_figure_5_6.R"))
   
   
-  #########################################################
-  #                                                       #
-  # produce supp. Fig 9 and 10 - sensitivity analyses 20p #
-  #                                                       #
-  ######################################################### 
-  source(here::here("make_results", "supp_figure_9_10.R"))
+  #######################
+  #                     #
+  # produce supp. Fig 7 #
+  #                     #
+  #######################
+  source(here::here("make_results", "supp_figure_7.R"))
+  
+  
+  #######################################################
+  #                                                     #
+  # produce supp. Fig unused - sensitivity analyses 20p #
+  #                                                     #
+  ####################################################### 
+  source(here::here("make_results", "supp_figure_9_10_unused.R"))
   
 
-
-  
-  
-  
-  
   
   

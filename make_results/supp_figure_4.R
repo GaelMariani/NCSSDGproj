@@ -1,6 +1,6 @@
 #######################################
 #                                     #
-#         produce supp. Fig 5         #
+#         produce supp. Fig 4         #
 #                                     #
 ####################################### 
 rm(list = ls(), envir = .GlobalEnv)  
@@ -12,6 +12,6 @@ res_null_mod <- NCSSDGproj::load_metric_obs(null_vals = FALSE)[["score_neg"]]
 
 
 ### Plot
-NCSSDGproj::supp_fig5to8(null_vals    = null_vals, 
-                         res_null_mod = res_null_mod,
-                         name         = "Supp_fig6")
+NCSSDGproj::supp_fig_null_hist(null_vals    = null_vals, 
+                               res_null_mod = res_null_mod,
+                               name         = "Supp_fig4")

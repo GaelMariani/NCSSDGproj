@@ -217,6 +217,7 @@ CA_contri_vars <- function(matrix_cont, colNCS_ter, colNCS_coast, colNCS_mar){
   
   grp <- NCSSDGproj::NCS_info(matrix_cont) 
   rownames(matrix_cont) <- tmp$Ecosystem
+  grp$Ecosystem <- tmp$Ecosystem
   
   ### Correspondance Analysis on the matrix
   res.ca <- FactoMineR::CA(matrix_cont, graph = FALSE)

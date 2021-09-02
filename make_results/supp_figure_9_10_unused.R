@@ -24,12 +24,12 @@ null_values_neg <- neg[["null_values"]]
 ### Plot
 
 ## Positive values
-NCSSDGproj::supp_fig5to8(null_vals    = null_values_pos, 
-                         res_null_mod = sensit_ana_res_pos,
-                         name         = "Supp_fig9_sensit_pos_20p")
+NCSSDGproj::supp_fig_null_hist(null_vals    = null_values_pos, 
+                               res_null_mod = sensit_ana_res_pos,
+                               name         = "Supp_fig9_sensit_pos_20p_unused")
 
 
 ## Negative values
-NCSSDGproj::supp_fig5to8(null_vals    = null_values_neg, 
-                         res_null_mod = sensit_ana_res_neg,
-                         name         = "Supp_fig10_sensit_neg_20p")
+NCSSDGproj::supp_fig_null_hist(null_vals    = null_values_neg, 
+                               res_null_mod = sensit_ana_res_neg,
+                               name         = "Supp_fig10_sensit_neg_20p_unused")

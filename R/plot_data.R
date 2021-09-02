@@ -1236,7 +1236,7 @@ CA_barplot <- function(data, axis, variable, ymin, ytitle){
 #' @export
 #'
 #' @examples
-supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, neg, save = FALSE, name){
+supp_fig2_3 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_mar, neg, save = FALSE, name){
   
   ### Legend
   legend <- NCSSDGproj::load_legend()
@@ -1254,6 +1254,9 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
                                          repel     = TRUE,
                                          invisible = "quali",
                                          label     = data[["grp"]]$Ecosystem) +
+      
+      ggrepel::geom_text_repel(ggplot2::aes(label = data[["grp"]]$Ecosystem), 
+                               color = c(rep(colNCS_ter, 4), rep(colNCS_coast, 4), rep(colNCS_mar, 4))) +
       
       
       ggplot2::ggtitle(NULL) +
@@ -1344,7 +1347,7 @@ supp_fig1 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNCS_
 #' @export
 #'
 #' @examples
-supp_fig3_4 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, name2){
+supp_fig7 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, name2){
   
   ### Calculate number of links for each ecosystem
   
@@ -1483,7 +1486,7 @@ supp_fig3_4 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, n
 #' @export
 #'
 #' @examples
-supp_fig5to8 <- function(null_vals, res_null_mod, name){
+supp_fig_null_hist <- function(null_vals, res_null_mod, name){
   
   library(patchwork)
   
