@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Co-benefits and trade\_offs between Natural Climate Solution and Sustainable Development Goals
+# Co-benefits and trade-offs between Natural Climate Solution and Sustainable Development Goals
 
 This repository contains data and code used to obtain results of the
 paper Mariani et al. (202?) - Co-benefits and trade\_offs between
@@ -36,11 +36,11 @@ perform all the analyses. The 4 main importants `.R` files are:
 
 [:file\_folder: **make\_results**](make_results/) contains detailled R
 scripts to produce figures and run analysis using all functions in
-[:file\_folder: **R**](R/).
+[**R**](R/).
 
 The [:briefcase: **make.R**](make.R) file allows to produce all analyses
 and render the corresponding plots by running R scripts in
-[:file\_folder: **make\_results**](make_results/).
+[**make\_results**](make_results/).
 
 The [:hammer: dev\_history.R](dev_history.R) file allows to rebuild our
 research compendium from scratch.
