@@ -6,11 +6,12 @@
 rm(list = ls(), envir = .GlobalEnv)  
 
 
-### LOAD Data
+### ----- LOAD DATA
 sheets  <- NCSSDGproj::read_all_sheets()
 matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
 
-### PLOT
+
+### ----- PLOT DATA
 NCSSDGproj::supp_fig7(data_pos = matrix_all[["score_pos"]], 
                       data_neg = matrix_all[['score_neg']],
                       save     = TRUE,

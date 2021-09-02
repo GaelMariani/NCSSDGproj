@@ -5,14 +5,17 @@
 ###################################################################################
 rm(list = ls(), envir = .GlobalEnv)
 
+
 ### ----- LOAD DATA (rawdata and icons)
 sheets  <- NCSSDGproj::read_all_sheets()
 pathSDG <- NCSSDGproj::load_SDG_icon()
 pathNCS <- NCSSDGproj::load_NCS_icon()
 
+
 ### ----- FORMAT ICONS (NCS and SDG icons)
 icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
 icon_NCS <- NCSSDGproj::format_icons(pathNCS, icon_SDG = FALSE)
+
 
 ### ----- FORMAT DATA
 df_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)

@@ -5,10 +5,12 @@
 #######################################################  
 rm(list = ls(), envir = .GlobalEnv)
 
+
 ### ----- LOAD DATA
 
   ## ---- Data of links between NCS and SDG
   sheets  <- NCSSDGproj::read_all_sheets()
+  
   
 ### ----- FORMAT DATA
   

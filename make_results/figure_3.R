@@ -5,6 +5,7 @@
 ############################################################      
 rm(list = ls(), envir = .GlobalEnv)    
 
+
 ### ----- LOAD DATA
 
   ## ---- Data of links between NCS and SDG
@@ -12,6 +13,7 @@ rm(list = ls(), envir = .GlobalEnv)
   
   ## ---- SDG icons
   pathSDG <- NCSSDGproj::load_SDG_icon()
+  
 
 ### ----- FORMAT DATA
 
@@ -46,6 +48,7 @@ rm(list = ls(), envir = .GlobalEnv)
                                                     data_long      = data_long[["score_pos"]], 
                                                     SDG_info       = SDG_info, 
                                                     NCS_info       = NCS_info) # format data with polar coordinates
+  
   
 ### ----- PLOT DATA
 NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]], 

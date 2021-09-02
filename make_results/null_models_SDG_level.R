@@ -9,6 +9,7 @@ rm(list = ls(), envir = .GlobalEnv)
 ### ----- LOAD DATA
 sheets  <- NCSSDGproj::read_all_sheets()
 
+
 ### ----- FORMAT DATA
 matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
 
@@ -23,6 +24,7 @@ matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
   SDG_matrix_neg  <- NCSSDGproj::matrix_SDG(data_long = data_long_neg)
   raw_data_neg <- cbind(rownames(SDG_matrix_neg), as.data.frame(SDG_matrix_neg))
   colnames(raw_data_neg)[1] <- "ecosystem"  
+  
 
 ### ----- ANALYSES
 set.seed(2511) # for reproductibility

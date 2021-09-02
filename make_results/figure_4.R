@@ -3,8 +3,8 @@
 # produce FIGURE 4 - Target's insurance for negative links #
 #                                                          #
 ############################################################ 
-
 rm(list = ls(), envir = .GlobalEnv)    
+
 
 ### ----- LOAD DATA
 
@@ -14,7 +14,8 @@ rm(list = ls(), envir = .GlobalEnv)
   ## ---- SDG icons
   pathSDG <- NCSSDGproj::load_SDG_icon()
   
-  ### ----- FORMAT DATA
+  
+### ----- FORMAT DATA
   
   ## ---- From sheets to df
   matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)

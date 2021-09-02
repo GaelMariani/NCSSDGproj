@@ -10,6 +10,7 @@ rm(list = ls(), envir = .GlobalEnv)
 
   ## ---- Data of links between NCS and SDG
   sheets  <- NCSSDGproj::read_all_sheets()
+  
 
 ### ----- FORMAT DATA
 
@@ -36,6 +37,7 @@ rm(list = ls(), envir = .GlobalEnv)
                                               colNCS_coast = "#5EA9A2",
                                               colNCS_mar   = "#1134A6")
 
+  
 ### PLOT DATA 
 
   ## ---- Figure with all panels for POSITIVE links
