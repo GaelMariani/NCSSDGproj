@@ -14,28 +14,28 @@ knitr::opts_chunk$set(
 Title <- "Data and Code for NCS - SDG analyses"
 ```
 
-# Link bewteen Natural Climate Solutions and Sustainable Development Goals
+# Co-benefits and trade_offs between Natural Climate Solution and Sustainable Development Goals
 
-This repository contains data and code used to obtain results of the paper Mariani et al. (202?) - Natural Climate Solutions deliver Sustainable Development Goals if trade-offs are minimized in ???.
+This repository contains data and code used to obtain results of the paper Mariani et al. (202?) - Co-benefits and trade_offs between Natural Climate Solution and Sustainable Development Goals in ???.
 
 ## Contents
 
-[:file_folder: **rawdata**](rawdata/) directory contains the data table from which all analyses are performed. See Material & Methods section of the paper for more details. This directory also contains SDG's and NCS's icons use in the figures of the paper. 
+[:file_folder: **rawdata**](rawdata/) directory contains the table of positive and negative links used to perform all analysis. See Material & Methods section of the paper for more details. This directory also contains SDG's and NCS's icons use in the figures of the paper. 
 
 [:file_folder: **results**](results/) directory contains all `.RData` files generated during the analyses.
 
-[:file_folder: **R**](R/) directory contains the functions used to perform all the analyses. It contains 4 `.R` files:
+[:file_folder: **R**](R/) directory contains the functions used to perform all the analyses. The 4 main importants `.R` files are:
 
 1. [:open_book: read_data.R](R/read_data.R) contains functions to read data. 
 2. [:package: format_data.R](R/format_data.R) contains functions to format the data in the desired format to make the analyses and figures.
-3. [:microscope: analysis.R](R/analysis.R) contains functions to perform statistical analyses.
+3. [:microscope: analysis.R](R/analysis.R) contains functions to perform statistical analyses, mainly null models and correspondance analysis.
 4. [:bar_chart: plot_data.R](R/plot_data.R) contains all functions to obtain plots in the paper.
 
 [:file_folder: **figures**](figures/) directory contains all figures (format .png) in the paper.
 
-[:file_folder: **make_results**](make_results/) contains detailled R scripts to produce figures and run analysis.
+[:file_folder: **make_results**](make_results/) contains detailled R scripts to produce figures and run analysis using all functions in [:file_folder: **R**](R/).
 
-The [:briefcase: **make.R**](make.R) file allows to produce all analyses and render the corresponding plots by running R scripts in make_results.
+The [:briefcase: **make.R**](make.R) file allows to produce all analyses and render the corresponding plots by running R scripts in [:file_folder: **make_results**](make_results/).
 
 The [:hammer: dev_history.R](dev_history.R) file allows to rebuild our research compendium from scratch.
 

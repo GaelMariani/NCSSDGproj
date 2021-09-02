@@ -1,24 +1,24 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Link bewteen Natural Climate Solutions and Sustainable Development Goals
+# Co-benefits and trade\_offs between Natural Climate Solution and Sustainable Development Goals
 
-This repository contains the data and codes used to obtain results of
-the paper by Mariani et al. (202?) - Hit two targets with one stone with
-Natural Climate Solutions.
+This repository contains data and code used to obtain results of the
+paper Mariani et al. (202?) - Co-benefits and trade\_offs between
+Natural Climate Solution and Sustainable Development Goals in ???.
 
 ## Contents
 
-[:file\_folder: **rawdata**](rawdata/) directory contains the 0/1 matrix
-used to perform all analysis. See Material & Methods section of the
-paper for more details. This directory also contains SDG’s and NCS’s
-icons use in the figures of the paper.
+[:file\_folder: **rawdata**](rawdata/) directory contains the table of
+positive and negative links used to perform all analysis. See Material &
+Methods section of the paper for more details. This directory also
+contains SDG’s and NCS’s icons use in the figures of the paper.
 
 [:file\_folder: **results**](results/) directory contains all `.RData`
 files generated during the analyses.
 
 [:file\_folder: **R**](R/) directory contains the functions used to
-perform all the analyses. It contains 4 `.R` files:
+perform all the analyses. The 4 main importants `.R` files are:
 
 1.  [:open\_book: read\_data.R](R/read_data.R) contains functions to
     read data.
@@ -26,21 +26,24 @@ perform all the analyses. It contains 4 `.R` files:
     format the data in the desired format to make the analyses and
     figures.
 3.  [:microscope: analysis.R](R/analysis.R) contains functions to
-    perform analysis, mainly null models and correspondance. analysis.
+    perform statistical analyses, mainly null models and correspondance
+    analysis.
 4.  [:bar\_chart: plot\_data.R](R/plot_data.R) contains all functions to
     obtain plots in the paper.
 
-[:file\_folder: **figures**](figures/) directory contains all figures in
-the paper.
+[:file\_folder: **figures**](figures/) directory contains all figures
+(format .png) in the paper.
 
 [:file\_folder: **make\_results**](make_results/) contains detailled R
-scripts to produce figures and run analysis.
+scripts to produce figures and run analysis using all functions in
+[:file\_folder: **R**](R/).
 
-The [:hammer: dev\_history.R](dev_history.R) file allow to rebuild our
+The [:briefcase: **make.R**](make.R) file allows to produce all analyses
+and render the corresponding plots by running R scripts in
+[:file\_folder: **make\_results**](make_results/).
+
+The [:hammer: dev\_history.R](dev_history.R) file allows to rebuild our
 research compendium from scratch.
-
-The [:briefcase: make.R](make.R) file allow to produce all analyses and
-render the corresponding plots.
 
 ## How to run it?
 
@@ -48,10 +51,10 @@ This research compendium has been developed using the statistical
 programming language R. To work with the compendium, you will need
 installed on your computer the following softwares:
 
-  - R: <https://cloud.r-project.org/>
-  - RStudio: <https://rstudio.com/products/rstudio/download/>
-  - Git: <https://git-scm.com/>
-  - Create a GitHub account: <https://github.com/>
+-   R: <https://cloud.r-project.org/>
+-   RStudio: <https://rstudio.com/products/rstudio/download/>
+-   Git: <https://git-scm.com/>
+-   Create a GitHub account: <https://github.com/>
 
 You can download the compendium by cloning this
 [repository](https://github.com/GaelMariani/NCSSDGproj). You can follow
@@ -63,7 +66,7 @@ section **“Clone the repository with RStudio”** to clone the repository.
 Once the compendium is cloned, follow these steps:
 
 1.  open the `.Rproj` file in RStudio.
-2.  open [make.R](make.R) and run it to produce all the analyses.
+2.  open [make.R](make.R) and run it to produce all analyses.
 
 Note that R version 3.6.2 or later is required. Run this command
 `utils::sessionInfo()` to check your R version. <br> You can uptade your
@@ -73,7 +76,7 @@ R version [here](https://cran.r-project.org).
 
 ``` r
 utils::sessionInfo()
-#> R version 3.6.2 (2019-12-12)
+#> R version 4.1.0 (2021-05-18)
 #> Platform: x86_64-w64-mingw32/x64 (64-bit)
 #> Running under: Windows 10 x64 (build 19042)
 #> 
@@ -88,10 +91,10 @@ utils::sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] compiler_3.6.2  magrittr_1.5    tools_3.6.2     htmltools_0.4.0
-#>  [5] yaml_2.2.1      Rcpp_1.0.4.6    stringi_1.4.6   rmarkdown_2.7  
-#>  [9] knitr_1.33      stringr_1.4.0   xfun_0.22       digest_0.6.25  
-#> [13] rlang_0.4.11    evaluate_0.14
+#>  [1] compiler_4.1.0    magrittr_2.0.1    tools_4.1.0       htmltools_0.5.1.1
+#>  [5] yaml_2.2.1        stringi_1.7.3     rmarkdown_2.9     knitr_1.33       
+#>  [9] stringr_1.4.0     xfun_0.24         digest_0.6.27     rlang_0.4.11     
+#> [13] evaluate_0.14
 ```
 
 ### Licenses
