@@ -5,7 +5,8 @@
 
 This repository contains data and code used to obtain results of the
 paper Mariani et al. (202?) - Co-benefits and trade\_offs between
-Natural Climate Solutions and Sustainable Development Goals in ???.
+Natural Climate Solutions and Sustainable Development Goals submitted in
+Nature Climate Change.
 
 ## Contents
 
