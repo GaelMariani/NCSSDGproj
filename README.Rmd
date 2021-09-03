@@ -16,7 +16,7 @@ Title <- "Data and Code for NCS - SDG analyses"
 
 # Co-benefits and trade-offs between Natural Climate Solutions and Sustainable Development Goals
 
-This repository contains data and code used to obtain results of the paper Mariani et al. (202?) - Co-benefits and trade_offs between Natural Climate Solutions and Sustainable Development Goals submitted in Nature Climate Change.
+This repository contains data and code used to obtain results of the paper Mariani et al. (202?) - Co-benefits and trade-offs between Natural Climate Solutions and Sustainable Development Goals submitted in Nature Climate Change.
 
 ## Contents
 
