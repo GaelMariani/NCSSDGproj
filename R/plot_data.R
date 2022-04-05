@@ -142,19 +142,55 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.948) +
     
     ## Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.86) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.92, xmax = 1.16, ymin = -Inf, ymax = 0.675) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.49) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.31) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.125) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.05) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.23) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.41) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.59) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.76) +
-    ggplot2::annotation_custom(icon_NCS[[12]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.95) +
+    # ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 1.05) +
+    # ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.86) +
+    # ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.92, xmax = 1.16, ymin = -Inf, ymax = 0.675) +
+    # ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.49) +
+    # ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.31) +
+    # ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.125) +
+    # ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.05) +
+    # ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.23) +
+    # ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.41) +
+    # ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.59) +
+    # ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.76) +
+    # ggplot2::annotation_custom(icon_NCS[[12]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.95) +
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "#228B22", fontsize = 11, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 1.05) +
     
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("UFO"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.883) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("FOR"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.695) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("GRL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.51) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("TDM"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.32) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MGV"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.14) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SGR"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.03) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MCA"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.22) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SBD"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.41) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PEL"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.59) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("ANT"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.76) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MES"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.95) +
+    
+  
 
     
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
@@ -163,6 +199,7 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
                    axis.text.x = ggplot2::element_blank(),
                    axis.ticks  = ggplot2::element_blank(), 
+                   # plot.margin = ggplot2::margin(0, 10, 0, 0),
                    plot.background = ggplot2::element_blank(),
                    legend.position = "none") 
   
@@ -228,20 +265,53 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.948) +
     
     # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 1.05) +
-    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.86) +
-    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.16, xmax = 0.08, ymin = -Inf, ymax = 0.675) +
-    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.49) +
-    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.31) +
-    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.125) +
-    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.05) +
-    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.23) +
-    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.41) +
-    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.59) +
-    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.76) +
-    ggplot2::annotation_custom(icon_NCS[[12]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.95) + 
-    
+    # ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 1.05) +
+    # ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.86) +
+    # ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.16, xmax = 0.08, ymin = -Inf, ymax = 0.675) +
+    # ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.49) +
+    # ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.31) +
+    # ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.125) +
+    # ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.05) +
+    # ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.23) +
+    # ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.41) +
+    # ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.59) +
+    # ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.76) +
+    # ggplot2::annotation_custom(icon_NCS[[12]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.95) + 
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 1.05) +
 
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("UFO"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.883) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("FOR"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.695) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("GRL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.51) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("TDM"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.32) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MGV"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.14) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SGR"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.03) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MCA"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.22) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SBD"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.41) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PEL"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.59) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("ANT"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.76) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MES"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
+                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.95) +
      
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
     ggplot2::scale_y_reverse() +
@@ -249,6 +319,7 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::theme(axis.text.y = ggplot2::element_blank(), 
                    axis.text.x = ggplot2::element_blank(),
                    axis.ticks  = ggplot2::element_blank(), 
+                   # plot.margin = ggplot2::margin(0, 0, 0, 10),
                    plot.background = ggplot2::element_blank(),
                    legend.position = "none") 
   
@@ -534,13 +605,13 @@ Figure2 <- function(save = FALSE, name) {
                                         nodes_col   = c(rep("#228B22", 4), rep("#5EA9A2", 4), rep("#1134A6", 4)),
                                         save        = FALSE)
   
-  NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
+  NCSSDGproj::barplot_legend(data_plot = SDG_network[["score_pos"]][["data_pourc"]],
                              color     = c("#1134A6", "#5EA9A2", "#228B22")) # produce legend in horizontal format
-  
-  NCSSDGproj::legend_verti(data_plot = SDG_network[["score_pos"]][["data_pourc"]], 
+
+  NCSSDGproj::legend_verti(data_plot = SDG_network[["score_pos"]][["data_pourc"]],
                            color     = c("#1134A6", "#5EA9A2", "#228B22")) # produce legend in vertical format
-  
-  
+
+
   legend <- NCSSDGproj::load_legend()
   
   # Assemble panels
@@ -548,7 +619,7 @@ Figure2 <- function(save = FALSE, name) {
     
     cowplot::draw_plot(fig1a, x = -0.02, y = 0.005, width = 0.38, height = 0.97) +
     cowplot::draw_plot(fig1b, x = 0.325, y = 0.026, width = 0.35, height = 0.98) +
-    cowplot::draw_plot(fig1c, x = 0.63, y = 0.005, width = 0.38, height = 0.97) +
+    cowplot::draw_plot(fig1c, x = 0.63,  y = 0.005, width = 0.38, height = 0.97) +
     cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.02) +
     cowplot::draw_plot_label(label = c("a", "b", "c"),
                              size = 15,
