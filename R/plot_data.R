@@ -154,7 +154,7 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     # ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.59) +
     # ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.76) +
     # ggplot2::annotation_custom(icon_NCS[[12]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.95) +
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "#228B22", fontsize = 11, fontface = "bold")),  
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
                                xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 1.05) +
     
     ggplot2::annotation_custom(grid::grobTree(grid::textGrob("UFO"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
