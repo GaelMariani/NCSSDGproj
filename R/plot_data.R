@@ -142,54 +142,55 @@ plot_network_pos <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = -0.12, xmax = 0.05, ymin = -Inf, ymax = -.948) +
     
     ## Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    # ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 1.05) +
-    # ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.86) +
-    # ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.92, xmax = 1.16, ymin = -Inf, ymax = 0.675) +
-    # ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.49) +
-    # ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.31) +
-    # ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = 0.125) +
-    # ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.05) +
-    # ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.23) +
-    # ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.41) +
-    # ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.59) +
-    # ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.76) +
-    # ggplot2::annotation_custom(icon_NCS[[12]], xmin = 0.93, xmax = 1.15, ymin = -Inf, ymax = -0.95) +
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = 0.86) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = 0.92, xmax = 1.16+0.02, ymin = -Inf, ymax = 0.675) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = 0.49) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = 0.31) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = 0.125) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = -0.052) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = 0.93, xmax = 1.15+0.024, ymin = -Inf, ymax = -0.23) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = -0.41) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = 0.93, xmax = 1.15+0.024, ymin = -Inf, ymax = -0.59) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = 0.93, xmax = 1.15+0.024, ymin = -Inf, ymax = -0.77) +
+    ggplot2::annotation_custom(icon_NCS[[12]], xmin = 0.93, xmax = 1.15+0.02, ymin = -Inf, ymax = -0.95) +
     
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("UFO"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.883) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("FOR"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.695) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("GRL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.51) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("TDM"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.32) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MGV"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = 0.14) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SGR"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.03) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MCA"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.22) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SBD"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.41) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PEL"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.59) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("ANT"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.76) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MES"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = 0.99, xmax = 1.2, ymin = -Inf, ymax = -0.95) +
-    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 1, xmax = 1.1, ymin = -Inf, ymax = 1.05) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("UFO"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.98, xmax = 1.1, ymin = -Inf, ymax = 0.86) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("FOR"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.1, ymin = -Inf, ymax = 0.675) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("GRL"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.1, ymin = -Inf, ymax = 0.49) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("TDM"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.98, xmax = 1.1, ymin = -Inf, ymax = 0.31) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MGV"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.1, ymin = -Inf, ymax = 0.12) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SGR"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.1, ymin = -Inf, ymax = -0.05) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MCA"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.11, ymin = -Inf, ymax = -0.23) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SBD"), gp = grid::gpar(col = "black", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.1, ymin = -Inf, ymax = -0.41) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PEL"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.11, ymin = -Inf, ymax = -0.59) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("ANT"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.1, ymin = -Inf, ymax = -0.77) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MES"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = 0.99, xmax = 1.1, ymin = -Inf, ymax = -0.95) +
+    # 
   
 
     
@@ -265,53 +266,54 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
     ggplot2::annotation_custom(icon_SDG[[16]], xmin = 0.95, xmax = 1.12, ymin = -Inf, ymax = -.948) +
     
     # Add silhouette for NCS (xmin=-0.75 (-0.1 for peatland) to plot without barplot_percent) +0.1
-    # ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 1.05) +
-    # ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.86) +
-    # ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.16, xmax = 0.08, ymin = -Inf, ymax = 0.675) +
-    # ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.49) +
-    # ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.31) +
-    # ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = 0.125) +
-    # ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.05) +
-    # ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.23) +
-    # ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.41) +
-    # ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.59) +
-    # ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.76) +
-    # ggplot2::annotation_custom(icon_NCS[[12]], xmin = -0.15, xmax = 0.07, ymin = -Inf, ymax = -0.95) + 
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[1]],  xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = 1.05) +
+    ggplot2::annotation_custom(icon_NCS[[2]],  xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = 0.86) +
+    ggplot2::annotation_custom(icon_NCS[[3]],  xmin = -0.16, xmax = 0.08+0.02, ymin = -Inf, ymax = 0.675) +
+    ggplot2::annotation_custom(icon_NCS[[4]],  xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = 0.49) +
+    ggplot2::annotation_custom(icon_NCS[[5]],  xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = 0.31) +
+    ggplot2::annotation_custom(icon_NCS[[6]],  xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = 0.125) +
+    ggplot2::annotation_custom(icon_NCS[[7]],  xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = -0.052) +
+    ggplot2::annotation_custom(icon_NCS[[8]],  xmin = -0.15, xmax = 0.07+0.024, ymin = -Inf, ymax = -0.23) +
+    ggplot2::annotation_custom(icon_NCS[[9]],  xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = -0.41) +
+    ggplot2::annotation_custom(icon_NCS[[10]], xmin = -0.15, xmax = 0.07+0.024, ymin = -Inf, ymax = -0.59) +
+    ggplot2::annotation_custom(icon_NCS[[11]], xmin = -0.15, xmax = 0.07+0.024, ymin = -Inf, ymax = -0.77) +
+    ggplot2::annotation_custom(icon_NCS[[12]], xmin = -0.15, xmax = 0.07+0.02, ymin = -Inf, ymax = -0.95) +
+    
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PTL"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.16, xmax = 0.11, ymin = -Inf, ymax = 1.05) +
 
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("UFO"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.883) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("FOR"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.695) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("GRL"), gp = grid::gpar(col = "#228B22", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.51) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("TDM"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.32) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MGV"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = 0.14) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SGR"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.03) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MCA"), gp = grid::gpar(col = "#5EA9A2", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.22) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SBD"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.41) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PEL"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.59) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("ANT"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.76) +
-    
-    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MES"), gp = grid::gpar(col = "#1134A6", fontsize = 13, fontface = "bold")),  
-                               xmin = -0.25, xmax = 0.09, ymin = -Inf, ymax = -0.95) +
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("UFO"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.19, xmax = 0.11, ymin = -Inf, ymax = 0.86) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("FOR"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.11, ymin = -Inf, ymax = 0.675) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("GRL"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.12, ymin = -Inf, ymax = 0.49) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("TDM"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.19, xmax = 0.11, ymin = -Inf, ymax = 0.31) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MGV"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.11, ymin = -Inf, ymax = 0.12) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SGR"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.11, ymin = -Inf, ymax = -0.05) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MCA"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.12, ymin = -Inf, ymax = -0.23) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("SBD"), gp = grid::gpar(col = "black", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.11, ymin = -Inf, ymax = -0.41) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("PEL"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.12, ymin = -Inf, ymax = -0.59) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("ANT"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.11, ymin = -Inf, ymax = -0.77) +
+
+    ggplot2::annotation_custom(grid::grobTree(grid::textGrob("MES"), gp = grid::gpar(col = "white", fontsize = 12, fontface = "bold")),
+                               xmin = -0.18, xmax = 0.11, ymin = -Inf, ymax = -0.95) +
      
     # Reverse y axis to have terrestrial ecosystems at the top of the diagramm
     ggplot2::scale_y_reverse() +
@@ -327,7 +329,7 @@ plot_network_neg <- function(network_obj, matrix, icon_SDG, icon_NCS, nodes_col,
   if(save == TRUE) {
     
     save(netw, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".jpeg")), width = 5, height = 6.8, device = "jpeg")
     
   } else {return(netw)}
   
@@ -479,7 +481,7 @@ barplot_perc_achieve <- function(SDG_network, color, save = FALSE, name){
   if(save == TRUE) {
     
     save(barplot_perc_achieve, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 4.5, height = 6.8, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".jpeg")), width = 4.5, height = 6.8, device = "jpeg")
     
   } else {return(barplot_perc_achieve)}
   
@@ -621,16 +623,16 @@ Figure2 <- function(save = FALSE, name) {
     cowplot::draw_plot(fig1b, x = 0.325, y = 0.026, width = 0.35, height = 0.98) +
     cowplot::draw_plot(fig1c, x = 0.63,  y = 0.005, width = 0.38, height = 0.97) +
     cowplot::draw_plot(legend, x = 0.25, y = 0, width = 0.5, height = 0.02) +
-    cowplot::draw_plot_label(label = c("a", "b", "c"),
+    cowplot::draw_plot_label(label = c("(a)", "(b)", "(c)"),
                              size = 15,
-                             x = c(0, 0.33, 0.65),
-                             y = c(0.98, 0.98, 0.98))
+                             x = c(0, 0.31, 0.65),
+                             y = c(0.99, 0.99, 0.99))
   
   # save
   if(save == TRUE) {
     
     save(fig1, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width=10, height=9, device="png")   
+    ggplot2::ggsave(here::here("figures", paste0(name, ".jpeg")), width=10, height=8, device="jpeg")   
     
   } else {return(fig1)}
 }
@@ -685,7 +687,7 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
                       show.legend = FALSE) +
     
     
-    # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are OVER it.
+    # Add a val=100/75/50/25 lines. I do it at the beginning to make sur barplots are over it.
     ggplot2::geom_segment(data        = grid_data, 
                           mapping     = ggplot2::aes(x    = end, 
                                                      y    = 12, 
@@ -758,12 +760,14 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     
     # Add text showing the value of each 0/2/4/6/8/10 lines
     ggplot2::annotate(geom     = "text", 
-                      x        = rep(max(data$id), 7), 
-                      y        = c(12, 10, 8, 6, 4, 2, 0), 
+                      x        = rep(max(data$id), 7) + 0.3, 
+                      # y        = c(12, 8, 4, 0), 
+                      y        = c(12, 10, 8, 6, 4, 2, 0),                      
+                      # label    = c("12", "8", "4", "0"), 
                       label    = c("12", "10", "8", "6", "4", "2", "0"), 
                       color    = "black", 
                       alpha    = 0.7, 
-                      size     = 3,
+                      size     = 4, # 3
                       angle    = 0, 
                       fontface = "bold", 
                       hjust    = 1) +
@@ -799,13 +803,13 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
     # Add target's number above each bars
     ggplot2::geom_text(data = label_data,
                        mapping = ggplot2::aes(x = id,
-                                              y = max(tot, na.rm = TRUE) + 0.5, 
+                                              y = max(tot, na.rm = TRUE) + 1, # 0.5
                                               label = goal.target, 
                                               hjust = hjust), 
                        color = "black", 
                        fontface = "bold",
                        alpha = 0.7, 
-                       size = 3.5, 
+                       size = 5, # 3.5
                        angle = label_data$angle, 
                        inherit.aes = FALSE ) +
     
@@ -841,29 +845,29 @@ circular_plot_Insurance <- function(data, label_data, base_data, grid_data, SDG_
   }
   
   circular_plot <- plot +
-    cowplot::draw_plot(vert_legend,          x = 0.135,  y = 0.135,  width = 0.75,  height = 0.75) +
-    cowplot::draw_grob(icon_SDG[["SDG 1"]],  x = 0.514,  y = 0.690,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.583,  y = 0.664,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.640,  y = 0.615,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.679,  y = 0.548,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.692,  y = 0.474,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.675,  y = 0.400,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.638,  y = 0.340,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.584,  y = 0.295,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.504,  y = 0.268,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.425,  y = 0.272,  width = 0.045, height = 0.045) +  
-    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.360,  y = 0.308,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.296,  y = 0.375,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.270,  y = 0.437,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.272,  y = 0.521,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.330,  y = 0.627,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.423,  y = 0.683,  width = 0.045, height = 0.045)
+    cowplot::draw_plot(vert_legend,          x = 0.135,  y = 0.133,  width = 0.75,  height = 0.75) +
+    cowplot::draw_grob(icon_SDG[["SDG 1"]],  x = 0.512,  y = 0.685,  width = 0.054, height = 0.054) + # ; 0.690
+    cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.574,  y = 0.657,  width = 0.054, height = 0.054) + # 0.583 ; 0.664
+    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.632,  y = 0.610,  width = 0.054, height = 0.054) + # 0.635 ; 0.615
+    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.673,  y = 0.545,  width = 0.054, height = 0.054) + # 0.640
+    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.688,  y = 0.472,  width = 0.054, height = 0.054) + 
+    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.670,  y = 0.400,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.631,  y = 0.342,  width = 0.054, height = 0.054) + # 0.638
+    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.575,  y = 0.295,  width = 0.054, height = 0.054) + # 0.584
+    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.501,  y = 0.268,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.425,  y = 0.272,  width = 0.054, height = 0.054) +  
+    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.360,  y = 0.308,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.296,  y = 0.375,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.270,  y = 0.437,  width = 0.054, height = 0.054) + 
+    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.272,  y = 0.521,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.334,  y = 0.625,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.423,  y = 0.678,  width = 0.054, height = 0.054)
   
   ## Save plot
   if(save == TRUE) {
     
     save(circular_plot, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 10.5, height = 10.5, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".jpeg")), width = 10, height = 10, device = "jpeg")
     
   } else {return(circular_plot)}
   
@@ -1003,12 +1007,14 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
     
     # Add text showing the value of each 0/2/4/6/8 lines
     ggplot2::annotate(geom     = "text", 
-                      x        = rep(max(data$id), 7), 
+                      x        = rep(max(data$id), 7) + 0.25, 
                       y        = c(12, 10, 8, 6, 4, 2, 0), 
                       label    = c("12", "10", "8", "6", "4", "2", "0"), 
+                      # y        = c(12, 8, 4, 0), 
+                      # label    = c("12", "8", "4", "0"), 
                       color    = "black", 
                       alpha    = 0.7, 
-                      size     = 3,
+                      size     = 4, # 5
                       angle    = 0, 
                       fontface = "bold", 
                       hjust    = 1) +
@@ -1051,7 +1057,7 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
                        color = "black", 
                        fontface = "bold",
                        alpha = 0.7, 
-                       size = 3.5, 
+                       size = 5, # 3.5 
                        angle = label_data$angle, 
                        inherit.aes = FALSE ) +
     
@@ -1088,28 +1094,28 @@ circular_plot_Insurance_neg <- function(data, label_data, base_data, grid_data, 
   
   circular_plot <- plot +
     cowplot::draw_plot(vert_legend,          x = 0.135,  y = 0.135,  width = 0.75,  height = 0.75) +
-    cowplot::draw_grob(icon_SDG[["SDG 1"]],  x = 0.538,  y = 0.685,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.637,  y = 0.619,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.689,  y = 0.515,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.684,  y = 0.414,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.655,  y = 0.364,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.616,  y = 0.315,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.563,  y = 0.279,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.478,  y = 0.263,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.401,  y = 0.276,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.342,  y = 0.320,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.294,  y = 0.363,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.275,  y = 0.415,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.266,  y = 0.418,  width = 0.045, height = 0.045) + 
-    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.269,  y = 0.510,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.325,  y = 0.621,  width = 0.045, height = 0.045) +
-    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.411,  y = 0.680,  width = 0.045, height = 0.045)
+    cowplot::draw_grob(icon_SDG[["SDG 1"]],  x = 0.535,  y = 0.675,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 2"]],  x = 0.628,  y = 0.614,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 3"]],  x = 0.682,  y = 0.510,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 4"]],  x = 0.680,  y = 0.429,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 5"]],  x = 0.652,  y = 0.370,  width = 0.054, height = 0.054) + 
+    cowplot::draw_grob(icon_SDG[["SDG 6"]],  x = 0.606,  y = 0.315,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 7"]],  x = 0.548,  y = 0.279,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 8"]],  x = 0.476,  y = 0.263,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 9"]],  x = 0.406,  y = 0.280,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 10"]], x = 0.346,  y = 0.317,  width = 0.054, height = 0.054) + 
+    cowplot::draw_grob(icon_SDG[["SDG 11"]], x = 0.294,  y = 0.373,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 12"]], x = 0.275,  y = 0.429,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 13"]], x = 0.266,  y = 0.418,  width = 0.054, height = 0.054) + 
+    cowplot::draw_grob(icon_SDG[["SDG 14"]], x = 0.269,  y = 0.506,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 15"]], x = 0.325,  y = 0.612,  width = 0.054, height = 0.054) +
+    cowplot::draw_grob(icon_SDG[["SDG 16"]], x = 0.408,  y = 0.673,  width = 0.054, height = 0.054)
   
   ## Save plot
   if(save == TRUE) {
     
     save(circular_plot, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 10.5, height = 10.5, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".jpeg")), width = 10, height = 10, device = "jpeg")
     
   } else {return(circular_plot)}
   
@@ -1370,7 +1376,7 @@ supp_fig2_3 <- function(data, arrow, data_arrow, colNCS_ter, colNCS_coast, colNC
   if(save == TRUE) {
     
     save(supp_fig, file = here::here("results", paste0(name, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name, ".png")), width = 12, height = 8.5, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name, ".jpeg")), width = 12, height = 8.5, device = "jpeg")
     
   } else {return(supp_fig)}
   
@@ -1454,7 +1460,7 @@ supp_fig7 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, nam
   if(save == TRUE) {
     
     save(plot_bars, file = here::here("results", paste0(name1, ".RData")))
-    ggplot2::ggsave(here::here("figures", paste0(name1, ".png")), width = 15, height = 8.5, device = "png")
+    ggplot2::ggsave(here::here("figures", paste0(name1, ".jpeg")), width = 15, height = 8.5, device = "jpeg")
     
   } else {return(plot_bars)}
   
@@ -1506,7 +1512,7 @@ supp_fig7 <- function(data_pos, data_neg, save = TRUE, name1, biplot = TRUE, nam
     if(save == TRUE) {
       
       save(biplot, file = here::here("results", paste0(name2, ".RData")))
-      ggplot2::ggsave(here::here("figures", paste0(name2, ".png")), width = 11, height = 6.8, device = "png")
+      ggplot2::ggsave(here::here("figures", paste0(name2, ".jpeg")), width = 11, height = 6.8, device = "jpeg")
       
     } else {return(biplot)} 
     
@@ -1564,7 +1570,7 @@ supp_fig_null_hist <- function(null_vals, res_null_mod, name){
   plots <- (plot_list[[1]] | plot_list[[2]])/(plot_list[[3]] | plot_list[[4]])
   
   ### Save plot
-  ggplot2::ggsave(here::here("figures", paste0(name, ".png")), plots, width = 9, height = 5, device = "png")
+  ggplot2::ggsave(here::here("figures", paste0(name, ".jpeg")), plots, width = 9, height = 5, device = "jpeg")
   save(plots, file = here::here("results", paste0(name, ".RData")))
   
 }
