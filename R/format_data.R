@@ -223,6 +223,13 @@ matrix_to_network <- function (matrix, mode1 = "P", mode2 = "A", neg = TRUE) {
 perc_SDG <- function(data_long) {
 
   # % of SDG' targets achieved by group of NCS, terrestrial vs coastal vs marine
+  # perc_group <- data_long %>%
+  #   dplyr::group_by(goal, ecosystem) %>%
+  #   dplyr::summarise(value_grp = sum(value),
+  #                    n_target  = length(unique(goal.target))) %>%
+  #   dplyr::mutate(perc_group = round((value_grp*100)/n_target, digits = 0)) %>% # percentage of contribution of each group
+  #   dplyr::select(-n_target)
+  
   perc_group <- data_long %>%
     dplyr::mutate(group = dplyr::case_when((ecosystem == "Peatland" | ecosystem == "Urban forest" | ecosystem == "Forest" | ecosystem == "Grassland") ~ "Terrestrial",
                                            (ecosystem == "Tidalmarsh" | ecosystem == "Mangrove" | ecosystem == "Seagrass" | ecosystem == "Macroalgae") ~ "Coastal",
@@ -239,7 +246,6 @@ perc_SDG <- function(data_long) {
   sums <- perc_group %>% 
     dplyr::group_by(goal) %>% 
     dplyr::summarise(value_tot = sum(value_grp))
-  
   
   # % of SDG' target achieved + merge with perc_group
   perc_plot <- data_long %>%

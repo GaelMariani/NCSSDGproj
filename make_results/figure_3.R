@@ -1,68 +1,59 @@
-############################################################
-#                                                          #
-# produce FIGURE 3 - Target's insurance for positive links #
-#                                                          #
-############################################################      
-rm(list = ls(), envir = .GlobalEnv)    
+###################################################################################
+#                                                                                 #
+# produce FIGURE 3 - Relationships between NCS implementation and SDG achievement #
+#                                                                                 #
+###################################################################################
+rm(list = ls(), envir = .GlobalEnv)
 
 
-### ----- LOAD DATA
+### ----- LOAD DATA (rawdata and icons)
+sheets  <- NCSSDGproj::read_all_sheets()
+pathSDG <- NCSSDGproj::load_SDG_icon()
+pathNCS <- NCSSDGproj::load_NCS_icon()
 
-  ## ---- Data of links between NCS and SDG
-  sheets  <- NCSSDGproj::read_all_sheets()
-  
-  ## ---- SDG icons
-  pathSDG <- NCSSDGproj::load_SDG_icon()
-  
+
+### ----- FORMAT ICONS (NCS and SDG icons)
+icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
+icon_NCS <- NCSSDGproj::format_icons(pathNCS, icon_SDG = FALSE)
+
 
 ### ----- FORMAT DATA
+df_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
 
-  ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, 
-                                         binary      = TRUE)
+  ## ---- Positive links
+  data_long_pos   <- NCSSDGproj::df_to_longDF(df = df_all[["score_pos"]])
+  SDG_matrix_pos  <- t(NCSSDGproj::matrix_SDG(data_long = data_long_pos))
+  SDG_network_pos <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix_pos,
+                                                   mode1  = "P",
+                                                   mode2  = "A",
+                                                   neg    = FALSE)
+  data_pourc_pos  <- NCSSDGproj::perc_SDG(data_long = data_long_pos)
   
-  ## ---- From dataframes to contingency matrices 
-  matrix_conting_bin <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = TRUE)
   
-  ## ---- Format data into a long data frame
-  data_long <- lapply(matrix_all, NCSSDGproj::df_to_longDF)
+  ## ---- Negative links
+  data_long_neg   <- NCSSDGproj::df_to_longDF(df = df_all[["score_neg"]])
+  SDG_matrix_neg  <- NCSSDGproj::matrix_SDG(data_long = data_long_neg)
+  SDG_network_neg <- NCSSDGproj::matrix_to_network(matrix = SDG_matrix_neg,
+                                                   mode1  = "P",
+                                                   mode2  = "A",
+                                                   neg    = TRUE)
+  data_pourc_neg  <- NCSSDGproj::perc_SDG(data_long = data_long_neg)
   
-  ## ---- Informations on NCSs
-  NCS_info <- NCSSDGproj::NCS_info(matrix_cont = matrix_conting_bin[["score_pos"]])
+  ## ---- merge data
+  SDG_network <- list("score_pos" = list(data_long = data_long_pos, matrix = SDG_matrix_pos, network = SDG_network_pos, data_pourc = data_pourc_pos),
+                      "score_neg" = list(data_long = data_long_neg, matrix = SDG_matrix_neg, network = SDG_network_neg, data_pourc = data_pourc_neg))
   
-  ## ---- Informations on SDGs
-  SDG_info <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_pos"]])
 
-  ## ---- SDG icons
-  icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
+### ----- PRODUCE FIGURE 2
+NCSSDGproj::Figure2(save = TRUE,
+                    name = "Figure3_FFE_final")
 
 
-### ----- ANALYSES and FORMATING
+NCSSDGproj::barplot_perc_achieve(SDG_network = SDG_network,
+                                 color = c("#1134A6", "#5EA9A2",  "#228B22", "#1134A6", "#5EA9A2",  "#228B22"),
+                                 # color       = rep(c("darkgreen", "seagreen4",  "springgreen3", "palegreen",
+                                 #                     "navajowhite4", "navajowhite3", "navajowhite2", "navajowhite",
+                                 #                     "royalblue4", "royalblue3", "steelblue3", "skyblue"), 2), # Mar, Coast, Ter, Mar_neg, Coast_neg, Ter_neg
+                                 save        = FALSE,
+                                 name        = "Figure3_FEE_test")
 
-  ## ---- Compute target's insurance
-  data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix_conting_bin[["score_pos"]], 
-                                                    Ntarget  = ncol(matrix_conting_bin[["score_pos"]])) 
-    
-  ## ---- Format data to plot
-  data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
-                                                    data_long      = data_long[["score_pos"]], 
-                                                    SDG_info       = SDG_info, 
-                                                    NCS_info       = NCS_info) # format data with polar coordinates
-  
-  
-### ----- PLOT DATA
-NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]], 
-                                    label_data   = data_circu[[2]],
-                                    base_data    = data_circu[[3]],
-                                    grid_data    = data_circu[[4]],
-                                    SDG_info     = SDG_info,
-                                    colNCS_ter   = "#228B22", 
-                                    colNCS_coast = "#5EA9A2",
-                                    colNCS_mar   = "#1134A6",
-                                    icon_SDG     = icon_SDG,
-                                    save         = TRUE,
-                                    name         = "Figure3_FEE")   
-
-  
-  
-  

@@ -34,10 +34,10 @@ devtools::load_all()
 
   ###################################################################################
   #                                                                                 #
-  # produce FIGURE 2 - Relationships between NCS implementation and SDG achievement #
+  # produce FIGURE 3 - Relationships between NCS implementation and SDG achievement #
   #                                                                                 #
   ###################################################################################
-  source(here::here("make_results", "figure_2.R"))
+  source(here::here("make_results", "figure_3.R"))
 
   
   #######################################################
@@ -74,18 +74,18 @@ devtools::load_all()
   
   ############################################################
   #                                                          #
-  # produce FIGURE 3 - Target's insurance for positive links #
+  # produce FIGURE 4 - Target's insurance for positive links #
   #                                                          #
   ############################################################    
-  source(here::here("make_results", "figure_3.R"))
+  source(here::here("make_results", "figure_4.R"))
   
   
   ############################################################
   #                                                          #
-  # produce FIGURE 4 - Target's insurance for negative links #
+  # produce FIGURE 5 - Target's insurance for negative links #
   #                                                          #
   ############################################################ 
-  source(here::here("make_results", "figure_4.R"))
+  source(here::here("make_results", "figure_5.R"))
   
   
   #####################################################

@@ -1,8 +1,8 @@
 ############################################################
 #                                                          #
-# produce FIGURE 4 - Target's insurance for negative links #
+# produce FIGURE 4 - Target's insurance for positive links #
 #                                                          #
-############################################################ 
+############################################################      
 rm(list = ls(), envir = .GlobalEnv)    
 
 
@@ -14,11 +14,12 @@ rm(list = ls(), envir = .GlobalEnv)
   ## ---- SDG icons
   pathSDG <- NCSSDGproj::load_SDG_icon()
   
-  
+
 ### ----- FORMAT DATA
-  
+
   ## ---- From sheets to df
-  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, binary = TRUE)
+  matrix_all <- NCSSDGproj::sheets_to_df(sheets_list = sheets, 
+                                         binary      = TRUE)
   
   ## ---- From dataframes to contingency matrices 
   matrix_conting_bin <- lapply(matrix_all, NCSSDGproj::contingency_mat_targets, binary = TRUE)
@@ -30,37 +31,38 @@ rm(list = ls(), envir = .GlobalEnv)
   NCS_info <- NCSSDGproj::NCS_info(matrix_cont = matrix_conting_bin[["score_pos"]])
   
   ## ---- Informations on SDGs
-  SDG_info_neg <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_neg"]]) 
-  
+  SDG_info <- NCSSDGproj::SDG_infos(matrix_cont = matrix_conting_bin[["score_pos"]])
+
   ## ---- SDG icons
   icon_SDG <- NCSSDGproj::format_icons(pathSDG, icon_SDG = TRUE)
-  
-  
-### ----- ANALYSIS
-  
+
+
+### ----- ANALYSES and FORMATING
+
   ## ---- Compute target's insurance
-  data_Insurance_neg <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix_conting_bin[["score_neg"]], 
-                                                        Ntarget  = ncol(matrix_conting_bin[["score_neg"]])) 
-  
+  data_Insurance <- NCSSDGproj::Insurance_data2plot(matrix01 = matrix_conting_bin[["score_pos"]], 
+                                                    Ntarget  = ncol(matrix_conting_bin[["score_pos"]])) 
+    
   ## ---- Format data to plot
-  data_circu_neg <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance_neg, 
-                                                        data_long = data_long[["score_neg"]], 
-                                                        SDG_info = SDG_info_neg, 
-                                                        NCS_info = NCS_info) # format data with polar coordinates
+  data_circu <- NCSSDGproj::circular_data_Insurance(data_Insurance = data_Insurance, 
+                                                    data_long      = data_long[["score_pos"]], 
+                                                    SDG_info       = SDG_info, 
+                                                    NCS_info       = NCS_info) # format data with polar coordinates
   
   
 ### ----- PLOT DATA
-NCSSDGproj::circular_plot_Insurance_neg(data         = data_circu_neg[[1]], 
-                                        label_data   = data_circu_neg[[2]],
-                                        base_data    = data_circu_neg[[3]],
-                                        grid_data    = data_circu_neg[[4]],
-                                        SDG_info     = SDG_info_neg,
-                                        colNCS_ter   = "#228B22", 
-                                        colNCS_coast = "#5EA9A2",
-                                        colNCS_mar   = "#1134A6",
-                                        icon_SDG     = icon_SDG,
-                                        save         = TRUE,
-                                        name         = "Figure4_FEE")  
+NCSSDGproj::circular_plot_Insurance(data         = data_circu[[1]], 
+                                    label_data   = data_circu[[2]],
+                                    base_data    = data_circu[[3]],
+                                    grid_data    = data_circu[[4]],
+                                    SDG_info     = SDG_info,
+                                    colNCS_ter   = "#228B22", 
+                                    colNCS_coast = "#5EA9A2",
+                                    colNCS_mar   = "#1134A6",
+                                    icon_SDG     = icon_SDG,
+                                    save         = TRUE,
+                                    name         = "Figure4_FEE_noSDGicon")   
+
   
   
   
